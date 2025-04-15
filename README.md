@@ -9,7 +9,7 @@ as bored easily.
 
 ## Installation and building
 
-*Make sure you set the fbBucket enviroment variable to your google firebase's storage bucket, making sure the permissions on it are set to public.*
+*Make sure you set the fbBucket enviroment variable to your google firebase's storage bucket, making sure the read and write permissions on it are set to public._
 
 *If you don't want to run the server from your personal device, you can remix the site on glitch.com [here](https://glitch.com/edit/#!/randomrants-plus)*
 
