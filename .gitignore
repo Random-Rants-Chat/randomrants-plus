@@ -1,4 +1,7 @@
 .glitchdotcom.json
 .node-gyp
 .env
+.glitch-assets
+.wget-hsts
 node_modules
+public
