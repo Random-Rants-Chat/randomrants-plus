@@ -1,3 +1,5 @@
+require("./initcounters.js");
+
 var Busboy = require("busboy");
 var http = require("http");
 var https = require("https");
