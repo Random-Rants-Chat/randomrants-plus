@@ -1,5 +1,7 @@
 var websocket = null;
-var sws = {};
+var sws = {
+  isOpen: false,
+};
 
 function openWebsocket (url,onmessage,onopen,onclose) {
   if (websocket) {
@@ -8,14 +10,21 @@ function openWebsocket (url,onmessage,onopen,onclose) {
     websocket.onopen = function () {};
     websocket.close();
   }
+  sws.isOpen = false;
   websocket = new WebSocket(url);
   websocket.onclose = function () {
     if (onclose) {
       onclose();
     }
+    sws.isOpen = false;
     openWebsocket(url,onmessage,onopen,onclose);
   };
-  websocket.onopen = onopen;
+  websocket.onopen = function (e) {
+    sws.isOpen = true;
+    if (onopen) {
+      onopen(e);
+    }
+  };
   websocket.onmessage = onmessage;
 }
 
@@ -29,7 +38,7 @@ function closeWebsocket () {
 }
 
 function sendWebsocket (d) {
-  if (websocket) {
+  if (sws.isOpen) {
     websocket.send(d);
   }
 }
