@@ -269,7 +269,7 @@ async function doRoomSelect() {
       //Dialog box
       {
         element: "div",
-        className: "whiteBox centerMiddle",
+        className: "whiteBox centerMiddle popupDialogAnimation",
         children: [
           {
             element: "span",

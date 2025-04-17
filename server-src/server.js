@@ -13,7 +13,7 @@ var wss = wssHandler.wss;
 var encryptor = require("../encrypt");
 var gvbbaseStorage = require("./storage.js"); //Alternative firebase storage, lightweight clone for node js.
 var cons = require("./constants.js");
-var storage = new gvbbaseStorage(process.env.fbBucket);
+var storage = new gvbbaseStorage(process.env.sbBucket, process.env.sbURL, process.env.sbAPIKey);
 var messageChatNumber = 0;
 var adminKey = process.env.adminKey;
 var contentRange = require("content-range");
@@ -96,6 +96,20 @@ async function getUserProfilePicture(username) {
     pfp = fs.readFileSync("template/default_pfp.png");
   }
   return pfp;
+}
+async function getUserProfilePictureResponse (username,req,res) {
+  var pfp = null;
+  try{
+    var headers = {};
+    if (req.headers) {
+      headers = {
+        "range": req.headers.range,
+      };
+    }
+    await storage.downloadFileResponseProxy(`user-${username}-profile`,headers,res,["content-type"]);
+  }catch(e){
+    pfp = fs.readFileSync("template/default_pfp.png");
+  }
 }
 
 function waitBusboyFile(req) {
@@ -1068,7 +1082,7 @@ async function startRoomWSS(roomid) {
               try {
                 ws.close();
               } catch (e) {}
-            }, 5000);
+            }, 10000);
           }
           if (json.type == "changeColor") {
             if (typeof json.color == "string") {
@@ -1689,7 +1703,7 @@ const server = http.createServer(async function (req, res) {
       return;
     }
     if (urlsplit[2] == "picture" && req.method == "GET") {
-      res.end(await getUserProfilePicture(urlsplit[3]));
+      getUserProfilePictureResponse(urlsplit[3],req,res);
       return;
     }
     if (urlsplit[2] == "picture" && req.method == "POST") {

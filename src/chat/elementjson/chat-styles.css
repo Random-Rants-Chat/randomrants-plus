@@ -891,3 +891,18 @@ a {
   padding: 3px 3px;
   text-shadow: 1px 1px 10px black;
 }
+
+.popupDialogAnimation {
+  animation-duration: 0.3s;
+  animation-name: popupDialog;
+}
+
+@keyframes popupDialog {
+  from {
+    scale: 0 1;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}

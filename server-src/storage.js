@@ -1,104 +1,82 @@
-//This is copied and pasted from gvbbase-storage module.
-//Just with some useful edits.
+const https = require("https");
+const { URL } = require("url");
+var URLModule = require("url");
 
-var https = require("https"); //to make internet requests with.
-
-var okStatusList = [200, 204, 206];
-
-class GvbBaseFBStorage {
-  constructor(bucket) {
-    if (typeof bucket == "string") {
-      this.bucket = bucket;
-    } else {
-      throw new Error(
-        "Please provide a firebase bucket for GvbBaseStorage to use."
-      );
+class GvbBaseSupabaseStorage {
+  constructor(bucket, projectUrl, apiKey) {
+    if (!bucket || !projectUrl || !apiKey) {
+      throw new Error("Missing bucket name, project URL, or API key");
     }
+
+    this.bucket = bucket;
+    this.projectUrl = projectUrl.replace(/\/+$/, ""); // trim trailing slashes
+    this.apiKey = apiKey;
   }
 
-  //The Firebase Storage Path And Hostname, Status URL is always requested so you can download and upload data.
-
-  getFileStatusPath(file) {
-    try {
-      return `/v0/b/${this.bucket}/o/${encodeURIComponent(file)}`;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  getDownloadPath(file, token) {
-    try {
-      return `/v0/b/${this.bucket}/o/${encodeURIComponent(
-        file
-      )}?alt=media&token=${token}`;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  getUploadPath(file) {
-    try {
-      return `/v0/b/${this.bucket}/o?name=${encodeURIComponent(file)}`;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  getDeletePath(file) {
-    try {
-      return `/v0/b/${this.bucket}/o/${encodeURIComponent(file)}`;
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  getFBStorageHostname() {
-    try {
-      return "firebasestorage.googleapis.com";
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  getFBRequiredHeaders() {
-    return {
-      "User-Agent": "GvbBaseFBStorage",
-    };
-  }
-
-  //The API
-
-  doRequest(options) {
-    var _this = this;
+  _makeRequest(method, path, headers = {}, body = null) {
     return new Promise((resolve, reject) => {
-      var req = https.request(options, (res) => {
-        //reject if not STATUS 200 (OK)
+      const url = new URL(path, this.projectUrl);
+      const options = {
+        method,
+        hostname: url.hostname,
+        path: url.pathname + url.search,
+        headers: {
+          apikey: this.apiKey,
+          Authorization: `Bearer ${this.apiKey}`,
+          ...headers,
+        },
+      };
 
-        if (!(okStatusList.indexOf(res.statusCode) > -1)) {
-          reject("BAD STATUS " + res.statusCode);
-          return;
-        }
-
-        //It's OK!, download the data.
-        var data = [];
-        res.on("data", (chunk) => {
-          data.push(chunk);
-        });
-
+      const req = https.request(options, (res) => {
+        const chunks = [];
+        res.on("data", (chunk) => chunks.push(chunk));
         res.on("end", () => {
-          //resolve with a buffer output.
-          resolve(Buffer.concat(data));
+          const buffer = Buffer.concat(chunks);
+          if (res.statusCode >= 400) {
+            return reject(
+              new Error(`HTTP ${res.statusCode}: ${buffer.toString()}`)
+            );
+          }
+          resolve({ buffer, response: res });
         });
       });
 
-      //some sort of error handling.
-
-      req.on("error", (e) => {
-        reject({
-          type: "other",
-          message: e,
-        });
-      });
-
+      req.on("error", reject);
+      if (body) req.write(body);
       req.end();
     });
   }
+  
+  async getFileStatus (filename) {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer } = await this._makeRequest("GET", path);
+    return true;
+  }
+
+  async downloadFile(filename) {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer } = await this._makeRequest("GET", path);
+    return buffer;
+  }
+
+  async downloadFileAdvanced(filename) {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer, response } = await this._makeRequest("GET", path);
+    return {
+      buffer,
+      response,
+      request: null,
+      headers: response.headers,
+      status: response.statusCode,
+    };
+  }
+  
   getHeaderValue(headers, headerName) {
     for (var key of Object.keys(headers)) {
       if (key.toLowerCase() == headerName.toLowerCase()) {
@@ -107,439 +85,132 @@ class GvbBaseFBStorage {
     }
     return null;
   }
-  doRequestAdvanced(options) {
+
+  downloadFileResponseProxy(
+    filename,
+    _customHeaders,
+    serverResponse,
+    proxyHeaders = []
+  ) {
+    return new Promise((resolve,reject) => {
+      const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    var url = URLModule.parse(this.projectUrl + path);
+    
+    var customHeaders = {};
+    if (_customHeaders) {
+      customHeaders = _customHeaders;
+    }
+      
     var _this = this;
-    return new Promise((resolve, reject) => {
-      var req = https.request(options, (res) => {
-        //reject if not STATUS 200 (OK)
+      
+    const options = {
+      method: "GET",
+      headers: {
+        apikey: this.apiKey,
+        Authorization: `Bearer ${this.apiKey}`,
+        ...customHeaders
+      },
+      ...url
+    };
 
-        if (!(okStatusList.indexOf(res.statusCode) > -1)) {
-          reject("BAD STATUS " + res.statusCode);
-          return;
-        }
-
-        //It's OK!, download the data.
-        var data = [];
-        res.on("data", (chunk) => {
-          data.push(chunk);
-        });
-
-        res.on("end", () => {
-          resolve({
-            buffer: Buffer.concat(data),
-            response: res,
-            request: req,
-            headers: res.headers,
-            status: res.statusCode,
-          });
-        });
-      });
-
-      //some sort of error handling.
-
-      req.on("error", (e) => {
-        reject({
-          type: "other",
-          message: e,
-        });
-      });
-
-      req.end();
-    });
-  }
-
-  doRequestAdvancedWithProxy(options, serverResponse, applyHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      var req = https.request(options, (res) => {
-        //reject if not OK
-
-        if (!(okStatusList.indexOf(res.statusCode) > -1)) {
-          reject("BAD STATUS " + res.statusCode);
-          return;
-        }
-
-        //It's OK!, download the data.
-        var data = [];
-        res.on("data", (chunk) => {
-          data.push(chunk);
-        });
-
-        res.on("end", () => {
-          resolve({
-            buffer: Buffer.concat(data),
-            response: res,
-            request: req,
-            headers: res.headers,
-            status: res.statusCode,
-          });
-        });
-        
-        for (var name of applyHeaders) {
-          var value = _this.getHeaderValue(res.headers, name);
-          serverResponse.setHeader(name,value);
+    https
+      .get(options, (res) => {
+        for (var header of proxyHeaders) {
+          var value = _this.getHeaderValue(res.headers,header);
+          if (value) serverResponse.setHeader(header, value);
         }
         serverResponse.statusCode = res.statusCode;
-        
-        //Start proxying the response.
-
         res.pipe(serverResponse);
-      });
-
-      //some sort of error handling.
-
-      req.on("error", (e) => {
-        reject({
-          type: "other",
-          message: e,
-        });
-      });
-
-      req.end();
-    });
-  }
-  doRequestPOST(options, postdata) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      var req = https.request(options, (res) => {
-        if (!(okStatusList.indexOf(res.statusCode) > -1)) {
-          reject("BAD STATUS " + res.statusCode);
-          return;
-        }
-        //It's OK!, download the data.
+      
         var data = [];
+        
         res.on("data", (chunk) => {
           data.push(chunk);
         });
-
-        res.on("end", () => {
-          //resolve with a buffer output.
-          resolve(Buffer.concat(data));
-        });
-      });
-
-      //some sort of error handling.
-
-      req.on("error", (e) => {
-        reject({
-          type: "other",
-          message: e,
-        });
-      });
-      req.write(postdata);
-      req.end();
-    });
-  }
-  doRequestPOSTAdvanced(options, postdata) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      var req = https.request(options, (res) => {
-        if (!(okStatusList.indexOf(res.statusCode) > -1)) {
-          reject("BAD STATUS " + res.statusCode);
-          return;
-        }
-        //It's OK!, download the data.
-        var data = [];
-        res.on("data", (chunk) => {
-          data.push(chunk);
-        });
-
+        
         res.on("end", () => {
           resolve({
             buffer: Buffer.concat(data),
             response: res,
-            request: req,
             headers: res.headers,
             status: res.statusCode,
           });
-        });
+        })
+      })
+      .on("error", (err) => {
+        reject(err);
       });
-
-      //some sort of error handling.
-
-      req.on("error", (e) => {
-        reject({
-          type: "other",
-          message: e,
-        });
-      });
-      req.write(postdata);
-      req.end();
-    });
+    })
   }
 
-  getFileStatus(filename, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      var req = https.request(
-        {
-          path: _this.getFileStatusPath(filename),
-          headers: { ..._this.getFBRequiredHeaders(), ...customHeaders },
-          host: _this.getFBStorageHostname(),
-          method: "GET",
-        },
-        (res) => {
-          if (!(okStatusList.indexOf(res.statusCode) > -1)) {
-            reject("BAD STATUS " + res.statusCode);
-            return;
-          }
-          //It's OK!, download the data.
-          var data = [];
-          res.on("data", (chunk) => {
-            data.push(chunk);
-          });
-
-          res.on("end", () => {
-            //resolve with a buffer output.
-            resolve(Buffer.concat(data));
-          });
-        }
-      );
-
-      //some sort of error handling.
-
-      req.on("error", (e) => {
-        reject({
-          type: "other",
-          message: e,
-        });
-      });
-
-      req.end();
-    });
+  async uploadFile(filename, data, contentType = "application/octet-stream") {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer } = await this._makeRequest(
+      "POST",
+      path,
+      {
+        "Content-Type": contentType,
+        "Content-Length": data.length,
+        "x-upsert": "true",
+      },
+      data
+    );
+    return buffer;
   }
 
-  downloadFile(filename, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      try {
-        _this
-          .getFileStatus(filename)
-          .then((statusBuffer) => {
-            try {
-              var statusJSON = JSON.parse(statusBuffer).toString();
-              _this
-                .doRequest({
-                  headers: {
-                    ..._this.getFBRequiredHeaders(),
-                    ...customHeaders,
-                  },
-                  host: _this.getFBStorageHostname(),
-                  path: _this.getDownloadPath(
-                    filename,
-                    statusJSON.downloadTokens
-                  ),
-                  method: "GET",
-                })
-                .then((outputBuffer) => {
-                  resolve(outputBuffer);
-                })
-                .catch(reject);
-            } catch (e) {
-              reject(e);
-            }
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-  downloadFileAdvanced(filename, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      try {
-        _this
-          .getFileStatus(filename)
-          .then((statusBuffer) => {
-            try {
-              var statusJSON = JSON.parse(statusBuffer).toString();
-              _this
-                .doRequestAdvanced({
-                  headers: {
-                    ..._this.getFBRequiredHeaders(),
-                    ...customHeaders,
-                  },
-                  host: _this.getFBStorageHostname(),
-                  path: _this.getDownloadPath(
-                    filename,
-                    statusJSON.downloadTokens
-                  ),
-                  method: "GET",
-                })
-                .then((object) => {
-                  resolve(object);
-                })
-                .catch(reject);
-            } catch (e) {
-              reject(e);
-            }
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async uploadFileAdvanced(
+    filename,
+    data,
+    contentType = "application/octet-stream"
+  ) {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer, response } = await this._makeRequest(
+      "POST",
+      path,
+      {
+        "Content-Type": contentType,
+        "Content-Length": data.length,
+        "x-upsert": "true",
+      },
+      data
+    );
+
+    return {
+      buffer,
+      response,
+      request: null,
+      headers: response.headers,
+      status: response.statusCode,
+    };
   }
 
-  downloadFileResponseProxy(filename, customHeaders, serverResponse, proxyHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      try {
-        _this
-          .getFileStatus(filename)
-          .then((statusBuffer) => {
-            try {
-              var statusJSON = JSON.parse(statusBuffer).toString();
-              _this
-                .doRequestAdvancedWithProxy(
-                  {
-                    headers: {
-                      ..._this.getFBRequiredHeaders(),
-                      ...customHeaders,
-                    },
-                    host: _this.getFBStorageHostname(),
-                    path: _this.getDownloadPath(
-                      filename,
-                      statusJSON.downloadTokens
-                    ),
-                    method: "GET",
-                  },
-                  serverResponse,
-                  proxyHeaders
-                )
-                .then((object) => {
-                  resolve(object);
-                })
-                .catch(reject);
-            } catch (e) {
-              reject(e);
-            }
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async deleteFile(filename) {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer } = await this._makeRequest("DELETE", path);
+    return buffer;
   }
 
-  uploadFile(filename, data, ctype, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      var contenttype = "application/octet-stream";
-      if (typeof ctype == "string") {
-        contenttype = ctype;
-      }
-      //console.log(contenttype);
-      //try{
-      //_this.getFileStatus(filename).then((statusBuffer) => {
-      try {
-        _this
-          .doRequestPOST(
-            {
-              headers: {
-                ..._this.getFBRequiredHeaders(),
-                "Content-Type": contenttype,
-                ...customHeaders,
-              },
-              host: _this.getFBStorageHostname(),
-              path: _this.getUploadPath(filename),
-              method: "POST",
-            },
-            data
-          )
-          .then((outputBuffer) => {
-            resolve(outputBuffer);
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-      //});
-      //}catch(e){reject(e)};
-    });
-  }
-  
-  uploadFileAdvanced(filename, data, ctype, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      var contenttype = "application/octet-stream";
-      if (typeof ctype == "string") {
-        contenttype = ctype;
-      }
-      //console.log(contenttype);
-      //try{
-      //_this.getFileStatus(filename).then((statusBuffer) => {
-      try {
-        _this
-          .doRequestPOSTAdvanced(
-            {
-              headers: {
-                ..._this.getFBRequiredHeaders(),
-                "Content-Type": contenttype,
-                ...customHeaders,
-              },
-              host: _this.getFBStorageHostname(),
-              path: _this.getUploadPath(filename),
-              method: "POST",
-            },
-            data
-          )
-          .then((object) => {
-            resolve(object);
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-      //});
-      //}catch(e){reject(e)};
-    });
-  }
-  deleteFile(filename, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      //_this.getFileStatus(filename).then((statusBuffer) => {
-      try {
-        _this
-          .doRequest({
-            headers: { ..._this.getFBRequiredHeaders(), ...customHeaders },
-            host: _this.getFBStorageHostname(),
-            path: _this.getDeletePath(filename),
-            method: "DELETE",
-          })
-          .then((outputBuffer) => {
-            resolve(outputBuffer);
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-      //});
-    });
-  }
-  deleteFileAdvanced(filename, customHeaders) {
-    var _this = this;
-    return new Promise((resolve, reject) => {
-      //_this.getFileStatus(filename).then((statusBuffer) => {
-      try {
-        _this
-          .doRequestAdvanced({
-            headers: { ..._this.getFBRequiredHeaders(), ...customHeaders },
-            host: _this.getFBStorageHostname(),
-            path: _this.getDeletePath(filename),
-            method: "DELETE",
-          })
-          .then((object) => {
-            resolve(object);
-          })
-          .catch(reject);
-      } catch (e) {
-        reject(e);
-      }
-      //});
-    });
+  async deleteFileAdvanced(filename) {
+    const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
+      filename
+    )}`;
+    const { buffer, response } = await this._makeRequest("DELETE", path);
+    return {
+      buffer,
+      response,
+      request: null,
+      headers: response.headers,
+      status: response.statusCode,
+    };
   }
 }
 
-module.exports = GvbBaseFBStorage;
+module.exports = GvbBaseSupabaseStorage;

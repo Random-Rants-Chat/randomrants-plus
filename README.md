@@ -7,9 +7,17 @@ aimed towards having new functions and is more like an actual social media site.
 Random Rants + also aims for the fun of the original Random Rants, so you don't get
 as bored easily.
 
+## Preparing Supabase enviroment variables
+
+Create a Supabase project and provide the following enviroment vairales:
+
+* sbBucket: Your Supabase storage bucket
+* sbAPIKey: Your Supabase secret key or api key (I recommend secret key)
+* sbURL: Your Supabase project url (Needs to be like `https://projectid.supabase.co`)
+
 ## Installation and building
 
-_Make sure you set the fbBucket enviroment variable to your google firebase's storage bucket, making sure the read and write permissions on it are set to public._
+**_Make sure you don't skip the Supabase project stuff, as it is required to run the server._**
 
 _If you don't want to run the server from your personal device, you can remix the site on glitch.com [here](https://glitch.com/edit/#!/randomrants-plus)_
 
