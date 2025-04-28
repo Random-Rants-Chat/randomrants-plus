@@ -17,6 +17,7 @@ if (!currentRoom) {
   loadingScreen.hidden = true;
   mainScreen.hidden = false;
   noCurrentRoom.hidden = false;
+  require("./updatecheck.js");
 } else {
   require("./chatinterface.js");
 }

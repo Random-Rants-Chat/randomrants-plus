@@ -76,13 +76,31 @@ function handleUserAccountButtons() {
           src: accountHelper.getProfilePictureURL(validated.username)
         },
         {
-          element: "span",
+          element: "div",
           style: {
-            alignContent: "center",
-            fontWeight: "bold",
-            color: validated.color || "#000000",
+            display: "flex",
+            flexDirection: "column"
           },
-          textContent: validated.username,
+          children: [
+            {
+              element: "span",
+              style: {
+                alignContent: "center",
+                fontWeight: "bold",
+                color: validated.color || "#000000",
+              },
+              textContent: validated.displayName,
+            },
+            {
+              element: "span",
+              style: {
+                alignContent: "center",
+                color: validated.color || "#000000",
+                fontSize: "10px"
+              },
+              textContent: validated.username,
+            }
+          ]
         },
         {
           element: "div",

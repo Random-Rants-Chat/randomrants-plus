@@ -2,17 +2,18 @@ const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const pages = ["index", "signin", "signup", "myaccount", "chat"];
+
 module.exports = {
+  mode: "production",
   cache: {
-    type: 'filesystem',
+    type: "filesystem",
   },
-  entry: {
-    home: "./src/pages/home.js",
-    signin: "./src/pages/signin.js",
-    signup: "./src/pages/signup.js",
-    myaccount: "./src/pages/myaccount.js",
-    chat: "./src/pages/chat.js",
-  },
+  devtool: 'source-map',
+  entry: pages.reduce((acc, page) => {
+    acc[page] = `./src/pages/${page}.js`;
+    return acc;
+  }, {}),
   optimization: {
     splitChunks: {
       chunks: "all",
@@ -22,73 +23,54 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "[name].b.js",
+    clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.css/i,
+        test: /\.css$/i,
         use: [
           {
-            loader: 'raw-loader',
+            loader: "raw-loader",
             options: {
               esModule: false,
             },
           },
         ],
+        type: "javascript/auto", // Fix for raw-loader
       },
       {
-        test: /\.txt/i,
+        test: /\.txt$/i,
         use: [
           {
-            loader: 'raw-loader',
+            loader: "raw-loader",
             options: {
               esModule: false,
             },
           },
         ],
+        type: "javascript/auto",
       },
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      title: "Random Rants +",
-      template: "./webpackhtml/base.html",
-      chunks: ["home"],
-    }),
-    new HtmlWebpackPlugin({
-      filename: "signin.html",
-      title: "Random Rants + | Sign In",
-      template: "./webpackhtml/base.html",
-      chunks: ["signin"],
-    }),
-    new HtmlWebpackPlugin({
-      filename: "signup.html",
-      title: "Random Rants + | Sign Up",
-      template: "./webpackhtml/base.html",
-      chunks: ["signup"],
-    }),
-    new HtmlWebpackPlugin({
-      filename: "myaccount.html",
-      title: "Random Rants + | My Account",
-      template: "./webpackhtml/base.html",
-      chunks: ["myaccount"],
-    }),
-    new HtmlWebpackPlugin({
-      filename: "myaccount.html",
-      title: "Random Rants + | My Account",
-      template: "./webpackhtml/base.html",
-      chunks: ["myaccount"],
-    }),
-    new HtmlWebpackPlugin({
-      filename: "chat.html",
-      title: "Random Rants +",
-      template: "./webpackhtml/base.html",
-      chunks: ["chat"],
-    }),
+    ...pages.map(
+      (page) =>
+        new HtmlWebpackPlugin({
+          filename: `${page}.html`,
+          title: `Random Rants +`,
+          template: "./webpackhtml/base.html",
+          chunks: [page],
+        })
+    ),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./wpstatic", to: "." }],
+      patterns: [
+        {
+          from: "./wpstatic",
+          to: ".",
+          noErrorOnMissing: true,
+        },
+      ],
     }),
   ],
-  mode: "production",
 };

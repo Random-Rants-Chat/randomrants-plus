@@ -105,6 +105,12 @@ var rightSide = {
         {
           element: "button",
           className: "roundborder",
+          gid: "showRoomSettingsButton",
+          textContent: "Room settings",
+        },
+        {
+          element: "button",
+          className: "roundborder",
           gid: "toggleCameraButton",
           title: "Toggle camera",
         },

@@ -35,6 +35,7 @@ function closeWebsocket () {
     websocket.onopen = function () {};
     websocket.close();
   }
+  sws.isOpen = false;
 }
 
 function sendWebsocket (d) {

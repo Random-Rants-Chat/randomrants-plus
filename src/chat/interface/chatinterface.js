@@ -13,7 +13,10 @@ var fetchUtils = require("./fetchutils.js");
 var soundboard = require("./soundboard.js");
 var handleErrors = require("./baderror.js");
 var cameras = require("./cameras");
+var browserCommands = require("./commands");
 var microphones = require("./microphones");
+var updateManager = require("./updatecheck.js");
+var userState = require("./userstate.js");
 
 var mainScreen = elements.getGPId("mainScreen");
 var loadingScreen = elements.getGPId("loadingChatMain");
@@ -35,7 +38,10 @@ var toggleCameraButton = elements.getGPId("toggleCameraButton");
 var userOnlineViewBox = elements.getGPId("userOnlineViewBox");
 var toggleMessageAndOnlineView = elements.getGPId("toggleMessageAndOnlineView");
 
+var showRoomSettingsButton = elements.getGPId("showRoomSettingsButton");
+
 var toggleOnlineView = false;
+var isOffline = false;
 
 function updateToggleOnlineViewText() {
   if (toggleOnlineView) {
@@ -72,6 +78,12 @@ reconnectingScreen.hidden = true;
 
 (async function () {
   try {
+    
+    updateManager.addUpdateListener("interface", () => {
+      isOffline = true;
+      sws.close();
+    })
+    
     var externalThings = await fetchUtils.fetchAsJSON("external/other.json");
 
     rrLoadingStatusText.textContent = "Loading WebRTC client scripts...";
@@ -104,12 +116,6 @@ reconnectingScreen.hidden = true;
     rrLoadingStatusText.textContent = "Waiting for websocket connection...";
 
     setInterval(() => {
-      sws.send(
-        JSON.stringify({
-          type: "keepAlive",
-        })
-      );
-      
       microphones.tick();
     }, 100);
 
@@ -175,7 +181,7 @@ reconnectingScreen.hidden = true;
         }
         if (json.type == "microphoneUpdate") {
           if (json.code) {
-            microphones.start(json.id,json.code,json.displayName,json.color); 
+            microphones.start(json.id,json.code,json.displayName,json.color,json.isSelf); //Add isSelf so the audio will not play for yourself to avoid interference. 
           } else {
             microphones.end(json.id); 
           }
@@ -185,6 +191,10 @@ reconnectingScreen.hidden = true;
           mainScreen.hidden = false;
           chatInterface.hidden = false;
           reconnectingScreen.hidden = true;
+          userState.isOwner = false;
+        }
+        if (json.type == "isOwner") {
+          userState.isOwner = json.isOwner;
         }
         if (json.type == "messages") {
           //This also clears messages and rewrites them.
@@ -205,6 +215,13 @@ reconnectingScreen.hidden = true;
               messageData.color
             );
           }
+        }
+        if (json.type == "sendKeepAlive") {
+          sws.send(
+            JSON.stringify({
+              type: "keepAlive",
+            })
+          );
         }
         if (json.type == "newMessage") {
           putMessage(
@@ -244,7 +261,26 @@ reconnectingScreen.hidden = true;
           for (var e of a) {
             e.remove();
           }
-          for (var userInfo of json.list) {
+          json.list.forEach((userInfo) => {
+            
+            async function changeOwnershipUser (promoting) {
+              if (promoting) {
+                await fetch(accountHelper.getServerURL() + "/rooms/addowner/" + currentRoom, {
+                  body: JSON.stringify({
+                    who: userInfo.username
+                  }),
+                  method: "POST"
+                });
+              } else {
+                await fetch(accountHelper.getServerURL() + "/rooms/removeowner/" + currentRoom, {
+                  body: JSON.stringify({
+                    who: userInfo.username
+                  }),
+                  method: "POST"
+                })
+              }
+            }
+            
             var onlineUser = onlineUserElementGenerator(
               userInfo.username,
               userInfo.displayName,
@@ -252,16 +288,24 @@ reconnectingScreen.hidden = true;
               userInfo.color,
               userInfo.isOwner,
               userInfo.camEnabled,
-              userInfo.micEnabled
+              userInfo.micEnabled,
+              userInfo.isRealOwner,
+              userState.isOwner,
+              changeOwnershipUser
             );
             usersOnlineContainer.append(onlineUser);
-          }
+          })
         }
         if (json.type == "media") {
           mediaEngine.onMessage(json);
         }
         if (json.type == "playSoundboard") {
           soundboard.playSound(json.index);
+        }
+        if (json.type == "commandToClient") {
+          if (browserCommands[json.cType]) {
+            browserCommands[json.cType].call(browserCommands,json.args);
+          }
         }
       } catch (e) {
         dialogs.alert(
@@ -285,6 +329,8 @@ reconnectingScreen.hidden = true;
     }
 
     function onCloseReconnect() {
+      cameras.hideAll();
+      microphones.endAll();
       usernameErrorScreen.hidden = true;
       reconnectingScreen.hidden = false;
       mediaEngine.onReconnect();
@@ -300,134 +346,14 @@ reconnectingScreen.hidden = true;
         onCloseReconnect
       );
     }
-    openConnection();
+    if (!isOffline) {
+      openConnection();
+    }
     reconnectUsernameError.addEventListener("click", openConnection);
-    var myChatHistory = [];
-    var chatHistoryNumber = 0;
+    
+    require("./messagebox.js");
 
-    function sendMessageFromTextBox() {
-      var message = messageInputBox.value;
-      if (message.trim().length < 1) {
-        return;
-      }
-      sws.send(
-        JSON.stringify({
-          type: "postMessage",
-          message,
-        })
-      );
-      myChatHistory.push(message); // Add to chat history.
-      myChatHistory = myChatHistory.slice(-100); // Keep only the last 100 messages to try to avoid memory overflow.
-      chatHistoryNumber = myChatHistory.length; // Reset to latest message position.
-    }
-
-    messageSendButton.addEventListener("click", function () {
-      sendMessageFromTextBox();
-      messageInputBox.value = "";
-    });
-
-    messageInputBox.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        sendMessageFromTextBox();
-        messageInputBox.value = "";
-        e.preventDefault();
-      }
-
-      if (e.key === "ArrowUp") {
-        if (chatHistoryNumber > 0) {
-          chatHistoryNumber--;
-          messageInputBox.value = myChatHistory[chatHistoryNumber];
-        }
-        e.preventDefault();
-      }
-
-      if (e.key === "ArrowDown") {
-        if (chatHistoryNumber < myChatHistory.length) {
-          chatHistoryNumber++;
-          messageInputBox.value = myChatHistory[chatHistoryNumber] || "";
-        }
-        e.preventDefault();
-      }
-    });
-
-    async function uploadFileAsURL(blob) {
-      try {
-        const formData = new FormData();
-        formData.append("file", blob, blob.name); // Append the file as "file" field
-        var fileurl = accountHelper.getServerURL() + "/uploads/" + "file";
-        var a = await fetch(fileurl, { method: "POST", body: formData });
-        var b = await a.json();
-        return `${fileurl}/${b.id}`;
-      } catch (e) {
-        return "";
-      }
-    }
-    var ogAttachText = messageAttachFilesButton.textContent;
-    messageAttachFilesButton.addEventListener("click", async function () {
-      var buttonChoose = await dialogs.displayButtonChooser(
-        "What type of file do you want to attach?",
-        ["Cancel", "Image", "Audio", "Video", "File download link"]
-      );
-
-      var acceptTypes = "";
-
-      if (buttonChoose == 0) {
-        return;
-      }
-      if (buttonChoose == 1) {
-        acceptTypes = "image/*";
-      }
-      if (buttonChoose == 2) {
-        acceptTypes = "audio/*";
-      }
-      if (buttonChoose == 3) {
-        acceptTypes = "video/*";
-      }
-      if (buttonChoose == 4) {
-        acceptTypes = "";
-      }
-
-      var input = document.createElement("input");
-      input.onchange = async function () {
-        if (input.files[0]) {
-          messageAttachFilesButton.disabled = true;
-          messageAttachFilesButton.textContent = "Uploading files...";
-          var fileCount = 0;
-          for (var file of input.files) {
-            try {
-              var fileurl = await uploadFileAsURL(file);
-              if (buttonChoose == 1) {
-                messageInputBox.value += `[image url=${fileurl}]`;
-              }
-              if (buttonChoose == 2) {
-                messageInputBox.value += `[audio url=${fileurl}]`;
-              }
-              if (buttonChoose == 3) {
-                messageInputBox.value += `[video url=${fileurl}]`;
-              }
-              if (buttonChoose == 4) {
-                if (!messageInputBox.value.endsWith(" ")) {
-                  messageInputBox.value += " ";
-                }
-                messageInputBox.value += fileurl;
-              }
-            } catch (e) {
-              dialogs.alert("Failed to upload file: " + e);
-            }
-            fileCount += 1;
-            var amount = fileCount + 1 + "/" + input.files.length;
-            messageAttachFilesButton.textContent =
-              "Uploading files... (" + amount + ")";
-          }
-          messageAttachFilesButton.disabled = false;
-          messageAttachFilesButton.textContent = ogAttachText;
-        }
-      };
-      input.type = "file";
-      input.accept = acceptTypes;
-      input.multiple = true;
-      input.click();
-    });
+    require("./attachfiles.js");
 
     showSoundboardButton.addEventListener("click", () => {
       soundboard.show();

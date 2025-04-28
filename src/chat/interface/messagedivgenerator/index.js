@@ -15,6 +15,10 @@ function generateMessageDiv(
     color = "var(--server-notifcation-color)";
     pfp = "images/warningsign.svg";
   }
+  var noUndefinedUsername = displayName;
+  if (username) {
+    noUndefinedUsername = username;
+  }
   var dom = elements.createElementsFromJSON([
     {
       element: "div",
@@ -37,6 +41,7 @@ function generateMessageDiv(
               element: "span",
               className: "usernameSpan",
               textContent: displayName + ":",
+              title: noUndefinedUsername,
               style: {
                 color: color,
               },

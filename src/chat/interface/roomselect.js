@@ -17,9 +17,8 @@ async function getRooms() {
 async function doRoomSelect() {
   try {
     var div = document.createElement("div");
-
-    var roomSelectChildren = [
-      {
+    
+    var addButtonJSON = {
         element: "div",
         className: "roomButton roomButtonClickable",
         eventListeners: [
@@ -49,8 +48,25 @@ async function doRoomSelect() {
             textContent: "+",
           },
         ],
-      }
-    ];
+      };
+    
+    var roomSelectChildren = [];
+    
+    if (validState) {
+      roomSelectChildren.push(addButtonJSON);
+    } else {
+      roomSelectChildren.push({
+        element: "div",
+        className: "roomButton",
+        children: [
+          {
+            element: "span",
+            textContent: "⚠ You can't manage or join any rooms because you aren't logged in. If you have just logged in you may need to reload your page.",
+          },
+        ],
+      });
+    }
+    
     var dialogBG = document.createElement("div");
     var loadingSpinnerDiv = document.createElement("div");
     var loadingSpinnerCDiv = document.createElement("div");

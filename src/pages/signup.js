@@ -1,3 +1,4 @@
+require("../cookiewarning");
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 var accountHelper = require("../accounthelper");

@@ -2,6 +2,8 @@ const https = require("https");
 const { URL } = require("url");
 var URLModule = require("url");
 
+var okServerResponses = [200, 201, 202, 203, 204, 205, 206, 207, 208, 226];
+
 class GvbBaseSupabaseStorage {
   constructor(bucket, projectUrl, apiKey) {
     if (!bucket || !projectUrl || !apiKey) {
@@ -37,7 +39,7 @@ class GvbBaseSupabaseStorage {
               new Error(`HTTP ${res.statusCode}: ${buffer.toString()}`)
             );
           }
-          resolve({ buffer, response: res });
+          resolve({ buffer, response: res, request: req });
         });
       });
 
@@ -58,7 +60,7 @@ class GvbBaseSupabaseStorage {
   async downloadFile(filename) {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
-    )}`;
+    )}?v=${Date.now()}`;
     const { buffer } = await this._makeRequest("GET", path);
     return buffer;
   }
@@ -66,12 +68,12 @@ class GvbBaseSupabaseStorage {
   async downloadFileAdvanced(filename) {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
-    )}`;
-    const { buffer, response } = await this._makeRequest("GET", path);
+    )}?v=${Date.now()}`;
+    const { buffer, response, request } = await this._makeRequest("GET", path);
     return {
       buffer,
       response,
-      request: null,
+      request,
       headers: response.headers,
       status: response.statusCode,
     };
@@ -121,6 +123,10 @@ class GvbBaseSupabaseStorage {
           var value = _this.getHeaderValue(res.headers,header);
           if (value) serverResponse.setHeader(header, value);
         }
+        if (okServerResponses.indexOf(res.statusCode) < 0) {
+          reject(`HTTP ${res.statusCode}`);
+          return;
+        }
         serverResponse.statusCode = res.statusCode;
         res.pipe(serverResponse);
       
@@ -156,6 +162,7 @@ class GvbBaseSupabaseStorage {
         "Content-Type": contentType,
         "Content-Length": data.length,
         "x-upsert": "true",
+        "cache-control": "max-age=0" // 👈 add this line
       },
       data
     );
@@ -170,13 +177,14 @@ class GvbBaseSupabaseStorage {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
     )}`;
-    const { buffer, response } = await this._makeRequest(
+    const { buffer, response, request } = await this._makeRequest(
       "POST",
       path,
       {
         "Content-Type": contentType,
         "Content-Length": data.length,
         "x-upsert": "true",
+        "cache-control": "max-age=0" // 👈 add this line
       },
       data
     );
@@ -184,7 +192,7 @@ class GvbBaseSupabaseStorage {
     return {
       buffer,
       response,
-      request: null,
+      request,
       headers: response.headers,
       status: response.statusCode,
     };
@@ -202,11 +210,11 @@ class GvbBaseSupabaseStorage {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
     )}`;
-    const { buffer, response } = await this._makeRequest("DELETE", path);
+    const { buffer, response, request } = await this._makeRequest("DELETE", path);
     return {
       buffer,
       response,
-      request: null,
+      request,
       headers: response.headers,
       status: response.statusCode,
     };

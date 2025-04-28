@@ -28,7 +28,7 @@ var dom = elements.createElementsFromJSON([
   //Dialog box
   {
     element: "div",
-    className: "soundboardDialog",
+    className: "soundboardDialog popupDialogAnimation",
     children: [
       {
         element: "div",

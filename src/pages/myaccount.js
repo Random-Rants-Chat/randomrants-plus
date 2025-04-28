@@ -1,3 +1,4 @@
+require("../cookiewarning");
 var menuBar = require("../menu.js"); //Menu bar.
 var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's element module.
 var accountHelper = require("../accounthelper/index.js");
@@ -29,15 +30,34 @@ var dialog = require("../dialogs.js");
                   gid: "profilePicture_account",
                 },
                 {
-                  element: "span",
+                  element: "div",
                   style: {
-                    alignContent: "center",
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                    color: userColor,
+                    display: "flex",
+                    flexDirection: "column"
                   },
-                  gid: "usernameSpan",
-                  textContent: session.username,
+                  children: [
+                    {
+                      element: "span",
+                      style: {
+                        alignContent: "center",
+                        fontSize: "30px",
+                        fontWeight: "bold",
+                        color: userColor,
+                      },
+                      gid: "displayNameSpan",
+                      textContent: session.displayName,
+                    },
+                    {
+                      element: "span",
+                      style: {
+                        alignContent: "center",
+                        fontSize: "16px",
+                        color: userColor,
+                      },
+                      gid: "usernameSpan",
+                      textContent: session.username,
+                    }
+                  ]
                 },
                 {
                   element: "div",
@@ -71,6 +91,12 @@ var dialog = require("../dialogs.js");
               textContent: "Your Random Rants + account",
             },
             {element:"br"},
+            {
+                  element: "div",
+                  className: "button",
+                  gid: "changeDisplayNameButton",
+                  textContent: "Change display name"
+                },
             {
                   element: "div",
                   className: "button",
@@ -108,13 +134,21 @@ var dialog = require("../dialogs.js");
       var pfp = elements.getGPId("profilePicture_account");
       var usernameColorInput = elements.getGPId("username_color_input");
       var usernameSpan = elements.getGPId("usernameSpan");
+      var changeDisplayNameButton = elements.getGPId("changeDisplayNameButton");
+      var displayNameSpan = elements.getGPId("displayNameSpan");
 
-      async function loadImage() {
+      async function loadImage(imageFile) {
         var imgurl = accountHelper.getProfilePictureURL(session.username);
         try{
-          await fetch(imgurl, {cache: 'reload', mode: 'no-cors'});
+          for (var i = 0; i < 3; i++) {
+            await fetch(imgurl, {cache: 'reload', mode: 'no-cors'});
+          }
         }catch(e){}
-        pfp.src = accountHelper.getProfilePictureURL(session.username);
+        if (imageFile) {
+          pfp.src = imageFile;
+        } else {
+          pfp.src = imgurl;
+        }
       }
       loadImage();
       
@@ -137,7 +171,7 @@ var dialog = require("../dialogs.js");
               reader.onload = async function () {
                 try{
                   await fetch(accountHelper.getServerURL()+"/account/picture/",{method:"POST",body:reader.result.split(",").pop()});
-                  loadImage();
+                  loadImage(reader.result);
                 }catch(e){
                   dialog.alert(`Error uploading profile picture, your profile is not uploaded. ${e}`);
                 }
@@ -154,6 +188,22 @@ var dialog = require("../dialogs.js");
         await fetch(accountHelper.getServerURL()+"/account/setcolor/",{method:"POST",body:JSON.stringify({
           color: usernameColorInput.value
         })});
+      };
+      
+      changeDisplayNameButton.onclick = async function () {
+        var displayName = await dialog.prompt("Enter your new display name",displayNameSpan.textContent);
+        if (!displayName) {
+          return;
+        }
+        try{
+        await fetch(accountHelper.getServerURL()+"/account/displayname/",{method:"POST",body:JSON.stringify({
+          displayName
+        })});
+        displayNameSpan.textContent = displayName;
+        }catch(e){
+          dialog.alert("Unable to set the display name, your display name can't be more than 100 characters.");
+          return;
+        }
       };
     } else {
       var elementJSON = [

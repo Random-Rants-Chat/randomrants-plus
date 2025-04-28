@@ -1,1 +1,2 @@
-require("../chat"); //In case of need for external script
+require("../cookiewarning");
+require("../chat");
