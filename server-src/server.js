@@ -11,7 +11,7 @@ var URL = require("url");
 var wssHandler = require("./wss-handler.js");
 var wss = wssHandler.wss;
 var encryptor = require("../encrypt");
-var gvbbaseStorage = require("./storage.js"); //Alternative firebase storage, lightweight clone for node js.
+var gvbbaseStorage = require("./storage.js"); //Supabase storage module.
 var cons = require("./constants.js");
 var storage = new gvbbaseStorage(process.env.sbBucket, process.env.sbURL, process.env.sbAPIKey);
 var messageChatNumber = 0;
@@ -1229,12 +1229,6 @@ async function startRoomWSS(roomid) {
           })
         );
       }
-      ws.send(
-        JSON.stringify({
-          type: "roomName",
-          name: info.name
-        })
-      );
       
       ws.send(
         JSON.stringify({
@@ -1323,7 +1317,8 @@ async function startRoomWSS(roomid) {
       client.send(
         JSON.stringify({
           type: "roomName",
-          name: info.name
+          name: info.name,
+          id: roomid,
         })
       );
     }

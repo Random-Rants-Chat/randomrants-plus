@@ -1,4 +1,4 @@
-![Random Rants + Logo](./wpstatic/images/randomrants-plus.svg)
+[![Random Rants +](./wpstatic/images/randomrants-plus.svg)](https://randomrants-plus.glitch.me)
 
 ## What is Random Rants +?
 

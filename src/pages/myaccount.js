@@ -184,6 +184,7 @@ var dialog = require("../dialogs.js");
       
       usernameColorInput.onchange = async function () {
         userColor = usernameColorInput.value;
+        changeDisplayNameButton.style.color = userColor;
         usernameSpan.style.color = userColor;
         await fetch(accountHelper.getServerURL()+"/account/setcolor/",{method:"POST",body:JSON.stringify({
           color: usernameColorInput.value

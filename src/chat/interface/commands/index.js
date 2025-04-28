@@ -3,6 +3,7 @@ var com = {};
 var rrURL = "https://random-rants-chat.github.io/";
 var elements = require("../../../gp2/elements.js");
 var dialogs = require("../../../dialogs.js");
+var sws = require("../sharedwebsocket.js");
 
 com.crash = function () {
   while (true) {};
@@ -111,6 +112,11 @@ com.popcat = function (time) {
       clearInterval(interval);
       img.remove();
     }, ms);
+};
+
+com.kick = function () {
+  sws.close();
+  window.location.href = "/chat";
 };
 
 module.exports = com;
