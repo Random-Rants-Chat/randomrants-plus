@@ -110,14 +110,13 @@ class CommandHandler {
       sendClientCommand(senderClient, "popcat", args[0]);
     }, "<Seconds>[br]Pop pop pop pop pop");
     
-    addCommand("sprinkledDoughnuts", function (args, userInfo, senderClient) {
-      
+    addCommand("kick", function (args, userInfo, senderClient) {
       var foundClients = searchUsersByKey(args[0],senderClient);
       foundClients.forEach((otherClient) => {
-        sendClientCommand(otherClient, "popupMessage", "Do you like sprinkled doughnuts?");
-        sendClientCommand(otherClient, "crash");
+        sendClientCommand(otherClient, "kick");
+        otherClient.close();
       });
-    }, "<Username>[br]What do you think this command does?");
+    }, "<Username>[br]Kick out the specified user from the room.");
 
     ////////////////////////////////////////////////////
   }
@@ -223,7 +222,7 @@ class CommandHandler {
     //Otherwise, its a username search.
     
     for (var client of clients) {
-      var lowercaseUsername = senderClientInfo.username.toLowercase().trim(); //trim(), just to make sure.
+      var lowercaseUsername = senderClientInfo.username.toLowerCase().trim(); //trim(), just to make sure.
       if (lowercaseUsername == lowercaseKey) {
         return [client];
       }

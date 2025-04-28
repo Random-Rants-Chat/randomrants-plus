@@ -4,9 +4,9 @@
   "description": "Random Rants Plus is Random Rants but better in security and account managing, also targetting another layout style.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node server-src/server.js",
+    "start": "node updatetime.js && node server-src/server.js",
     "build": "webpack",
-    "prestart": "node updatetime.js && npm run build"
+    "prestart": "node updatetime.js && webpack"
   },
   "devDependencies": {
     "busboy": "^1.6.0",

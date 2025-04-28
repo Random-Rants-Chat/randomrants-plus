@@ -1,6 +1,6 @@
 console.log(
-  "%cWARNING!\n"+
-  "%cThe following pannel you have just opened allows hackers to steal your Random Rants + account. If you have signed in to Random Rants +, avoid sending anything related to your browser cookies. Avoid pasting code that you don't know what it means here.",
-  "font-size:30px;font-weight:1000;font-family:arial;color:red;",
-   "font-family:arial;font-size:21px;"
+  "%cWARNING: %cPotential Security Risk!\n" +
+  "%cThe panel you just opened may expose your Random Rants + account to hackers. If you're logged in, avoid sharing any sensitive information like browser cookies or pasting unknown code here. Stay safe!",
+  "font-size: 32px; font-weight: bold; font-family: Arial, sans-serif; color: red;",
+  "font-size: 20px; font-family: Arial, sans-serif; color: black;"
 );

@@ -9,7 +9,8 @@ module.exports = {
   cache: {
     type: "filesystem",
   },
-  devtool: 'source-map',
+  //Uncomment this to enable recommended devtool.
+  //devtool: 'source-map',
   entry: pages.reduce((acc, page) => {
     acc[page] = `./src/pages/${page}.js`;
     return acc;
