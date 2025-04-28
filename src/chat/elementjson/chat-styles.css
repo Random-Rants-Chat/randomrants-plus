@@ -167,8 +167,7 @@ body {
 }
 .sep1 {
   border-top: 3px dashed var(--separator-color);
-  height: 20px;
-  margin-top: 20px;
+  padding: 0px 20px;
   outline: none;
 }
 .roundborder {
@@ -617,8 +616,9 @@ a {
   left: 0;
   width: 100vw;
   height: 100vh;
-  opacity: 0.5;
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background */
+  backdrop-filter: blur(2px);      /* The blur effect */
+  -webkit-backdrop-filter: blur(2px); /* For Safari */
 }
 
 .chatInterfaceLeft {
@@ -878,8 +878,7 @@ a {
   top: 50%;
   left: 50%;
   color: var(--popup-box-text-color);
-  margin-left: calc(calc(100vw - 100px) / -2);
-  margin-top: calc(calc(100vh - 100px) / -2);
+  transform: translate(-50%, -50%);
   text-align: center;
   background: var(--popup-box-bg-color);
   overflow-y: auto;
@@ -893,16 +892,28 @@ a {
 }
 
 .popupDialogAnimation {
-  animation-duration: 0.3s;
+  animation-duration: 0.25s;
   animation-name: popupDialog;
+  animation-timing-function: ease-out;
 }
 
 @keyframes popupDialog {
-  from {
-    scale: 0 1;
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
   }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
 
-  to {
-    scale: 1 1;
-  }
+.onlineUserImgButton {
+  padding: 1px 1px;
+  border-radius: 5px;
+}
+
+.onlineUserImgButton:hover {
+  cursor: pointer;
+  background: #cfcfcf;
 }

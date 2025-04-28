@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       element: "div",
-      className: "whiteBox centerMiddle",
+      className: "whiteBox centerMiddle popupDialogAnimation",
       children: [
         {
           element: "div",

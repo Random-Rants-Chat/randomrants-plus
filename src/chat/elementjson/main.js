@@ -10,7 +10,7 @@ module.exports = [
   {
     element: "div",
     gid: "loadingChatMain",
-    children: require("./loading-chat-main.js")
+    children: require("./loadingchat.js")
   },
   //After loading. No need for module for container div because its pretty small anyways.
   {
@@ -26,4 +26,5 @@ module.exports = [
   },
   require("./usernameerror.js"),
   require("./noguests.js"),
+  require("./update.js")
 ];

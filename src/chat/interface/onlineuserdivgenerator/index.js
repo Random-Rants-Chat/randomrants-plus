@@ -2,37 +2,138 @@ var elements = require("../../../gp2/elements.js");
 var accountHelper = require("../../../accounthelper");
 var shtml = require("../safehtmlencode.js");
 
-function generateDiv (username,displayName,time,userColor,isOwner,camEnabled,micEnabled) {
+function generateDiv(
+  username,
+  displayName,
+  time,
+  userColor,
+  isOwner,
+  camEnabled,
+  micEnabled,
+  isRealOwner,
+  isAbleToChangeOwnership,
+  changeOwnershipFunction
+) {
   var pfp = accountHelper.getProfilePictureURL(username);
   if (!username) {
     pfp = accountHelper.getProfilePictureURL("");
   }
   var ownerNoteThing = {
-    element:"div"
+    element: "div",
   };
-  
-  var camAndMicIcons = [];
-  
+
+  var icons = [];
+
   if (camEnabled) {
-    camAndMicIcons.push({
+    icons.push({
       element: "img",
-      src:"images/cam.svg",
+      src: "images/cam.svg",
       style: {
-        height: "23px"
-      }
+        height: "23px",
+      },
+      title: "This person is sharing their camera.",
     });
   }
-  
+
   if (micEnabled) {
-    camAndMicIcons.push({
+    icons.push({
       element: "img",
-      src:"images/mic.svg",
+      src: "images/mic.svg",
       style: {
-        height: "23px"
-      }
+        height: "23px",
+      },
+      title: "This person is sharing their microphone.",
     });
   }
-  
+
+  if (isRealOwner) {
+    icons.push({
+      element: "img",
+      src: "images/key.svg",
+      style: {
+        height: "23px",
+      },
+      title: "This person is the real owner of this room.",
+    });
+  } else {
+    if (isAbleToChangeOwnership && username) {
+      if (isOwner) {
+        icons.push({
+          element: "div",
+          style: {
+            height: "23px",
+          },
+          className: "divButton roundborder",
+          title: "Click to remove ownership to this user.",
+          children: [
+            {
+              element: "img",
+              style: {
+                height: "100%",
+              },
+              src: "images/demote.svg",
+            },
+          ],
+          eventListeners: [
+            {
+              event: "click",
+              func: function () {
+                changeOwnershipFunction(false);
+                this.disabled = true;
+                this.innerHTML = "";
+                this.className = "loader";
+                this.src = "";
+                this.style.width = "23px";
+              },
+            },
+          ],
+        });
+      } else {
+        icons.push({
+          element: "div",
+          style: {
+            height: "23px",
+          },
+          className: "divButton roundborder",
+          title: "Click to add ownership to this user.",
+          children: [
+            {
+              element: "img",
+              style: {
+                height: "100%",
+              },
+              src: "images/promote.svg",
+            },
+          ],
+          eventListeners: [
+            {
+              event: "click",
+              func: function () {
+                changeOwnershipFunction(true);
+                this.disabled = true;
+                this.innerHTML = "";
+                this.className = "loader";
+                this.src = "";
+                this.style.width = "23px";
+              },
+            },
+          ],
+        });
+      }
+    } else {
+      if (isOwner) {
+        icons.push({
+          element: "img",
+          src: "images/key.svg",
+          style: {
+            height: "23px",
+          },
+          title: "This person has ownership of this room.",
+        });
+      }
+    }
+  }
+
   var dom = elements.createElementsFromJSON([
     {
       element: "div",
@@ -41,28 +142,45 @@ function generateDiv (username,displayName,time,userColor,isOwner,camEnabled,mic
           element: "div",
           className: "onlineUserContainer",
           style: {
-            alignItems: "center"
+            alignItems: "center",
           },
-          children: ([
+          children: [
             {
               element: "img",
               className: "profile profilePictureMessage",
-              src: pfp
+              src: pfp,
             },
             {
-              element: "span",
-              className: "usernameSpan",
+              element: "div",
               style: {
-                color: userColor
+                display: "flex",
+                flexDirection: "column",
               },
-              textContent: displayName
-            }
-          ]).concat(camAndMicIcons)
-        }
-      ]
-    }
+              children: [
+                {
+                  element: "span",
+                  className: "usernameSpan",
+                  style: {
+                    color: userColor,
+                  },
+                  textContent: displayName,
+                },
+                {
+                  element: "span",
+                  style: {
+                    color: userColor,
+                    fontSize: "10px",
+                  },
+                  textContent: username,
+                },
+              ],
+            },
+          ].concat(icons),
+        },
+      ],
+    },
   ]);
-  
+
   return dom[0];
 }
 

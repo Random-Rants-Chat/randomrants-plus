@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server-src/server.js",
     "build": "webpack",
-    "prestart": "npm run build"
+    "prestart": "node updatetime.js && npm run build"
   },
   "devDependencies": {
     "busboy": "^1.6.0",

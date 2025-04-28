@@ -368,7 +368,7 @@ function doLoadingMediaScreen() {
     //Dialog box
     {
       element: "div",
-      className: "whiteBox centerMiddle",
+      className: "whiteBox centerMiddle popupDialogAnimation",
       children: [
         {
           element: "span",
@@ -407,7 +407,7 @@ async function doMediaSelect() {
       //Dialog box
       {
         element: "div",
-        className: "whiteBox centerMiddle",
+        className: "whiteBox centerMiddle popupDialogAnimation",
         style: {
           overflow: "auto"
         },
