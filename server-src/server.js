@@ -943,13 +943,15 @@ async function startRoomWSS(roomid) {
       cli.send(onlist);
     });
   }
-  function sendRoomChatMessage(displayName, message) {
-    messageChatNumber += 1;
-    wss._rrRoomMessages.push({
-      displayName,
-      isServer: true,
-      message: message,
-    });
+  function sendRoomChatMessage(displayName, message, dontStore) {
+    if (!dontStore) {
+      messageChatNumber += 1;
+      wss._rrRoomMessages.push({
+        displayName,
+        isServer: true,
+        message: message,
+      });
+    }
     wss._rrRoomMessages = wss._rrRoomMessages.slice(-100);
     wss.clients.forEach((cli) => {
       cli.send(
@@ -1240,7 +1242,8 @@ async function startRoomWSS(roomid) {
       sendOnlineList();
       sendRoomChatMessage(
         "[Random Rants +]",
-        `${displayName} has joined the room.`
+        `${displayName} has joined the room.`,
+        true
       );
       ws._rrPeopleCount += 1;
       ws.on("close", () => {
@@ -1249,7 +1252,8 @@ async function startRoomWSS(roomid) {
         sendOnlineList();
         sendRoomChatMessage(
           "[Random Rants +]",
-          `${displayName} has left the room.`
+          `${displayName} has left the room.`,
+          true
         );
         if (ws._rrConnectionID == currentScreensharingWebsocket) {
           currentScreenshareCode = null;

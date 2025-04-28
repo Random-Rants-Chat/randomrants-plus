@@ -3,6 +3,9 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const pages = ["index", "signin", "signup", "myaccount", "chat"];
+try{
+  require("fs").rmSync("./public",{recursive:true});
+}catch(e){}
 
 module.exports = {
   mode: "production",
@@ -23,7 +26,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "[name].b.js",
+    filename: "[name].bundle.js",
     clean: true,
   },
   module: {
