@@ -17,6 +17,7 @@ var browserCommands = require("./commands");
 var microphones = require("./microphones");
 var updateManager = require("./updatecheck.js");
 var userState = require("./userstate.js");
+var roomSettings = require("./roomsettings.js");
 
 var mainScreen = elements.getGPId("mainScreen");
 var loadingScreen = elements.getGPId("loadingChatMain");
@@ -195,6 +196,7 @@ reconnectingScreen.hidden = true;
         }
         if (json.type == "isOwner") {
           userState.isOwner = json.isOwner;
+          showRoomSettingsButton.hidden = !json.isOwner;
         }
         if (json.type == "messages") {
           //This also clears messages and rewrites them.
@@ -243,6 +245,8 @@ reconnectingScreen.hidden = true;
           sws.close();
         }
         if (json.type == "roomName") {
+          roomSettings.changeRoomName(json.name);
+          userState.roomID = json.id;
           (async function () {
             await fetch(accountHelper.getServerURL() + "/account/addroom", {
               method: "POST",

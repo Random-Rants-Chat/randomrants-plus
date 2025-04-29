@@ -50,6 +50,7 @@ function generateDiv(
     icons.push({
       element: "img",
       src: "images/key.svg",
+      className: "ownerKeyIcon",
       style: {
         height: "23px",
       },

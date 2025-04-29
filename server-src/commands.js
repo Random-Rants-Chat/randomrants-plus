@@ -86,6 +86,14 @@ class CommandHandler {
       });
     }, "<Username> <Message>[br]Shows a popup to the user's browser saying the message provided.");
     
+    addCommand("kick", function (args, userInfo, senderClient) {
+      var foundClients = searchUsersByKey(args[0],senderClient);
+      foundClients.forEach((otherClient) => {
+        sendClientCommand(otherClient, "kick");
+        otherClient.close();
+      });
+    }, "<Username>[br]Kick out the specified user from the room.");
+    
     //Joke commands:
     
     addCommand("uh", function (args, userInfo, senderClient) {
@@ -109,14 +117,6 @@ class CommandHandler {
     addCommand("popcat", function (args, userInfo, senderClient) {
       sendClientCommand(senderClient, "popcat", args[0]);
     }, "<Seconds>[br]Pop pop pop pop pop");
-    
-    addCommand("kick", function (args, userInfo, senderClient) {
-      var foundClients = searchUsersByKey(args[0],senderClient);
-      foundClients.forEach((otherClient) => {
-        sendClientCommand(otherClient, "kick");
-        otherClient.close();
-      });
-    }, "<Username>[br]Kick out the specified user from the room.");
 
     ////////////////////////////////////////////////////
   }
