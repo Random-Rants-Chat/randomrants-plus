@@ -1,5 +1,5 @@
 var elements = require("./gp2/elements.js");
-window.alert("test");
+
 var elementJSON = [
   {
     element: "div",
