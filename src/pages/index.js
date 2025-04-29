@@ -1,4 +1,5 @@
 require("../cookiewarning");
+require("./stylesheet.js");
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 
@@ -13,7 +14,7 @@ var elementJSON = [
         className: "scrolling-content",
         gid: "scrollingContent",
       },
-    ]
+    ],
   },
   {
     element: "div",
@@ -21,7 +22,35 @@ var elementJSON = [
       transform: "translate(-50%, -50%)",
       position: "fixed",
       top: "50%",
-      left: "50%"
+      left: "50%",
+      display: "flex"
+    },
+    children: [
+      {
+        element: "img",
+        src: "images/person1.svg",
+        style: {
+          transform: "translate(0px, 100px) scale(1, 1)",
+          padding: "40px"
+        },
+      },
+      {
+        element: "img",
+        src: "images/person2.svg",
+        style: {
+          transform: "translate(0px, 100px) scale(-1, 1)",
+          padding: "40px"
+        },
+      },
+    ],
+  },
+  {
+    element: "div",
+    style: {
+      transform: "translate(-50%, -50%)",
+      position: "fixed",
+      top: "50%",
+      left: "50%",
     },
     children: [
       {
@@ -35,34 +64,34 @@ var elementJSON = [
             gid: "mainHeader",
             textContent: "Welcome to Random Rants Plus",
           },
-          {element:"br"},
+          { element: "br" },
           {
             element: "span",
             className: "fadeIn delay-1",
             gid: "description1",
-            textContent: "Random Rants + is the next generation of Random Rants, aimed towards having new functions and is more like an actual social media site.",
+            textContent:
+              "Random Rants + is the next generation of Random Rants, aimed towards having new functions and is more like an actual social media site.",
           },
-          {element:"br"},
+          { element: "br" },
           {
             element: "span",
             className: "fadeIn delay-2",
             gid: "description2",
-            textContent: "Random Rants + also aims for the fun of the original Random Rants, so you don't get as bored easily.",
+            textContent:
+              "Random Rants + also aims for the fun of the original Random Rants, so you don't get as bored easily.",
           },
         ],
       },
-    ]
-  }
+    ],
+  },
 ];
 
-// Append elements
 elements.appendElements(
   elements.body,
   elements.createElementsFromJSON(elementJSON)
 );
 
-// Insert animation CSS dynamically
-var style = document.createElement('style');
+var style = document.createElement("style");
 style.textContent = `
   .fadeIn {
     opacity: 0;
@@ -84,6 +113,51 @@ style.textContent = `
       transform: translateY(0);
     }
   }
+  @keyframes fadeIn {
+    from {
+      transform: translate(0px, 100px) scale(2, 2);
+      opacity: 0;
+    }
+    to {
+      transform: translate(0px, 80px) scale(1, 1);
+      opacity: 1;
+    }
+  }
+  @keyframes fadeIn2 {
+    from {
+      transform: translate(0px, 100px) scale(-2, 2);
+      opacity: 0;
+    }
+    to {
+      transform: translate(0px, 80px) scale(-1, 1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes rotating {
+    0% {
+      transform: translate(0px, 100px) scale(1, 1) rotate(-0.1deg);
+    }
+    50% {
+      transform: translate(0px, 100px) scale(1, 1) rotate(0.1deg);
+    }
+    100% {
+      transform: translate(0px, 100px) scale(1, 1) rotate(-0.1deg);
+    }
+  }
+  
+  @keyframes rotating2 {
+    0% {
+      transform: translate(0px, 100px) scale(-1, 1) rotate(-0.1deg);
+    }
+    50% {
+      transform: translate(0px, 100px) scale(-1, 1) rotate(0.1deg);
+    }
+    100% {
+      transform: translate(0px, 100px) scale(-1, 1) rotate(-0.1deg);
+    }
+  }
+  
   @keyframes bounceIn {
     0%, 20%, 40%, 60%, 80%, 100% {
       transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);

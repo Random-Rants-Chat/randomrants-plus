@@ -1,4 +1,5 @@
 require("../cookiewarning");
+require("./stylesheet.js");
 var menuBar = require("../menu.js"); //Menu bar.
 var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's element module.
 var accountHelper = require("../accounthelper/index.js");
@@ -33,7 +34,7 @@ var dialog = require("../dialogs.js");
                   element: "div",
                   style: {
                     display: "flex",
-                    flexDirection: "column"
+                    flexDirection: "column",
                   },
                   children: [
                     {
@@ -56,30 +57,31 @@ var dialog = require("../dialogs.js");
                       },
                       gid: "usernameSpan",
                       textContent: session.username,
-                    }
-                  ]
+                    },
+                  ],
                 },
                 {
                   element: "div",
                   style: {
-                    width: "10px"
-                  }
-                },
-                {
-                  element: "div",
-                  style: {
-                    alignContent: "center"
+                    width: "10px",
                   },
-                  title: "Click this to change your usernames color, appears in chat as well!",
+                },
+                {
+                  element: "div",
+                  style: {
+                    alignContent: "center",
+                  },
+                  title:
+                    "Click this to change your usernames color, appears in chat as well!",
                   children: [
                     {
                       element: "input",
                       type: "color",
                       value: userColor,
-                      gid: "username_color_input"
-                    }
-                  ]
-                }
+                      gid: "username_color_input",
+                    },
+                  ],
+                },
               ],
             },
             {
@@ -90,39 +92,41 @@ var dialog = require("../dialogs.js");
               className: "headerText",
               textContent: "Your Random Rants + account",
             },
-            {element:"br"},
+            { element: "br" },
             {
-                  element: "div",
-                  className: "button",
-                  gid: "changeDisplayNameButton",
-                  textContent: "Change display name"
+              element: "div",
+              className: "button",
+              gid: "changeDisplayNameButton",
+              textContent: "Change display name",
+            },
+            {
+              element: "div",
+              className: "button",
+              gid: "uploadPFP",
+              textContent: "Upload profile picture",
+            },
+            {
+              element: "div",
+              className: "button",
+              eventListeners: [
+                {
+                  event: "click",
+                  func: function () {
+                    var usernameColorInput = elements.getGPId(
+                      "username_color_input"
+                    );
+                    usernameColorInput.click();
+                  },
                 },
+              ],
+              textContent: "Change username color",
+            },
             {
-                  element: "div",
-                  className: "button",
-                  gid: "uploadPFP",
-                  textContent: "Upload profile picture"
-                },
-            {
-                  element: "div",
-                  className: "button",
-                  eventListeners: [
-                    {
-                      event: "click",
-                      func: function () {
-                        var usernameColorInput = elements.getGPId("username_color_input");
-                        usernameColorInput.click();
-                      }
-                    }
-                  ],
-                  textContent: "Change username color"
-                },
-            {
-                  element: "div",
-                  className: "button",
-                  gid: "signOutButton",
-                  textContent: "Sign out"
-                }
+              element: "div",
+              className: "button",
+              gid: "signOutButton",
+              textContent: "Sign out",
+            },
           ],
         },
       ];
@@ -139,11 +143,11 @@ var dialog = require("../dialogs.js");
 
       async function loadImage(imageFile) {
         var imgurl = accountHelper.getProfilePictureURL(session.username);
-        try{
+        try {
           for (var i = 0; i < 3; i++) {
-            await fetch(imgurl, {cache: 'reload', mode: 'no-cors'});
+            await fetch(imgurl, { cache: "reload", mode: "no-cors" });
           }
-        }catch(e){}
+        } catch (e) {}
         if (imageFile) {
           pfp.src = imageFile;
         } else {
@@ -151,60 +155,76 @@ var dialog = require("../dialogs.js");
         }
       }
       loadImage();
-      
+
       var signOutButton = elements.getGPId("signOutButton");
-      
+
       signOutButton.onclick = function () {
         accountHelper.logoutOfAccount();
         window.location.href = "/";
       };
-      
+
       var uploadPFP = elements.getGPId("uploadPFP");
       uploadPFP.onclick = function () {
-          var input = document.createElement("input");
-          input.accept = ".png, .jpeg, .bmp, .jpg, .ico, .webm";
-          input.type = "file";
-          input.onchange = function () {
-            var file = input.files[0];
-            if (file) {
-              var reader = new FileReader();
-              reader.onload = async function () {
-                try{
-                  await fetch(accountHelper.getServerURL()+"/account/picture/",{method:"POST",body:reader.result.split(",").pop()});
-                  loadImage(reader.result);
-                }catch(e){
-                  dialog.alert(`Error uploading profile picture, your profile is not uploaded. ${e}`);
-                }
-              };
-              reader.readAsDataURL(file);
-            }
-          };
-          input.click();
+        var input = document.createElement("input");
+        input.accept = ".png, .jpeg, .bmp, .jpg, .ico, .webm";
+        input.type = "file";
+        input.onchange = function () {
+          var file = input.files[0];
+          if (file) {
+            var reader = new FileReader();
+            reader.onload = async function () {
+              try {
+                await fetch(
+                  accountHelper.getServerURL() + "/account/picture/",
+                  { method: "POST", body: reader.result.split(",").pop() }
+                );
+                loadImage(reader.result);
+              } catch (e) {
+                dialog.alert(
+                  `Error uploading profile picture, your profile is not uploaded. ${e}`
+                );
+              }
+            };
+            reader.readAsDataURL(file);
+          }
         };
-      
+        input.click();
+      };
+
       usernameColorInput.onchange = async function () {
         userColor = usernameColorInput.value;
-        changeDisplayNameButton.style.color = userColor;
+        displayNameSpan.style.color = userColor;
         usernameSpan.style.color = userColor;
-        await fetch(accountHelper.getServerURL()+"/account/setcolor/",{method:"POST",body:JSON.stringify({
-          color: usernameColorInput.value
-        })});
+        await fetch(accountHelper.getServerURL() + "/account/setcolor/", {
+          method: "POST",
+          body: JSON.stringify({
+            color: usernameColorInput.value,
+          }),
+        });
       };
-      
+
       changeDisplayNameButton.onclick = async function () {
-        var displayName = await dialog.prompt("Enter your new display name",displayNameSpan.textContent);
+        var displayName = await dialog.prompt(
+          "Enter your new display name",
+          displayNameSpan.textContent
+        );
         if (!displayName) {
           return;
         }
-        try{
-        await fetch(accountHelper.getServerURL()+"/account/displayname/",{method:"POST",body:JSON.stringify({
-          displayName
-        })});
-        displayNameSpan.textContent = displayName;
-        }catch(e){
-          dialog.alert("Unable to set the display name, your display name can't be more than 100 characters.");
+        var response = await fetch(
+          accountHelper.getServerURL() + "/account/displayname/",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              displayName,
+            }),
+          }
+        );
+        if (!response.ok) {
+          dialog.alert("Unable to set the display name.");
           return;
         }
+        displayNameSpan.textContent = displayName;
       };
     } else {
       var elementJSON = [

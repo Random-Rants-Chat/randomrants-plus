@@ -1296,9 +1296,18 @@ async function startRoomWSS(roomid) {
   wss._rrUpdateRoomInfo = async function () {
     info = await getRoomInfo(roomid);
     
-    
-    for (let client of wss.clients) {
-      let wasOwner = client._rrIsOwner;
+    for (var client of wss.clients) {
+      client.send(
+        JSON.stringify({
+          type: "roomName",
+          name: info.name,
+          id: roomid,
+        })
+      );
+    }
+    for (var client of wss.clients) {
+      
+      var wasOwner = client._rrIsOwner;
       client._rrIsOwner = false;
       client._rrIsRealOwner = false;
 
@@ -1317,14 +1326,6 @@ async function startRoomWSS(roomid) {
           })
         );
       }
-      
-      client.send(
-        JSON.stringify({
-          type: "roomName",
-          name: info.name,
-          id: roomid,
-        })
-      );
     }
 
     sendOnlineList();
@@ -1611,14 +1612,14 @@ const server = http.createServer(async function (req, res) {
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
-            roomData.name = name;
+            roomData.name = json.name;
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
               "application/json"
             );
-            if (roomWebsockets[id]) {
-              roomWebsockets[id]._rrUpdateRoomInfo();
+            if (roomWebsockets[json.id]) {
+              roomWebsockets[json.id]._rrUpdateRoomInfo();
             }
             res.end("");
           } else {
@@ -2355,7 +2356,13 @@ const server = http.createServer(async function (req, res) {
             var profileRaw = await storage.downloadFile(profileFile);
             var profilejson = JSON.parse(profileRaw.toString());
             profilejson.displayName = json.displayName;
-            if (profilejson.displayName.length > 100) {
+            if (profilejson.displayName.length > cons.MAX_DISPLAY_NAME_SIZE) {
+              runStaticStuff(req, res, {
+                status: 403,
+              });
+              return;
+            }
+            if (profilejson.displayName.length < cons.MIN_DISPLAY_NAME_SIZE) {
               runStaticStuff(req, res, {
                 status: 403,
               });

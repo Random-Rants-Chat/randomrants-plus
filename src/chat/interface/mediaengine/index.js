@@ -405,11 +405,12 @@ async function doMediaSelect() {
         className: "dialogBackground",
       },
       //Dialog box
+
       {
         element: "div",
         className: "whiteBox centerMiddle popupDialogAnimation",
         style: {
-          overflow: "auto"
+          overflow: "auto",
         },
         children: [
           {
@@ -421,222 +422,258 @@ async function doMediaSelect() {
             textContent: "Start media",
           },
           {
-            element: "br",
+            element: "div",
+            className: "sep1",
           },
           {
             element: "div",
-            className: "divButton roundborder",
-            eventListeners: [
+            style: {
+              display: "flex",
+            },
+            children: [
               {
-                event: "click",
-                func: async function (e) {
-                  e.preventDefault();
-                  div.remove();
-                  div = null;
-                  try {
-                    var stream = await waitForCam();
-                    startScreenshareButton(stream);
-                  } catch (e) {
-                    dialog.alert(
-                      "Camera request failed, does your current browser support camera?\nCheck and see if your camera is blocked."
-                    );
-                  }
+                element: "img",
+                src: "images/startmedia.svg",
+                style: {
+                  height: "100%",
+                  padding: "10px 10px",
                 },
               },
-            ],
-            children: [
-              surroundFlexboxDiv([
-                {
-                  element: "img",
-                  src: "images/screenshare.svg",
-                  style: { height: "25px" },
-                },
-                { element: "span", textContent: "Camera share (WebRTC)" },
-              ]),
-            ],
-          },
-          {
-            element: "div",
-            className: "divButton roundborder",
-            eventListeners: [
               {
-                event: "click",
-                func: async function (e) {
-                  e.preventDefault();
-                  div.remove();
-                  div = null;
-                  try {
-                    var stream = await navigator.mediaDevices.getDisplayMedia({
-                      video: {
-                        displaySurface: "browser",
-                        cursor: "always",
-                      },
-                      audio: {
-                        suppressLocalAudioPlayback: false,
-                        echoCancellation: false,
-                        noiseSuppression: false,
-                        sampleRate: 44100,
-                      },
-                      preferCurrentTab: false,
-                      selfBrowserSurface: "include",
-                      systemAudio: "include",
-                      surfaceSwitching: "include",
-                      monitorTypeSurfaces: "include",
-                    });
-                    startScreenshareButton(stream);
-                  } catch (e) {
-                    dialog.alert(
-                      "Screenshare failed, does your current web browser support screen sharing?"
-                    );
-                  }
+                element: "div",
+                style: {
+                  padding: "10px 10px",
                 },
-              },
-            ],
-            children: [
-              surroundFlexboxDiv([
-                {
-                  element: "img",
-                  src: "images/screenshare.svg",
-                  style: { height: "25px" },
-                },
-                { element: "span", textContent: "Screenshare (WebRTC)" },
-              ]),
-            ],
-          },
-          {
-            element: "div",
-            className: "divButton roundborder",
-            eventListeners: [
-              {
-                event: "click",
-                func: async function (e) {
-                  e.preventDefault();
-                  div.remove();
-                  div = null;
-
-                  var loadingMediaDiv = doLoadingMediaScreen();
-                  var nesid =
-                    "randomrants" + Math.round(Math.random() * 100000000);
-                  try {
-                    var json = {
-                      owner: "unused",
-                      public: false,
-                      info: "Used for random rants +",
-                      name: nesid,
-                      chatEnabled: false
-                    };
-
-                    var status = await fetchAsText(
-                      `https://gvbneslive-api.glitch.me/rooms/create`,
+                children: [
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
                       {
-                        method: "POST",
-                        body: JSON.stringify(json),
-                      }
-                    );
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+                          try {
+                            var stream = await waitForCam();
+                            startScreenshareButton(stream);
+                          } catch (e) {
+                            dialog.alert(
+                              "Camera request failed, does your current browser support camera?\nCheck and see if your camera is blocked."
+                            );
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/screenshare.svg",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent: "Camera share (WebRTC)",
+                        },
+                      ]),
+                    ],
+                  },
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+                          try {
+                            var stream =
+                              await navigator.mediaDevices.getDisplayMedia({
+                                video: {
+                                  displaySurface: "browser",
+                                  cursor: "always",
+                                },
+                                audio: {
+                                  suppressLocalAudioPlayback: false,
+                                  echoCancellation: false,
+                                  noiseSuppression: false,
+                                  sampleRate: 44100,
+                                },
+                                preferCurrentTab: false,
+                                selfBrowserSurface: "include",
+                                systemAudio: "include",
+                                surfaceSwitching: "include",
+                                monitorTypeSurfaces: "include",
+                              });
+                            startScreenshareButton(stream);
+                          } catch (e) {
+                            dialog.alert(
+                              "Screenshare failed, does your current web browser support screen sharing?"
+                            );
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/screenshare.svg",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent: "Screenshare (WebRTC)",
+                        },
+                      ]),
+                    ],
+                  },
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
 
-                    if (status.startsWith("Error")) {
-                      throw new Error(status);
-                    }
+                          var loadingMediaDiv = doLoadingMediaScreen();
+                          var nesid =
+                            "randomrants" +
+                            Math.round(Math.random() * 100000000);
+                          try {
+                            var json = {
+                              owner: "unused",
+                              public: false,
+                              info: "Used for random rants +",
+                              name: nesid,
+                              chatEnabled: false,
+                            };
 
-                    loadingMediaDiv.remove();
-                  } catch (e) {
-                    loadingMediaDiv.remove();
-                    dialog.alert(
-                      `Unknown error happened when trying to start NES Media: `+
-                      e
-                    );
-                    return;
-                  }
+                            var status = await fetchAsText(
+                              `https://gvbneslive-api.glitch.me/rooms/create`,
+                              {
+                                method: "POST",
+                                body: JSON.stringify(json),
+                              }
+                            );
 
-                  sws.send(
-                    JSON.stringify({
-                      type: "media",
-                      command: "mediaResetRequest",
-                    })
-                  );
-                  sws.send(
-                    JSON.stringify({
-                      type: "media",
-                      command: "mediaEmbedRunning",
-                      url:
-                        "https://gvb-nes-live.glitch.me/?room=" +
-                        encodeURIComponent(nesid),
-                    })
-                  );
-                },
-              },
-            ],
-            children: [
-              surroundFlexboxDiv([
-                {
-                  element: "img",
-                  src: "images/nes.png",
-                  style: { height: "25px" },
-                },
-                {
-                  element: "span",
-                  textContent: "Nintendo Entertainment System (Emulator)",
-                },
-              ]),
-            ],
-          },
-          {
-            element: "div",
-            className: "divButton roundborder",
-            eventListeners: [
-              {
-                event: "click",
-                func: async function (e) {
-                  e.preventDefault();
-                  div.remove();
-                  div = null;
-                  var embedURL = await dialog.prompt("Type a link to embed to.\nCertian websites may block embedding for security purposes.\nClick cancel or type nothing to cancel.");
-                  if (embedURL) {
-                    sws.send(
-                      JSON.stringify({
-                        type: "media",
-                        command: "mediaResetRequest",
-                      })
-                    );
-                    sws.send(
-                      JSON.stringify({
-                        type: "media",
-                        command: "mediaEmbedRunning",
-                        url: embedURL,
-                      })
-                    );
-                  }
-                },
-              },
-            ],
-            children: [
-              surroundFlexboxDiv([
-                {
-                  element: "img",
-                  src: "images/link.svg",
-                  style: { height: "25px" },
-                },
-                {
-                  element: "span",
-                  textContent: "Embed",
-                },
-              ]),
-            ],
-          },
-          {
-            element: "br",
-          },
-          {
-            element: "div",
-            className: "divButton",
-            textContent: "Close",
-            eventListeners: [
-              {
-                event: "click",
-                func: function () {
-                  div.remove();
-                  div = null;
-                },
+                            if (status.startsWith("Error")) {
+                              throw new Error(status);
+                            }
+
+                            loadingMediaDiv.remove();
+                          } catch (e) {
+                            loadingMediaDiv.remove();
+                            dialog.alert(
+                              `Unknown error happened when trying to start NES Media: ` +
+                                e
+                            );
+                            return;
+                          }
+
+                          sws.send(
+                            JSON.stringify({
+                              type: "media",
+                              command: "mediaResetRequest",
+                            })
+                          );
+                          sws.send(
+                            JSON.stringify({
+                              type: "media",
+                              command: "mediaEmbedRunning",
+                              url:
+                                "https://gvb-nes-live.glitch.me/?room=" +
+                                encodeURIComponent(nesid),
+                            })
+                          );
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/nes.png",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent:
+                            "Nintendo Entertainment System (Emulator)",
+                        },
+                      ]),
+                    ],
+                  },
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+                          var embedURL = await dialog.prompt(
+                            "Type a link to embed to.\nCertian websites may block embedding for security purposes.\nClick cancel or type nothing to cancel."
+                          );
+                          if (embedURL) {
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaResetRequest",
+                              })
+                            );
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaEmbedRunning",
+                                url: embedURL,
+                              })
+                            );
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/link.svg",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent: "Embed",
+                        },
+                      ]),
+                    ],
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "div",
+                    className: "divButton",
+                    textContent: "Close",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          div.remove();
+                          div = null;
+                        },
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },

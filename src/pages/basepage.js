@@ -1,4 +1,5 @@
 require("../cookiewarning");
+require("./stylesheet.js");
 var menuBar = require("../menu.js"); //Menu bar.
 var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's element module.
 

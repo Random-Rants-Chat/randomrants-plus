@@ -107,6 +107,7 @@ var rightSide = {
           className: "roundborder",
           gid: "showRoomSettingsButton",
           textContent: "Room settings",
+          hidden: true
         },
         {
           element: "button",

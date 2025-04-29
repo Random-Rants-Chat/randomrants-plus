@@ -152,3 +152,7 @@ body {
   font-weight: bold;
   font-size: var(--popup-dialog-message-size);
 }
+
+img {
+  image-rendering: pixelated;
+}
