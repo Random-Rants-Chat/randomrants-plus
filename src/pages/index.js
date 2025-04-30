@@ -25,6 +25,19 @@ var elementJSON = [
     ],
   },
   {
+    element: "div",
+    gid: "emojiContainer",
+    style: {
+      width: "100vw",
+      height: "100vh",
+      position: "fixed",
+      top: "0px",
+      left: "0px",
+      overflow: "hidden",
+      pointerEvents: "none"
+    }
+  },
+  {
     element: "img",
     src: "images/person1.svg",
     style: {
@@ -59,7 +72,7 @@ var elementJSON = [
         style: {
           maxWidth: "calc(100vw - 200px)",
           minWidth: "300px",
-          textWrap: "balance",
+          textWrap: "warp",
         },
         children: [
           { element: "br" },
@@ -70,6 +83,7 @@ var elementJSON = [
               fontSize: "40px",
               textAlign: "center",
               color: "black",
+              textWrap: "warp",
             },
             innerHTML: shtml.getMessageHTML(
               returnRandomValueFromArray(randomQuotes).trim()
@@ -209,3 +223,69 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+// Create a container for emoji elements
+const emojiContainer = elements.getGPId("emojiContainer");
+
+const EMOJIS = ["😂", "🤣", "😹", "💀", "🔊", "😬", "🤨"];
+const MAX_EMOJIS = 40;
+const INITIAL_EMOJIS = 30;
+
+function createFloatingEmoji(spawnAnywhere = false) {
+  const emoji = document.createElement("div");
+  emoji.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+  emoji.style.position = "absolute";
+  emoji.style.fontSize = `${24 + Math.random() * 24}px`;
+
+  const startX = Math.random() * window.innerWidth;
+  const offsetX = (Math.random() - 0.5) * 100;
+
+  const startY = spawnAnywhere
+    ? Math.random() * window.innerHeight
+    : window.innerHeight + 30;
+  const endY = -50;
+
+  emoji.style.left = `${startX}px`;
+  emoji.style.top = `${startY}px`;
+  emoji.style.opacity = `${0.6 + Math.random() * 0.4}`;
+  emoji.style.transform = `rotate(${(Math.random() * 10)-5}deg)`;
+  emojiContainer.appendChild(emoji);
+
+  let startTime = null;
+  const duration = 3000 + Math.random() * 1000;
+
+  function animateEmoji(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const SPEED = 100; // pixels per second upward
+    const distanceMoved = (elapsed / 1000) * SPEED;
+    const currentY = startY - distanceMoved;
+    const currentX = startX + offsetX * (elapsed / duration);
+    
+
+    emoji.style.left = `${currentX}px`;
+    emoji.style.top = `${currentY}px`;
+
+    if (currentY < endY) {
+      emoji.remove();
+    } else {
+      emoji.style.left = `${currentX}px`;
+      emoji.style.top = `${currentY}px`;
+      requestAnimationFrame(animateEmoji);
+    }
+  }
+
+  requestAnimationFrame(animateEmoji);
+}
+
+// Spawn a bunch initially across the screen
+for (let i = 0; i < INITIAL_EMOJIS; i++) {
+  createFloatingEmoji(true); // Pass true to spawn anywhere
+}
+
+// New emojis rise from the bottom after
+setInterval(() => {
+  if (emojiContainer.children.length < MAX_EMOJIS) {
+    createFloatingEmoji(); // Default: spawn from bottom
+  }
+}, 300);
