@@ -1,6 +1,6 @@
 var elements = require("../../../gp2/elements.js");
 var accountHelper = require("../../../accounthelper");
-var shtml = require("../safehtmlencode.js");
+var shtml = require("../../../safehtmlencode.js");
 
 function generateMessageDiv(
   username,

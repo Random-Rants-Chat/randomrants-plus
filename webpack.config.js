@@ -75,6 +75,6 @@ module.exports = {
           noErrorOnMissing: true,
         },
       ],
-    }),
+    })
   ],
 };
