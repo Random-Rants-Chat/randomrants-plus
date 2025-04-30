@@ -291,6 +291,14 @@ function getMessageHTML(inputstr, noBracketCode) {
                 colorsText = false;
                 output_html += `</span>`;
               }
+              if (type == "i") {
+                valid = true;
+                output_html += `<i>`;
+              }
+              if (type == "/i") {
+                valid = true;
+                output_html += `</i>`;
+              }
             }
 
             if (valid) {

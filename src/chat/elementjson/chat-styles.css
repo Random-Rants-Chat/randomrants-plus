@@ -95,6 +95,8 @@
   --usercolors-20: #404040;
   --usercolors-21: #2e2e2e;
   --usercolors-22: #000000;
+  
+  --doNotTouchThisEver: 100%; /* but... of what?? */
 
   /*windowDialogContainer*/
   --popup-dialog-font: "arial";

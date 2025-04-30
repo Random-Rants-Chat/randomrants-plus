@@ -1,7 +1,9 @@
-//Just a small script that updates the version.txt
+const fs = require("fs");
+const path = require("path");
 
-var fs = require("fs");
-
-fs.writeFileSync("./wpstatic/version.json",JSON.stringify({
-  timestamp: Date.now().toString()
-}),"UTF-8");
+const outPath = path.resolve(__dirname, "wpstatic/version.json");
+fs.writeFileSync(
+  outPath,
+  JSON.stringify({ timestamp: Date.now().toString() }),
+  "utf-8"
+);

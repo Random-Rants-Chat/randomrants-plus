@@ -7,17 +7,21 @@ var menuBar = elements.getGPId("menuBar");
 
 var menuItems = [
   {
+    element: "img",
+    src: "images/appicon.svg",
+  },
+  {
     element: "div",
     className: "menuBarItem",
-    textContent: "Home",
+    textContent: "Random Rants +",
     eventListeners: [
       {
-        event:"click",
+        event: "click",
         func: function () {
           window.location.href = "/";
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   {
     element: "div",
@@ -25,14 +29,14 @@ var menuItems = [
     textContent: "Manage rooms",
     eventListeners: [
       {
-        event:"click",
+        event: "click",
         func: function () {
           roomSelect.show();
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ];
 
 var menuDOM = elements.createElementsFromJSON(menuItems);
-elements.appendElements(menuBar,menuDOM);
+elements.appendElements(menuBar, menuDOM);

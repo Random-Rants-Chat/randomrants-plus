@@ -2,6 +2,14 @@ require("../cookiewarning");
 require("./stylesheet.js");
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
+var shtml = require("../safehtmlencode.js");
+
+var randomDialogText = require("../randomquotes.txt");
+var randomQuotes = randomDialogText.split("\n");
+
+function returnRandomValueFromArray(array) {
+  return array[Math.round(Math.random() * (array.length - 1))];
+}
 
 var elementJSON = [
   {
@@ -17,32 +25,23 @@ var elementJSON = [
     ],
   },
   {
-    element: "div",
+    element: "img",
+    src: "images/person1.svg",
     style: {
-      transform: "translate(-50%, -50%)",
       position: "fixed",
-      top: "50%",
-      left: "50%",
-      display: "flex"
+      bottom: "0px",
+      left: "0px",
     },
-    children: [
-      {
-        element: "img",
-        src: "images/person1.svg",
-        style: {
-          transform: "translate(0px, 100px) scale(1, 1)",
-          padding: "40px"
-        },
-      },
-      {
-        element: "img",
-        src: "images/person2.svg",
-        style: {
-          transform: "translate(0px, 100px) scale(-1, 1)",
-          padding: "40px"
-        },
-      },
-    ],
+  },
+  {
+    element: "img",
+    src: "images/person2.svg",
+    style: {
+      position: "fixed",
+      bottom: "0px",
+      right: "0px",
+      transform: "scale(-1, 1)",
+    },
   },
   {
     element: "div",
@@ -57,12 +56,33 @@ var elementJSON = [
         element: "div",
         className: "fadeIn",
         gid: "mainCenter",
+        style: {
+          maxWidth: "calc(100vw - 200px)",
+          minWidth: "300px",
+          textWrap: "balance",
+        },
         children: [
+          { element: "br" },
+          {
+            element: "span",
+            className: "fadeIn delay-3",
+            style: {
+              fontSize: "40px",
+              textAlign: "center",
+              color: "black",
+            },
+            innerHTML: shtml.getMessageHTML(
+              returnRandomValueFromArray(randomQuotes).trim()
+            ),
+          },
+          {
+            element: "br",
+          },
           {
             element: "span",
             className: "headerText bounceIn",
             gid: "mainHeader",
-            textContent: "Welcome to Random Rants Plus",
+            textContent: "Welcome to Random Rants +",
           },
           { element: "br" },
           {
@@ -70,7 +90,7 @@ var elementJSON = [
             className: "fadeIn delay-1",
             gid: "description1",
             textContent:
-              "Random Rants + is the next generation of Random Rants, aimed towards having new functions and is more like an actual social media site.",
+              "Built for peak Chromebook chaos, Random Rants + turns class into a digital free-for-all.",
           },
           { element: "br" },
           {
@@ -78,7 +98,7 @@ var elementJSON = [
             className: "fadeIn delay-2",
             gid: "description2",
             textContent:
-              "Random Rants + also aims for the fun of the original Random Rants, so you don't get as bored easily.",
+              "Group chat, memes, and a soundboard loud enough to get you kicked off WiFi — it's all here.",
           },
         ],
       },
@@ -106,6 +126,9 @@ style.textContent = `
   }
   .delay-2 {
     animation-delay: 1s;
+  }
+  .delay-3 {
+    animation-delay: 1.5s;
   }
   @keyframes fadeInUp {
     to {
