@@ -97,7 +97,7 @@ class GvbBaseSupabaseStorage {
     return new Promise((resolve,reject) => {
       const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
-    )}`;
+    )}?v=${Date.now()}`;
     var url = URLModule.parse(this.projectUrl + path);
     
     var customHeaders = {};

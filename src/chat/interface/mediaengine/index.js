@@ -2,6 +2,32 @@ var elements = require("../../../gp2/elements.js");
 var dialog = require("../../../dialogs.js");
 var sws = require("../sharedwebsocket.js");
 
+var movingMediaTexts = [
+  "Broadcasting at 144p, just kidding... or are we?",
+  "Your tabs are now everyone's business 💻",
+  "Don’t alt-tab into your search history!",
+  "Lag is temporary, screenshots are forever",
+  "Pixel-perfect judgment is happening now",
+  "Trying not to stream your homework folder...",
+  "Your screen is loud and proud 📢",
+  "Hope you closed that other tab 👀",
+  "Stream stabilized... for now",
+  "Initializing RantVision™ tech 📺",
+  "Zooming in on your chaos 🧪",
+  "Deploying screen-sharing goblins 👾",
+  "Everyone is judging your cursor speed 🖱️",
+  "Virtual popcorn ready 🍿",
+  "Screencast engaged. Panic level: 2",
+  "Loading pixel juice...",
+  "Building lag-resistant warp tunnel ⏳",
+  "Powering up the virtual console ⚡",
+  "Beaming your gameplay to the universe 🚀",
+  "Greasing the D-Pad with Fanta 🧃",
+  "Calibrating chaos stream 🔄",
+  "Syncing soundboard with nostalgia-core",
+  "Tapping into the multi-screenverse 🌐",
+];
+
 var noInstantPlayNotice =
   "This media is not instant play, you need to manually create an room/server and join it. \nDo you still want to continue?";
 
@@ -263,6 +289,7 @@ async function startScreenshareButton(stream) {
     try {
       stopScreenshareStream();
       screenshareStream = stream;
+      var loadingMediaDiv = doLoadingMediaScreen();
 
       async function loadScreenshare(force) {
         try {
@@ -279,6 +306,10 @@ async function startScreenshareButton(stream) {
               loadScreenshare();
             }
           );
+          if (loadingMediaDiv) {
+            loadingMediaDiv.remove();
+            loadingMediaDiv = null;
+          }
           if (screenshareStream) {
             screenshareStream.getTracks().forEach((track) => {
               track.addEventListener("ended", () => {
@@ -303,7 +334,11 @@ async function startScreenshareButton(stream) {
             screenshareRunning = true;
           }
         } catch (e) {
-          window.alert(e);
+          if (loadingMediaDiv) {
+            loadingMediaDiv.remove();
+            loadingMediaDiv = null;
+          }
+          dialog.alert(e);
         }
       }
       sws.send(
@@ -356,8 +391,13 @@ function messageHandler(json) {
   }
 }
 
+function returnRandomValueFromArray(array) {
+  return array[Math.round(Math.random() * (array.length - 1))];
+}
+
 function doLoadingMediaScreen() {
   var div = document.createElement("div");
+  var stopAnimating = null;
 
   var dom = elements.createElementsFromJSON([
     //Background
@@ -376,14 +416,67 @@ function doLoadingMediaScreen() {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "Starting media...",
+          textContent: "Hold up 🎬",
         },
         {
           element: "br",
         },
         {
           element: "span",
-          textContent: "This media is currently starting...",
+          textContent: "Media’s spinning up... grab some Fanta 🍊",
+        },
+        {
+          element: "br",
+        },
+        {
+          element: "span",
+          style: {
+            fontWeight: "bold",
+          },
+          GPWhenCreated: function (elm) {
+            var anim = null;
+            var stopped = false;
+            stopAnimating = function () {
+              anim.cancel();
+              stopped = true;
+            };
+            function loopAnimation() {
+              anim = elm.animate(
+                [
+                  { opacity: "1" },
+                  { opacity: "0", transform: "translateY(-6px)" },
+                ],
+                {
+                  duration: 200,
+                  iterations: 1,
+                  easing: "ease-out",
+                }
+              );
+
+              anim.addEventListener("finish", () => {
+                elm.textContent = returnRandomValueFromArray(movingMediaTexts);
+                anim = elm.animate(
+                  [
+                    { opacity: "0", transform: "translateY(6px)" },
+                    { opacity: "1" },
+                  ],
+                  {
+                    duration: 200,
+                    iterations: 1,
+                    easing: "ease-out",
+                  }
+                );
+
+                anim.addEventListener("finish", () => {
+                  if (!stopped) {
+                    setTimeout(loopAnimation, 2500);
+                  }
+                });
+              });
+            }
+
+            loopAnimation();
+          },
         },
       ],
     },
@@ -391,7 +484,12 @@ function doLoadingMediaScreen() {
   elements.appendElements(div, dom);
   document.body.append(div);
 
-  return div;
+  return {
+    remove: function () {
+      div.remove();
+      stopAnimating();
+    },
+  };
 }
 
 async function doMediaSelect() {
@@ -420,6 +518,22 @@ async function doMediaSelect() {
               fontWeight: "bold",
             },
             textContent: "Start media",
+          },
+          {
+            element: "div",
+            style: {
+              margin: "8px 0",
+              padding: "10px",
+              backgroundColor: "#fff8d1",
+              border: "1px solid #ffd700",
+              borderRadius: "6px",
+              fontSize: "14px",
+              color: "#444",
+              lineHeight: "1.4",
+            },
+            textContent:
+              "💡 Tip: Only one media option can be active at a time in a room.\n" +
+              "Choose a method that fits what you want to share.",
           },
           {
             element: "div",
@@ -652,6 +766,68 @@ async function doMediaSelect() {
                         {
                           element: "span",
                           textContent: "Embed",
+                        },
+                      ]),
+                    ],
+                  },
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+
+                          var loadingMediaDiv = doLoadingMediaScreen();
+
+                          try {
+                            const response = await fetch(
+                              "https://gvbpaint-realtime-ws.glitch.me/room/create"
+                            );
+                            const { roomId } = await response.json();
+
+                            loadingMediaDiv.remove();
+
+                            const embedURL = `https://gvbpaint-realtime.glitch.me/?server=${encodeURIComponent(
+                              "wss://gvbpaint-realtime-ws.glitch.me/" + roomId
+                            )}`;
+
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaResetRequest",
+                              })
+                            );
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaEmbedRunning",
+                                url: embedURL,
+                              })
+                            );
+                          } catch (err) {
+                            loadingMediaDiv.remove();
+                            dialog.alert(
+                              "Error creating collaborative canvas room:\n" +
+                                err
+                            );
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/brush.svg",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent: "Collaborative canvas (Modified gvbpaint)",
                         },
                       ]),
                     ],

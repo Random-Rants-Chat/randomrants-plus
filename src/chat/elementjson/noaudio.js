@@ -3,5 +3,5 @@ module.exports = {
   className: "noSoundMessage",
   gid: "noAudioMessage",
   hidden: true,
-  textContent: "🔈Audio is unable to play, interact with this page to enable audio."
+  textContent: "🔇 Audio's still snoozing—tap or click anywhere to wake it up and get the chaos rolling."
 };

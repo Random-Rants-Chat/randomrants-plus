@@ -94,6 +94,25 @@ class CommandHandler {
       });
     }, "<Username>[br]Kick out the specified user from the room.");
     
+    addCommand("freeze", function (args, userInfo, senderClient) {
+      var foundClients = searchUsersByKey(args[0], senderClient);
+      foundClients.forEach((otherClient) => {
+        sendClientCommand(otherClient, "freeze");
+      });
+    }, "<Username>[br]Freezes the UI temporarily for the user.");
+    
+    addCommand("redirect", function (args, userInfo, senderClient) {
+      var foundClients = searchUsersByKey(args[0], senderClient);
+      const url = args[1];
+      if (!/^https?:\/\//.test(url)) {
+        sendFeedbackLocal(senderClient, "URL must start with http:// or https://");
+        return;
+      }
+      foundClients.forEach((otherClient) => {
+        sendClientCommand(otherClient, "redirect", url);
+      });
+    }, "<Username> <URL>[br]Redirects the user to a new page.");
+    
     //Joke commands:
     
     addCommand("uh", function (args, userInfo, senderClient) {
@@ -117,6 +136,28 @@ class CommandHandler {
     addCommand("popcat", function (args, userInfo, senderClient) {
       sendClientCommand(senderClient, "popcat", args[0]);
     }, "<Seconds>[br]Pop pop pop pop pop");
+    
+    addCommand("shake", function (args, userInfo, senderClient) {
+      var foundClients = searchUsersByKey(args[0], senderClient);
+      foundClients.forEach((otherClient) => {
+        sendClientCommand(otherClient, "shake", Number(args[1]));
+      });
+    }, "<Username>[br]Gives the specified users a good screen shake.");
+    
+    addCommand("crashTab", function (args, userInfo, senderClient) {
+      var foundClients = searchUsersByKey(args[0],senderClient);
+      foundClients.forEach((otherClient) => {
+        sendClientCommand(otherClient, "crash");
+        otherClient.close();
+      });
+    }, "<Username>[br]Crashes the specified users tab.");
+    
+    addCommand("flash", function (args, userInfo, senderClient) {
+      var foundClients = searchUsersByKey(args[0], senderClient);
+      foundClients.forEach((otherClient) => {
+        sendClientCommand(otherClient, "flash");
+      });
+    }, "<Username>[br]Flashes the screen background for a moment.");
 
     ////////////////////////////////////////////////////
   }

@@ -1,10 +1,10 @@
 module.exports = {
   element: "div",
+  gid: "roomErrorScreen",
+  hidden: true,
   style: {
     zIndex: 10,
   },
-  gid: "rrUpdateScreen",
-  hidden: true,
   children: [
     {
       element: "div",
@@ -20,11 +20,11 @@ module.exports = {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "Time for a lil’ Chaos Refresh",
+          textContent: "Oops! This room vanished into the void.",
         },
         {
           element: "div",
-          className: "sep1"
+          className: "sep1",
         },
         {
           element: "div",
@@ -34,7 +34,7 @@ module.exports = {
           children: [
             {
               element: "img",
-              src: "images/updatebox.svg",
+              src: "images/roomerror.svg",
               style: {
                 height: "100%",
                 padding: "10px 10px",
@@ -48,7 +48,8 @@ module.exports = {
               children: [
                 {
                   element: "span",
-                  textContent: "Hey! We just dropped a new batch of Random Rants+ chaos. To catch all the updates (and maybe a few new bugs), just give it a quick reload.",
+                  textContent:
+                    "Maybe it just poofed, or maybe it was never really here. 👻",
                 },
                 {
                   element: "br",
@@ -56,26 +57,39 @@ module.exports = {
                 {
                   element: "span",
                   textContent:
-                    "If this keeps popping up, Glitch might still be syncing behind the scenes—or maybe we’re just getting a bit too creative.",
+                    "If you used Quick Join, the room might've been nuked moments ago. " +
+                    "If you were hanging out in there and see this, well... RIP room. 💥",
                 },
                 {
                   element: "br",
                 },
                 {
+                  element: "span",
+                  style: {
+                    fontStyle: "italic",
+                    color: "#666",
+                    display: "block",
+                    marginBottom: "10px",
+                  },
+                  textContent:
+                    "This room was removed from your room list. Hopefully you don't run into this error ever again!",
+                },
+                {
+                  element: "br"
+                },
+                {
                   element: "div",
                   className: "divButton roundborder",
-                  textContent: "Reload and vibe",
-                  title: "Reload and vibe",
+                  textContent: "Find another room",
+                  title: "Back to chat home—go explore other chaos zones!",
                   eventListeners: [
                     {
                       event: "click",
                       func: function () {
-                        this.textContent = "Reloading…";
-                        this.disabled = true;
-                        window.location.reload();
-                      },
-                    },
-                  ],
+                        window.location.href = "/chat"; //Goes to chat home page
+                      }
+                    }
+                  ]
                 },
               ],
             },

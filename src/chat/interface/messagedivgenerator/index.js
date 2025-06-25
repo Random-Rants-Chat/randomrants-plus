@@ -1,11 +1,12 @@
 var elements = require("../../../gp2/elements.js");
 var accountHelper = require("../../../accounthelper");
 var shtml = require("../../../safehtmlencode.js");
+var cacheBust = require("../cachebust.js");
 
 function generateMessageDiv(
   username,
   displayName,
-  message,
+  messageHTML,
   isServerMessage,
   userColor
 ) {
@@ -33,7 +34,7 @@ function generateMessageDiv(
                 {
                   element: "img",
                   className: "profile profilePictureMessage",
-                  src: pfp,
+                  src: cacheBust(pfp),
                 },
               ],
             },
@@ -54,7 +55,7 @@ function generateMessageDiv(
             {
               element: "span",
               className: "messageSpan",
-              innerHTML: shtml.getMessageHTML(message),
+              innerHTML: messageHTML,
             },
           ],
         },

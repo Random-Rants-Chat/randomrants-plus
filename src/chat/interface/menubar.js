@@ -36,6 +36,19 @@ var menuItems = [
       },
     ],
   },
+  {
+    element: "div",
+    className: "menuBarItem",
+    textContent: "Quick join",
+    eventListeners: [
+      {
+        event: "click",
+        func: function () {
+          window.location.href = "/join";
+        },
+      },
+    ],
+  },
 ];
 
 var menuDOM = elements.createElementsFromJSON(menuItems);

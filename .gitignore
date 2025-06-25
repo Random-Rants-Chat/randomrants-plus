@@ -3,6 +3,9 @@
 .env
 .glitch-assets
 .wget-hsts
+.git
+.data
+.config
 node_modules
 public
 counters

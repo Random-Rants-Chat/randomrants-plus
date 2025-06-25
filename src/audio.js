@@ -2,7 +2,7 @@ var audioEngine = {};
 
 var audioCTX = new AudioContext();
 audioEngine.context = audioCTX;
-audioEngine.running = true;
+audioEngine.running = false;
 
 setInterval(() => {
   if (audioCTX.state !== "running") {

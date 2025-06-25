@@ -84,6 +84,7 @@ var leftSide = {
 var rightSide = {
   element: "div",
   className: "chatInterfaceRight",
+  gid: "chatInterfaceRight",
   children: [
     {
       element: "div",
@@ -94,13 +95,31 @@ var rightSide = {
           element: "button",
           className: "roundborder",
           gid: "toggleMessageAndOnlineView",
-          textContent: "View online users",
+          children: [
+            {
+              element: "span",
+              textContent: "View online users",
+              gid: "toggleMessageAndOnlineViewText",
+            }
+          ]
         },
         {
           element: "button",
           className: "roundborder",
           gid: "showSoundboardButton",
-          textContent: "Soundboard",
+          children: [
+            {
+              element: "img",
+              src: "images/audio.svg",
+              style: {
+                height: "17px"
+              }
+            },
+            {
+              element: "span",
+              textContent: "Soundboard"
+            }
+          ]
         },
         {
           element: "button",

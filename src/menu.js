@@ -15,21 +15,42 @@ var elementJSON = [
         element: "div",
         className: "menuBarItem",
         textContent: "Random Rants +",
-        gid: "menu_homeButton"
-      },
-      //Spacing between home button.
-      {
-        element:"div",
-        style: {
-          width: "15px"
-        }
+        eventListeners: [
+          {
+            event: "click",
+            func: function () {
+              window.location.href = "/";
+            }
+          }
+        ]
       },
       //Chat button.
       {
         element: "div",
         className: "menuBarItem",
         textContent: "Chat",
-        gid: "menu_chatButton"
+        eventListeners: [
+          {
+            event: "click",
+            func: function () {
+              window.location.href = "/chat";
+            }
+          }
+        ]
+      },
+      //Quick join button.
+      {
+        element: "div",
+        className: "menuBarItem",
+        textContent: "Quick join",
+        eventListeners: [
+          {
+            event: "click",
+            func: function () {
+              window.location.href = "/join";
+            }
+          }
+        ]
       },
     ],
   },
@@ -48,16 +69,3 @@ elements.appendElements(
 );
 
 require("./user-menu.js");
-
-
-var homeMenuButton = elements.getGPId("menu_homeButton");
-
-homeMenuButton.addEventListener("click", () => {
-  window.location.href = "/";
-});
-
-var chatMenuButton = elements.getGPId("menu_chatButton");
-
-chatMenuButton.addEventListener("click", () => {
-  window.location.href = "/chat";
-});

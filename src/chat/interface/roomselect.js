@@ -9,9 +9,102 @@ var validState = accountHelper.getCurrentValidationState();
 async function getRooms() {
   var rooms = [];
   if (validState) {
-    rooms = await accountHelper.getJoinedRooms();
+    var realRooms = await accountHelper.getJoinedRooms();
+    for (var room of realRooms) {
+      rooms.push(room);
+    }
   }
   return rooms;
+}
+
+function doJoinCodeScreen(code) {
+  var div = document.createElement("div");
+  var joinHref = window.location.protocol + "//" + window.location.host + "/join";
+
+  var dom = elements.createElementsFromJSON([
+    //Background
+    {
+      element: "div",
+      className: "dialogBackground",
+    },
+    //Dialog box
+    {
+      element: "div",
+      className: "whiteBox centerMiddle popupDialogAnimation",
+      children: [
+        {
+          element: "span",
+          style: {
+            fontSize: "50px",
+            fontWeight: "bold"
+          },
+          className: "typingEffect",
+          textContent: code
+        },
+        {
+          element: "br"
+        },
+        {
+          element: "span",
+          style: {
+            fontSize: "30px",
+            fontWeight: "bold",
+          },
+          textContent: "⚡ ZOOM into the room!",
+        },
+        {
+          element: "br",
+        },
+        {
+          element: "a",
+          href: joinHref,
+          textContent: joinHref,
+          style: {
+            fontSize: "20px",
+            fontWeight: "bold"
+          }
+        },
+        {
+          element: "br"
+        },
+        {
+          element: "span",
+          textContent: "Someone just dropped a fresh join code into the multiverse. Hit that link to blast into their chaos zone!",
+        },
+        {
+          element: "br",
+        },
+        {
+          element: "span",
+          textContent: "⏳ This code self-destructs in 10 minutes. Use it or lose it.",
+        },
+        {
+          element: "br",
+        },
+        {
+          element: "div",
+          className: "divButton roundborder",
+          textContent: "Nah I'm out",
+          eventListeners: [
+            {
+              event: "click",
+              func: function () {
+                div.remove();
+              }
+            }
+          ]
+        }
+      ],
+    },
+  ]);
+  elements.appendElements(div, dom);
+  document.body.append(div);
+
+  return {
+    remove: function () {
+      div.remove();
+    },
+  };
 }
 
 async function doRoomSelect() {
@@ -32,10 +125,10 @@ async function doRoomSelect() {
                   window.location.hash = "#"+encodeURIComponent(json.id);
                   window.location.reload();
                 } else {
-                  dialog.alert(`Bad request status when trying to create room, you may need to log in or sign up to use this feature.`);
+                  dialog.alert("❗ Couldn’t create the room.\nYou might need to log in or sign up first.");
                 }
               }catch(e){
-                dialog.alert(`Error when trying to create room! Message: ${e}`);
+                dialog.alert(`💥 Room launch explosion! Something went wrong: ${e}`);
                 console.error(e);
               }
             }
@@ -61,7 +154,7 @@ async function doRoomSelect() {
         children: [
           {
             element: "span",
-            textContent: "⚠ You can't manage or join any rooms because you aren't logged in. If you have just logged in you may need to reload your page.",
+            textContent: "⚠️ You’re not logged in, so room controls are locked. Just logged in? Try refreshing the page to unlock everything.",
           },
         ],
       });
@@ -105,7 +198,7 @@ async function doRoomSelect() {
                       div.remove();
                       doRoomSelect();
                     }catch(err){
-                      dialog.alert(`Error removing this room ${err}`);
+                      dialog.alert("Error removing this room ${err}");
                     }
                   }
                 }
@@ -249,7 +342,7 @@ async function doRoomSelect() {
                 func: async function (e) {
                   e.preventDefault();
                   try{
-                    var inviteTarget = await dialog.prompt("Who do you want to invite to this room? Enter username:");
+                    var inviteTarget = await dialog.prompt("👥 Who do you want to invite to this room?\nType their username and bring them in!");
                     if (!inviteTarget) {
                       return;
                     }
@@ -259,10 +352,36 @@ async function doRoomSelect() {
                       username: inviteTarget
                     })});
                     if (!response.ok) {
-                      dialog.alert("Failed to invite this user, make sure you properly typed the username.");
+                      dialog.alert("❌ Invite flop. That username doesn’t exist... or maybe it escaped through a portal. Check it and try again!");
                     }
                   }catch(e){
-                    dialog.alert(`Failed to invite a user to room. Error Message: ${e}`);
+                    dialog.alert("Failed to invite a user to room. Error Message: ${e}");
+                  }
+                }
+              }
+            ]
+          },
+          {
+            element: "div",
+            className: "divButton",
+            textContent: "Create join code",
+            eventListeners: [
+              {
+                event: "click",
+                func: async function (e) {
+                  e.preventDefault();
+                  try{
+                    var response = await fetch(accountHelper.getServerURL()+"/quickjoin/code",{method:"POST",body: JSON.stringify({
+                      id: room.id,
+                    })});
+                    if (!response.ok) {
+                      dialog.alert("Got error "+response.status+". Unable to create join code, maybe the room was just deleted?");
+                      return;
+                    }
+                    var json = await response.json();
+                    doJoinCodeScreen(json.code);
+                  }catch(e){
+                    dialog.alert("Failed to create join code. Error Message: ${e}");
                   }
                 }
               }
@@ -296,12 +415,44 @@ async function doRoomSelect() {
             textContent: "Manage rooms",
           },
           {
-            element: "span",
-            textContent:
-              '- Click the "Join room" button on a room to join it. Or to invite someone, click the "Invite someone to this room" button. If you want to remove a room from the list, click the "Remove from list" button.',
+            element: "br"
           },
           {
-            element: "br",
+            element: "span",
+            textContent:"Tips:",
+            style: {
+              fontWeight: "bold"
+            }
+          },
+          {
+            element: "ul",
+            children: [
+              {
+                element: "li",
+                textContent:
+                "Click the large plus sign (+) to create a room.",
+              },
+              {
+                element: "li",
+                textContent:
+                "Click Join room to hop into a chat.",
+              },
+              {
+                element: "li",
+                textContent:
+                'Use Invite someone to bring a friend in.',
+              },
+              {
+                element: "li",
+                textContent:
+                'Hit Remove from list if a room’s no longer your vibe.',
+              },
+              {
+                element: "li",
+                textContent:
+                'Want to invite without typing your friends username? Click "Create join code".',
+              }
+            ]
           },
           {
             element: "div",

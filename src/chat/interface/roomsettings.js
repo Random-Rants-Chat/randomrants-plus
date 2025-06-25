@@ -27,6 +27,21 @@ var dom = elements.createElementsFromJSON([
       },
       {
         element: "div",
+        style: {
+          margin: "8px 0",
+          padding: "8px",
+          backgroundColor: "#fffae6",
+          border: "1px solid #f0e68c",
+          borderRadius: "6px",
+          fontSize: "14px",
+          color: "#665500",
+        },
+        textContent:
+          "💡 Tips: Rename your room to something cool and easy to remember. " +
+          "Destroying the room nukes everything inside, so use it wisely!",
+      },
+      {
+        element: "div",
         className: "sep1",
       },
       {
@@ -50,6 +65,10 @@ var dom = elements.createElementsFromJSON([
             },
             children: [
               {
+                element: "div",
+                className: "sep1",
+              },
+              {
                 element: "span",
                 textContent: "Name:",
               },
@@ -64,7 +83,7 @@ var dom = elements.createElementsFromJSON([
                 gid: "roomSettingsName",
                 style: {
                   width: "200px",
-                  height: "25px"
+                  height: "25px",
                 },
                 eventListeners: [
                   {
@@ -80,6 +99,56 @@ var dom = elements.createElementsFromJSON([
                           }),
                         }
                       );
+                    },
+                  },
+                ],
+              },
+
+              {
+                element: "br",
+              },
+
+              {
+                element: "div",
+                className: "divButton",
+                textContent: "💥 Destroy Room",
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      const dialogResponse = await dialogs.confirm(
+                        "⚠️ You're about to nuke the room. This *will* make everyone vanish. Are you really sure?\n\nClick OK to unleash chaos, or Cancel if your conscience kicks in."
+                      );
+
+                      if (dialogResponse) {
+                        try {
+                          const response = await fetch(
+                            accountHelper.getServerURL() + "/rooms/destroy",
+                            {
+                              method: "POST",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({
+                                id: userState.roomID,
+                              }),
+                            }
+                          );
+
+                          if (!response.ok) {
+                            dialogs.alert(
+                              `🚫 Room self-destruct failed! Server said: ${response.status}.\n` +
+                                "Maybe someone demoted you behind your back, or your session poofed."
+                            );
+                          }
+                        } catch (e) {
+                          console.error("Room destroy error:", e);
+                          dialogs.alert(
+                            "💥 The room failed to explode due to an unknown error:\n" +
+                              e
+                          );
+                        }
+                      }
                     },
                   },
                 ],

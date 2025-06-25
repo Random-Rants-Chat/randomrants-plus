@@ -35,7 +35,6 @@ async function checkSessionCookie() {
   var session = cookieManager.getAccountCookie();
   if (session) {
     //Double check this is valid before we just allow it to pass through.
-    //If the process fails in this time, we set the cookie to nothing to sign out.
     try {
       var request = await fetch(getServerURL() + "/account/session", {
         method: "GET",
@@ -49,8 +48,6 @@ async function checkSessionCookie() {
       lastValidationState = null;
       return false;
     } catch (e) {
-      //Seems like the checking process has failed, so return false.
-      cookieManager.signoutAccountCookie("account");
       lastValidationState = null;
       return false;
     }
