@@ -17,17 +17,22 @@ module.exports = {
     {element:"br"},
     {
       element:"span",
-      textContent: "Welcome to Random Rants +"
+      textContent: "Welcome to the chaos zone! (a.k.a. Random Rants +)"
     },
     {element:"br"},
     {
       element:"span",
-      textContent: "Click the \"Manage rooms\" button on the menu bar to manage your rooms."
+      textContent: "To get started, hit the \"Manage rooms\" button in the menu bar above."
     },
     {element:"br"},
     {
       element:"span",
-      textContent: "From there, you can create and join other rooms."
+      textContent: "From there, you can create a new room or hop into an existing one."
+    },
+    {element:"br"},
+    {
+      element:"span",
+      textContent: "Let the randomness begin. 🎉"
     },
   ]
 };

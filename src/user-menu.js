@@ -70,16 +70,21 @@ function handleUserAccountButtons() {
         {
           element: "img",
           style: {
-            height: "40px",
-            maxWidth: "40px",
+            outline: "none",
+            borderRadius: "40px",
+            backgroundColor: "#969696",
+            imageRendering: "pixelated",
+            top: "0px",
+            width: "40px",
+            height: "40px"
           },
-          src: accountHelper.getProfilePictureURL(validated.username)
+          src: accountHelper.getProfilePictureURL(validated.username),
         },
         {
           element: "div",
           style: {
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
           },
           children: [
             {
@@ -96,11 +101,11 @@ function handleUserAccountButtons() {
               style: {
                 alignContent: "center",
                 color: validated.color || "#000000",
-                fontSize: "10px"
+                fontSize: "10px",
               },
               textContent: validated.username,
-            }
-          ]
+            },
+          ],
         },
         {
           element: "div",

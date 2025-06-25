@@ -1,4 +1,9 @@
 :root {
+  
+  
+  --doNotTouchThisEver: 100%; /* but... of what?? */
+  
+  
   --bg-color: #b8b8b8;
   --header-color: #b8b8b8;
 
@@ -68,9 +73,9 @@
   --soundboard-button-hover-bgcolor: #bfbfbf;
 
   --soundboard-stop-button-bgcolor: #d90000;
-  --soundboard-stop-border-color: #750000;
+  --soundboard-stop-button-border-color: #750000;
   --soundboard-stop-button-hover-bgcolor: #ff0000;
-
+  
   --menu-bar-hover-color: #ebebeb;
 
   --usercolors-1: #ff0000;
@@ -96,8 +101,6 @@
   --usercolors-21: #2e2e2e;
   --usercolors-22: #000000;
   
-  --doNotTouchThisEver: 100%; /* but... of what?? */
-
   /*windowDialogContainer*/
   --popup-dialog-font: "arial";
   /*windowDialogBox*/
@@ -519,7 +522,7 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 300px;
+  max-width: 450px;
 }
 
 .rrchatMenuBar {
@@ -568,8 +571,9 @@ a {
 
 .roomSelect {
   min-width: 300px;
+  min-height: 230px;
   width: calc(100vw - 100px);
-  height: 300px;
+  height: calc(100vh - 330px);
   background: var(--storage-group-background-color);
   border-width: 2px;
   border-color: var(--storage-group-text-color);
@@ -627,7 +631,7 @@ a {
   position: fixed;
   top: 40px;
   left: 0;
-  width: calc(100vw - 500px);
+  width: calc(100vw - 700px);
   min-width: 200px;
   height: calc(100vh - 40px);
   overflow: auto;
@@ -637,14 +641,14 @@ a {
   position: fixed;
   top: 40px;
   right: 0;
-  width: 500px;
+  width: 700px;
   height: calc(100vh - 40px);
   overflow: auto;
 }
 
 .chatInterfaceMessagesBox {
   width: 100%;
-  height: calc(100% - 230px);
+  height: calc(100% - 130px);
   min-height: 100px;
   background: var(--messages-bg-color);
   color: var(--messages-text-color);
@@ -655,7 +659,7 @@ a {
 
 .chatInterfaceOnlineViewBox {
   width: 100%;
-  height: calc(100% - 200px);
+  height: calc(100% - 100px);
   min-height: 100px;
   background: var(--messages-bg-color);
   color: var(--messages-text-color);
@@ -666,7 +670,7 @@ a {
 
 .chatInterfaceButtonBox {
   width: 100%;
-  height: 200px;
+  height: 100px;
 }
 
 .chatInterfaceMessageTextBox {
@@ -921,4 +925,35 @@ a {
 }
 
 .ownerKeyIcon {
+  animation: glowPulse 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #ffc107);
+  transition: transform 0.2s ease;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px #000000);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px #ffffff);
+    transform: scale(1.05);
+  }
+}
+
+.typingEffect {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: monospace;
+  animation: typewriterSmooth 1.5s ease-out forwards;
+}
+
+@keyframes typewriterSmooth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }

@@ -5,6 +5,61 @@ var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's elemen
 var accountHelper = require("../accounthelper/index.js");
 var dialog = require("../dialogs.js");
 
+function compressImage(oldsrc) {
+  return new Promise((resolve, reject) => {
+    const oldImg = document.createElement("img");
+    oldImg.src = oldsrc;
+    oldImg.onload = function () {
+      try {
+        const maxSize = 96;
+        const cvs = document.createElement("canvas");
+        const ctx = cvs.getContext("2d");
+
+        // Calculate new dimensions preserving aspect ratio
+        let newWidth, newHeight;
+        const aspectRatio = oldImg.width / oldImg.height;
+
+        if (aspectRatio > 1) {
+          // Image is wider than tall
+          newWidth = maxSize;
+          newHeight = maxSize / aspectRatio;
+        } else {
+          // Image is taller than wide or square
+          newHeight = maxSize;
+          newWidth = maxSize * aspectRatio;
+        }
+
+        cvs.width = maxSize;
+        cvs.height = maxSize;
+
+        // Optional: clear canvas and fill with transparent background
+        ctx.clearRect(0, 0, cvs.width, cvs.height);
+
+        // Draw the resized image centered on the canvas
+        const xOffset = (maxSize - newWidth) / 2;
+        const yOffset = (maxSize - newHeight) / 2;
+        ctx.drawImage(oldImg, xOffset, yOffset, newWidth, newHeight);
+
+        // Get compressed image data URL as WebP with 70% quality
+        const dataURL = cvs.toDataURL('image/webp', 0.7);
+
+        // Clean up
+        cvs.width = 1;
+        cvs.height = 1;
+        cvs.remove();
+
+        resolve(dataURL);
+      } catch (e) {
+        reject("Got strange error when trying to resize image: " + e);
+      }
+    };
+    oldImg.onerror = function () {
+      reject("Unable to load image format, browser may not support this file format. (Stop trying to break the system, its not helpful.)");
+    };
+  });
+}
+
+
 (async function () {
   try {
     var session = await accountHelper.checkSessionCookie();
@@ -25,8 +80,16 @@ var dialog = require("../dialogs.js");
                 {
                   element: "img",
                   style: {
-                    height: "50px",
-                    maxWidth: "50px",
+                    outline: "none",
+                    borderRadius: "64px",
+                    borderStyle: "solid",
+                    borderWidth: "3px",
+                    borderColor: "#7d7d7d",
+                    backgroundColor: "#969696",
+                    imageRendering: "pixelated",
+                    top: "0px",
+                    width: "64px",
+                    height: "64px"
                   },
                   gid: "profilePicture_account",
                 },
@@ -38,15 +101,17 @@ var dialog = require("../dialogs.js");
                   },
                   children: [
                     {
-                      element: "span",
+                      element: "input",
                       style: {
                         alignContent: "center",
                         fontSize: "30px",
                         fontWeight: "bold",
                         color: userColor,
+                        border: "none",
+                        background: "none",
                       },
-                      gid: "displayNameSpan",
-                      textContent: session.displayName,
+                      gid: "displayNameInput",
+                      value: session.displayName,
                     },
                     {
                       element: "span",
@@ -97,13 +162,37 @@ var dialog = require("../dialogs.js");
               element: "div",
               className: "button",
               gid: "changeDisplayNameButton",
-              textContent: "Change display name",
+              children: [
+                {
+                  element: "img",
+                  src: "images/text.svg",
+                  style: {
+                    height: "17px"
+                  }
+                },
+                {
+                  element: "span",
+                  textContent: "Change display name",
+                }
+              ]
             },
             {
               element: "div",
               className: "button",
               gid: "uploadPFP",
-              textContent: "Upload profile picture",
+              children: [
+                {
+                  element: "img",
+                  src: "images/profile.svg",
+                  style: {
+                    height: "17px"
+                  }
+                },
+                {
+                  element: "span",
+                  textContent: "Upload profile picture",
+                }
+              ]
             },
             {
               element: "div",
@@ -119,13 +208,37 @@ var dialog = require("../dialogs.js");
                   },
                 },
               ],
-              textContent: "Change username color",
+              children: [
+                {
+                  element: "img",
+                  src: "images/brush.svg",
+                  style: {
+                    height: "17px"
+                  }
+                },
+                {
+                  element: "span",
+                  textContent: "Change username color",
+                }
+              ]
             },
             {
               element: "div",
               className: "button",
               gid: "signOutButton",
-              textContent: "Sign out",
+              children: [
+                {
+                  element: "img",
+                  src: "images/signout.svg",
+                  style: {
+                    height: "17px"
+                  }
+                },
+                {
+                  element: "span",
+                  textContent: "Sign out",
+                }
+              ]
             },
           ],
         },
@@ -139,7 +252,8 @@ var dialog = require("../dialogs.js");
       var usernameColorInput = elements.getGPId("username_color_input");
       var usernameSpan = elements.getGPId("usernameSpan");
       var changeDisplayNameButton = elements.getGPId("changeDisplayNameButton");
-      var displayNameSpan = elements.getGPId("displayNameSpan");
+      var displayNameInput = elements.getGPId("displayNameInput");
+      
 
       async function loadImage(imageFile) {
         var imgurl = accountHelper.getProfilePictureURL(session.username);
@@ -174,11 +288,19 @@ var dialog = require("../dialogs.js");
             var reader = new FileReader();
             reader.onload = async function () {
               try {
+                
+                try{
+                  var newImage = await compressImage(reader.result);
+                }catch(e){
+                  dialog.alert("Error compressing image: "+e);
+                  return;
+                }
+                
                 await fetch(
                   accountHelper.getServerURL() + "/account/picture/",
-                  { method: "POST", body: reader.result.split(",").pop() }
+                  { method: "POST", body: newImage.split(",").pop() }
                 );
-                loadImage(reader.result);
+                loadImage(newImage);
               } catch (e) {
                 dialog.alert(
                   `Error uploading profile picture, your profile is not uploaded. ${e}`
@@ -193,7 +315,7 @@ var dialog = require("../dialogs.js");
 
       usernameColorInput.onchange = async function () {
         userColor = usernameColorInput.value;
-        displayNameSpan.style.color = userColor;
+        displayNameInput.style.color = userColor;
         usernameSpan.style.color = userColor;
         await fetch(accountHelper.getServerURL() + "/account/setcolor/", {
           method: "POST",
@@ -204,13 +326,20 @@ var dialog = require("../dialogs.js");
       };
 
       changeDisplayNameButton.onclick = async function () {
-        var displayName = await dialog.prompt(
-          "Enter your new display name",
-          displayNameSpan.textContent
-        );
-        if (!displayName) {
-          return;
-        }
+        displayNameInput.focus();
+      };
+      
+      displayNameInput.style.cursor = "pointer";
+      displayNameInput.onfocus = async function () {
+        displayNameInput.style.cursor = "auto";
+      };
+      displayNameInput.onblur = async function () {
+        displayNameInput.style.cursor = "pointer";
+      };
+      
+      displayNameInput.onchange = async function () {
+        displayNameInput.disabled = true;
+        var displayName = displayNameInput.value;
         var response = await fetch(
           accountHelper.getServerURL() + "/account/displayname/",
           {
@@ -224,7 +353,8 @@ var dialog = require("../dialogs.js");
           dialog.alert("Unable to set the display name.");
           return;
         }
-        displayNameSpan.textContent = displayName;
+        displayNameInput.value = displayName;
+        displayNameInput.disabled = false;
       };
     } else {
       var elementJSON = [

@@ -32,7 +32,7 @@ function getSafeHTML(unsafeText) {
   return safeText;
 }
 
-function getMessageHTML(inputstr, noBracketCode) {
+function getMessageHTML(inputstr, noBracketCode, otherBracketCodes = {}) {
   //This is pretty much the one from the original random rants, here because i don't feel like having to rewrite the whole thing.
   var input_str; //store input
   var text_input; //store input after beging trim()med
@@ -168,6 +168,10 @@ function getMessageHTML(inputstr, noBracketCode) {
 
           if (addHTML) {
             if (!noBracketCode) {
+              if (otherBracketCodes[type]) {
+                valid = true;
+                output_html += otherBracketCodes(type,valname,value);
+              }
               if (type == "search") {
                 valid = true;
                 output_html += `<a href="https://google.com/search?q=${encodeURIComponent(

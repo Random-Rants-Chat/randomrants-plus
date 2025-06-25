@@ -39,7 +39,7 @@ module.exports = {
         {
           element: "span",
           textContent:
-            "You have lost connection to the room. Please wait while I will try to reconnect you.",
+            "We lost our grip on reality — and the connection. Trying to reattach the chaos tether...",
         },
         {
           element: "br",
@@ -47,7 +47,15 @@ module.exports = {
         {
           element: "span",
           textContent:
-            "If the server is currently under maintainence, you may see this screen a lot.",
+            "This could be a momentary glitch, an unstable Wi-Fi ghost, or Glitch throttling the project into oblivion.",
+        },
+        {
+          element: "br",
+        },
+        {
+          element: "span",
+          textContent:
+            "If this screen keeps popping up, Random Rants+ might be updating or Glitch is rate-limiting your soul.",
         },
       ],
     },

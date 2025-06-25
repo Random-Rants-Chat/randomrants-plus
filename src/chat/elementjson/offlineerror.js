@@ -1,10 +1,10 @@
 module.exports = {
   element: "div",
+  gid: "offlineErrorScreen",
+  hidden: true,
   style: {
     zIndex: 10,
   },
-  gid: "rrUpdateScreen",
-  hidden: true,
   children: [
     {
       element: "div",
@@ -20,11 +20,11 @@ module.exports = {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "Time for a lil’ Chaos Refresh",
+          textContent: "⚠️ Uh-oh! You're offline!",
         },
         {
           element: "div",
-          className: "sep1"
+          className: "sep1",
         },
         {
           element: "div",
@@ -34,7 +34,7 @@ module.exports = {
           children: [
             {
               element: "img",
-              src: "images/updatebox.svg",
+              src: "images/nowifi.svg",
               style: {
                 height: "100%",
                 padding: "10px 10px",
@@ -48,34 +48,15 @@ module.exports = {
               children: [
                 {
                   element: "span",
-                  textContent: "Hey! We just dropped a new batch of Random Rants+ chaos. To catch all the updates (and maybe a few new bugs), just give it a quick reload.",
+                  textContent:
+                    "Looks like your WiFi ragequit. Without it, Random Rants+ can’t spread chaos properly.",
                 },
                 {
                   element: "br",
                 },
                 {
                   element: "span",
-                  textContent:
-                    "If this keeps popping up, Glitch might still be syncing behind the scenes—or maybe we’re just getting a bit too creative.",
-                },
-                {
-                  element: "br",
-                },
-                {
-                  element: "div",
-                  className: "divButton roundborder",
-                  textContent: "Reload and vibe",
-                  title: "Reload and vibe",
-                  eventListeners: [
-                    {
-                      event: "click",
-                      func: function () {
-                        this.textContent = "Reloading…";
-                        this.disabled = true;
-                        window.location.reload();
-                      },
-                    },
-                  ],
+                  textContent: "Reconnect to the internet to resume the madness. Still no luck? Try moving closer to your router—or offer it a snack. 🍪"
                 },
               ],
             },

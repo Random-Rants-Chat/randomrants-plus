@@ -2,7 +2,7 @@ const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const pages = ["index", "signin", "signup", "myaccount", "chat"];
+const pages = ["index", "signin", "signup", "myaccount", "chat", "join"];
 try{
   require("fs").rmSync("./public",{recursive:true});
 }catch(e){}

@@ -16,7 +16,7 @@ var elements = {
       var myRealElms = [];
       for (var elm of arry) {
         if (!isDOM(elm)) {
-          if (elm) {
+          if (typeof elm == "object") {
             var realElm = document.createElement(elm.element);
             for (var attriName of Object.keys(elm)) {
               if (!(attriName == "element" || attriName == "children")) {
@@ -116,6 +116,8 @@ var elements = {
               }
             }
             myRealElms.push(realElm);
+          } else {
+            myRealElms.push(elm);
           }
         } else {
           if (elm) {
@@ -133,6 +135,9 @@ var elements = {
   setGPId: function (el, id) {
     __GP_elements[id] = el;
     return el;
+  },
+  disposeGPId: function (id) {
+    __GP_elements[id] = undefined;
   },
   getGPId: function (id) {
     if (__GP_elements[id]) {

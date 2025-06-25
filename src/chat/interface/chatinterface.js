@@ -18,6 +18,10 @@ var microphones = require("./microphones");
 var updateManager = require("./updatecheck.js");
 var userState = require("./userstate.js");
 var roomSettings = require("./roomsettings.js");
+var shtml = require("../../safehtmlencode.js");
+
+require("./appwindow.js");
+require("./wifierror.js");
 
 var mainScreen = elements.getGPId("mainScreen");
 var loadingScreen = elements.getGPId("loadingChatMain");
@@ -35,9 +39,11 @@ var rrLoadingStatusText = elements.getGPId("rrLoadingStatusText");
 var usersOnlineContainer = elements.getGPId("usersOnlineContainer");
 var showSoundboardButton = elements.getGPId("showSoundboardButton");
 var toggleCameraButton = elements.getGPId("toggleCameraButton");
+var roomErrorScreen = elements.getGPId("roomErrorScreen");
 
 var userOnlineViewBox = elements.getGPId("userOnlineViewBox");
 var toggleMessageAndOnlineView = elements.getGPId("toggleMessageAndOnlineView");
+var toggleMessageAndOnlineViewText = elements.getGPId("toggleMessageAndOnlineViewText");
 
 var showRoomSettingsButton = elements.getGPId("showRoomSettingsButton");
 
@@ -46,9 +52,9 @@ var isOffline = false;
 
 function updateToggleOnlineViewText() {
   if (toggleOnlineView) {
-    toggleMessageAndOnlineView.textContent = "View chat messages";
+    toggleMessageAndOnlineViewText.textContent = "View chat messages";
   } else {
-    toggleMessageAndOnlineView.textContent = "View online users";
+    toggleMessageAndOnlineViewText.textContent = "View online users";
   }
 }
 
@@ -79,7 +85,7 @@ reconnectingScreen.hidden = true;
 
 (async function () {
   try {
-    
+        
     updateManager.addUpdateListener("interface", () => {
       isOffline = true;
       sws.close();
@@ -87,7 +93,7 @@ reconnectingScreen.hidden = true;
     
     var externalThings = await fetchUtils.fetchAsJSON("external/other.json");
 
-    rrLoadingStatusText.textContent = "Loading WebRTC client scripts...";
+    rrLoadingStatusText.textContent = "Injecting WebRTC chaos modules...";
     try {
       var rtcScripts = await fetchUtils.fetchAsJSON(
         "external/webrtc-helper.json"
@@ -97,24 +103,24 @@ reconnectingScreen.hidden = true;
       }
     } catch (e) {
       dialogs.alert(
-        "Failed to load WebRTC scripts!\nYou won't be able to do anything like screensharing, real time cameras and mics, and any video/audio calling features."
+        "WebRTC scripts refused to load.\nThat means no screen sharing, no live chaos cams, and no mic mayhem."
       );
     }
 
-    rrLoadingStatusText.textContent = "Loading UI sounds...";
+    rrLoadingStatusText.textContent = "Unpacking UI bleeps and bloops...";
     await sounds.load();
 
-    rrLoadingStatusText.textContent = "Loading Soundboard sounds...";
+    rrLoadingStatusText.textContent = "Loading soundboard insanity...";
     await soundboard.load(
       externalThings.soundboardURL,
       function (current, max) {
         var percent = (current / max) * 100;
         rrLoadingStatusText.textContent =
-          "Loading Soundboard sounds... (" + Math.round(percent) + "%)";
+          "Prepping soundboard overload… (" + Math.round(percent) + "%)";
       }
     );
 
-    rrLoadingStatusText.textContent = "Waiting for websocket connection...";
+    rrLoadingStatusText.textContent = "Staring intensely at the websocket handshake...";
 
     setInterval(() => {
       microphones.tick();
@@ -126,7 +132,8 @@ reconnectingScreen.hidden = true;
       message,
       isNew,
       isServerMessage,
-      userColor
+      userColor,
+      recent = true
     ) {
       var willScroll = false;
       if (
@@ -139,7 +146,7 @@ reconnectingScreen.hidden = true;
       var messageElement = messageElementGenerator(
         username,
         displayName,
-        message,
+        shtml.getMessageHTML(message),
         isServerMessage,
         userColor
       );
@@ -214,7 +221,8 @@ reconnectingScreen.hidden = true;
               messageData.message,
               false,
               messageData.isServer,
-              messageData.color
+              messageData.color,
+              false
             );
           }
         }
@@ -222,6 +230,7 @@ reconnectingScreen.hidden = true;
           sws.send(
             JSON.stringify({
               type: "keepAlive",
+              timestamp: Date.now()
             })
           );
         }
@@ -243,6 +252,16 @@ reconnectingScreen.hidden = true;
         if (json.type == "usernameExists") {
           usernameErrorScreen.hidden = false;
           sws.close();
+        }
+        if (json.type == "doesNotExist") {
+          roomErrorScreen.hidden = false;
+          sws.close();
+          (async function () {
+            await accountHelper.removeJoinedRoom(currentRoom);
+          })();
+        }
+        if (json.type == "roomStillLoading") {
+          rrLoadingStatusText.textContent = "Waiting for server to actually load the room...";
         }
         if (json.type == "roomName") {
           roomSettings.changeRoomName(json.name);
@@ -304,7 +323,10 @@ reconnectingScreen.hidden = true;
           mediaEngine.onMessage(json);
         }
         if (json.type == "playSoundboard") {
-          soundboard.playSound(json.index);
+          soundboard.playSound(json.index,json.mult);
+        }
+        if (json.type == "stopSoundboard") {
+          soundboard.stopAll();
         }
         if (json.type == "commandToClient") {
           if (browserCommands[json.cType]) {
@@ -318,11 +340,20 @@ reconnectingScreen.hidden = true;
       }
     }
 
-    soundboard.onSoundButtonClick = function (index) {
+    soundboard.onSoundButtonClick = function (index,mult) {
       sws.send(
         JSON.stringify({
           type: "playSoundboard",
           index,
+          mult
+        })
+      );
+    };
+    
+    soundboard.onSoundStopClick = function () {
+      sws.send(
+        JSON.stringify({
+          type: "stopSoundboard"
         })
       );
     };
@@ -350,7 +381,7 @@ reconnectingScreen.hidden = true;
         onCloseReconnect
       );
     }
-    if (!isOffline) {
+    if (!isOffline) { //Is offline does not actually mean it, its just used to stop connecting when there is an update.
       openConnection();
     }
     reconnectUsernameError.addEventListener("click", openConnection);

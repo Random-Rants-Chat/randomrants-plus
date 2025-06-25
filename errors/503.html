@@ -1,44 +1,68 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    
-    <title>503 Service Unavialible</title>
-    
-  </head>
-  <body>
-    
-    <style>
-      body {
-        background: #d1d1d1;
-        font-family:arial;
-      }
-      .box {
-        position:fixed;
-        top:50%;
-        left:50%;
-        transform: translate(-50%, -50%);
-        width: fit-content;
-        height: fit-content;
-        background: #fff;
-        padding: 10px;
-        box-shadow: 0 0px 30px black;
-        border-radius: 5px;
-      }
-      .head {
-        font-weight: bold;
-        font-size: 30px;
-      }
-    </style>
-    
-    <div class="box">
-      <span class="head">
-        503 Service unavailible
-      </span><br>
-      <span>
-        The server is expereiencing high demand, which is blowing the limits of it.<br/>
-        In that case, to prevent overusage, the server may have shut it self off until the next day, please wait until tomorrow.
-      </span>
-    </div>
-    
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>503 Service Unavailable — Too Much Chaos</title>
+<style>
+  :root {
+    --bg-color: #b8b8b8;
+    --main-font: arial, sans-serif;
+    --main-text-color: black;
+    --button-bg-color: #e0e0e0;
+    --button-text-color: #696969;
+    --button-hover-bg-color: #f2f2f2;
+    --border-radius: 3px;
+    --server-notifcation-color: #ffd000;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    font-family: var(--main-font);
+    color: var(--main-text-color);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+  }
+
+  .container {
+    background: var(--button-bg-color);
+    border-radius: var(--border-radius);
+    padding: 30px 40px;
+    max-width: 460px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0 0 12px 0;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--server-notifcation-color);
+    letter-spacing: 1px;
+  }
+
+  p {
+    margin: 0 0 16px 0;
+    font-size: 17px;
+    line-height: 1.4;
+    color: #4a4a4a;
+  }
+
+  .hint {
+    font-style: italic;
+    font-size: 14px;
+    color: #696969;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>503 Service Unavailable</h1>
+    <p>The server’s overwhelmed — it’s taking a nap.<br>Please come back later, probably tomorrow.</p>
+    <div class="hint">Too much chaos for one day.</div>
+  </div>
+</body>
 </html>

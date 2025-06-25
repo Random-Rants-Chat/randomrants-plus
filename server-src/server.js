@@ -13,7 +13,11 @@ var wss = wssHandler.wss;
 var encryptor = require("../encrypt");
 var gvbbaseStorage = require("./storage.js"); //Supabase storage module.
 var cons = require("./constants.js");
-var storage = new gvbbaseStorage(process.env.sbBucket, process.env.sbURL, process.env.sbAPIKey);
+var storage = new gvbbaseStorage(
+  process.env.sbBucket,
+  process.env.sbURL,
+  process.env.sbAPIKey
+);
 var messageChatNumber = 0;
 var adminKey = process.env.adminKey;
 var contentRange = require("content-range");
@@ -98,12 +102,17 @@ async function getUserProfilePicture(username) {
   }
   return pfp;
 }
-async function getUserProfilePictureResponse (username,req,res) {
-  try{
-    await storage.downloadFileResponseProxy(`user-${username}-profile`,{},res,["content-type"]);
-  }catch(e){
+async function getUserProfilePictureResponse(username, req, res) {
+  try {
+    await storage.downloadFileResponseProxy(
+      `user-${username}-profile`,
+      {},
+      res,
+      ["content-type"]
+    );
+  } catch (e) {
     var pfp = fs.readFileSync("template/default_pfp.png");
-    res.setHeader("content-type","image/png");
+    res.setHeader("content-type", "image/png");
     res.end(pfp);
   }
 }
@@ -301,7 +310,7 @@ async function validateUser(username, password) {
         success: true,
         valid: true,
         color,
-        displayName
+        displayName,
       };
     } else {
       return {
@@ -908,6 +917,7 @@ async function startRoomWSS(roomid) {
   roomWebsockets[roomid.toString()] = "loading";
   var info = await getRoomInfo(roomid);
   if (!info) {
+    roomWebsockets[roomid.toString()] = undefined;
     return;
   }
   wss._rrRoomMessages = [];
@@ -919,7 +929,7 @@ async function startRoomWSS(roomid) {
       if (cli._rrMicCode) {
         isMicEnabled = true;
       }
-      
+
       var isCamEnabled = false;
       if (cli._rrCameraCode) {
         isCamEnabled = true;
@@ -932,7 +942,7 @@ async function startRoomWSS(roomid) {
         isOwner: cli._rrIsOwner,
         isRealOwner: cli._rrIsRealOwner,
         micEnabled: isMicEnabled,
-        camEnabled: isCamEnabled
+        camEnabled: isCamEnabled,
       });
     }
     var onlist = JSON.stringify({
@@ -970,6 +980,7 @@ async function startRoomWSS(roomid) {
   var connectionIDCount = 0;
   wss._rrCommandHandler = new commandHandler(wss);
   wss.on("connection", (ws, request) => {
+    ws.ping();
     ws._rrConnectionID = connectionIDCount;
     connectionIDCount += 1;
     (async function () {
@@ -1076,6 +1087,16 @@ async function startRoomWSS(roomid) {
                 JSON.stringify({
                   type: "playSoundboard",
                   index: json.index,
+                  mult: json.mult
+                })
+              );
+            }
+          }
+          if (json.type == "stopSoundboard") {
+            for (var client of wss.clients) {
+              client.send(
+                JSON.stringify({
+                  type: "stopSoundboard"
                 })
               );
             }
@@ -1173,7 +1194,7 @@ async function startRoomWSS(roomid) {
                   type: "userIsTyping",
                   displayName: displayName,
                   username: ws._rrUsername,
-                  color: ws._rrUserColor
+                  color: ws._rrUserColor,
                 })
               );
             });
@@ -1200,7 +1221,7 @@ async function startRoomWSS(roomid) {
                 );
               });
               if (ws._rrLoggedIn && ws._rrIsOwner) {
-                wss._rrCommandHandler.handleMessage(ws,json.message);
+                wss._rrCommandHandler.handleMessage(ws, json.message);
               }
             }
           }
@@ -1231,7 +1252,7 @@ async function startRoomWSS(roomid) {
           })
         );
       }
-      
+
       ws.send(
         JSON.stringify({
           type: "roomName",
@@ -1270,20 +1291,25 @@ async function startRoomWSS(roomid) {
       });
     })();
   });
-  
-  wss._rrReloadUserlist = function () {
-    sendOnlineList();
-  };
-  
-  wss._rrRefreshRoom = function () {
+
+  wss._rrStopRoom = function () {
     for (var client of wss.clients) {
       client.close();
     }
     wss.close();
+    clearInterval(wss._rrKeepAliveInterval);
+  };
+
+  wss._rrReloadUserlist = function () {
+    sendOnlineList();
+  };
+
+  wss._rrRefreshRoom = function () {
+    wss._rrStopRoom();
     roomWebsockets[roomid.toString()] = undefined;
     startRoomWSS(roomid);
   };
-  
+
   wss._rrKickUser = function (username) {
     for (var client of wss.clients) {
       if (client._rrUsername == username) {
@@ -1292,10 +1318,10 @@ async function startRoomWSS(roomid) {
       }
     }
   };
-  
+
   wss._rrUpdateRoomInfo = async function () {
     info = await getRoomInfo(roomid);
-    
+
     for (var client of wss.clients) {
       client.send(
         JSON.stringify({
@@ -1306,7 +1332,6 @@ async function startRoomWSS(roomid) {
       );
     }
     for (var client of wss.clients) {
-      
       var wasOwner = client._rrIsOwner;
       client._rrIsOwner = false;
       client._rrIsRealOwner = false;
@@ -1317,7 +1342,7 @@ async function startRoomWSS(roomid) {
           client._rrIsRealOwner = true;
         }
       }
-      
+
       if (wasOwner !== client._rrIsOwner) {
         client.send(
           JSON.stringify({
@@ -1330,19 +1355,18 @@ async function startRoomWSS(roomid) {
 
     sendOnlineList();
   };
-  
+
   wss._rrSendChatMessage = sendRoomChatMessage;
 
   wss._rrCameraUpdateInterval = setInterval(() => {
     for (var client of wss.clients) {
       if (client._rrIsReady) {
         for (var client2 of wss.clients) {
-          
           var isSelf = false;
           if (client2._rrConnectionID == client._rrConnectionID) {
             isSelf = true;
           }
-          
+
           if (client2._rrIsReady) {
             if (
               client._rrOtherCams[client2._rrConnectionID] !==
@@ -1358,17 +1382,16 @@ async function startRoomWSS(roomid) {
                   displayName: client2._rrDisplayName,
                   username: client2._rrUsername,
                   color: client2._rrUserColor,
-                  isSelf: isSelf
+                  isSelf: isSelf,
                 })
               );
             }
-            
+
             if (
               client._rrOtherMics[client2._rrConnectionID] !==
               client2._rrMicCode
             ) {
-              client._rrOtherMics[client2._rrConnectionID] =
-                client2._rrMicCode;
+              client._rrOtherMics[client2._rrConnectionID] = client2._rrMicCode;
               client.send(
                 JSON.stringify({
                   type: "microphoneUpdate",
@@ -1377,7 +1400,7 @@ async function startRoomWSS(roomid) {
                   displayName: client2._rrDisplayName,
                   username: client2._rrUsername,
                   color: client2._rrUserColor,
-                  isSelf: isSelf
+                  isSelf: isSelf,
                 })
               );
             }
@@ -1386,13 +1409,13 @@ async function startRoomWSS(roomid) {
       }
     }
   }, 1000 / 30);
-  
+
   wss._rrKeepAliveInterval = setInterval(() => {
     for (var client of wss.clients) {
       client.ping();
       client.send(JSON.stringify({ type: "keepAlive" }));
     }
-  },100);
+  }, 100);
 
   roomWebsockets[roomid.toString()] = wss;
   return wss;
@@ -1401,6 +1424,28 @@ async function startRoomWSS(roomid) {
 var fileUploads = {};
 var fileUploadCount = 0;
 var fileUploadTypes = {};
+
+var quickJoinRooms = {};
+var quickJoinCodeNumber = 0;
+function generateQuickJoinCode() {
+  quickJoinCodeNumber += 1 + Math.round(Math.random() * 100);
+  var numbers = "1234567890";
+  var letters = "abcdefghijklmnopqrstuvwxyz";
+  var string = "";
+  var numberString = quickJoinCodeNumber.toString();
+  var i = 0;
+  while (i < numberString.length) {
+    var char = numberString[i];
+    string += numbers[Number(char)];
+    i += 1;
+  }
+  i = 0;
+  while (i < 5) {
+    string += numbers[Math.floor(Math.random() * (numbers.length - 1))];
+    i += 1;
+  }
+  return string;
+}
 
 const server = http.createServer(async function (req, res) {
   setNoCorsHeaders(res);
@@ -1412,6 +1457,51 @@ const server = http.createServer(async function (req, res) {
 
   if (usercookie) {
     var decryptedUserdata = encryptor.decrypt(usercookie);
+  }
+
+  if (urlsplit[1] == "quickjoin") {
+    if (urlsplit[2] == "code" && req.method == "POST") {
+      (async function () {
+        try {
+          var body = await waitForBody(req);
+          var json = JSON.parse(body.toString());
+          if (typeof json.id !== "string") {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+
+          var roomBuffer = await storage.downloadFile(
+            `room-${json.id}-info.json`
+          );
+          var qjCode = generateQuickJoinCode();
+          quickJoinRooms[qjCode] = json.id;
+          setTimeout(() => {
+            quickJoinRooms[qjCode] = undefined;
+          }, 10 * 60 * 1000); //Ten minutes before code expires.
+          res.end(
+            JSON.stringify({
+              code: qjCode,
+            })
+          );
+        } catch (e) {
+          res.statusCode = 500;
+          res.end("");
+        }
+      })();
+      return;
+    }
+
+    if (urlsplit[2] == "code" && urlsplit[3]) {
+      var code = urlsplit[3];
+      if (quickJoinRooms[code]) {
+        res.end(quickJoinRooms[code]);
+      } else {
+        res.statusCode = 404;
+        res.end("Code not found");
+      }
+      return;
+    }
   }
 
   if (urlsplit[1] == "uploads") {
@@ -1548,7 +1638,7 @@ const server = http.createServer(async function (req, res) {
           }
 
           var roomInfo = {
-            name: decryptedUserdata.username+"'s Room",
+            name: decryptedUserdata.username + "'s Room",
             owners: [decryptedUserdata.username.toLowerCase()],
           };
 
@@ -1634,6 +1724,55 @@ const server = http.createServer(async function (req, res) {
       })();
       return;
     }
+    if (urlsplit[2] == "destroy" && req.method == "POST") {
+      (async function () {
+        try {
+          var body = await waitForBody(req);
+          var json = JSON.parse(body.toString());
+
+          if (defaultRooms.indexOf(json.id) > -1) {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+          if (typeof json.id !== "string") {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+
+          if (!decryptedUserdata) {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+          var roomBuffer = await storage.downloadFile(
+            `room-${json.id}-info.json`
+          );
+          var roomData = JSON.parse(roomBuffer.toString());
+          if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
+            try {
+              await storage.deleteFile(`room-${json.id}-info.json`);
+              if (roomWebsockets[json.id]) {
+                roomWebsockets[json.id]._rrStopRoom();
+              }
+              res.end("");
+            } catch (e) {
+              res.statusCode = 500;
+              res.end("");
+            }
+          } else {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+        } catch (e) {
+          res.statusCode = 500;
+          res.end("");
+        }
+      })();
+      return;
+    }
     if (urlsplit[2] == "addowner" && req.method == "POST") {
       (async function () {
         try {
@@ -1668,9 +1807,7 @@ const server = http.createServer(async function (req, res) {
             res.end("");
             return;
           }
-          var roomBuffer = await storage.downloadFile(
-            `room-${id}-info.json`
-          );
+          var roomBuffer = await storage.downloadFile(`room-${id}-info.json`);
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
             if (roomData.owners.indexOf(json.who) < 0) {
@@ -1682,12 +1819,13 @@ const server = http.createServer(async function (req, res) {
               "application/json"
             );
             if (roomWebsockets[id]) {
-              try{
+              try {
                 await roomWebsockets[id]._rrUpdateRoomInfo();
-                roomWebsockets[id]._rrSendChatMessage("[Random Rants +]",`${json.who} is now an owner.`);
-              }catch(e){
-                
-              }
+                roomWebsockets[id]._rrSendChatMessage(
+                  "[Random Rants +]",
+                  `${json.who} is now an owner.`
+                );
+              } catch (e) {}
             }
             res.end("");
           } else {
@@ -1737,9 +1875,7 @@ const server = http.createServer(async function (req, res) {
             res.end("");
             return;
           }
-          var roomBuffer = await storage.downloadFile(
-            `room-${id}-info.json`
-          );
+          var roomBuffer = await storage.downloadFile(`room-${id}-info.json`);
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
             var ownerIndex = roomData.owners.indexOf(json.who);
@@ -1752,12 +1888,13 @@ const server = http.createServer(async function (req, res) {
               "application/json"
             );
             if (roomWebsockets[id]) {
-              try{
+              try {
                 await roomWebsockets[id]._rrUpdateRoomInfo();
-                roomWebsockets[id]._rrSendChatMessage("[Random Rants +]",`${json.who} is no longer an owner.`);
-              }catch(e){
-                
-              }
+                roomWebsockets[id]._rrSendChatMessage(
+                  "[Random Rants +]",
+                  `${json.who} is no longer an owner.`
+                );
+              } catch (e) {}
             }
             res.end("");
           } else {
@@ -1896,11 +2033,11 @@ const server = http.createServer(async function (req, res) {
       return;
     }
     if (urlsplit[2] == "picture" && req.method == "GET") {
-      getUserProfilePictureResponse(urlsplit[3].split('?')[0],req,res);
+      getUserProfilePictureResponse(urlsplit[3].split("?")[0], req, res);
       return;
     }
     if (urlsplit[2] == "picture" && req.method == "POST") {
-      try{
+      try {
         var body = await waitForBody(req);
         var decrypted = encryptor.decrypt(
           getCookie("account", getCookieFromRequest(req))
@@ -1934,7 +2071,7 @@ const server = http.createServer(async function (req, res) {
         }
         res.end("");
         return;
-      }catch(e){
+      } catch (e) {
         res.end("");
         return;
       }
@@ -2620,7 +2757,18 @@ server.on("upgrade", async function upgrade(request, socket, head) {
       if (roomWs == "loading") {
         wss = new ws.WebSocketServer({ noServer: true });
         wss.on("connection", (ws, request) => {
-          ws.close();
+          ws.send(
+            JSON.stringify({
+              type: "roomStillLoading",
+            })
+          );
+
+          var timeout = setTimeout(() => {
+            ws.close();
+          }, 1000);
+          ws.on("close", () => {
+            clearTimeout(timeout);
+          });
         });
       } else {
         wss = roomWs;
@@ -2631,7 +2779,17 @@ server.on("upgrade", async function upgrade(request, socket, head) {
         wss = new ws.WebSocketServer({ noServer: true });
 
         wss.on("connection", (ws, request) => {
-          ws.close();
+          ws.send(
+            JSON.stringify({
+              type: "doesNotExist",
+            })
+          );
+          var timeout = setTimeout(() => {
+            ws.close();
+          }, 1000);
+          ws.on("close", () => {
+            clearTimeout(timeout);
+          });
         });
       }
     }
@@ -2639,7 +2797,18 @@ server.on("upgrade", async function upgrade(request, socket, head) {
     wss = new ws.WebSocketServer({ noServer: true });
 
     wss.on("connection", (ws, request) => {
-      ws.close();
+      ws.send(
+        JSON.stringify({
+          type: "invalidRoomId",
+        })
+      );
+
+      var timeout = setTimeout(() => {
+        ws.close();
+      }, 1000);
+      ws.on("close", () => {
+        clearTimeout(timeout);
+      });
     });
   }
 

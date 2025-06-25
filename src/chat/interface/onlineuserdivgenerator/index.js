@@ -1,6 +1,7 @@
 var elements = require("../../../gp2/elements.js");
 var accountHelper = require("../../../accounthelper");
 var shtml = require("../../../safehtmlencode.js");
+var cacheBust = require("../cachebust.js");
 
 function generateDiv(
   username,
@@ -74,6 +75,10 @@ function generateDiv(
               },
               src: "images/demote.svg",
             },
+            {
+              element: "span",
+              textContent: "Demote"
+            }
           ],
           eventListeners: [
             {
@@ -105,6 +110,10 @@ function generateDiv(
               },
               src: "images/promote.svg",
             },
+            {
+              element: "span",
+              textContent: "Promote"
+            }
           ],
           eventListeners: [
             {
@@ -149,7 +158,7 @@ function generateDiv(
             {
               element: "img",
               className: "profile profilePictureMessage",
-              src: pfp,
+              src: cacheBust(pfp),
             },
             {
               element: "div",

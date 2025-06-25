@@ -1,3 +1,4 @@
+
 module.exports = [
   {
     element: "div",
@@ -7,33 +8,31 @@ module.exports = [
         element: "div",
         className: "loader",
       },
-      { element: "br" },
+      {
+        element: "span",
+        style: {
+          textAlign: "center",
+          fontWeight: "bold",
+        },
+        gid: "rrLoadingScreenText",
+      },
       {
         element: "span",
         gid: "randomFactSpan",
+        hidden: true,
         style: {
           textAlign: "center",
         },
         textContent: "",
       },
+      //{ element: "br" },
       {
         element: "span",
         style: {
           textAlign: "center",
-          fontWeight: "bold",
         },
         gid: "rrLoadingStatusText",
         textContent: "",
-      },
-      { element: "br" },
-      {
-        element: "span",
-        style: {
-          textAlign: "center",
-          fontWeight: "bold",
-        },
-        textContent:
-          "Random Rants + is currently loading resources, this may take a while to complete.",
       },
     ],
   },

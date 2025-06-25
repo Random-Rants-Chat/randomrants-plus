@@ -20,7 +20,7 @@ module.exports = {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "You seem to be already online in this room",
+          textContent: "You're already in this room!",
         },
         {
           element: "div",
@@ -49,7 +49,15 @@ module.exports = {
                 {
                   element: "span",
                   textContent:
-                    "Please try closing other tabs that have the same room open, and check any other devices that are currently online.",
+                    "It looks like this username is already active in the room. Maybe you’ve got another tab open, or it’s your evil twin logging in from a different device.",
+                },
+                {
+                  element: "br",
+                },
+                {
+                  element: "span",
+                  textContent:
+                    "Try closing any other open tabs or apps using this room. If all else fails, press the button below to try forcing your way back in.",
                 },
                 {
                   element: "br",
@@ -57,7 +65,8 @@ module.exports = {
                 {
                   element: "div",
                   className: "divButton roundborder",
-                  textContent: "Reconnect now.",
+                  textContent: "Reconnect anyway",
+                  title: "Attempt to reconnect with your username",
                   gid: "reconnectUsernameError",
                 },
               ],

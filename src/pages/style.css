@@ -69,10 +69,27 @@ body {
   cursor: pointer;
   user-select: none;
   border: none;
-  transition: background 0.2s;
+  transition: background 0.05s;
 }
 
 .button:hover {
+  background: #d1d1d1;
+}
+
+.button2 {
+  background: #dbdbdb;
+  color: #555;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  transition: background 0.05s;
+  width: fit-content;
+  height: fit-content;
+}
+
+.button2:hover {
   background: #d1d1d1;
 }
 
@@ -155,4 +172,12 @@ body {
 
 img {
   image-rendering: pixelated;
+}
+
+a {
+  color: #4287f5;
+}
+a:hover {
+  color: #3267ba;
+  cursor: pointer;
 }
