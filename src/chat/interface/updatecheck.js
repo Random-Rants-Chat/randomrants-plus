@@ -1,6 +1,8 @@
 var elements = require("../../gp2/elements.js");
 var fetchUtils = require("./fetchutils.js");
 
+var jitter = Math.random() * 3000;
+
 var updateChecker = {
   currentVersion: "0",
   needsUpdate: false,
@@ -54,7 +56,7 @@ async function getVersion () {
     }
   });
 
-  updateChecker.updateInterval = setInterval(checkUpdate, 5000);
+  updateChecker.updateInterval = setInterval(checkUpdate, jitter + 15000);
 })();
 
 module.exports = updateChecker;
