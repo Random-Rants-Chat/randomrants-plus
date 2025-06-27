@@ -2,7 +2,7 @@
   "name": "randomrants-plus",
   "version": "0.1.0",
   "description": "Random Rants Plus is Random Rants but better in security and account managing, also targeting another layout style.",
-  "main": "src/index.js",
+  "main": "server-src/server.js",
   "scripts": {
     "start": "node server-src/server.js",
     "build": "webpack",
