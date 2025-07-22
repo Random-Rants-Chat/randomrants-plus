@@ -11,18 +11,19 @@ var path = require("path");
 var JSZip = require("jszip");
 var URL = require("url");
 var wssHandler = require("./wss-handler.js");
-var wss = wssHandler.wss;
+var contentRange = require("content-range");
 var encryptor = require("../encrypt");
 var gvbbaseStorage = require("./storage.js"); //Supabase storage module.
 var cons = require("./constants.js");
+
 var storage = new gvbbaseStorage(
   process.env.sbBucket,
   process.env.sbURL,
   process.env.sbAPIKey
 );
+var wss = wssHandler.wss;
 var messageChatNumber = 0;
 var adminKey = process.env.adminKey;
-var contentRange = require("content-range");
 var appealURL = process.env.formURL;
 var mailWs = new ws.WebSocketServer({ noServer: true });
 var commandHandler = require("./commands.js");

@@ -4,7 +4,7 @@
   "description": "Random Rants Plus is Random Rants but better in security and account managing, also targeting another layout style.",
   "scripts": {
     "build": "node updatetime.js && webpack",
-    "watch": "node updatetime.js && webpack --watch",
+    "watch": "webpack --watch",
     "dev:server": "nodemon server-src/server.js",
     "dev": "concurrently -k \"npm:watch\" \"npm:dev:server\"",
     "start": "node server-src/server.js",
