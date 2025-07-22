@@ -22,9 +22,7 @@ var movingMediaTexts = [
   "Building lag-resistant warp tunnel ⏳",
   "Powering up the virtual console ⚡",
   "Beaming your gameplay to the universe 🚀",
-  "Greasing the D-Pad with Fanta 🧃",
   "Calibrating chaos stream 🔄",
-  "Syncing soundboard with nostalgia-core",
   "Tapping into the multi-screenverse 🌐",
 ];
 
@@ -646,7 +644,8 @@ async function doMediaSelect() {
                       ]),
                     ],
                   },
-                  {
+                  //No more NES, cause the glitch me servers going down and also the nintendo may get on me for piracy if it still exists. (im just 14 years old at this time, please nintendo don't sue me)
+                  /*{
                     element: "div",
                     className: "divButton roundborder",
                     eventListeners: [
@@ -724,7 +723,7 @@ async function doMediaSelect() {
                         },
                       ]),
                     ],
-                  },
+                  },*/
                   {
                     element: "div",
                     className: "divButton roundborder",
@@ -770,6 +769,10 @@ async function doMediaSelect() {
                       ]),
                     ],
                   },
+
+                  //This is not going to die (i hope), i'm just working on making it work with render.com
+
+                  /*
                   {
                     element: "div",
                     className: "divButton roundborder",
@@ -831,7 +834,7 @@ async function doMediaSelect() {
                         },
                       ]),
                     ],
-                  },
+                  }, */
                   {
                     element: "br",
                   },

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 require("./initcounters.js");
 
 var Busboy = require("busboy");
@@ -2820,4 +2822,5 @@ server.on("upgrade", async function upgrade(request, socket, head) {
 (async function () {
   await checkServerLoop(); //when it loops back, it accepts the promise.
   server.listen(3000);
+  console.log("Server active on http://localhost:3000");
 })();

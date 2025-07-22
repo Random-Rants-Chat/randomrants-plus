@@ -4,18 +4,6 @@ var sws = require("./sharedwebsocket.js");
 
 var toggleButton = elements.getGPId("toggleMicrophoneButton");
 
-function startRunningStream() {
-  return new Promise((accept, reject) => {
-    navigator.getUserMedia(
-      {
-        audio: true,
-      },
-      accept,
-      reject
-    );
-  });
-}
-
 var contentRunning = false;
 var contentSS = null;
 var contentStream = null;

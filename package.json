@@ -3,25 +3,37 @@
   "version": "0.1.0",
   "description": "Random Rants Plus is Random Rants but better in security and account managing, also targeting another layout style.",
   "scripts": {
+    "build": "node updatetime.js && webpack",
+    "watch": "node updatetime.js && webpack --watch",
+    "dev:server": "nodemon server-src/server.js",
+    "dev": "concurrently -k \"npm:watch\" \"npm:dev:server\"",
     "start": "node server-src/server.js",
-    "build": "webpack",
     "prestart": "node updatetime.js && webpack"
   },
   "devDependencies": {
     "busboy": "^1.6.0",
+    "concurrently": "^9.2.0",
+    "content-range": "^2.0.2",
     "copy-webpack-plugin": "^12.0.2",
     "gvbbase-storage": "^1.1.0",
     "html-webpack-plugin": "^5.6.3",
     "http": "*",
     "jszip": "^3.10.1",
+    "nodemon": "^3.1.10",
     "raw-loader": "^4.0.2",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
-    "ws": "*",
-    "content-range": "^2.0.2"
+    "ws": "*"
   },
   "license": "MIT",
   "engines": {
     "node": "16.x"
+  },
+  "dependencies": {
+    "dotenv": "^17.0.1"
+  },
+  "nodemonConfig": {
+    "ignore": ["wpstatic/version.json", "counters/*", "public"],
+    "delay": 2500
   }
 }

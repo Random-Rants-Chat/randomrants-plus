@@ -1,3 +1,4 @@
+var isSecure = require("./is-secure.js");
 var elements = require("../../gp2/elements.js");
 var dialogs = require("../../dialogs.js");
 var currentRoom = require("./getroom.js");
@@ -19,6 +20,12 @@ var updateManager = require("./updatecheck.js");
 var userState = require("./userstate.js");
 var roomSettings = require("./roomsettings.js");
 var shtml = require("../../safehtmlencode.js");
+
+if (!isSecure()) {
+  console.warn("[INSECURE PROTOCOL DETECTED] If you are using the link from a deployment, add https:// to the begining and not http://. \n"+
+  "This is because Random Rants + relies on secure content for parts of the site, please change your protocol to HTTPS if possible/"+
+  "\nRandom Rants + is may not work correctly with the http protocol unless changes to the site settings are made.");
+}
 
 require("./appwindow.js");
 require("./wifierror.js");
@@ -90,7 +97,7 @@ reconnectingScreen.hidden = true;
       isOffline = true;
       sws.close();
     })
-    
+
     var externalThings = await fetchUtils.fetchAsJSON("external/other.json");
 
     rrLoadingStatusText.textContent = "Injecting WebRTC chaos modules...";
@@ -374,8 +381,9 @@ reconnectingScreen.hidden = true;
     function openConnection() {
       usernameErrorScreen.hidden = true;
       reconnectingScreen.hidden = true;
+      //Support for localhost http.
       sws.open(
-        "wss://" + window.location.host + "/" + currentRoom,
+          (isSecure() ? ("wss://") : "ws://") + window.location.host + "/" + currentRoom,
         onMessage,
         onOpen,
         onCloseReconnect

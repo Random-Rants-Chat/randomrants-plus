@@ -1,6 +1,7 @@
 var websocket = null;
 var sws = {
   isOpen: false,
+  CANCEL_RECONNECT: "CANCEL_RECONNECT"
 };
 
 function openWebsocket (url,onmessage,onopen,onclose) {
@@ -12,12 +13,15 @@ function openWebsocket (url,onmessage,onopen,onclose) {
   }
   sws.isOpen = false;
   websocket = new WebSocket(url);
-  websocket.onclose = function () {
-    if (onclose) {
-      onclose();
-    }
+  websocket.onclose = async function () {
     sws.isOpen = false;
-    openWebsocket(url,onmessage,onopen,onclose);
+    var result = null;
+    if (onclose) {
+      result = await onclose();
+    }
+    if (result !== sws.CANCEL_RECONNECT) {
+      openWebsocket(url,onmessage,onopen,onclose);
+    }
   };
   websocket.onopen = function (e) {
     sws.isOpen = true;

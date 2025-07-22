@@ -1,5 +1,7 @@
 var audioEngine = {};
 
+var AudioContext = window.AudioContext || window.webkitAudioContext; //If running under safari, uses webkitAudioContext.
+
 var audioCTX = new AudioContext();
 audioEngine.context = audioCTX;
 audioEngine.running = false;
@@ -66,60 +68,60 @@ class AudioBufferPlayer {
     this.gainNode = null;
     this.filters = [];
   }
-  
+
   setData (data) {
     this.data = data;
   }
-  
+
   set looped (v) {
     if (this.source) {
       this.source.loop = v;
     }
     this._looped = v;
   }
-  
+
   get looped () {
     return this._looped;
   }
-  
+
   set loopStart (v) {
     if (this.source) {
       this.source.loopStart = v;
     }
     this._loopStart = v;
   }
-  
+
   get loopStart () {
     return this._loopStart;
   }
-  
+
   set loopEnd (v) {
     if (this.source) {
       this.source.loopEnd = v;
     }
     this._loopEnd = v;
   }
-  
+
   get loopEnd () {
     return this._loopEnd;
   }
-  
+
   set detune (v) {
     if (this.source) {
       this.source.detune.value = v;
     }
     this._detune = v;
   }
-  
+
   get detune () {
     return this._detune;
   }
-  
+
   loopAt (start,end) {
     this.loopStart = start;
     this.loopEnd = end;
   }
-  
+
   stop () {
     this.pause();
   }
@@ -176,11 +178,11 @@ class AudioBufferPlayer {
     }
     this.startVol = value;
   }
-  
+
   get volume () {
     return this.startVol;
   }
-  
+
   set volume (v) {
     if (this.gainNode) {
       this.gainNode.gain.value = v;
