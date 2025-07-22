@@ -23,14 +23,12 @@
     "raw-loader": "^4.0.2",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
-    "ws": "*"
+    "ws": "*",
+    "dotenv": "^17.0.1"
   },
   "license": "MIT",
   "engines": {
     "node": "16.x"
-  },
-  "dependencies": {
-    "dotenv": "^17.0.1"
   },
   "nodemonConfig": {
     "ignore": ["wpstatic/version.json", "counters/*", "public"],
