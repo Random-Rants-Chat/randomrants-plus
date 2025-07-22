@@ -193,7 +193,15 @@ var rightSide = {
       {
         element: "div",
         className: "chatInterfaceMessageSendButton roundborder",
-        textContent: "Attach Files",
+        children: [
+          {
+            element: "img",
+            src: "images/file.svg",
+            style: {
+              height: "25px"
+            }
+          }
+        ],
         gid: "messageAttachFilesButton",
       },
     ]),
