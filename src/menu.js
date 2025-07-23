@@ -52,6 +52,20 @@ var elementJSON = [
           }
         ]
       },
+      //About button.
+      {
+        element: "div",
+        className: "menuBarItem",
+        textContent: "About",
+        eventListeners: [
+          {
+            event: "click",
+            func: function () {
+              window.location.href = "/about";
+            }
+          }
+        ]
+      },
     ],
   },
   { //Since using position:fixed removes spacing, manually just add it by using a invisible div element.

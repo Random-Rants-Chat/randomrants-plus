@@ -51,14 +51,8 @@ var screenshareStream = null;
 var mediaVideo = null;
 mediaContentDiv.hidden = true;
 function waitForCam() {
-  return new Promise((accept, reject) => {
-    navigator.getUserMedia(
-      {
-        video: true,
-      },
-      accept,
-      reject
-    );
+  return navigator.mediaDevices.getUserMedia({
+    video: true,
   });
 }
 function stopScreenshareStream() {
@@ -587,7 +581,7 @@ async function doMediaSelect() {
                         },
                         {
                           element: "span",
-                          textContent: "Camera share (WebRTC)",
+                          textContent: "Show & tell Camera (WebRTC)",
                         },
                       ]),
                     ],

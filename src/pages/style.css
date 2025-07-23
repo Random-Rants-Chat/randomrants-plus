@@ -181,3 +181,27 @@ a:hover {
   color: #3267ba;
   cursor: pointer;
 }
+
+.aboutDivCenter {
+  width: calc(100vw - 400px);
+  height: fit-content;
+  padding: 10px 10px;
+
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0px);
+
+  background: white;
+  border-radius: 5px;
+}
+
+.yellowBoxedText {
+  margin: 8px 0;
+  padding: 10px;
+  background-color: #fff8d1;
+  border: 1px solid #ffd700;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}

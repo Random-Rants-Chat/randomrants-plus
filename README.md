@@ -1,4 +1,4 @@
-[![Random Rants +](./wpstatic/images/randomrants-plus.svg)](https://randomrants-plus.glitch.me)
+[![Random Rants +](./wpstatic/images/randomrants-plus.svg)](https://randomrants-plus.onrender.com)
 
 ## What is Random Rants +?
 
@@ -6,6 +6,8 @@ Random Rants + is the next generation of Random Rants,
 aimed towards having new functions and is more like an actual social media site.
 Random Rants + also aims for the fun of the original Random Rants, so you don't get
 as bored easily.
+
+**_Glitch is no longer hosting projects, because of that we switched to render.com to run Random Rants +._**
 
 ## Preparing Supabase enviroment variables
 
@@ -18,8 +20,6 @@ Create a Supabase project and provide the following enviroment vairales:
 ## Installation and building
 
 **_Make sure you don't skip the Supabase project stuff, as it is required to run the server._**
-
-_If you don't want to run the server from your personal device, you can remix the site on glitch.com [here](https://glitch.com/edit/#!/randomrants-plus)_
 
 I recommend using Node.JS 16.x, then either `git clone https://github.com/Random-Rants-Chat/randomrants-plus.git` onto your computer or download by zip.
 

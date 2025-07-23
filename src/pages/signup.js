@@ -51,6 +51,28 @@ var elementJSON = [
         element: "span",
         textContent: "Create a Random Rants + account to access more features of the website.",
       },
+      {
+        element: "p",
+        style: { fontSize: "0.9em", color: "#b22222", marginTop: "0.5em", marginBottom: "1em" },
+        children: [
+          {
+            element: "span",
+            textContent: "Please review the "
+          },
+          {
+            element: "a",
+            href: "/about",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            textContent: "About & Safety page",
+            style: { color: "#b22222", textDecoration: "underline" }
+          },
+          {
+            element: "span",
+            textContent: " before signing up to understand important warnings and community guidelines."
+          }
+        ],
+      },
       signInArea,
     ],
   },
