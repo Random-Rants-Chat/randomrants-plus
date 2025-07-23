@@ -8,6 +8,12 @@ var contentRunning = false;
 var contentSS = null;
 var contentStream = null;
 
+function startRunningStream() {
+  return navigator.mediaDevices.getUserMedia({
+    audio: true,
+  });
+}
+
 function setButtonText(t) {
   var buttonTexts = {
     starting: "Enabling microphone...",

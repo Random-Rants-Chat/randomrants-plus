@@ -33,9 +33,6 @@ cameras.show = function (id,code,displayName,userColor) {
     var elms = createCameraVideoDiv();
     cameraVideo.elms = elms;
     elms.displayNameSpan.textContent = displayName;
-    if (userColor) {
-      elms.displayNameSpan.style.color = userColor;
-    }
     
     cameraVideosDiv.append(elms.div);
     

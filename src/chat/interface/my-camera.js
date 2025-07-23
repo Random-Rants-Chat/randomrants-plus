@@ -5,14 +5,8 @@ var sws = require("./sharedwebsocket.js");
 var toggleButton = elements.getGPId("toggleCameraButton");
 
 function startRunningStream() {
-  return new Promise((accept, reject) => {
-    navigator.getUserMedia(
-      {
-        video: true,
-      },
-      accept,
-      reject
-    );
+  return navigator.mediaDevices.getUserMedia({
+    video: true,
   });
 }
 
@@ -66,7 +60,7 @@ toggleButton.addEventListener("click", async () => {
         function () {
           contentSS = null;
           doCamera();
-        }
+        },
       );
     }
     contentStream = stream;
@@ -93,7 +87,7 @@ toggleButton.addEventListener("click", async () => {
       JSON.stringify({
         type: "setCameraCode",
         code: null,
-      })
+      }),
     );
 
     contentStream.getTracks().forEach((track) => {
@@ -115,7 +109,7 @@ setInterval(() => {
       JSON.stringify({
         type: "setCameraCode",
         code: contentSS.host.key,
-      })
+      }),
     );
   }
 }, 1000 / 20);

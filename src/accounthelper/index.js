@@ -44,7 +44,6 @@ async function checkSessionCookie() {
         lastValidationState = json;
         return json;
       }
-      cookieManager.signoutAccountCookie("account");
       lastValidationState = null;
       return false;
     } catch (e) {
