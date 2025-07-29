@@ -17,7 +17,7 @@ async function uploadFileAsURL(blob) {
     return "";
   }
 }
-var ogAttachText = messageAttachFilesButton.textContent;
+var ogAttachText = messageAttachFilesButton.innerHTML;
 messageAttachFilesButton.addEventListener("click", async function () {
   var buttonChoose = await dialogs.displayButtonChooser(
     "What type of file do you want to attach?",
@@ -71,11 +71,10 @@ messageAttachFilesButton.addEventListener("click", async function () {
         }
         fileCount += 1;
         var amount = fileCount + 1 + "/" + input.files.length;
-        messageAttachFilesButton.textContent =
-          "Uploading files... (" + amount + ")";
+        messageAttachFilesButton.textContent = amount;
       }
       messageAttachFilesButton.disabled = false;
-      messageAttachFilesButton.textContent = ogAttachText;
+      messageAttachFilesButton.innerHTML = ogAttachText;
     }
   };
   input.type = "file";
