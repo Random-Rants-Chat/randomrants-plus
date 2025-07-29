@@ -187,6 +187,18 @@ reconnectingScreen.hidden = true;
     function onMessage(e) {
       try {
         var json = JSON.parse(e.data);
+        if (json.type == "roomPermissions") { //Room permissions recieved, update the user state to reflect them.
+          var perms = json.perms;
+          for (var name of Object.keys(perms)) {
+            userState.updatePermission(name,perms[name]);
+          }
+        }
+        if (json.type == "roomPermissionSettings") { //Used to apply new room permission values to room settings screen.
+          var perms = json.perms;
+          for (var name of Object.keys(perms)) {
+            roomSettings.updatePermission(name,perms[name]);
+          }
+        }
         if (json.type == "cameraUpdate") {
           if (json.code) {
             cameras.show(json.id,json.code,json.displayName, json.color); 
@@ -330,6 +342,9 @@ reconnectingScreen.hidden = true;
           mediaEngine.onMessage(json);
         }
         if (json.type == "playSoundboard") {
+          if (!userState.permissions.soundboard) {
+            return;
+          }
           soundboard.playSound(json.index,json.mult);
         }
         if (json.type == "stopSoundboard") {
@@ -341,6 +356,7 @@ reconnectingScreen.hidden = true;
           }
         }
       } catch (e) {
+        console.error(e);
         dialogs.alert(
           `Websocket server message decode or handling event error!${"\n"}Please tell the developer to fix, or try reloading page if this error presists. Error message: ${e}`
         );
@@ -348,6 +364,12 @@ reconnectingScreen.hidden = true;
     }
 
     soundboard.onSoundButtonClick = function (index,mult) {
+
+      if (!userState.permissions.soundboard) {
+        dialogs.alert(userState.noPermissionDialog);
+        return;
+      }
+
       sws.send(
         JSON.stringify({
           type: "playSoundboard",
@@ -358,6 +380,12 @@ reconnectingScreen.hidden = true;
     };
     
     soundboard.onSoundStopClick = function () {
+
+      if (!userState.permissions.soundboard) {
+        dialogs.alert(userState.noPermissionDialog);
+        return;
+      }
+
       sws.send(
         JSON.stringify({
           type: "stopSoundboard"
@@ -400,6 +428,12 @@ reconnectingScreen.hidden = true;
 
     showSoundboardButton.addEventListener("click", () => {
       soundboard.show();
+    });
+
+    userState.on("permissionUpdate", (name,value) => {
+      if (name == "soundboard") {
+        showSoundboardButton.hidden = !value; //Show soundboard button IF has permission to play the soundboard.
+      }
     });
 
     require("./my-camera.js");

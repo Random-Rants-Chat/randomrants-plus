@@ -94,7 +94,7 @@ var elements = {
                   setattri = false;
                 }
                 if (attriName == "GPWhenCreated") {
-                  attributeValue.bind(realElm)(realElm);
+                  attributeValue.bind(realElm)(realElm); //This seems weird, but first realElm is the "this" value refrence, then the second realElm is for the function value, as well as calling the new binded function.
                   setattri = false;
                 }
                 if (setattri) {

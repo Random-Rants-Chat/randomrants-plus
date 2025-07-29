@@ -7,7 +7,7 @@ aimed towards having new functions and is more like an actual social media site.
 Random Rants + also aims for the fun of the original Random Rants, so you don't get
 as bored easily.
 
-**_Glitch is no longer hosting projects, because of that we switched to render.com to run Random Rants +._**
+**_Glitch.com is no longer hosting projects (and that means our Random Rants + doesn't work on glitch anymore), because of that we switched to render.com to run Random Rants +._**
 
 ## Preparing Supabase enviroment variables
 
@@ -24,6 +24,8 @@ Create a Supabase project and provide the following enviroment vairales:
 I recommend using Node.JS 16.x, then either `git clone https://github.com/Random-Rants-Chat/randomrants-plus.git` onto your computer or download by zip.
 
 In the directory of package.json, run `npm install`. After that, use `npm run build` to build the website, and use `npm run start` to start up the server.
+
+If you now want to auto reload when you edit something: Then instead of `npm run start`, use `npm run dev`. Note this works for both building and server code.
 
 Go to `http://localhost:3000/` to see the functional Random Rants + site in action.
 

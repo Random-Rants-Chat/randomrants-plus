@@ -15,35 +15,35 @@ var soundboardVolume = 100;
 var soundboardMutliplier = 0;
 var soundboardMultipliers = [
   {
-    label: "💥 Unleash 2x Mayhem",
+    label: "1x",
     mult: 1,
   },
   {
-    label: "⚡ Activate 5x Chaos Mode",
+    label: "2x",
     mult: 2,
   },
   {
-    label: "🚨 GO NUCLEAR: 10x Insanity",
+    label: "5x",
     mult: 5,
   },
   {
-    label: "🌋 Go 15x, Apocalypse Mode",
+    label: "10x",
     mult: 10,
   },
   {
-    label: "🪐 Go 20x, Interdimensional Distortion",
+    label: "15x",
     mult: 15,
   },
   {
-    label: "☢️ Go 50x, Forbidden Boost",
+    label: "20x",
     mult: 20,
   },
   {
-    label: "🕳️ Go 100x, Void Scream Mode",
+    label: "50x",
     mult: 50,
   },
   {
-    label: "🧯 Calm the Chaos (Disable Boost)",
+    label: "100x",
     mult: 100,
   },
 ];
@@ -96,22 +96,42 @@ var dom = elements.createElementsFromJSON([
             element: "br",
           },
           {
-            element: "b",
-            textContent: "🔉 Eardrum obliteration level:",
-          },
-          {
-            element: "input",
-            type: "range",
-            min: 0,
-            max: 100,
-            value: 100,
-            gid: "soundboardVolumeSlider",
+            element: "button",
+            gid: "soundboardMuteButton",
+            GPWhenCreated: function (elm) {
+              //Load soundboard volume state.
+              if (localStorage.getItem("soundboardUnmuteState") == "N") { //Use off (The value N) so that if no value is set then it defaults to on.
+                soundboardVolume = 0;
+              } else {
+                soundboardVolume = 100;
+              }
+
+              //Update text.
+              if (soundboardVolume == 0) {
+                elm.textContent = "Unmute";
+              } else {
+                elm.textContent = "Mute";
+              }
+            },
             eventListeners: [
               {
-                event: "input",
+                event: "click",
                 func: function () {
-                  localStorage.setItem("soundboardVolume", this.value);
-                  soundboardVolume = Number(this.value);
+                  //Unmute or mute.
+                  if (soundboardVolume == 100) {
+                    soundboardVolume = 0;
+                    localStorage.setItem("soundboardUnmuteState", "N");
+                  } else {
+                    soundboardVolume = 100;
+                    localStorage.setItem("soundboardUnmuteState", "Y");
+                  }
+
+                  //Update text
+                  if (soundboardVolume == 0) {
+                    this.textContent = "Unmute";
+                  } else {
+                    this.textContent = "Mute";
+                  }
                 },
               },
             ],
@@ -223,7 +243,6 @@ function createSoundboardButtonDiv(sound, index) {
 }
 
 var soundboardButtonsContainer = elements.getGPId("soundboardButtonsContainer");
-var soundboardVolumeSlider = elements.getGPId("soundboardVolumeSlider");
 
 async function showSoundboardDialog() {
   try {

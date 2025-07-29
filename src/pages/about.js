@@ -39,95 +39,14 @@ var randomRantsAbout = [
       { element: "li", textContent: "Voice & Video Chat — Talk, yell, or lurk silently.", children: [] },
       { element: "li", textContent: "Screen Sharing — Only one slot per room, so expect friendly battles.", children: [] },
       { element: "li", textContent: "Live Chat + Commands — Commands like ;shake and ;popcat are available to owners.", children: [] },
-      { element: "li", textContent: "Soundboard Spam — Meme sounds, mic peaks, and chaos are part of the fun.", children: [] },
+      {
+        element: "li",
+        textContent: "Soundboard Spam — Meme sounds, mic peaks, and chaos are part of the fun. Enabled for everyone by default, but owners and ownership users can restrict or disable it.",
+        children: []
+      },
       { element: "li", textContent: "Owner Privileges — Clear chat, rename rooms, or even nuke (remove) the room.", children: [] },
       { element: "li", textContent: "File Uploads — Anyone can upload files and attach them to chat messages.", children: [] },
       { element: "li", textContent: "Camera & Mic — Anyone can enable their camera and microphone independently.", children: [] },
-    ],
-  },
-
-  // History
-  {
-    element: "h2",
-    textContent: "The Story of Original Random Rants",
-    style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "p",
-    children: [
-      { element: "strong", textContent: "Random Rants", children: [] },
-      { element: "span", textContent: " was a browser-based chatting and social app originally built to run smoothly on school Chromebooks." },
-    ],
-    style: { fontSize: "1.1em", marginBottom: "0.5em" },
-  },
-  {
-    element: "p",
-    children: [{ element: "em", textContent: "Note: The original Random Rants site is no longer active." }],
-    style: { fontSize: "1em", marginBottom: "0.3em" },
-  },
-  {
-    element: "p",
-    textContent:
-      "Random Rants began during my middle school days, back when I was in an elective class. I met someone using Scratch, and we started chatting. I showed him a simple chat site I had made called Macre’s Chat.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "That person was Im_CatmanYT, and he really liked the idea. Soon, I saw him and his friends using the site. When we next met, he suggested I make an improved version — and I agreed.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "He recommended a Google Docs–inspired color scheme, but I opted for a neutral gray instead. He also contributed some meme-inspired PNG emojis. And that’s how Random Rants v0.1 was born.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "From there, we shared ideas through Google Docs, and during school, I often found myself working on the project — sometimes as a welcome distraction. Small updates and tweaks gradually shaped what became the original Random Rants.",
-    style: { fontSize: "1.1em", marginBottom: "1.5em" },
-    children: [],
-  },
-
-  {
-    element: "h2",
-    textContent: "Why Random Rants Shut Down",
-    style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "The original Random Rants was hosted on Glitch, a platform I used for most of my projects. When Glitch stopped hosting projects, the site went offline.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "Beyond that, I lost motivation to maintain it. The codebase was outdated and had serious security issues. The app’s global room system allowed anyone to follow users with no privacy controls, which felt unsafe.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent: "Some main problems included:",
-    style: { fontSize: "1.1em", fontWeight: "bold", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "ul",
-    style: { fontSize: "1.1em", marginBottom: "1.5em" },
-    children: [
-      { element: "li", textContent: "No private or unlisted rooms", children: [] },
-      { element: "li", textContent: "Anyone could join your room or track your location", children: [] },
-      { element: "li", textContent: "The auto room selector favored rooms with people, increasing the chance of being followed", children: [] },
     ],
   },
 
@@ -228,7 +147,7 @@ var randomRantsAbout = [
       {
         element: "p",
         textContent:
-          "Anyone can start media in this area — no ownership needed. This is separate from your personal camera and microphone, which you can still use individually.",
+          "Anyone can start media in this area by default — no ownership needed. Only owners and ownership users can change this setting to restrict it or disable it entirely.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
@@ -263,7 +182,7 @@ var randomRantsAbout = [
       {
         element: "p",
         textContent:
-          "Warning: Sudden loud sounds can happen from soundboard spam, mic peaks, or other media. Please adjust your volume accordingly.",
+          "Warning: Sudden loud sounds can happen from soundboard spam (or some sounds in the soundboard), mic peaks, or other media. Please adjust your volume accordingly. We currently don't have ways to shut off the soundboard other than the volume slider in the soundboard menu.",
         style: { fontSize: "1em", fontWeight: "bold", color: "#b22222", marginBottom: "1em" },
         children: [],
       },
@@ -309,6 +228,13 @@ var randomRantsAbout = [
         style: { fontSize: "1em", marginBottom: "1em" },
         children: [],
       },
+      {
+        element: "p",
+        textContent:
+          "Note that also sometimes autism can be a little bullied by us. We (as in pre-teens) don't mean that autism is bad, just is funny and goofy sometimes.",
+        style: { fontSize: "1em", marginBottom: "1em" },
+        children: [],
+      },
     ],
   },
 
@@ -335,6 +261,91 @@ var randomRantsAbout = [
       "Random Rants + is your place to rant, chill, and sometimes *accidentally* cause digital mayhem — all while keeping the illusion of productivity alive.",
     style: { fontSize: "1.1em", marginTop: "1.5em" },
     children: [],
+  },
+
+  // History
+  {
+    element: "h2",
+    textContent: "The Story of Original Random Rants",
+    style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "p",
+    children: [
+      { element: "strong", textContent: "Random Rants", children: [] },
+      { element: "span", textContent: " was a browser-based chatting and social app originally built to run smoothly on school Chromebooks." },
+    ],
+    style: { fontSize: "1.1em", marginBottom: "0.5em" },
+  },
+  {
+    element: "p",
+    children: [{ element: "em", textContent: "Note: The original Random Rants site is no longer active." }],
+    style: { fontSize: "1em", marginBottom: "0.3em" },
+  },
+  {
+    element: "p",
+    textContent:
+      "Random Rants began during my middle school days, back when I was in an elective class. I met someone using Scratch, and we started chatting. I showed him a simple chat site I had made called Macre’s Chat.",
+    style: { fontSize: "1.1em", marginBottom: "1em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "That person was Im_CatmanYT, and he really liked the idea. Soon, I saw him and his friends using the site. When we next met, he suggested I make an improved version — and I agreed.",
+    style: { fontSize: "1.1em", marginBottom: "1em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "He recommended a Google Docs–inspired color scheme, but I opted for a neutral gray instead. He also contributed some meme-inspired PNG emojis. And that’s how Random Rants v0.1 was born.",
+    style: { fontSize: "1.1em", marginBottom: "1em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "From there, we shared ideas through Google Docs, and during school, I often found myself working on the project — sometimes as a welcome distraction. Small updates and tweaks gradually shaped what became the original Random Rants.",
+    style: { fontSize: "1.1em", marginBottom: "1.5em" },
+    children: [],
+  },
+
+  {
+    element: "h2",
+    textContent: "Why Random Rants Shut Down",
+    style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "The original Random Rants was hosted on Glitch, a platform I used for most of my projects. When Glitch stopped hosting projects, the site went offline.",
+    style: { fontSize: "1.1em", marginBottom: "1em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "Beyond that, I lost motivation to maintain it. The codebase was outdated and had serious security issues. The app’s global room system allowed anyone to follow users with no privacy controls, which felt unsafe.",
+    style: { fontSize: "1.1em", marginBottom: "1em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent: "Some main problems included:",
+    style: { fontSize: "1.1em", fontWeight: "bold", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "ul",
+    style: { fontSize: "1.1em", marginBottom: "1.5em" },
+    children: [
+      { element: "li", textContent: "No private or unlisted rooms", children: [] },
+      { element: "li", textContent: "Anyone could join your room or track your location", children: [] },
+      { element: "li", textContent: "The auto room selector favored rooms with people, increasing the chance of being followed", children: [] },
+    ],
   },
 ];
 

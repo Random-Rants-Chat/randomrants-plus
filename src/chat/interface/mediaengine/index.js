@@ -1,6 +1,7 @@
 var elements = require("../../../gp2/elements.js");
 var dialog = require("../../../dialogs.js");
 var sws = require("../sharedwebsocket.js");
+var userState = require("../userstate.js");
 
 var movingMediaTexts = [
   "Broadcasting at 144p, just kidding... or are we?",
@@ -20,7 +21,6 @@ var movingMediaTexts = [
   "Screencast engaged. Panic level: 2",
   "Loading pixel juice...",
   "Building lag-resistant warp tunnel ⏳",
-  "Powering up the virtual console ⚡",
   "Beaming your gameplay to the universe 🚀",
   "Calibrating chaos stream 🔄",
   "Tapping into the multi-screenverse 🌐",
@@ -485,6 +485,10 @@ function doLoadingMediaScreen() {
 }
 
 async function doMediaSelect() {
+  if (!userState.permissions.media) {
+    dialog.alert(userState.noPermissionDialog);
+    return;
+  }
   try {
     var div = document.createElement("div");
 
@@ -709,7 +713,11 @@ async function doMediaSelect() {
                           element: "img",
                           src: "images/nes.png",
                           style: { height: "25px" },
-                        },
+                        },userState.on("permissionUpdate", (name,value) => {
+      if (name == "soundboard") {
+        showSoundboardButton.hidden = !value; //Show soundboard button IF has permission to play the soundboard.
+      }
+    });
                         {
                           element: "span",
                           textContent:
@@ -870,6 +878,12 @@ var mediaHelper = {
 chooseMediaButton.addEventListener("click", (e) => {
   e.preventDefault();
   doMediaSelect();
+});
+
+userState.on("permissionUpdate", (name,value) => {
+  if (name == "media") {
+    chooseMediaButton.hidden = !value; //Show button IF has permission to do so.
+  }
 });
 
 module.exports = mediaHelper;

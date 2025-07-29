@@ -923,8 +923,29 @@ async function startRoomWSS(roomid) {
     roomWebsockets[roomid.toString()] = undefined;
     return;
   }
+  info = applyNewRoomPermissionValues(info); //Apply the new permission stuff if not done yet.
+  wss._rrRoomPermissions = info.permissions;
   wss._rrRoomMessages = [];
   wss._rrPeopleCount = 0;
+  function hasPermission(permName,ws) {
+    //Not ready, h o p e f u l l y this does not break things when not ready.
+    if (!ws._rrIsReady) {
+      return false;
+    }
+    //Everyone is definite true.
+    if (wss._rrRoomPermissions[permName] == "everyone") {
+      return true;
+    }
+    //Owner needs to check if has the ownership.
+    if (wss._rrRoomPermissions[permName] == "owner") {
+      if (ws._rrIsOwner) { //Have small anxiety about using the && and || operators with == operators. This should calm myself, but look weird for other developers.
+        return true;
+      }
+    }
+    //None or an invalid value is false.
+    return false;
+  }
+  wss._rrHasPermission = hasPermission; //For the command handler.
   function sendOnlineList() {
     var userlist = [];
     for (var cli of wss.clients) {
@@ -977,6 +998,30 @@ async function startRoomWSS(roomid) {
       );
     });
   }
+
+  function sendPermData(ws) {
+    //Permission update needs to check permissions for each socket.
+    var socketPerms = {};
+    for (var name of Object.keys(wss._rrRoomPermissions)) {
+      socketPerms[name] = hasPermission(name,ws);
+    }
+    ws.send(
+      JSON.stringify({
+        type: "roomPermissions",
+        perms: socketPerms
+      })
+    );
+
+    if (ws._rrIsOwner) { //Specifically for the room settings, send permission levels.
+      ws.send(
+        JSON.stringify({
+          type: "roomPermissionSettings",
+          perms: wss._rrRoomPermissions
+        })
+      );
+    }
+  }
+
   var currentScreenshareCode = null;
   var currentMediaEmbedURL = "";
   var currentScreensharingWebsocket = null;
@@ -1060,7 +1105,7 @@ async function startRoomWSS(roomid) {
           JSON.stringify({
             type: "media",
             command: "mediaEmbedRun",
-            url: currentMediaEmbedURL,
+            url: currentMediaEmbedURws._rrIsOwnerL,
           })
         );
         _isMediaRunning = true;
@@ -1084,7 +1129,7 @@ async function startRoomWSS(roomid) {
           return;
         }
         try {
-          if (json.type == "playSoundboard") {
+          if (json.type == "playSoundboard" && hasPermission("soundboard",ws)) {
             for (var client of wss.clients) {
               client.send(
                 JSON.stringify({
@@ -1095,7 +1140,7 @@ async function startRoomWSS(roomid) {
               );
             }
           }
-          if (json.type == "stopSoundboard") {
+          if (json.type == "stopSoundboard" && hasPermission("soundboard",ws)) {
             for (var client of wss.clients) {
               client.send(
                 JSON.stringify({
@@ -1158,7 +1203,7 @@ async function startRoomWSS(roomid) {
                 );
               });
             }
-            if (json.command == "screenshareRunning") {
+            if (json.command == "screenshareRunning" && hasPermission("media",ws)) {
               currentScreenshareCode = json.code;
               currentScreensharingWebsocket = ws._rrConnectionID;
               wss.clients.forEach((cli) => {
@@ -1171,7 +1216,7 @@ async function startRoomWSS(roomid) {
                 );
               });
             }
-            if (json.command == "mediaEmbedRunning") {
+            if (json.command == "mediaEmbedRunning" && hasPermission("media",ws)) {
               if (typeof json.url !== "string") {
                 return;
               }
@@ -1263,7 +1308,9 @@ async function startRoomWSS(roomid) {
           id: roomid,
         })
       );
+
       sendOnlineList();
+      sendPermData(ws);
       sendRoomChatMessage(
         "[Random Rants +]",
         `${displayName} has joined the room.`,
@@ -1356,6 +1403,15 @@ async function startRoomWSS(roomid) {
       }
     }
 
+    //Reload permission stuff.
+    info = applyNewRoomPermissionValues(info);
+    wss._rrRoomPermissions = info.permissions;
+
+    //Send permission data.
+    wss.clients.forEach((ws) => {
+      sendPermData(ws);
+    });
+
     sendOnlineList();
   };
 
@@ -1427,6 +1483,49 @@ async function startRoomWSS(roomid) {
 var fileUploads = {};
 var fileUploadCount = 0;
 var fileUploadTypes = {};
+
+
+var roomPermNames = [ //These are kinda hardcoded into the logic of the server, so be careful and make sure you account for code before editing this!
+  "soundboard",
+  "media"
+];
+
+
+var roomPermValues = [ //Just for validation.
+  "everyone",
+  "owner",
+  "none"
+];
+
+var roomDefaultPerms = { //names and values must be ones from above
+  "soundboard": "everyone",
+  "media": "everyone"
+};
+
+function applyNewRoomPermissionValues (roomInfo) { //So no need to manually edit all the room files, just add it automatically.
+  var roomPerms = roomInfo.permissions;
+  if (roomPerms) { //Condition passes, then room permissions must be checked and new default values must be applied.
+
+    for (var name of roomPermNames) {
+      if (typeof roomPerms[name] !== "string") { //Room permission does not exist, or is invalid type.
+        roomPerms[name] = roomDefaultPerms[name]; //Set it to the default value.
+      }
+    }
+
+  } else { //Room permission doesn't exist at all, just set it to defaults.
+
+    //Could just use JSON.parse(JSON.stringify(defaultRoomPerms)) to safely copy the values, but this method feels better.
+    var roomPerms = {}; //Create empty object
+    for (var name of roomPermNames) {
+      roomPerms[name] = roomDefaultPerms[name]; //Set to the default value.
+    }
+
+    roomInfo.permissions = roomPerms; //Actually set the value.
+
+  }
+
+  return roomInfo; //Return it just because.
+}
 
 var quickJoinRooms = {};
 var quickJoinCodeNumber = 0;
@@ -1706,6 +1805,82 @@ const server = http.createServer(async function (req, res) {
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
             roomData.name = json.name;
+            await storage.uploadFile(
+              `room-${json.id}-info.json`,
+              JSON.stringify(roomData),
+              "application/json"
+            );
+            if (roomWebsockets[json.id]) {
+              roomWebsockets[json.id]._rrUpdateRoomInfo();
+            }
+            res.end("");
+          } else {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+        } catch (e) {
+          res.statusCode = 500;
+          res.end("");
+        }
+      })();
+      return;
+    }
+    if (urlsplit[2] == "perms" && req.method == "POST") {
+      (async function () {
+        try {
+          var body = await waitForBody(req);
+          var json = JSON.parse(body.toString());
+
+          if (typeof json.id !== "string") {
+            res.statusCode = 400;
+            res.end("Room ID must be string");
+            return;
+          }
+          if (defaultRooms.indexOf(json.id) > -1) {
+            res.statusCode = 400;
+            res.end("Room ID is from a default room ID, these can't be edited!");
+            return;
+          }
+
+          if (typeof json.type !== "string") {
+            res.statusCode = 400;
+            res.end("Room type must be string");
+            return;
+          }
+          if (typeof json.level !== "string") {
+            res.statusCode = 400;
+            res.end("Room permission level must be string.");
+            return;
+          }
+
+          if (roomPermNames.indexOf(json.type) < 0) {
+            res.statusCode = 400;
+            res.end("Room type is not a valid value");
+            return;
+          }
+          if (roomPermValues.indexOf(json.level) < 0) {
+            res.statusCode = 400;
+            res.end("Room level is not a valid value");
+            return;
+          }
+
+          if (!decryptedUserdata) {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+          var roomBuffer = await storage.downloadFile(
+            `room-${json.id}-info.json`
+          );
+          var roomData = JSON.parse(roomBuffer.toString());
+          if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
+
+            roomData = applyNewRoomPermissionValues(roomData); //Get up-to-date room permission data. (so code below does not fail)
+
+            //Edit room permission value.
+            roomData.permissions[json.type] = json.level;
+
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),

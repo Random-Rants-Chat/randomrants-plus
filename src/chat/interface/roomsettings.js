@@ -5,6 +5,35 @@ var userState = require("./userstate.js");
 
 var rs = {};
 
+var roomPermissionOptions = [
+  {
+    element: "option",
+    textContent: "Everyone",
+    value: "everyone",
+  },
+  {
+    element: "option",
+    textContent: "Owner & ownership",
+    value: "owner",
+  },
+  {
+    element: "option",
+    textContent: "Nobody (Off completley)",
+    value: "none",
+  },
+];
+
+async function updatePermissionSetting(name, level) {
+  var response = await fetch(accountHelper.getServerURL() + "/rooms/perms", {
+    method: "POST",
+    body: JSON.stringify({
+      id: userState.roomID,
+      type: name,
+      level: level,
+    }),
+  });
+}
+
 var dialogDiv = document.createElement("div");
 var dom = elements.createElementsFromJSON([
   //Background
@@ -70,6 +99,17 @@ var dom = elements.createElementsFromJSON([
               },
               {
                 element: "span",
+                textContent: "Room info",
+                style: {
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                },
+              },
+              {
+                element: "br",
+              },
+              {
+                element: "span",
                 textContent: "Name:",
               },
               {
@@ -97,7 +137,7 @@ var dom = elements.createElementsFromJSON([
                             name: this.value,
                             id: userState.roomID,
                           }),
-                        }
+                        },
                       );
                     },
                   },
@@ -110,14 +150,149 @@ var dom = elements.createElementsFromJSON([
 
               {
                 element: "div",
-                className: "divButton",
+                className: "sep1",
+              },
+
+              {
+                element: "span",
+                textContent: "Room permissions",
+                style: {
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                },
+              },
+
+              {
+                element: "br",
+              },
+
+              {
+                element: "span",
+                textContent: "These will restart the room when edited!",
+              },
+
+              {
+                element: "br",
+              },
+
+              //Soundboard permission
+
+              {
+                element: "span",
+                textContent: "Soundboard:",
+              },
+
+              {
+                element: "select",
+                className: "inputText1 roundborder",
+                gid: "roomPerms_soundboard",
+                style: {
+                  width: "200px",
+                  height: "30px",
+                },
+                children: roomPermissionOptions,
+                eventListeners: [
+                  {
+                    event: "change",
+                    func: async function () {
+                      this.disabled = true;
+                      await updatePermissionSetting("soundboard", this.value);
+                      this.disabled = false;
+                    },
+                  },
+                ],
+              },
+              {
+                element: "br",
+              },
+
+              //Media permission
+
+              {
+                element: "span",
+                textContent: "Starting media:",
+              },
+
+              {
+                element: "select",
+                className: "inputText1 roundborder",
+                gid: "roomPerms_media",
+                style: {
+                  width: "200px",
+                  height: "30px",
+                },
+                children: roomPermissionOptions,
+                eventListeners: [
+                  {
+                    event: "change",
+                    func: async function () {
+                      this.disabled = true;
+                      await updatePermissionSetting("media", this.value);
+                      this.disabled = false;
+                    },
+                  },
+                ],
+              },
+              {
+                element: "br",
+              },
+
+              {
+                element: "div",
+                className: "sep1",
+              },
+
+              {
+                element: "span",
+                textContent: "Dangerous",
+                style: {
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                },
+              },
+
+              {
+                element: "br",
+              },
+
+              {
+                element: "div",
+                style: {
+                  color: "#cc0606", //Dark red-ish color.
+                },
+                children: [
+                  {
+                    element: "span",
+                    textContent: "Don't mess with these if you ",
+                  },
+                  {
+                    element: "span",
+                    style: {
+                      fontWeight: "bold",
+                    },
+                    textContent: "really", //REALLY tell the user this is actually dangerous! (for the room, and may cause emotional damage)
+                  },
+                  {
+                    element: "span",
+                    textContent: " know what you're doing!",
+                  },
+                ],
+              },
+
+              {
+                element: "br",
+              },
+
+              {
+                element: "div",
+                className: "divButton roundborder",
                 textContent: "💥 Destroy Room",
                 eventListeners: [
                   {
                     event: "click",
                     func: async function () {
                       const dialogResponse = await dialogs.confirm(
-                        "⚠️ You're about to nuke the room. This *will* make everyone vanish. Are you really sure?\n\nClick OK to unleash chaos, or Cancel if your conscience kicks in."
+                        "⚠️ You're about to nuke the room. This *will* make everyone vanish. Are you really sure?\n\nClick OK to unleash chaos, or Cancel if your conscience kicks in.",
                       );
 
                       if (dialogResponse) {
@@ -132,20 +307,20 @@ var dom = elements.createElementsFromJSON([
                               body: JSON.stringify({
                                 id: userState.roomID,
                               }),
-                            }
+                            },
                           );
 
                           if (!response.ok) {
                             dialogs.alert(
                               `🚫 Room self-destruct failed! Server said: ${response.status}.\n` +
-                                "Maybe someone demoted you behind your back, or your session poofed."
+                                "Maybe someone demoted you behind your back, or your session poofed.",
                             );
                           }
                         } catch (e) {
                           console.error("Room destroy error:", e);
                           dialogs.alert(
                             "💥 The room failed to explode due to an unknown error:\n" +
-                              e
+                              e,
                           );
                         }
                       }
@@ -156,7 +331,12 @@ var dom = elements.createElementsFromJSON([
 
               {
                 element: "div",
-                className: "divButton",
+                className: "sep1",
+              },
+
+              {
+                element: "div",
+                className: "divButton roundborder",
                 textContent: "Close",
                 eventListeners: [
                   {
@@ -188,6 +368,10 @@ var roomSettingsNameInput = elements.getGPId("roomSettingsName");
 
 rs.changeRoomName = function (name) {
   roomSettingsNameInput.value = name;
+};
+
+rs.updatePermission = function (name, value) {
+  elements.getGPId("roomPerms_" + name).value = value;
 };
 
 module.exports = rs;
