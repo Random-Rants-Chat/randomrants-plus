@@ -955,3 +955,7 @@ a {
     width: 100%;
   }
 }
+
+.buttonDiv [disabled] {
+  pointer-events: none;
+}
