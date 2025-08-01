@@ -29,6 +29,7 @@ if (!isSecure()) {
 
 require("./appwindow.js");
 require("./wifierror.js");
+require("./navsounds.js");
 
 var mainScreen = elements.getGPId("mainScreen");
 var loadingScreen = elements.getGPId("loadingChatMain");

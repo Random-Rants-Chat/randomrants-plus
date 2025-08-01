@@ -2223,7 +2223,7 @@ const server = http.createServer(async function (req, res) {
         var stuff = await validateUser(decrypted.username, decrypted.password);
         if (stuff.valid) {
           try {
-            if (!body) {
+            if (body.length < 1) {
               await storage.deleteFile(`user-${decrypted.username}-profile`);
               res.end("");
               return;

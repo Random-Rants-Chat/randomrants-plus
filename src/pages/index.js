@@ -226,6 +226,25 @@ var elementJSON = [
                   }
                 ]
               },
+              {
+                element: "div",
+                className: "button2",
+                textContent: "Join a code",
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      if (!accountHelper.getCurrentValidationState()) {
+                        if (await dialogs.confirm("Are you sure you want to join someones room without an Random Rants + account?\nYou won't be able to:\nsave rooms in your room manager\ncreate rooms\ncustomize you're display name and display color\nbecome an room ownership member")) {
+                          window.location.href = "/join";
+                        }
+                      } else {
+                        window.location.href = "/join";
+                      }
+                    }
+                  }
+                ]
+              },
             ]
           },
           { element: "br" },

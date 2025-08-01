@@ -159,6 +159,12 @@ var dialog = {
     dialogBox.append(cancelButton);
 
     return new Promise((accept) => {
+      input.onkeydown = function (e) {
+        if (e.key == "Enter") {
+          e.preventDefault();
+          acceptButton.click();
+        }
+      };
       acceptButton.onclick = function () {
         if (input.value.length < 1) {
           accept(undefined);
@@ -226,6 +232,50 @@ var dialog = {
     return new Promise((accept) => {
       acceptButton.onclick = function () {
         accept(colorInput.value);
+        dialogContainer.remove();
+      };
+      cancelButton.onclick = function () {
+        accept();
+        dialogContainer.remove();
+      };
+    });
+  },
+  passwordPrompt: function (message) {
+    var { dialogBox, background, dialogContainer } = this._createDialogBase();
+
+    dialogBox.focus();
+
+    document.body.append(dialogContainer);
+
+    this._appendHeaders(message, dialogBox);
+
+    var input = this._createTextInputBase();
+    input.type = "password";
+    dialogBox.append(input);
+
+    dialogBox.append(this._createBreakBase());
+
+    var acceptButton = this._createButtonBase();
+    acceptButton.textContent = this.texts.ok;
+    dialogBox.append(acceptButton);
+
+    var cancelButton = this._createButtonBase();
+    cancelButton.textContent = this.texts.cancel;
+    dialogBox.append(cancelButton);
+
+    return new Promise((accept) => {
+      input.onkeydown = function (e) {
+        if (e.key == "Enter") {
+          e.preventDefault();
+          acceptButton.click();
+        }
+      };
+      acceptButton.onclick = function () {
+        if (input.value.length < 1) {
+          accept(undefined);
+        } else {
+          accept(input.value);
+        }
         dialogContainer.remove();
       };
       cancelButton.onclick = function () {

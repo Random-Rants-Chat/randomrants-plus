@@ -178,20 +178,45 @@ function compressImage(oldsrc) {
             },
             {
               element: "div",
-              className: "button",
-              gid: "uploadPFP",
+              style: {
+                display: "flex"
+              },
               children: [
                 {
-                  element: "img",
-                  src: "images/profile.svg",
+                  element: "div",
+                  className: "button",
+                  gid: "uploadPFP",
                   style: {
-                    height: "17px"
-                  }
+                    flexGrow: "1"
+                  },
+                  children: [
+                    {
+                      element: "img",
+                      src: "images/profile.svg",
+                      style: {
+                        height: "17px"
+                      }
+                    },
+                    {
+                      element: "span",
+                      textContent: "Upload profile picture",
+                    }
+                  ]
                 },
                 {
-                  element: "span",
-                  textContent: "Upload profile picture",
-                }
+                  element: "div",
+                  className: "button",
+                  style: {
+                    width: "fit-content",
+                  },
+                  gid: "resetPFP",
+                  children: [
+                    {
+                      element: "span",
+                      textContent: "Reset",
+                    }
+                  ]
+                },
               ]
             },
             {
@@ -219,6 +244,24 @@ function compressImage(oldsrc) {
                 {
                   element: "span",
                   textContent: "Change username color",
+                }
+              ]
+            },
+            {
+              element: "div",
+              className: "button",
+              gid: "changePasswordButton",
+              children: [
+                {
+                  element: "img",
+                  src: "images/key.svg",
+                  style: {
+                    height: "17px"
+                  }
+                },
+                {
+                  element: "span",
+                  textContent: "Change password",
                 }
               ]
             },
@@ -253,6 +296,7 @@ function compressImage(oldsrc) {
       var usernameSpan = elements.getGPId("usernameSpan");
       var changeDisplayNameButton = elements.getGPId("changeDisplayNameButton");
       var displayNameInput = elements.getGPId("displayNameInput");
+      var changePasswordButton = elements.getGPId("changePasswordButton");
       
 
       async function loadImage(imageFile) {
@@ -312,6 +356,18 @@ function compressImage(oldsrc) {
         };
         input.click();
       };
+      var resetPFP = elements.getGPId("resetPFP");
+      resetPFP.onclick = async function () {
+        try{
+          await fetch(
+            accountHelper.getServerURL() + "/account/picture/",
+            { method: "POST", body: "" }
+          );
+          loadImage();
+        }catch(e){
+          dialog.alert("Error deleting profile picture.");
+        }
+      };
 
       usernameColorInput.onchange = async function () {
         userColor = usernameColorInput.value;
@@ -350,11 +406,40 @@ function compressImage(oldsrc) {
           }
         );
         if (!response.ok) {
-          dialog.alert("Unable to set the display name.");
+          dialog.alert("Unable to set the display name, this display name may be too long.");
+          displayNameInput.disabled = false;
           return;
         }
         displayNameInput.value = displayName;
         displayNameInput.disabled = false;
+      };
+
+      var confirmPasswordMessage = "Are you sure you want to change your password?\nYou MUST remember this password, otherwise you're locked out of this account for good!";
+
+      changePasswordButton.onclick = async function () {
+        changePasswordButton.disabled = true;
+        if (await dialog.confirm(confirmPasswordMessage)) {
+          var newPassword = await dialog.passwordPrompt("Input your new password.\nMust be completely unique from your other passwords. (Including ones used for other sites)");
+          if (newPassword) {
+            var response = await fetch(
+              accountHelper.getServerURL() + "/account/passwordchange/",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  newPassword,
+                }),
+              }
+            );
+            if (!response.ok) {
+              dialog.alert("Unable to set the new password.");
+              return;
+            }
+            dialog.alert("Changed password successfully!\nAll other devcices are signed out until you change the password back.");
+          } else {
+            dialog.alert("Password change canceled.");
+          }
+        }
+        changePasswordButton.disabled = false;
       };
     } else {
       var elementJSON = [

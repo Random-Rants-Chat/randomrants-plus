@@ -134,7 +134,8 @@ body {
 }
 
 .windowDialogBackground {
-  background: black;
+  background-color: black;
+  backdrop-filter: blur(2px);
 }
 
 .windowDialogBox {
@@ -204,4 +205,11 @@ a:hover {
   font-size: 14px;
   color: #444;
   line-height: 1.4;
+}
+
+.button [disabled] {
+  pointer-events: none;
+}
+.button2 [disabled] {
+  pointer-events: none;
 }
