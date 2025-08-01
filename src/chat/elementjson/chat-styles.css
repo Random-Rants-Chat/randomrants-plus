@@ -471,6 +471,7 @@ body {
   width: fit-content;
   height: fit-content;
   padding: 4px;
+  cursor: pointer;
 }
 .divButton:hover {
   background-color: var(--button-hover-bg-color);

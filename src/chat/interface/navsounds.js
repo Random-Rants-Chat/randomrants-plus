@@ -1,20 +1,25 @@
 var sounds = require("./sounds.js");
 
 
-document.body.addEventListener("click", e => {
-    setTimeout(() => {
-        const el = e.target;
+document.addEventListener("click", (e) => {
+  let el = e.target;
 
-        // Only trigger if it has a click handler or looks clickable
-        const isClickable =
-            typeof el.onclick === "function" ||
-            el.getAttribute("onclick") ||
-            getComputedStyle(el).cursor === "pointer";
+  while (el && el !== document.body) {
+    const style = getComputedStyle(el);
+    const isClickable =
+      typeof el.onclick === "function" ||
+      el.getAttribute("onclick") !== null ||
+      style.cursor === "pointer" ||
+      el.getAttribute("role") === "button" ||
+      el.tabIndex >= 0;
 
-        if (isClickable) {
-            sounds.play("select", 1);
-        }
-    },10);
+    if (isClickable) {
+      sounds.play("select",1);
+      return;
+    }
+
+    el = el.parentElement;
+  }
 });
 
 // Global keydown listener for typing sound
