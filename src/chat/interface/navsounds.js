@@ -1,5 +1,6 @@
 var sounds = require("./sounds.js");
 
+const clickableClasses = ["divButton"]; //Handling for div button styles.
 
 document.addEventListener("click", (e) => {
   let el = e.target;
@@ -11,6 +12,7 @@ document.addEventListener("click", (e) => {
       el.getAttribute("onclick") !== null ||
       style.cursor === "pointer" ||
       el.getAttribute("role") === "button" ||
+      clickableClasses.some(cls => el.classList.contains(cls)) ||
       el.tabIndex >= 0;
 
     if (isClickable) {
