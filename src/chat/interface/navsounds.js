@@ -14,7 +14,7 @@ document.body.addEventListener("click", e => {
         if (isClickable) {
             sounds.play("select", 1);
         }
-    },100);
+    },10);
 });
 
 // Global keydown listener for typing sound
