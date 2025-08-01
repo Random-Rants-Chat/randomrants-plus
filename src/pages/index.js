@@ -4,6 +4,8 @@ var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 var shtml = require("../safehtmlencode.js");
 var audioEngine = require("../audio.js");
+var accountHelper = require("../accounthelper/index.js");
+var dialogs = require("../dialogs.js");
 
 var randomDialogText = require("../randomquotes.txt");
 var randomQuotes = randomDialogText.split("\n");
@@ -195,6 +197,82 @@ var elementJSON = [
             textContent: "Welcome to Random Rants +",
           },
           { element: "br" },
+          //For people that always look at the center of the site for stuff, here is some "useful" links that you may need.
+
+          {
+            element: "div",
+            style: {
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center"
+            },
+            children:[
+              {
+                element: "div",
+                className: "button2",
+                textContent: "Chat now!!",
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      if (!accountHelper.getCurrentValidationState()) {
+                        if (await dialogs.confirm("Are you sure you want to join without an Random Rants + account?\nYou won't be able to:\nsave rooms in your room manager\ncreate rooms\ncustomize you're display name and display color\nbecome an room ownership member")) {
+                          window.location.href = "/chat";
+                        }
+                      } else {
+                        window.location.href = "/chat";
+                      }
+                    }
+                  }
+                ]
+              },
+            ]
+          },
+          { element: "br" },
+          {
+            element: "div",
+            gid: "userAccountStuffA",
+            hidden: true,
+            children: [
+              {
+                element: "div",
+                style: {
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center"
+                },
+                children:[
+                  {
+                    element: "div",
+                    className: "button2",
+                    textContent: "Sign In",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          window.location.href = "/signin";
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    element: "div",
+                    className: "button2",
+                    textContent: "Sign Up",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          window.location.href = "/signup";
+                        }
+                      }
+                    ]
+                  },
+                ]
+              },
+              { element: "br" },
+            ]
+          },
           {
             element: "span",
             className: "fadeIn delay-1",
@@ -210,25 +288,32 @@ var elementJSON = [
           },
           { element: "br" },
           {
-            element: "span",
-            className: "fadeIn delay-3",
-            gid: "description3",
-            children: [
+            element: "div",
+            hidden: true,
+            gid: "userAccountStuffB",
+            children:[
               {
-                element: "a",
-                textContent: "Sign in",
-                href: "/signin"
+                element: "span",
+                className: "fadeIn delay-3",
+                gid: "description3",
+                children: [
+                  {
+                    element: "a",
+                    textContent: "Sign in",
+                    href: "/signin"
+                  },
+                  " or ",
+                  {
+                    element: "a",
+                    textContent: "Sign up",
+                    href: "/signup"
+                  },
+                  ", jump into a room, and start the chaos.",
+                  " Whether it’s behind the teacher’s back or during silent reading, Random Rants + is *your* zone."
+                ]
               },
-              " or ",
-              {
-                element: "a",
-                textContent: "Sign up",
-                href: "/signup"
-              },
-              ", jump into a room, and start the chaos.",
-              " Whether it’s behind the teacher’s back or during silent reading, Random Rants + is *your* zone."
             ]
-          },
+          }
         ],
       },
     ],
@@ -265,6 +350,7 @@ style.textContent = `
   .delay-3 {
     animation-delay: 1.5s;
   }
+
   @keyframes fadeInUp {
     to {
       opacity: 1;
@@ -297,7 +383,7 @@ style.textContent = `
       transform: translate(0px, 100px) scale(1, 1) rotate(-0.1deg);
     }
     50% {
-      transform: translate(0px, 100px) scale(1, 1) rotate(0.1deg);
+      transform: translate(0px, 100px) scale(1showSignStuff, 1) rotate(0.1deg);
     }
     100% {
       transform: translate(0px, 100px) scale(1, 1) rotate(-0.1deg);
@@ -523,3 +609,20 @@ setInterval(() => {
     createFloatingEmoji();
   }
 }, 300);
+
+//Sign in and sign up stuff shows when not logged in.
+
+var userAccountStuffA = elements.getGPId("userAccountStuffA");
+var userAccountStuffB = elements.getGPId("userAccountStuffB");
+
+function showSignStuff () {
+  userAccountStuffA.hidden = false;
+  userAccountStuffB.hidden = false;
+}
+
+(async function () {
+  var validated = await accountHelper.checkSessionCookie();
+  if (!validated) {
+    showSignStuff();
+  }
+})();

@@ -70,6 +70,25 @@ var elementJSON = [
           {
             element: "span",
             textContent: " before signing up to understand important warnings and community guidelines."
+          },
+          {
+            element: "br"
+          },
+          {
+            element: "span",
+            textContent: "PLEASE READ!! The: "
+          },
+          {
+            element: "a",
+            href: "/security",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            textContent: "Security & Privacy Notice",
+            style: { color: "#b22222", textDecoration: "underline" }
+          },
+          {
+            element: "span",
+            textContent: " before deciding your username and password, and carelessly joining the site."
           }
         ],
       },

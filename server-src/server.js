@@ -2323,44 +2323,6 @@ const server = http.createServer(async function (req, res) {
       }
       return;
     }
-    if (urlsplit[2] == "writemail" && req.method == "POST") {
-      if (decryptedUserdata) {
-        var stuff = await validateUser(
-          decryptedUserdata.username,
-          decryptedUserdata.password
-        );
-        if (!stuff.valid) {
-          runStaticStuff(req, res, {
-            status: 403,
-          });
-          return;
-        }
-        var body = await waitForBody(req);
-        var json = JSON.parse(body.toString());
-        if (typeof json.username == "string") {
-          if (typeof json.message == "string") {
-            var success = await writeMail(
-              json.username.toLowerCase(),
-              {
-                type: "written",
-                values: {
-                  from: decryptedUserdata.username,
-                  message: json.message.slice(0, 250),
-                },
-              },
-              decryptedUserdata.username.toLowerCase()
-            );
-            res.end(JSON.stringify({ success: success }));
-            return;
-          }
-        }
-        res.statusCode = 400;
-        res.end("");
-      } else {
-        res.end("");
-      }
-      return;
-    }
     if (urlsplit[2] == "myrooms" && req.method == "GET") {
       if (decryptedUserdata) {
         try {
@@ -2756,58 +2718,6 @@ const server = http.createServer(async function (req, res) {
           });
         }
       })();
-      return;
-    }
-    if (urlsplit[2] == "mail" && req.method == "GET") {
-      //Get current mail for user.
-      if (decryptedUserdata) {
-        try {
-          var stuff = await validateUser(
-            decryptedUserdata.username,
-            decryptedUserdata.password
-          );
-          if (!stuff.valid) {
-            runStaticStuff(req, res, {
-              status: 403,
-            });
-            return;
-          }
-          var profileFile = `user-${decryptedUserdata.username}.json`;
-          var profileRaw = await storage.downloadFile(profileFile);
-          var json = JSON.parse(profileRaw.toString());
-          //Check if mail is array.
-          if (Array.isArray(json.mail)) {
-            //Although maybe should add filters to the mail to prevent unknown mail types from appearing, this is the best way to do so.
-            res.end(
-              JSON.stringify(
-                {
-                  mail: json.mail,
-                },
-                null,
-                "  "
-              )
-            );
-          } else {
-            res.end(
-              JSON.stringify(
-                {
-                  mail: [],
-                },
-                null,
-                "  "
-              )
-            );
-          }
-        } catch (e) {
-          runStaticStuff(req, res, {
-            status: 500,
-          });
-        }
-      } else {
-        runStaticStuff(req, res, {
-          status: 403,
-        });
-      }
       return;
     }
     if (urlsplit[2] == "login" && req.method == "POST") {
