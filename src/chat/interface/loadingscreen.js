@@ -219,7 +219,16 @@ var loadingScreenTextScroll = [
   "Fetching all known inappropriate doodles...",
   "Initializing: one canvas, infinite chaos.",
   "Someone just drew something so cursed, we’re buffering.",
-  "Drawing tools syncing... get ready to overwrite each other."
+  "Drawing tools syncing... get ready to overwrite each other.",
+  "Turning on the lunch room conversation mode...",
+  "Getting the cute cat pictures ready...",
+  "Lag found. Reason: Too many people smashing the soundboard.",
+  'Joining the room called "Goofy car horn sounds"...',
+  "Loading 99999MB of nothing but unused code for no reason...",
+  "Uploading files to server... Connection unstable.",
+  "Filling the site with Jason Touch...",
+  "Embedding the randomest site with the randomest rant...",
+  "Oops! ChatGPT can't find the meaning of this site."
 ];
 
 function returnRandomValueFromArray(array) {

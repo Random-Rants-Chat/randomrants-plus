@@ -1105,7 +1105,7 @@ async function startRoomWSS(roomid) {
           JSON.stringify({
             type: "media",
             command: "mediaEmbedRun",
-            url: currentMediaEmbedURws._rrIsOwnerL,
+            url: currentMediaEmbedURL,
           })
         );
         _isMediaRunning = true;
