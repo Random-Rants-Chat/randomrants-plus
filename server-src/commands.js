@@ -159,6 +159,45 @@ class CommandHandler {
       });
     }, "<Username>[br]Flashes the screen background for a moment.");
 
+    addCommand("fortune", function (args, userInfo, senderClient) {
+      const fortunes = [
+        "You will find a chicken nugget in your shoe.",
+        "Your Chromebook holds forbidden knowledge.",
+        "You will win a thumb war by default.",
+        "Beware of hallway WiFi drops.",
+        "A ghost is watching you… from the school ceiling.",
+        "You will open a website, and it will work. Miraculously.",
+        "Don't open this site on Safari, you would not like the result.",
+        "Don't question the lag. The lag questions you.",
+        "Your Chromebook knows what you did last update.",
+        "An unexpected pop-up will appear. You will click it anyway.",
+        "Your tabs are watching you. Especially the one you forgot about.",
+        "Someone is typing… but they deleted it all.",
+        "You will press Ctrl+W at the worst possible time.",
+        "The WiFi spirit is not pleased today.",
+        "Lag is temporary. Screaming into the void is forever.",
+        "Your next message will be grammatically cursed.",
+        "The randomizer has chosen you. For what? Unknown.",
+        "You will enter a room with one person… and immediately regret it.",
+        "Beware the user with too many emojis in their name.",
+        "An admin is watching. They are confused but intrigued.",
+        "Your next fortune will be a lie.",
+        "Everything will crash... right after you say it won’t.",
+        "You are the main character — until the plot twist.",
+        "Someone will try to mute you. It won’t work.",
+        "You will scroll too far and uncover forbidden messages.",
+        "Still no dark mode. Consider sunglasses.",
+        "Brightness warning: This site glows like a school projector.",
+        "Dark mode is currently held hostage by light mode.",
+        "Oops, we don’t have dark mode. Sorry if you get flashbanged at 3 AM.",
+      ];
+
+      const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+      const fortuneMessage = `[color css=lightblue][Fortune for ${userInfo.displayName}]: ${randomFortune}[/color]`;
+
+      _this.sendFeedbackGlobal(fortuneMessage);
+    }, "Tells everyone your questionable fortune.");
+
     ////////////////////////////////////////////////////
   }
   

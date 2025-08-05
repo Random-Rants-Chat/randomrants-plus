@@ -212,6 +212,13 @@ function compressImage(oldsrc) {
                   gid: "resetPFP",
                   children: [
                     {
+                      element: "img",
+                      src: "images/reload.svg",
+                      style: {
+                        height: "17px"
+                      }
+                    },
+                    {
                       element: "span",
                       textContent: "Reset",
                     }
@@ -358,6 +365,15 @@ function compressImage(oldsrc) {
       };
       var resetPFP = elements.getGPId("resetPFP");
       resetPFP.onclick = async function () {
+
+        resetPFP.disabled = true;
+
+        var accepted = await dialog.confirm("Do you want to reset your profile picture?\nYou can't get it back once its reset.");
+
+        if (!accepted) {
+          return;
+        }
+
         try{
           await fetch(
             accountHelper.getServerURL() + "/account/picture/",
@@ -367,6 +383,8 @@ function compressImage(oldsrc) {
         }catch(e){
           dialog.alert("Error deleting profile picture.");
         }
+
+        resetPFP.disabled = false;
       };
 
       usernameColorInput.onchange = async function () {
