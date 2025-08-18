@@ -137,7 +137,7 @@ var dom = elements.createElementsFromJSON([
                             name: this.value,
                             id: userState.roomID,
                           }),
-                        },
+                        }
                       );
                     },
                   },
@@ -160,15 +160,6 @@ var dom = elements.createElementsFromJSON([
                   fontWeight: "bold",
                   fontSize: "20px",
                 },
-              },
-
-              {
-                element: "br",
-              },
-
-              {
-                element: "span",
-                textContent: "These will restart the room when edited!",
               },
 
               {
@@ -263,7 +254,7 @@ var dom = elements.createElementsFromJSON([
                 children: [
                   {
                     element: "span",
-                    textContent: "Don't mess with these if you ",
+                    textContent: "Don't mess with these unless you ",
                   },
                   {
                     element: "span",
@@ -292,7 +283,7 @@ var dom = elements.createElementsFromJSON([
                     event: "click",
                     func: async function () {
                       const dialogResponse = await dialogs.confirm(
-                        "⚠️ You're about to nuke the room. This *will* make everyone vanish. Are you really sure?\n\nClick OK to unleash chaos, or Cancel if your conscience kicks in.",
+                        "⚠️ You're about to nuke the room. This *will* make everyone vanish. Are you really sure?\n\nClick OK to unleash chaos, or Cancel if your conscience kicks in."
                       );
 
                       if (dialogResponse) {
@@ -307,20 +298,20 @@ var dom = elements.createElementsFromJSON([
                               body: JSON.stringify({
                                 id: userState.roomID,
                               }),
-                            },
+                            }
                           );
 
                           if (!response.ok) {
                             dialogs.alert(
                               `🚫 Room self-destruct failed! Server said: ${response.status}.\n` +
-                                "Maybe someone demoted you behind your back, or your session poofed.",
+                                "Maybe someone demoted you behind your back, or your session poofed."
                             );
                           }
                         } catch (e) {
                           console.error("Room destroy error:", e);
                           dialogs.alert(
                             "💥 The room failed to explode due to an unknown error:\n" +
-                              e,
+                              e
                           );
                         }
                       }
