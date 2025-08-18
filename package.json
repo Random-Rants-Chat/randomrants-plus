@@ -27,9 +27,6 @@
     "ws": "*"
   },
   "license": "MIT",
-  "engines": {
-    "node": "16.x"
-  },
   "nodemonConfig": {
     "ignore": [
       "wpstatic/version.json",

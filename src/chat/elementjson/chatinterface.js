@@ -6,6 +6,33 @@ function surroundFlexboxDiv(c) {
   };
 }
 
+var chatInputPlaceholders = [
+  "Type your rant message here...",
+  "Write a quick rant to send...",
+  "Enter your chaotic chat message...",
+  "What’s your random thought? Type here.",
+  "Say something loud and proud...",
+  "Write your message and hit Enter.",
+  "Type your next wild rant here.",
+  "Send your random thoughts now.",
+  "Write something for the chat...",
+  "Type your text and press send.",
+  "Write your message — no filters needed.",
+  "Tell us what’s on your mind here.",
+  "Type your rant and make it spicy.",
+  "Write a message everyone will regret reading.",
+  "Enter your unfiltered chat message.",
+  "Say it loud: type your message here.",
+  "Write your next chaotic message.",
+  "Type here to add to the madness.",
+  "Share your rant in the chat box.",
+  "Enter your message and release the chaos.",
+];
+
+function returnRandomValueFromArray(array) {
+  return array[Math.round(Math.random() * (array.length - 1))];
+}
+
 var leftSide = {
   element: "div",
   className: "chatInterfaceLeft",
@@ -64,7 +91,7 @@ var leftSide = {
             },
           ],
         },
-        
+
         {
           element: "div",
           gid: "microphoneUsageTexts",
@@ -74,8 +101,8 @@ var leftSide = {
             bottom: "0px",
             right: "0px",
             display: "flex",
-            flexDirection: "column"
-          }
+            flexDirection: "column",
+          },
         },
       ],
     },
@@ -100,8 +127,8 @@ var rightSide = {
               element: "span",
               textContent: "View online users",
               gid: "toggleMessageAndOnlineViewText",
-            }
-          ]
+            },
+          ],
         },
         {
           element: "button",
@@ -112,21 +139,21 @@ var rightSide = {
               element: "img",
               src: "images/audio.svg",
               style: {
-                height: "17px"
-              }
+                height: "17px",
+              },
             },
             {
               element: "span",
-              textContent: "Soundboard"
-            }
-          ]
+              textContent: "Soundboard",
+            },
+          ],
         },
         {
           element: "button",
           className: "roundborder",
           gid: "showRoomSettingsButton",
           textContent: "Room settings",
-          hidden: true
+          hidden: true,
         },
         {
           element: "button",
@@ -162,13 +189,33 @@ var rightSide = {
         { element: "div", gid: "userMessagesContainer" },
       ],
     },
+    {
+      element: "div",
+      children: [
+        {
+          element: "div",
+          gid: "typingNoticeDiv",
+          className: "typingNoticeDiv",
+        },
+      ],
+    },
     surroundFlexboxDiv([
       {
         element: "input",
         type: "text",
         className: "textBoxColors chatInterfaceMessageTextBox roundborder",
         gid: "messageInputBox",
-        placeholder: "Write your small random rant here.",
+        placeholder: returnRandomValueFromArray(chatInputPlaceholders),
+        eventListeners: [
+          {
+            event: "input",
+            func: function () {
+              this.placeholder = returnRandomValueFromArray(
+                chatInputPlaceholders
+              );
+            },
+          },
+        ],
       },
       {
         //Add a bit of spacing between the text box and the send button
@@ -198,9 +245,9 @@ var rightSide = {
             element: "img",
             src: "images/file.svg",
             style: {
-              height: "25px"
-            }
-          }
+              height: "25px",
+            },
+          },
         ],
         gid: "messageAttachFilesButton",
       },

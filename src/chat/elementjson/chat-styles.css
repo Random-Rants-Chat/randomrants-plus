@@ -1,9 +1,6 @@
 :root {
-  
-  
   --doNotTouchThisEver: 100%; /* but... of what?? */
-  
-  
+
   --bg-color: #b8b8b8;
   --header-color: #b8b8b8;
 
@@ -75,7 +72,7 @@
   --soundboard-stop-button-bgcolor: #d90000;
   --soundboard-stop-button-border-color: #750000;
   --soundboard-stop-button-hover-bgcolor: #ff0000;
-  
+
   --menu-bar-hover-color: #ebebeb;
 
   --usercolors-1: #ff0000;
@@ -100,7 +97,7 @@
   --usercolors-20: #404040;
   --usercolors-21: #2e2e2e;
   --usercolors-22: #000000;
-  
+
   /*windowDialogContainer*/
   --popup-dialog-font: "arial";
   /*windowDialogBox*/
@@ -623,8 +620,13 @@ a {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background */
-  backdrop-filter: blur(2px);      /* The blur effect */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Optional: semi-transparent background */
+  backdrop-filter: blur(2px); /* The blur effect */
   -webkit-backdrop-filter: blur(2px); /* For Safari */
 }
 
@@ -655,6 +657,8 @@ a {
   font-size: 20px;
   overflow: auto;
   flex-wrap: none;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .chatInterfaceOnlineViewBox {
@@ -930,7 +934,8 @@ a {
 }
 
 @keyframes glowPulse {
-  0%, 100% {
+  0%,
+  100% {
     filter: drop-shadow(0 0 4px #000000);
     transform: scale(1);
   }
@@ -959,4 +964,18 @@ a {
 
 .buttonDiv [disabled] {
   pointer-events: none;
+}
+
+.typingNoticeDiv {
+  position: absolute;
+  right: 0;
+  transform: translate(0px, -100%);
+  opacity: 0.5;
+  padding: 5px 10px;
+  pointer-events: none;
+}
+
+.userTypingText {
+  font-weight: bold;
+  color: black;
 }

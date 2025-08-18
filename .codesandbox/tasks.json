@@ -1,0 +1,41 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "name": "Installing Dependencies",
+      "command": "yarn install --ignore-engines"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "build": {
+      "name": "build",
+      "command": "yarn build"
+    },
+    "watch": {
+      "name": "watch",
+      "command": "yarn watch"
+    },
+    "dev:server": {
+      "name": "dev:server",
+      "command": "yarn dev:server"
+    },
+    "dev": {
+      "name": "dev",
+      "command": "yarn dev",
+      "runAtStart": true,
+      "preview": {
+        "port": 3000
+      }
+    },
+    "start": {
+      "name": "start",
+      "command": "yarn start"
+    },
+    "prestart": {
+      "name": "prestart",
+      "command": "yarn prestart"
+    }
+  }
+}

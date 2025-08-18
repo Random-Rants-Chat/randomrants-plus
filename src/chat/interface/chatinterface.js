@@ -20,11 +20,14 @@ var updateManager = require("./updatecheck.js");
 var userState = require("./userstate.js");
 var roomSettings = require("./roomsettings.js");
 var shtml = require("../../safehtmlencode.js");
+var typingnotice = require("./typingnotice.js");
 
 if (!isSecure()) {
-  console.warn("[INSECURE PROTOCOL DETECTED] If you are using the link from a deployment, add https:// to the begining and not http://. \n"+
-  "This is because Random Rants + relies on secure content for parts of the site, please change your protocol to HTTPS if possible/"+
-  "\nRandom Rants + is may not work correctly with the http protocol unless changes to the site settings are made.");
+  console.warn(
+    "[INSECURE PROTOCOL DETECTED] If you are using the link from a deployment, add https:// to the begining and not http://. \n" +
+      "This is because Random Rants + relies on secure content for parts of the site, please change your protocol to HTTPS if possible/" +
+      "\nRandom Rants + is may not work correctly with the http protocol unless changes to the site settings are made."
+  );
 }
 
 require("./appwindow.js");
@@ -51,7 +54,9 @@ var roomErrorScreen = elements.getGPId("roomErrorScreen");
 
 var userOnlineViewBox = elements.getGPId("userOnlineViewBox");
 var toggleMessageAndOnlineView = elements.getGPId("toggleMessageAndOnlineView");
-var toggleMessageAndOnlineViewText = elements.getGPId("toggleMessageAndOnlineViewText");
+var toggleMessageAndOnlineViewText = elements.getGPId(
+  "toggleMessageAndOnlineViewText"
+);
 
 var showRoomSettingsButton = elements.getGPId("showRoomSettingsButton");
 
@@ -93,11 +98,10 @@ reconnectingScreen.hidden = true;
 
 (async function () {
   try {
-        
     updateManager.addUpdateListener("interface", () => {
       isOffline = true;
       sws.close();
-    })
+    });
 
     var externalThings = await fetchUtils.fetchAsJSON("external/other.json");
 
@@ -128,7 +132,8 @@ reconnectingScreen.hidden = true;
       }
     );
 
-    rrLoadingStatusText.textContent = "Staring intensely at the websocket handshake...";
+    rrLoadingStatusText.textContent =
+      "Staring intensely at the websocket handshake...";
 
     setInterval(() => {
       microphones.tick();
@@ -160,6 +165,20 @@ reconnectingScreen.hidden = true;
       );
       userMessagesContainer.append(messageElement);
 
+      if (messageElement) {
+        messageElement.animate(
+          [
+            { transform: "translate(0px, -8px)", opacity: "1" },
+            { transform: "translate(0px, 4px)", opacity: "0.5" },
+            { transform: "translate(0px, 0px)" },
+          ],
+          {
+            duration: 60,
+            easing: "linear",
+          }
+        );
+      }
+
       //Scroll to message element.
       if (willScroll) {
         function scanDiv(d) {
@@ -188,30 +207,38 @@ reconnectingScreen.hidden = true;
     function onMessage(e) {
       try {
         var json = JSON.parse(e.data);
-        if (json.type == "roomPermissions") { //Room permissions recieved, update the user state to reflect them.
+        if (json.type == "roomPermissions") {
+          //Room permissions recieved, update the user state to reflect them.
           var perms = json.perms;
           for (var name of Object.keys(perms)) {
-            userState.updatePermission(name,perms[name]);
+            userState.updatePermission(name, perms[name]);
           }
         }
-        if (json.type == "roomPermissionSettings") { //Used to apply new room permission values to room settings screen.
+        if (json.type == "roomPermissionSettings") {
+          //Used to apply new room permission values to room settings screen.
           var perms = json.perms;
           for (var name of Object.keys(perms)) {
-            roomSettings.updatePermission(name,perms[name]);
+            roomSettings.updatePermission(name, perms[name]);
           }
         }
         if (json.type == "cameraUpdate") {
           if (json.code) {
-            cameras.show(json.id,json.code,json.displayName, json.color); 
+            cameras.show(json.id, json.code, json.displayName, json.color);
           } else {
-            cameras.hide(json.id); 
+            cameras.hide(json.id);
           }
         }
         if (json.type == "microphoneUpdate") {
           if (json.code) {
-            microphones.start(json.id,json.code,json.displayName,json.color,json.isSelf); //Add isSelf so the audio will not play for yourself to avoid interference. 
+            microphones.start(
+              json.id,
+              json.code,
+              json.displayName,
+              json.color,
+              json.isSelf
+            ); //Add isSelf so the audio will not play for yourself to avoid interference.
           } else {
-            microphones.end(json.id); 
+            microphones.end(json.id);
           }
         }
         if (json.type == "ready") {
@@ -250,7 +277,7 @@ reconnectingScreen.hidden = true;
           sws.send(
             JSON.stringify({
               type: "keepAlive",
-              timestamp: Date.now()
+              timestamp: Date.now(),
             })
           );
         }
@@ -281,7 +308,8 @@ reconnectingScreen.hidden = true;
           })();
         }
         if (json.type == "roomStillLoading") {
-          rrLoadingStatusText.textContent = "Waiting for server to actually load the room...";
+          rrLoadingStatusText.textContent =
+            "Waiting for server to actually load the room...";
         }
         if (json.type == "roomName") {
           roomSettings.changeRoomName(json.name);
@@ -305,25 +333,34 @@ reconnectingScreen.hidden = true;
             e.remove();
           }
           json.list.forEach((userInfo) => {
-            
-            async function changeOwnershipUser (promoting) {
+            async function changeOwnershipUser(promoting) {
               if (promoting) {
-                await fetch(accountHelper.getServerURL() + "/rooms/addowner/" + currentRoom, {
-                  body: JSON.stringify({
-                    who: userInfo.username
-                  }),
-                  method: "POST"
-                });
+                await fetch(
+                  accountHelper.getServerURL() +
+                    "/rooms/addowner/" +
+                    currentRoom,
+                  {
+                    body: JSON.stringify({
+                      who: userInfo.username,
+                    }),
+                    method: "POST",
+                  }
+                );
               } else {
-                await fetch(accountHelper.getServerURL() + "/rooms/removeowner/" + currentRoom, {
-                  body: JSON.stringify({
-                    who: userInfo.username
-                  }),
-                  method: "POST"
-                })
+                await fetch(
+                  accountHelper.getServerURL() +
+                    "/rooms/removeowner/" +
+                    currentRoom,
+                  {
+                    body: JSON.stringify({
+                      who: userInfo.username,
+                    }),
+                    method: "POST",
+                  }
+                );
               }
             }
-            
+
             var onlineUser = onlineUserElementGenerator(
               userInfo.username,
               userInfo.displayName,
@@ -337,7 +374,7 @@ reconnectingScreen.hidden = true;
               changeOwnershipUser
             );
             usersOnlineContainer.append(onlineUser);
-          })
+          });
         }
         if (json.type == "media") {
           mediaEngine.onMessage(json);
@@ -346,15 +383,22 @@ reconnectingScreen.hidden = true;
           if (!userState.permissions.soundboard) {
             return;
           }
-          soundboard.playSound(json.index,json.mult);
+          soundboard.playSound(json.index, json.mult);
         }
         if (json.type == "stopSoundboard") {
           soundboard.stopAll();
         }
         if (json.type == "commandToClient") {
           if (browserCommands[json.cType]) {
-            browserCommands[json.cType].call(browserCommands,json.args);
+            browserCommands[json.cType].call(browserCommands, json.args);
           }
+        }
+        if (json.type == "typing") {
+          typingnotice.activateTypingMessage(
+            json.username,
+            json.displayName,
+            json.color
+          );
         }
       } catch (e) {
         console.error(e);
@@ -364,8 +408,7 @@ reconnectingScreen.hidden = true;
       }
     }
 
-    soundboard.onSoundButtonClick = function (index,mult) {
-
+    soundboard.onSoundButtonClick = function (index, mult) {
       if (!userState.permissions.soundboard) {
         dialogs.alert(userState.noPermissionDialog);
         return;
@@ -375,13 +418,12 @@ reconnectingScreen.hidden = true;
         JSON.stringify({
           type: "playSoundboard",
           index,
-          mult
+          mult,
         })
       );
     };
-    
-    soundboard.onSoundStopClick = function () {
 
+    soundboard.onSoundStopClick = function () {
       if (!userState.permissions.soundboard) {
         dialogs.alert(userState.noPermissionDialog);
         return;
@@ -389,7 +431,7 @@ reconnectingScreen.hidden = true;
 
       sws.send(
         JSON.stringify({
-          type: "stopSoundboard"
+          type: "stopSoundboard",
         })
       );
     };
@@ -412,17 +454,21 @@ reconnectingScreen.hidden = true;
       reconnectingScreen.hidden = true;
       //Support for localhost http.
       sws.open(
-          (isSecure() ? ("wss://") : "ws://") + window.location.host + "/" + currentRoom,
+        (isSecure() ? "wss://" : "ws://") +
+          window.location.host +
+          "/" +
+          currentRoom,
         onMessage,
         onOpen,
         onCloseReconnect
       );
     }
-    if (!isOffline) { //Is offline does not actually mean it, its just used to stop connecting when there is an update.
+    if (!isOffline) {
+      //Is offline does not actually mean it, its just used to stop connecting when there is an update.
       openConnection();
     }
     reconnectUsernameError.addEventListener("click", openConnection);
-    
+
     require("./messagebox.js");
 
     require("./attachfiles.js");
@@ -431,7 +477,7 @@ reconnectingScreen.hidden = true;
       soundboard.show();
     });
 
-    userState.on("permissionUpdate", (name,value) => {
+    userState.on("permissionUpdate", (name, value) => {
       if (name == "soundboard") {
         showSoundboardButton.hidden = !value; //Show soundboard button IF has permission to play the soundboard.
       }
@@ -439,7 +485,7 @@ reconnectingScreen.hidden = true;
 
     require("./my-camera.js");
     require("./my-microphone.js");
-    
+
     require("./chatappinterface.js");
   } catch (e) {
     handleErrors(e);

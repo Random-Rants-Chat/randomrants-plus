@@ -55,7 +55,7 @@ messageInputBox.addEventListener("keydown", function (e) {
     e.preventDefault();
     return;
   }
-  
+
   sws.send(
     JSON.stringify({
       type: "typing",

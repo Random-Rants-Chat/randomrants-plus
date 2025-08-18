@@ -1129,6 +1129,18 @@ async function startRoomWSS(roomid) {
           return;
         }
         try {
+          if (json.type == "typing") {
+            for (var client of wss.clients) {
+              client.send(
+                JSON.stringify({
+                  type: "typing",
+                  username: ws._rrUsername,
+                  displayName: ws._rrDisplayName,
+                  color: ws._rrUserColor
+                })
+              );
+            }
+          }
           if (json.type == "playSoundboard" && hasPermission("soundboard",ws)) {
             for (var client of wss.clients) {
               client.send(
