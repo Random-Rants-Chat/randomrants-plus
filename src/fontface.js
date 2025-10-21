@@ -7,7 +7,7 @@ function getGHFileURL(username, repo, file) {
 
 var repoURL = getGHFileURL(
   "Random-Rants-Chat",
-  "randomrants-plus-fonts",
+  "randomrants-new-fonts",
   "fonts/"
 );
 
