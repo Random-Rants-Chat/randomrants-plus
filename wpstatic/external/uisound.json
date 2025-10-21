@@ -1,8 +1,8 @@
 {
-  "error": "https://random-rants-chat.github.io/randomrants-resources/error-warning-login-denied-132113.mp3",
-  "notify": "https://random-rants-chat.github.io/randomrants-resources/infographic-pop-8-197875.mp3",
-  "select": "https://random-rants-chat.github.io/randomrants-resources/select-sound-121244.mp3",
-  "type": "https://random-rants-chat.github.io/randomrants-resources/spacebar-click-keyboard-199448.mp3",
+  "error": "https://cdn.jsdelivr.net/gh/Random-Rants-Chat/randomrants-resources/error-warning-login-denied-132113.mp3",
+  "notify": "https://cdn.jsdelivr.net/gh/Random-Rants-Chat/randomrants-resources/infographic-pop-8-197875.mp3",
+  "select": "https://cdn.jsdelivr.net/gh/Random-Rants-Chat/randomrants-resources/select-sound-121244.mp3",
+  "type": "https://cdn.jsdelivr.net/gh/Random-Rants-Chat/randomrants-resources/spacebar-click-keyboard-199448.mp3",
 
   "errorBackup": "uisounds/error.mp3",
   "notifyBackup": "uisounds/pop.mp3",
