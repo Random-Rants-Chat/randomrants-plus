@@ -1,10 +1,5 @@
 [![Random Rants +](./wpstatic/images/randomrants-plus.svg)](https://randomrants-plus.onrender.com)
 
-### Temporary repostory notice
-
-Lost the other github account, so have to wait until I get access to it again.
-This _will_ be deleted and transfered to the original when I get it back, so don't try to use this as an permalink.
-
 ## What is Random Rants +?
 
 Random Rants + is the next generation of Random Rants,
