@@ -181,12 +181,12 @@ var randomRantsAbout = [
           "Banned from Scratch, dealing with life struggles (Grounded and stuff).",
         ]
       ),
-      //Im_CatmanYT - Eli Swan
+      //Im_CatmanYT
       createSocialDivJSON(
         ["0deg", "50%"],
         "images/creators/imcatman-oc.svg",
         "Im_CatmanYT",
-        "Eli Swan",
+        "",
         [
           {
             src: "images/social/scratch.svg",
@@ -208,10 +208,8 @@ var randomRantsAbout = [
           },
         ],
         [
-          "Met him in real life at middle school. He's a animator on scratch.",
-          'The one that suggested features through Google Docs, came up with some of the admin command ideas, and also came up the name "Random Rants" for this site.',
-          "He also gave a list of image-emojis, which of course was used in this site.",
-          "Also known as: MOP-3000",
+          "Met him irl and he came up with the idea for the site along with some of the ideas for the site",
+          "2D animator",
         ]
       ),
     ],
