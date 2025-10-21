@@ -1,13 +1,14 @@
 var elements = require("./gp2/elements.js");
 var fontList = require("./fontlist.js");
 
-function getGHFileURL(username, repo, file) {
-  return `https://cdn.jsdelivr.net/gh/${username}/${repo}/${file}`;
+function getGHFileURL(username, repo, commitID, file) {
+  return `https://cdn.jsdelivr.net/gh/${username}/${repo}@${commitID}/${file}`;
 }
 
 var repoURL = getGHFileURL(
   "Random-Rants-Chat",
   "randomrants-new-fonts",
+  "4d837ee",
   "fonts/"
 );
 
