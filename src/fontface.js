@@ -5,7 +5,11 @@ function getGHFileURL(username, repo, file) {
   return `https://cdn.jsdelivr.net/gh/${username}/${repo}/${file}`;
 }
 
-var repoURL = getGHFileURL("Random-Rants-Chat", "randomrants-fonts", "fonts/");
+var repoURL = getGHFileURL(
+  "Random-Rants-Chat",
+  "randomrants-plus-fonts",
+  "fonts/"
+);
 
 var pageElements = elements.createElementsFromJSON([
   {
