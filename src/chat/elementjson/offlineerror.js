@@ -20,7 +20,7 @@ module.exports = {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "⚠️ Uh-oh! You're offline!",
+          textContent: "You're offline!",
         },
         {
           element: "div",
@@ -49,14 +49,15 @@ module.exports = {
                 {
                   element: "span",
                   textContent:
-                    "Looks like your WiFi ragequit. Without it, Random Rants+ can’t spread chaos properly.",
+                    "Looks like you went offline. Random Rants + can't rant properly if you're offline!",
                 },
                 {
                   element: "br",
                 },
                 {
                   element: "span",
-                  textContent: "Reconnect to the internet to resume the madness. Still no luck? Try moving closer to your router—or offer it a snack. 🍪"
+                  textContent:
+                    "Please connect to Wi-Fi with internet access to contine the rants. We should automatically continue, if not then click the reload button.",
                 },
               ],
             },

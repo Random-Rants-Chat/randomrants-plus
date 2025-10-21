@@ -5,7 +5,20 @@ var accountHelper = require("../../accounthelper");
 var sws = require("./sharedwebsocket.js");
 
 var noWifiScreen = elements.getGPId("offlineErrorScreen");
+var offline = false;
 
 setInterval(() => {
-  noWifiScreen.hidden = navigator.onLine;
-},100);
+  if (!navigator.onLine) {
+    if (!offline) {
+      offline = true;
+      noWifiScreen.hidden = false;
+      sws.close();
+    }
+  } else {
+    if (offline) {
+      offline = false;
+      noWifiScreen.hidden = true;
+      sws.openLast();
+    }
+  }
+}, 100);

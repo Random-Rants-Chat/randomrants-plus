@@ -3,7 +3,7 @@ module.exports = {
   gid: "guestErrorScreen",
   hidden: true,
   style: {
-    zIndex: 10
+    zIndex: 10,
   },
   children: [
     {
@@ -20,7 +20,7 @@ module.exports = {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "This room does not allow guest users",
+          textContent: "No guest users are allowed here",
         },
         {
           element: "br",
@@ -28,7 +28,15 @@ module.exports = {
         {
           element: "span",
           textContent:
-            "Sign in or sign up to a Random Rants + account to join this room.",
+            "This room doesn't want any guests in it. You'll need a Random Rants + account to get in.",
+        },
+        {
+          element: "br",
+        },
+        {
+          element: "span",
+          textContent:
+            'Why? Someone must have turned off "Allow Guest users" in the room settings.',
         },
         {
           element: "br",
@@ -36,8 +44,36 @@ module.exports = {
         {
           element: "div",
           className: "divButton roundborder",
-          textContent: "Go to home.",
-          gid: "goToHome",
+          textContent: "Sign in",
+          eventListeners: [
+            {
+              event: "click",
+              func: function () {
+                window.location.href =
+                  "/signin?href=" +
+                  encodeURIComponent(
+                    window.location.pathname + window.location.hash,
+                  );
+              },
+            },
+          ],
+        },
+        {
+          element: "div",
+          className: "divButton roundborder",
+          textContent: "Sign up",
+          eventListeners: [
+            {
+              event: "click",
+              func: function () {
+                window.location.href =
+                  "/signup?href=" +
+                  encodeURIComponent(
+                    window.location.pathname + window.location.hash,
+                  );
+              },
+            },
+          ],
         },
       ],
     },

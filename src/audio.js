@@ -7,16 +7,10 @@ audioEngine.context = audioCTX;
 audioEngine.running = false;
 
 setInterval(() => {
-  if (audioCTX.state !== "running") {
-    if (audioCTX) {
-      audioCTX.close().catch(() => {});
-    }
-    audioCTX = new AudioContext();
-    audioEngine.context = audioCTX;
-    audioEngine.running = false;
-  } else {
-    audioEngine.running = true;
+  if (audioCTX.state === "suspended") {
+    audioCTX.resume().catch(() => {});
   }
+  audioEngine.running = audioCTX.state === "running";
 }, 100);
 
 function cloneAudioBuffer(fromAudioBuffer) {
@@ -69,60 +63,60 @@ class AudioBufferPlayer {
     this.filters = [];
   }
 
-  setData (data) {
+  setData(data) {
     this.data = data;
   }
 
-  set looped (v) {
+  set looped(v) {
     if (this.source) {
       this.source.loop = v;
     }
     this._looped = v;
   }
 
-  get looped () {
+  get looped() {
     return this._looped;
   }
 
-  set loopStart (v) {
+  set loopStart(v) {
     if (this.source) {
       this.source.loopStart = v;
     }
     this._loopStart = v;
   }
 
-  get loopStart () {
+  get loopStart() {
     return this._loopStart;
   }
 
-  set loopEnd (v) {
+  set loopEnd(v) {
     if (this.source) {
       this.source.loopEnd = v;
     }
     this._loopEnd = v;
   }
 
-  get loopEnd () {
+  get loopEnd() {
     return this._loopEnd;
   }
 
-  set detune (v) {
+  set detune(v) {
     if (this.source) {
       this.source.detune.value = v;
     }
     this._detune = v;
   }
 
-  get detune () {
+  get detune() {
     return this._detune;
   }
 
-  loopAt (start,end) {
+  loopAt(start, end) {
     this.loopStart = start;
     this.loopEnd = end;
   }
 
-  stop () {
+  stop() {
     this.pause();
   }
 
@@ -152,10 +146,19 @@ class AudioBufferPlayer {
 
         this.source = source;
         source.onended = () => {
-          this.onended();
+          this._callOnEnded();
           this.source = null;
         };
+        this._endedCalled = false;
       }
+    }
+  }
+
+  _callOnEnded() {
+    if (this._endedCalled) return; // prevent double firing
+    this._endedCalled = true;
+    if (typeof this.onended === "function") {
+      this.onended();
     }
   }
 
@@ -164,12 +167,12 @@ class AudioBufferPlayer {
       this.source.stop();
       this.source = null;
       this.gainNode = null;
+      this._callOnEnded();
     }
   }
 
   remove() {
-    this.pause();
-    this.filters = [];
+    this.destory();
   }
 
   setVolume(value) {
@@ -179,11 +182,11 @@ class AudioBufferPlayer {
     this.startVol = value;
   }
 
-  get volume () {
+  get volume() {
     return this.startVol;
   }
 
-  set volume (v) {
+  set volume(v) {
     if (this.gainNode) {
       this.gainNode.gain.value = v;
     }
@@ -224,7 +227,7 @@ class AudioBufferPlayer {
       this.gainNode.gain.setValueAtTime(0, audioCTX.currentTime);
       this.gainNode.gain.linearRampToValueAtTime(
         this.startVol,
-        audioCTX.currentTime + duration
+        audioCTX.currentTime + duration,
       );
     }
   }
@@ -234,7 +237,7 @@ class AudioBufferPlayer {
       this.gainNode.gain.setValueAtTime(this.getVolume(), audioCTX.currentTime);
       this.gainNode.gain.linearRampToValueAtTime(
         0,
-        audioCTX.currentTime + duration
+        audioCTX.currentTime + duration,
       );
     }
   }

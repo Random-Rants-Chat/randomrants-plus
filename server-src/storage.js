@@ -48,8 +48,8 @@ class GvbBaseSupabaseStorage {
       req.end();
     });
   }
-  
-  async getFileStatus (filename) {
+
+  async getFileStatus(filename) {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
     )}`;
@@ -78,7 +78,7 @@ class GvbBaseSupabaseStorage {
       status: response.statusCode,
     };
   }
-  
+
   getHeaderValue(headers, headerName) {
     for (var key of Object.keys(headers)) {
       if (key.toLowerCase() == headerName.toLowerCase()) {
@@ -94,97 +94,112 @@ class GvbBaseSupabaseStorage {
     serverResponse,
     proxyHeaders = []
   ) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
-      filename
-    )}?v=${Date.now()}`;
-    var url = URLModule.parse(this.projectUrl + path);
-    
-    var customHeaders = {};
-    if (_customHeaders) {
-      customHeaders = _customHeaders;
-    }
-      
-    var _this = this;
-      
-    const options = {
-      method: "GET",
-      headers: {
-        apikey: this.apiKey,
-        Authorization: `Bearer ${this.apiKey}`,
-        ...customHeaders
-      },
-      ...url
-    };
+        filename
+      )}?v=${Date.now()}`;
+      var url = URLModule.parse(this.projectUrl + path);
 
-    https
-      .get(options, (res) => {
-        for (var header of proxyHeaders) {
-          var value = _this.getHeaderValue(res.headers,header);
-          if (value) serverResponse.setHeader(header, value);
-        }
-        if (okServerResponses.indexOf(res.statusCode) < 0) {
-          reject(`HTTP ${res.statusCode}`);
-          return;
-        }
-        serverResponse.statusCode = res.statusCode;
-        res.pipe(serverResponse);
-      
-        var data = [];
-        
-        res.on("data", (chunk) => {
-          data.push(chunk);
-        });
-        
-        res.on("end", () => {
-          resolve({
-            buffer: Buffer.concat(data),
-            response: res,
-            headers: res.headers,
-            status: res.statusCode,
+      var customHeaders = {};
+      if (_customHeaders) {
+        customHeaders = _customHeaders;
+      }
+
+      var _this = this;
+
+      const options = {
+        method: "GET",
+        headers: {
+          apikey: this.apiKey,
+          Authorization: `Bearer ${this.apiKey}`,
+          ...customHeaders,
+        },
+        ...url,
+      };
+
+      https
+        .get(options, (res) => {
+          for (var header of proxyHeaders) {
+            var value = _this.getHeaderValue(res.headers, header);
+            if (value) serverResponse.setHeader(header, value);
+          }
+          if (okServerResponses.indexOf(res.statusCode) < 0) {
+            reject(`HTTP ${res.statusCode}`);
+            return;
+          }
+          serverResponse.statusCode = res.statusCode;
+          res.pipe(serverResponse);
+
+          var data = [];
+
+          res.on("data", (chunk) => {
+            data.push(chunk);
+          });
+
+          res.on("end", () => {
+            resolve({
+              buffer: Buffer.concat(data),
+              response: res,
+              headers: res.headers,
+              status: res.statusCode,
+            });
           });
         })
-      })
-      .on("error", (err) => {
-        reject(err);
-      });
-    })
+        .on("error", (err) => {
+          reject(err);
+        });
+    });
   }
 
-  async uploadFile(filename, data, contentType = "application/octet-stream") {
+  async uploadFile(filename, data, contentType = "text/plain") {
+    //Usually files get sent in text format.
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
     )}`;
+
+    var contentLength;
+    if (typeof data === "string") {
+      contentLength = Buffer.byteLength(data, "utf8");
+    } else {
+      // Assumes Buffer or other type with a byte-based .length property
+      contentLength = data.length;
+    }
+
     const { buffer } = await this._makeRequest(
       "POST",
       path,
       {
         "Content-Type": contentType,
-        "Content-Length": data.length,
+        "Content-Length": contentLength,
         "x-upsert": "true",
-        "cache-control": "max-age=0" // 👈 add this line
+        "cache-control": "max-age=0",
       },
       data
     );
     return buffer;
   }
 
-  async uploadFileAdvanced(
-    filename,
-    data,
-    contentType = "application/octet-stream"
-  ) {
+  async uploadFileAdvanced(filename, data, contentType = "text/plain") {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
     )}`;
+
+    var contentLength;
+    if (typeof data === "string") {
+      contentLength = Buffer.byteLength(data, "utf8");
+    } else {
+      // Assumes Buffer or other type with a byte-based .length property
+      contentLength = data.length;
+    }
+
     const { buffer, response, request } = await this._makeRequest(
       "POST",
       path,
       {
         "Content-Type": contentType,
-        "Content-Length": data.length,
+        "Content-Length": contentLength,
         "x-upsert": "true",
-        "cache-control": "max-age=0" // 👈 add this line
+        "cache-control": "max-age=0",
       },
       data
     );
@@ -210,7 +225,10 @@ class GvbBaseSupabaseStorage {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename
     )}`;
-    const { buffer, response, request } = await this._makeRequest("DELETE", path);
+    const { buffer, response, request } = await this._makeRequest(
+      "DELETE",
+      path
+    );
     return {
       buffer,
       response,

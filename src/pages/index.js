@@ -1,21 +1,17 @@
+window.title = "Random Rants +";
+
 require("../cookiewarning");
 require("./stylesheet.js");
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 var shtml = require("../safehtmlencode.js");
-var audioEngine = require("../audio.js");
 var accountHelper = require("../accounthelper/index.js");
 var dialogs = require("../dialogs.js");
+var { rainbowHexes } = require("../colorutil.js");
+require("./navigate-loader.js");
 
 var randomDialogText = require("../randomquotes.txt");
-var randomQuotes = randomDialogText.split("\n");
-
-async function fetchAsJSON(url, options) {
-  var a = await fetch(url, options);
-  var b = await a.json();
-
-  return b;
-}
+var randomQuotes = randomDialogText.trim().split("\n");
 
 function returnRandomValueFromArray(array) {
   return array[Math.round(Math.random() * (array.length - 1))];
@@ -54,7 +50,9 @@ var elementJSON = [
       position: "fixed",
       bottom: "-20px",
       left: "0px",
-      pointerEvents: "none"
+      pointerEvents: "none",
+      userSelect: "none",
+      filter: "drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.2))",
     },
   },
   {
@@ -66,7 +64,9 @@ var elementJSON = [
       bottom: "-20px",
       right: "0px",
       transform: "scale(-1, 1)",
-      pointerEvents: "none"
+      pointerEvents: "none",
+      userSelect: "none",
+      filter: "drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.2))",
     },
   },
   {
@@ -105,7 +105,9 @@ var elementJSON = [
       position: "fixed",
       bottom: "-20px",
       left: "0px",
-      pointerEvents: "none"
+      pointerEvents: "none",
+      userSelect: "none",
+      filter: "drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.2))",
     },
   },
   {
@@ -145,7 +147,9 @@ var elementJSON = [
       bottom: "-20px",
       right: "0px",
       transform: "scale(-1, 1)",
-      pointerEvents: "none"
+      pointerEvents: "none",
+      userSelect: "none",
+      filter: "drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.2))",
     },
   },
   {
@@ -153,48 +157,104 @@ var elementJSON = [
     style: {
       transform: "translate(-50%, -50%)",
       position: "fixed",
-      top: "50%",
+      top: "calc(50% + 50px)",
       left: "50%",
       backgroundColor: "#ffffff",
       borderRadius: "5px",
       boxShadow: "0 0px 30px black",
+      padding: "15px 15px",
+      zIndex: "100",
+
+      maxWidth: "90vw", // Set a maximum width based on viewport width (e.g., 90% of the viewport)
+      maxHeight: "90vh",
+      minWidth: "325px",
+
+      display: "inline-block",
+      overflowWrap: "break-word",
     },
     children: [
+      {
+        element: "div",
+        style: {
+          position: "fixed",
+        },
+        children: [
+          {
+            element: "img",
+            src: "images/person3.svg", //Two random rant characters (just for the home page) looking down at the text below.
+            style: {
+              position: "fixed",
+              left: "50%",
+              top: "1px",
+              pointerEvents: "none",
+              userSelect: "none",
+              transform: "translate(-50%, -100%)",
+              transformOrigin: "bottom",
+              filter: "drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.2))",
+            },
+            GPWhenCreated: function (elm) {
+              elm.animate(
+                [
+                  {
+                    transform: "translate(-50%, -100%) scale(1.2, 0)",
+                  },
+                  {
+                    transform: "translate(-50%, -100%) scale(1, 1)",
+                  },
+                ],
+                {
+                  duration: 900,
+                  easing: "ease-out",
+                }
+              );
+            },
+          },
+        ],
+      },
+      require("./sitenews-notice.js"),
       {
         element: "div",
         className: "fadeIn",
         gid: "mainCenter",
         style: {
-          width: "calc(100vw - 200px)",
-          minWidth: "300px",
-          textWrap: "balance", // Only works in Chromium browsers
           textAlign: "center",
-          overflowWrap: "break-word",
-          wordBreak: "break-word",
-          hyphens: "auto",
-          padding: "1rem", // Optional: gives breathing room
-          boxSizing: "border-box"
         },
         children: [
           {
-            element: "span",
+            element: "div",
             className: "fadeIn delay-3",
             style: {
               fontSize: "40px",
-              color: "black",
+              color: returnRandomValueFromArray(rainbowHexes),
+              fontFamily: "Fredoka",
+              overflowWrap: "break-word",
+              //display: "inline",
             },
-            innerHTML: shtml.getMessageHTML(
-              returnRandomValueFromArray(randomQuotes).trim()
-            ),
+
+            textContent: returnRandomValueFromArray(randomQuotes).trim(),
           },
           {
             element: "br",
           },
           {
-            element: "span",
-            className: "headerText bounceIn",
-            gid: "mainHeader",
-            textContent: "Welcome to Random Rants +",
+            element: "div",
+            style: {
+              //display: "flex",
+              alignContent: "center",
+              textAlign: "center",
+              justifyContent: "center",
+            },
+            className: "headerText",
+            children: [
+              {
+                element: "img",
+                src: "images/welcometo.svg",
+                style: {
+                  maxHeight: "70px",
+                  width: "100%",
+                },
+              },
+            ],
           },
           { element: "br" },
           //For people that always look at the center of the site for stuff, here is some "useful" links that you may need.
@@ -204,27 +264,31 @@ var elementJSON = [
             style: {
               display: "flex",
               alignContent: "center",
-              justifyContent: "center"
+              justifyContent: "center",
             },
-            children:[
+            children: [
               {
                 element: "div",
                 className: "button2",
-                textContent: "Chat now!!",
+                textContent: "Rant now!!",
                 eventListeners: [
                   {
                     event: "click",
                     func: async function () {
                       if (!accountHelper.getCurrentValidationState()) {
-                        if (await dialogs.confirm("Are you sure you want to join without an Random Rants + account?\nYou won't be able to:\nsave rooms in your room manager\ncreate rooms\ncustomize you're display name and display color\nbecome an room ownership member")) {
+                        if (
+                          await dialogs.confirm(
+                            "Are you sure you want to enter chat without an Random Rants + account?"
+                          )
+                        ) {
                           window.location.href = "/chat";
                         }
                       } else {
                         window.location.href = "/chat";
                       }
-                    }
-                  }
-                ]
+                    },
+                  },
+                ],
               },
               {
                 element: "div",
@@ -235,19 +299,35 @@ var elementJSON = [
                     event: "click",
                     func: async function () {
                       if (!accountHelper.getCurrentValidationState()) {
-                        if (await dialogs.confirm("Are you sure you want to join someones room without an Random Rants + account?\nYou won't be able to:\nsave rooms in your room manager\ncreate rooms\ncustomize you're display name and display color\nbecome an room ownership member")) {
+                        if (
+                          await dialogs.confirm(
+                            "Are you sure you want to join someones room without an Random Rants + account?"
+                          )
+                        ) {
                           window.location.href = "/join";
                         }
                       } else {
                         window.location.href = "/join";
                       }
-                    }
-                  }
-                ]
+                    },
+                  },
+                ],
               },
-            ]
+              {
+                element: "div",
+                className: "button2",
+                textContent: "About us",
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      window.location.href = "/about";
+                    },
+                  },
+                ],
+              },
+            ],
           },
-          { element: "br" },
           {
             element: "div",
             gid: "userAccountStuffA",
@@ -258,9 +338,9 @@ var elementJSON = [
                 style: {
                   display: "flex",
                   alignContent: "center",
-                  justifyContent: "center"
+                  justifyContent: "center",
                 },
-                children:[
+                children: [
                   {
                     element: "div",
                     className: "button2",
@@ -270,9 +350,9 @@ var elementJSON = [
                         event: "click",
                         func: function () {
                           window.location.href = "/signin";
-                        }
-                      }
-                    ]
+                        },
+                      },
+                    ],
                   },
                   {
                     element: "div",
@@ -283,34 +363,67 @@ var elementJSON = [
                         event: "click",
                         func: function () {
                           window.location.href = "/signup";
-                        }
-                      }
-                    ]
+                        },
+                      },
+                    ],
                   },
-                ]
+                ],
               },
               { element: "br" },
-            ]
+            ],
+          },
+          {
+            element: "div",
+            gid: "customizeStuffDiv",
+            hidden: true,
+            children: [
+              {
+                element: "div",
+                style: {
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                },
+                children: [
+                  {
+                    element: "div",
+                    className: "button2",
+                    textContent: "My account & customization",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          window.location.href = "/myaccount";
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              { element: "br" },
+            ],
           },
           {
             element: "span",
             className: "fadeIn delay-1",
             gid: "description1",
-            textContent: "Random Rants + is your hideout from homework — chat, meme, and vibe while the teacher thinks you're researching a project.",
+            textContent:
+              "Random Rants +, made both for maximum goofiness and your digital escape from school.",
           },
           { element: "br" },
           {
             element: "span",
             className: "fadeIn delay-2",
             gid: "description2",
-            textContent: "Talk loud, spam harder. With memes and sounds that could crash a school network, this is Chromebook rebellion at its finest.",
+            textContent:
+              "Talk loud as possible, play a meme sound, or type the craziest rants, it's all here.",
           },
           { element: "br" },
           {
             element: "div",
             hidden: true,
             gid: "userAccountStuffB",
-            children:[
+            children: [
               {
                 element: "span",
                 className: "fadeIn delay-3",
@@ -319,20 +432,26 @@ var elementJSON = [
                   {
                     element: "a",
                     textContent: "Sign in",
-                    href: "/signin"
+                    href: "/signin",
                   },
                   " or ",
                   {
                     element: "a",
                     textContent: "Sign up",
-                    href: "/signup"
+                    href: "/signup",
                   },
-                  ", jump into a room, and start the chaos.",
-                  " Whether it’s behind the teacher’s back or during silent reading, Random Rants + is *your* zone."
-                ]
+                  ", jump into a room, and rant like there is no end.",
+                  " Whether its behind a Teachers back, or during research time, Random Rants + is ",
+                  {
+                    element: "span",
+                    style: { fontWeight: "bold" },
+                    textContent: "your",
+                  },
+                  " digital space.",
+                ],
               },
-            ]
-          }
+            ],
+          },
         ],
       },
     ],
@@ -345,109 +464,7 @@ elements.appendElements(
 );
 
 var style = document.createElement("style");
-style.textContent = `
-  
-  @font-face {
-    font-family: ComicSansMS;
-    src: url(COMIC.TTF);
-  }
-  
-  .fadeIn {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s forwards;
-  }
-  .bounceIn {
-    animation: bounceIn 1.2s;
-  }
-  .delay-1 {
-    animation-delay: 0.5s;
-  }
-  .delay-2 {
-    animation-delay: 1s;
-  }
-  .delay-3 {
-    animation-delay: 1.5s;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes fadeIn {
-    from {
-      transform: translate(0px, 100px) scale(2, 2);
-      opacity: 0;
-    }
-    to {
-      transform: translate(0px, 80px) scale(1, 1);
-      opacity: 1;
-    }
-  }
-  @keyframes fadeIn2 {
-    from {
-      transform: translate(0px, 100px) scale(-2, 2);
-      opacity: 0;
-    }
-    to {
-      transform: translate(0px, 80px) scale(-1, 1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes rotating {
-    0% {
-      transform: translate(0px, 100px) scale(1, 1) rotate(-0.1deg);
-    }
-    50% {
-      transform: translate(0px, 100px) scale(1showSignStuff, 1) rotate(0.1deg);
-    }
-    100% {
-      transform: translate(0px, 100px) scale(1, 1) rotate(-0.1deg);
-    }
-  }
-  
-  @keyframes rotating2 {
-    0% {
-      transform: translate(0px, 100px) scale(-1, 1) rotate(-0.1deg);
-    }
-    50% {
-      transform: translate(0px, 100px) scale(-1, 1) rotate(0.1deg);
-    }
-    100% {
-      transform: translate(0px, 100px) scale(-1, 1) rotate(-0.1deg);
-    }
-  }
-  
-  @keyframes bounceIn {
-    0%, 20%, 40%, 60%, 80%, 100% {
-      transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    }
-    0% {
-      opacity: 0;
-      transform: scale3d(0.3, 0.3, 0.3);
-    }
-    20% {
-      transform: scale3d(1.1, 1.1, 1.1);
-    }
-    40% {
-      transform: scale3d(0.9, 0.9, 0.9);
-    }
-    60% {
-      opacity: 1;
-      transform: scale3d(1.03, 1.03, 1.03);
-    }
-    80% {
-      transform: scale3d(0.97, 0.97, 0.97);
-    }
-    100% {
-      opacity: 1;
-      transform: scale3d(1, 1, 1);
-    }
-  }
-`;
+style.textContent = require("./index-styles.css");
 document.head.appendChild(style);
 
 //Animate persons.
@@ -513,128 +530,15 @@ p2Animation.addEventListener("finish", () => {
   );
 });
 
-//Floating emojis and behaivor
-
-const emojiContainer = elements.getGPId("emojiContainer");
-
-const EMOJIS = ["😂", "🤣", "💀", "🤨", "😎"];
-var EMOJISound = null;
-
-(async function () {
-  var soundURLS = await fetchAsJSON("external/uisound.json");
-  EMOJISound = await audioEngine.loadSoundFromURL(soundURLS.select);
-})();
-
-const MAX_EMOJIS = 100;
-const INITIAL_EMOJIS = 70;
-
-function createFloatingEmoji(spawnAnywhere = false) {
-  const emoji = document.createElement("div");
-  emoji.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-  emoji.style.position = "absolute";
-  emoji.style.fontSize = `${150 + Math.random() * 20}%`;
-
-  const startX = Math.random() * window.innerWidth;
-  const offsetX = (Math.random() - 0.5) * 100;
-
-  const startY = spawnAnywhere
-    ? Math.random() * window.innerHeight
-    : window.innerHeight + 30 + Math.random() * 50;
-  const endY = -50;
-
-  emoji.style.left = `${startX}px`;
-  emoji.style.top = `${startY}px`;
-  emoji.style.opacity = `${0.6 + Math.random() * 0.4}`;
-  emoji.style.transformOrigin = "center";
-  emoji.style.cursor = "pointer";
-  emoji.style.userSelect = "none";
-  emoji.style.outline = "none";
-  
-  var animationRunning = true;
-
-  emoji.onclick = function () {
-    animationRunning = false;
-    if (audioEngine.running) {
-      var sound = new audioEngine.Player(EMOJISound);
-      sound.play();
-    }
-    emoji.onclick = null;
-    emoji.style.pointerEvents = "none";
-    var animation = emoji.animate(
-      [
-        { transform: "scale(1)" },
-        { transform: "scale(3.5)", opacity: "0", filter: "brightness(5)" },
-      ],
-      {
-        duration: 350,
-        iterations: 1,
-        easing: "ease-out",
-      }
-    );
-    animation.addEventListener("finish", () => {
-      emoji.remove();
-    });
-  };
-
-  emojiContainer.appendChild(emoji);
-
-  let startTime = performance.now();
-  let lastTimestamp = startTime;
-  const duration = 3000 + Math.random() * 1000;
-  const SPEED = 100;
-  var offset = Math.random()*5;
-
-  function animate() {
-    if (!animationRunning) {
-      return;
-    };
-    if (document.visibilityState !== "visible") {
-      // pause and wait until visible again
-      requestAnimationFrame(animate);
-      return;
-    }
-
-    const now = performance.now();
-    const elapsed = now - startTime;
-    const distanceMoved = (elapsed / 1000) * SPEED;
-    const currentY = startY - distanceMoved;
-    const currentX = startX + offsetX * (elapsed / duration);
-    emoji.style.transform = `rotate(${Math.sin((elapsed / 400)+offset)*10}deg)`;
-
-    emoji.style.left = `${currentX}px`;
-    emoji.style.top = `${currentY}px`;
-
-    if (currentY < endY) {
-      emoji.remove();
-    } else {
-      requestAnimationFrame(animate);
-    }
-  }
-
-  requestAnimationFrame(animate);
-}
-
-// Spawn a bunch initially across the screen
-for (let i = 0; i < INITIAL_EMOJIS; i++) {
-  createFloatingEmoji(true);
-}
-
-// New emojis rise from the bottom after
-setInterval(() => {
-  if (
-    document.visibilityState === "visible" &&
-    emojiContainer.children.length < MAX_EMOJIS
-  ) {
-    createFloatingEmoji();
-  }
-}, 300);
+require("./floatingemojis.js");
 
 //Sign in and sign up stuff shows when not logged in.
 
 var userAccountStuffA = elements.getGPId("userAccountStuffA");
 var userAccountStuffB = elements.getGPId("userAccountStuffB");
+var customizeStuffDiv = elements.getGPId("customizeStuffDiv");
 
-function showSignStuff () {
+function showSignStuff() {
   userAccountStuffA.hidden = false;
   userAccountStuffB.hidden = false;
 }
@@ -643,5 +547,7 @@ function showSignStuff () {
   var validated = await accountHelper.checkSessionCookie();
   if (!validated) {
     showSignStuff();
+  } else {
+    customizeStuffDiv.hidden = false;
   }
 })();

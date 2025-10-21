@@ -16,11 +16,11 @@ var contentStream = null;
 
 function setButtonText(t) {
   var buttonTexts = {
-    starting: "Enabling camera...",
-    stop: "Disable camera",
-    start: "Enable camera",
+    starting: '<img src="images/cam.svg" height="17">' + "Enabling camera...",
+    stop: '<img src="images/cam.svg" height="17">' + "Disable camera",
+    start: '<img src="images/cam.svg" height="17">' + "Enable camera",
   };
-  toggleButton.textContent = buttonTexts[t];
+  toggleButton.innerHTML = buttonTexts[t];
 }
 
 setButtonText("start");

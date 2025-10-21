@@ -6,6 +6,48 @@ function surroundFlexboxDiv(c) {
   };
 }
 
+var reactionEmojis = [
+  "👍",
+  "😂",
+  "🔥",
+  "❤️",
+  "🤯",
+  "🤔",
+  "💀",
+  "🎉",
+  "🗿",
+  "🤣",
+  "👋",
+  "🤡",
+  "🥲",
+  "😭",
+  "🗣",
+  "💯",
+  "👑",
+  "✨",
+  "🤠",
+  "🙌",
+  "😬",
+  "😝",
+];
+
+var chatEmojis = require("../../chat-emojis.js");
+
+var chatInputPlaceholders = [
+  "Enter your random rant here",
+  "Type a rant to tell us",
+  "Write a random rant here",
+  "Tap or click and type your random rant here",
+  "Write your random rants here",
+  "Be creative, write a rant here",
+  "Write random rants here",
+  "Write a message here",
+];
+
+function returnRandomValueFromArray(array) {
+  return array[Math.round(Math.random() * (array.length - 1))];
+}
+
 var leftSide = {
   element: "div",
   className: "chatInterfaceLeft",
@@ -35,11 +77,25 @@ var leftSide = {
               children: [
                 {
                   element: "div",
+                  gid: "emojiReactions",
+                  style: {
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    overflow: "hidden",
+                    background:
+                      "radial-gradient(hsl(var(--accent-default-hue), var(--accent-default-saturation), 75%), transparent 80%)",
+                  },
+                },
+                {
+                  element: "div",
                   className: "middleChatDiv",
                   children: [
                     {
                       element: "div",
-                      className: "divButton roundborder",
+                      className: "divButton roundborder chooseMediaButton",
                       gid: "chooseMediaButton",
                       children: [
                         surroundFlexboxDiv([
@@ -56,6 +112,34 @@ var leftSide = {
                 },
                 {
                   element: "div",
+                  gid: "emojiReactionButtons",
+                  style: {
+                    position: "absolute",
+                    left: "50%",
+                    bottom: "4px",
+                    maxWidth: "100%",
+                    width: "fit-content",
+                    minWidth: "10px",
+                    height: "fit-content",
+                    display: "flex",
+                    flexDirection: "row",
+                    overflow: "auto",
+                    transform: "translate(-50%, 0px)",
+                  },
+                  children: reactionEmojis.map((emoji) => {
+                    return {
+                      element: "div",
+                      className: "divButton roundborder",
+                      style: {
+                        margin: "2px 2px",
+                        userSelect: "none",
+                      },
+                      textContent: emoji,
+                    };
+                  }),
+                },
+                {
+                  element: "div",
                   gid: "mediaContentDiv",
                   hidden: true,
                   className: "mediaContentDiv",
@@ -64,7 +148,7 @@ var leftSide = {
             },
           ],
         },
-        
+
         {
           element: "div",
           gid: "microphoneUsageTexts",
@@ -74,8 +158,8 @@ var leftSide = {
             bottom: "0px",
             right: "0px",
             display: "flex",
-            flexDirection: "column"
-          }
+            flexDirection: "column",
+          },
         },
       ],
     },
@@ -92,53 +176,72 @@ var rightSide = {
       gid: "userButtonBox",
       children: [
         {
-          element: "button",
-          className: "roundborder",
-          gid: "toggleMessageAndOnlineView",
+          element: "div",
+          style: {
+            display: "flex",
+            flexGrow: "1",
+            width: "100%",
+          },
           children: [
             {
-              element: "span",
-              textContent: "View online users",
-              gid: "toggleMessageAndOnlineViewText",
-            }
-          ]
+              element: "button",
+              className: "roundborder chatInterfaceButton",
+              gid: "toggleCameraButton",
+              title: "Toggle camera",
+            },
+            {
+              element: "button",
+              className: "roundborder chatInterfaceButton",
+              gid: "toggleMicrophoneButton",
+              title: "Toggle microphone",
+            },
+          ],
         },
         {
           element: "button",
-          className: "roundborder",
+          className: "roundborder chatInterfaceButton",
           gid: "showSoundboardButton",
           children: [
             {
               element: "img",
-              src: "images/audio.svg",
-              style: {
-                height: "17px"
-              }
+              src: "images/speaker.svg",
             },
             {
               element: "span",
-              textContent: "Soundboard"
-            }
-          ]
+              textContent: "Soundboard",
+            },
+          ],
         },
         {
           element: "button",
-          className: "roundborder",
+          className: "roundborder chatInterfaceButton",
           gid: "showRoomSettingsButton",
-          textContent: "Room settings",
-          hidden: true
+          hidden: true,
+          children: [
+            {
+              element: "img",
+              src: "images/settings.svg",
+            },
+            {
+              element: "span",
+              textContent: "Room Settings",
+            },
+          ],
         },
         {
-          element: "button",
-          className: "roundborder",
-          gid: "toggleCameraButton",
-          title: "Toggle camera",
-        },
-        {
-          element: "button",
-          className: "roundborder",
-          gid: "toggleMicrophoneButton",
-          title: "Toggle microphone",
+          element: "div",
+          style: {
+            display: "flex",
+            flexGrow: "1",
+            width: "100%",
+          },
+          children: [
+            {
+              element: "button",
+              className: "roundborder chatInterfaceButton",
+              gid: "toggleMessageAndOnlineView",
+            },
+          ],
         },
       ],
     },
@@ -146,20 +249,65 @@ var rightSide = {
       element: "div",
       className: "chatInterfaceMessagesBox",
       gid: "userMessagesBox",
+      children: [{ element: "div", gid: "userMessagesContainer" }],
+    },
+    {
+      element: "div",
+      gid: "chatDialogsDiv",
       children: [
         {
           element: "div",
+          gid: "typingNoticeDiv",
+          className: "typingNoticeDiv",
+          children: [],
+        },
+        {
+          element: "div",
+          gid: "addEmojiDiv",
           children: [
             {
-              element: "span",
-              style: {
-                fontWeight: "bold",
-              },
-              textContent: "Messages:",
+              element: "div",
+              className: "emojiDialogBox",
+              children: [
+                {
+                  element: "div",
+                  className: "divButton roundborder",
+                  style: {
+                    width: "100%",
+                    textAlign: "center",
+                    padding: "5px 0px",
+                  },
+                  textContent: "Close",
+                  gid: "emojiDialogCloseButton",
+                },
+                {
+                  element: "div",
+                  className: "emojiDialogCategoryContainerScroller",
+                  children: [
+                    {
+                      element: "div",
+                      className: "emojiDialogCategoryContainer",
+                      gid: "emojiDialogCategory",
+                      children: [],
+                    },
+                  ],
+                },
+                {
+                  element: "div",
+                  className: "emojiDialogContainer",
+                  children: [
+                    {
+                      element: "div",
+                      className: "emojiDialogContainer2",
+                      gid: "emojiDialogContainer",
+                      children: [],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
-        { element: "div", gid: "userMessagesContainer" },
       ],
     },
     surroundFlexboxDiv([
@@ -168,27 +316,23 @@ var rightSide = {
         type: "text",
         className: "textBoxColors chatInterfaceMessageTextBox roundborder",
         gid: "messageInputBox",
-        placeholder: "Write your small random rant here.",
-      },
-      {
-        //Add a bit of spacing between the text box and the send button
-        element: "div",
-        style: {
-          width: "2px",
-        },
+        placeholder: returnRandomValueFromArray(chatInputPlaceholders),
+        eventListeners: [
+          {
+            event: "input",
+            func: function () {
+              this.placeholder = returnRandomValueFromArray(
+                chatInputPlaceholders
+              );
+            },
+          },
+        ],
       },
       {
         element: "div",
         className: "chatInterfaceMessageSendButton roundborder",
         textContent: "Send",
         gid: "messageSendButton",
-      },
-      {
-        //Add a bit of spacing between the text box and the send button
-        element: "div",
-        style: {
-          width: "2px",
-        },
       },
       {
         element: "div",
@@ -198,11 +342,25 @@ var rightSide = {
             element: "img",
             src: "images/file.svg",
             style: {
-              height: "25px"
-            }
-          }
+              height: "25px",
+            },
+          },
         ],
         gid: "messageAttachFilesButton",
+      },
+      {
+        element: "div",
+        className: "chatInterfaceMessageSendButton roundborder",
+        children: [
+          {
+            element: "img",
+            src: "images/emojiadd.svg",
+            style: {
+              height: "25px",
+            },
+          },
+        ],
+        gid: "messageAddEmojiButton",
       },
     ]),
     {
@@ -213,11 +371,28 @@ var rightSide = {
       children: [
         {
           element: "span",
-          style: { fontWeight: "bold" },
+          style: { fontWeight: "bold", fontSize: "15px" },
           textContent: "Users online in this room:",
         },
         { element: "hr" },
         { element: "div", gid: "usersOnlineContainer" },
+        { element: "hr" },
+        {
+          element: "button",
+          className: "roundborder chatInterfaceButton",
+          gid: "showRoomSettingsButton2",
+          hidden: true,
+          children: [
+            {
+              element: "img",
+              src: "images/settings.svg",
+            },
+            {
+              element: "span",
+              textContent: "More permission settings",
+            },
+          ],
+        },
       ],
     },
   ],

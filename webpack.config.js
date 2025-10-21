@@ -1,19 +1,31 @@
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const VersionUpdatePlugin = require("./versionstampplugin.js");
 
-const pages = ["index", "signin", "signup", "myaccount", "chat", "join", "about", "security"];
-try{
-  require("fs").rmSync("./public",{recursive:true});
-}catch(e){}
+const pages = [
+  "index",
+  "signin",
+  "signup",
+  "myaccount",
+  "chat",
+  "join",
+  "about",
+  "security",
+  "sitenews",
+  "history",
+];
+try {
+  require("fs").rmSync("./public", { recursive: true });
+} catch (e) {}
 
 module.exports = {
   mode: "production",
   cache: {
     type: "filesystem",
+    allowCollectingMemory: true,
   },
-  //Uncomment this to enable recommended devtool.
-  //devtool: 'source-map',
+  devtool: false,
   entry: pages.reduce((acc, page) => {
     acc[page] = `./src/pages/${page}.js`;
     return acc;
@@ -23,11 +35,21 @@ module.exports = {
       chunks: "all",
       name: "shared",
     },
+    //minimize: false
   },
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "[name].bundle.js",
-    clean: true,
+  },
+  watchOptions: {
+    ignored: [path.resolve(__dirname, "wpstatic/version.json")], //Ignore version file.
+  },
+  performance: {
+    hints: "warning",
+    assetFilter: function (assetFilename) {
+      //Ignore warnings for media assets which are typically large files.
+      return assetFilename.endsWith(".js") || assetFilename.endsWith(".css");
+    },
   },
   module: {
     rules: [
@@ -55,6 +77,22 @@ module.exports = {
         ],
         type: "javascript/auto",
       },
+      {
+        test: /\.ttf$/i,
+        use: [
+          {
+            loader: "url-loader",
+          },
+        ],
+      },
+      {
+        test: /\.otf$/i,
+        use: [
+          {
+            loader: "url-loader",
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -75,6 +113,7 @@ module.exports = {
           noErrorOnMissing: true,
         },
       ],
-    })
+    }),
+    new VersionUpdatePlugin(),
   ],
 };

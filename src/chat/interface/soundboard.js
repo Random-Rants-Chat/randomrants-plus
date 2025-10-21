@@ -82,15 +82,14 @@ var dom = elements.createElementsFromJSON([
               fontWeight: "bold",
               fontSize: "30px",
             },
-            textContent: "🔊 Chaos Soundboard 🔥",
+            textContent: "Soundboard",
           },
           {
             element: "br",
           },
           {
             element: "span",
-            textContent:
-              "Play sounds for the whole room. No regrets. No refunds.",
+            textContent: "Play sounds that sync for the whole room.",
           },
           {
             element: "br",
@@ -100,7 +99,8 @@ var dom = elements.createElementsFromJSON([
             gid: "soundboardMuteButton",
             GPWhenCreated: function (elm) {
               //Load soundboard volume state.
-              if (localStorage.getItem("soundboardUnmuteState") == "N") { //Use off (The value N) so that if no value is set then it defaults to on.
+              if (localStorage.getItem("soundboardUnmuteState") == "N") {
+                //Use off (The value N) so that if no value is set then it defaults to on.
                 soundboardVolume = 0;
               } else {
                 soundboardVolume = 100;
@@ -146,7 +146,7 @@ var dom = elements.createElementsFromJSON([
           {
             element: "button",
             className: "roundborder",
-            title: "Click to make it louder (and probably regret it)",
+            title: "Click it to make your sounds louder",
             textContent: soundboardMultipliers[soundboardMutliplier].label,
             eventListeners: [
               {
@@ -188,7 +188,7 @@ var dom = elements.createElementsFromJSON([
                 children: [
                   {
                     element: "span",
-                    textContent: "🔇 Stop the chaos",
+                    textContent: "Stop all sounds",
                   },
                 ],
                 eventListeners: [
@@ -199,8 +199,8 @@ var dom = elements.createElementsFromJSON([
                     },
                   },
                 ],
-              }
-            ]
+              },
+            ],
           },
         ],
       },
@@ -221,11 +221,25 @@ function createSoundboardButtonDiv(sound, index) {
       className: "soundboardButton",
       children: [
         {
+          element: "div",
+          style: {
+            display: "flex",
+          },
+          children: [
+            {
+              element: "div",
+              className: "soundboardButtonDisplayNames",
+              gid: "sbButtonDisplayNames_" + index,
+              children: [],
+            },
+          ],
+        },
+        {
           element: "span",
           textContent: sound.name,
         },
       ],
-      gid: "sbButton_"+index,
+      gid: "sbButton_" + index,
       eventListeners: [
         {
           event: "click",
@@ -254,16 +268,27 @@ async function showSoundboardDialog() {
 
 sb.show = showSoundboardDialog;
 
-sb.load = function (soundboardURL, onProgress) {
+function getGHFileURL(username, repo, version, file) {
+  return `https://cdn.jsdelivr.net/gh/${username}/${repo}@${version}/${file}`;
+}
+
+sb.load = function (otherJSON, onProgress) {
   if (!onProgress) {
     onProgress = () => {};
   }
 
-  const MAX_CONCURRENT_LOADS = 5;
+  const MAX_CONCURRENT_LOADS = 15;
+
+  var repoURL = getGHFileURL(
+    otherJSON.soundboardGithub.user,
+    otherJSON.soundboardGithub.repo,
+    otherJSON.soundboardGithub.version,
+    ""
+  );
 
   return new Promise((accept, reject) => {
     fetchUtils
-      .fetchAsJSON(soundboardURL)
+      .fetchAsJSON(repoURL + "soundboard.json")
       .then((sounds) => {
         let soundsLoaded = 0;
         let currentIndex = 0;
@@ -291,7 +316,7 @@ sb.load = function (soundboardURL, onProgress) {
             activeLoads++;
 
             const soundPromise = audioEngine
-              .loadSoundFromURL(sound.url)
+              .loadSoundFromURL(repoURL + "sounds/" + sound.file)
               .then((soundData) => {
                 soundsLoaded++;
                 onProgress(soundsLoaded, sounds.length);
@@ -321,7 +346,7 @@ sb.load = function (soundboardURL, onProgress) {
 
 var soundIdCounter = 0;
 
-sb.playSound = function (index, mult = 1) {
+sb.playSound = function (index, mult = 1, displayName) {
   var sound = loadedSounds[index];
 
   if (sound) {
@@ -330,6 +355,41 @@ sb.playSound = function (index, mult = 1) {
     soundIdCounter += 1;
     player._id = soundIdCounter;
     player._mult = mult;
+    player._fromDisplayName = displayName;
+    player._index = index;
+
+    if (displayName) {
+      for (var otherPlayer of playingSounds) {
+        if (
+          otherPlayer._fromDisplayName == displayName &&
+          otherPlayer._index == index
+        ) {
+          player._element = otherPlayer._element;
+          break;
+        }
+      }
+      if (!player._element) {
+        var displayNamesDiv = elements.getGPId("sbButtonDisplayNames_" + index);
+        var displayNameDiv = document.createElement("div");
+        displayNameDiv.className = "soundboardActiveText";
+        displayNameDiv.textContent = displayName;
+        displayNamesDiv.append(displayNameDiv);
+        player._element = displayNameDiv;
+
+        displayNameDiv.animate(
+          [
+            {
+              opacity: 0,
+            },
+            {},
+          ],
+          {
+            easing: "ease-in",
+            duration: 50,
+          }
+        );
+      }
+    }
 
     player.onended = function () {
       var newPlayingSounds = [];
@@ -339,6 +399,35 @@ sb.playSound = function (index, mult = 1) {
         }
       }
       playingSounds = newPlayingSounds;
+      if (player._element) {
+        var isLast = true;
+        for (var otherPlayer of playingSounds) {
+          if (
+            otherPlayer._fromDisplayName == displayName &&
+            otherPlayer._index == index
+          ) {
+            isLast = false;
+            break;
+          }
+        }
+        if (isLast) {
+          var animation = player._element.animate(
+            [
+              {},
+              {
+                opacity: 0,
+              },
+            ],
+            {
+              easing: "ease-in",
+              duration: 50,
+            }
+          );
+          animation.addEventListener("finish", () => {
+            player._element.remove();
+          });
+        }
+      }
     };
     player.play();
 

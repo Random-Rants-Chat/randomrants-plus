@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "description": "Random Rants Plus is Random Rants but better in security and account managing, also targeting another layout style.",
   "scripts": {
-    "build": "node updatetime.js && webpack",
+    "build": "webpack",
     "watch": "webpack --watch",
-    "dev:server": "nodemon server-src/server.js",
-    "dev": "concurrently -k \"npm:watch\" \"npm:dev:server\"",
-    "start": "node server-src/server.js",
-    "prestart": "node updatetime.js && webpack"
+    "development:server": "nodemon server-src/server-runner.js",
+    "development": "concurrently -k \"npm:watch\" \"npm:development:server\"",
+    "start": "webpack && node server-src/server-runner.js",
+    "prettier": "prettier --write \"server-src/**/*\" \"src/**/*\" \"wpstatic/**/*\" \"webpackhtml/**/*\" \"errors/**/*\""
   },
   "devDependencies": {
+    "bcryptjs": "*",
     "busboy": "^1.6.0",
     "concurrently": "^9.2.0",
     "content-range": "^2.0.2",
@@ -22,14 +23,12 @@
     "jszip": "^3.10.1",
     "nodemon": "^3.1.10",
     "raw-loader": "^4.0.2",
+    "url-loader": "^4.1.1",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
     "ws": "*"
   },
   "license": "MIT",
-  "engines": {
-    "node": "16.x"
-  },
   "nodemonConfig": {
     "ignore": [
       "wpstatic/version.json",
@@ -39,6 +38,7 @@
     "delay": 2500
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2"
+    "bcryptjs": "^3.0.2",
+    "prettier": "^3.6.2"
   }
 }

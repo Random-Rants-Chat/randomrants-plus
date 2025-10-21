@@ -89,3 +89,4 @@ accountEncrypt.decrypt = function (string) {
 };
 
 module.exports = accountEncrypt;
+

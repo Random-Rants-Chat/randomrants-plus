@@ -1,5 +1,5 @@
 function addScript(src) {
-  return new Promise((accept,reject) => {
+  return new Promise((accept, reject) => {
     var script = document.createElement("script");
     script.src = src;
     script.onload = accept;

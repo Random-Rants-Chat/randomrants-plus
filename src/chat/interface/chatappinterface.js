@@ -5,4 +5,3 @@ var accountHelper = require("../../accounthelper");
 var sws = require("./sharedwebsocket.js");
 
 var sharedAppInterface = elements.getGPId("sharedAppInterface");
-

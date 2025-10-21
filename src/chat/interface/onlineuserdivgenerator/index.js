@@ -8,16 +8,19 @@ function generateDiv(
   displayName,
   time,
   userColor,
+  userFont,
   isOwner,
   camEnabled,
   micEnabled,
   isRealOwner,
   isAbleToChangeOwnership,
-  changeOwnershipFunction
+  changeOwnershipFunction,
+  forceOwnershipChangable,
+  blockUserFunction
 ) {
   var pfp = accountHelper.getProfilePictureURL(username);
   if (!username) {
-    pfp = accountHelper.getProfilePictureURL("");
+    pfp = accountHelper.getProfilePictureURL(displayName);
   }
   var ownerNoteThing = {
     element: "div",
@@ -42,6 +45,7 @@ function generateDiv(
       src: "images/mic.svg",
       style: {
         height: "23px",
+        padding: "4px 2px",
       },
       title: "This person is sharing their microphone.",
     });
@@ -50,15 +54,56 @@ function generateDiv(
   if (isRealOwner) {
     icons.push({
       element: "img",
-      src: "images/key.svg",
+      src: "images/crown.svg",
       className: "ownerKeyIcon",
       style: {
         height: "23px",
+        padding: "4px 2px",
       },
       title: "This person is the real owner of this room.",
     });
   } else {
-    if (isAbleToChangeOwnership && username) {
+    if (
+      (isAbleToChangeOwnership || forceOwnershipChangable) &&
+      blockUserFunction &&
+      username
+    ) {
+      icons.push({
+        element: "div",
+        style: {
+          height: "23px",
+        },
+        className: "divButton roundborder",
+        title: "Click to block/ban this user.",
+        children: [
+          {
+            element: "img",
+            style: {
+              height: "100%",
+            },
+            src: "images/redcancel.svg",
+          },
+          {
+            element: "span",
+            textContent: "Block/Ban",
+          },
+        ],
+        eventListeners: [
+          {
+            event: "click",
+            func: function () {
+              blockUserFunction();
+              this.disabled = true;
+              this.innerHTML = "";
+              this.className = "loader";
+              this.src = "";
+              this.style.width = "23px";
+            },
+          },
+        ],
+      });
+    }
+    if (isAbleToChangeOwnership && (username || forceOwnershipChangable)) {
       if (isOwner) {
         icons.push({
           element: "div",
@@ -73,12 +118,12 @@ function generateDiv(
               style: {
                 height: "100%",
               },
-              src: "images/demote.svg",
+              src: "images/removecrown.svg",
             },
             {
               element: "span",
-              textContent: "Demote"
-            }
+              textContent: "Demote",
+            },
           ],
           eventListeners: [
             {
@@ -108,12 +153,12 @@ function generateDiv(
               style: {
                 height: "100%",
               },
-              src: "images/promote.svg",
+              src: "images/addcrown.svg",
             },
             {
               element: "span",
-              textContent: "Promote"
-            }
+              textContent: "Promote",
+            },
           ],
           eventListeners: [
             {
@@ -134,9 +179,10 @@ function generateDiv(
       if (isOwner) {
         icons.push({
           element: "img",
-          src: "images/key.svg",
+          src: "images/crown.svg",
           style: {
             height: "23px",
+            padding: "4px 2px",
           },
           title: "This person has ownership of this room.",
         });
@@ -172,6 +218,7 @@ function generateDiv(
                   className: "usernameSpan",
                   style: {
                     color: userColor,
+                    fontFamily: userFont || "Arial",
                   },
                   textContent: displayName,
                 },
@@ -180,12 +227,35 @@ function generateDiv(
                   style: {
                     color: userColor,
                     fontSize: "10px",
+                    fontFamily: userFont || "Arial",
                   },
                   textContent: username,
                 },
               ],
             },
-          ].concat(icons),
+            {
+              element: "div",
+              style: {
+                display: "flex",
+              },
+              children: [
+                {
+                  element: "div",
+                  style: {
+                    width: "6px",
+                  },
+                },
+                {
+                  element: "div",
+                  style: {
+                    marginLeft: "auto",
+                    display: "flex",
+                  },
+                  children: icons,
+                },
+              ],
+            },
+          ],
         },
       ],
     },

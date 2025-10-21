@@ -32,27 +32,20 @@ function getServerURL() {
 }
 
 async function checkSessionCookie() {
-  var session = cookieManager.getAccountCookie();
-  if (session) {
-    //Double check this is valid before we just allow it to pass through.
-    try {
-      var request = await fetch(getServerURL() + "/account/session", {
-        method: "GET",
-      });
-      var json = await request.json();
-      if (json.valid) {
-        lastValidationState = json;
-        return json;
-      }
-      lastValidationState = null;
-      return false;
-    } catch (e) {
-      lastValidationState = null;
-      return false;
+  try {
+    var request = await fetch(getServerURL() + "/account/session", {
+      method: "GET",
+    });
+    var json = await request.json();
+    if (json.valid) {
+      lastValidationState = json;
+      return json;
     }
-  } else {
     lastValidationState = null;
-    return false; //We are not logged in, so this is an instant false.
+    return false;
+  } catch (e) {
+    lastValidationState = null;
+    return false;
   }
 }
 
@@ -87,7 +80,9 @@ async function signupAccount(username, password) {
 }
 
 async function logoutOfAccount() {
-  cookieManager.signoutAccountCookie();
+  var request = await fetch(getServerURL() + "/account/logout", {
+    method: "POST",
+  });
 }
 
 function getProfilePictureURL(username) {
@@ -119,16 +114,15 @@ async function getJoinedRooms() {
 }
 
 async function removeJoinedRoom(id) {
-  var a = await fetch(getServerURL() + "/account/removeroom",
-  {
+  var a = await fetch(getServerURL() + "/account/removeroom", {
     method: "POST",
-    body: JSON.stringify({id})
+    body: JSON.stringify({ id }),
   });
   return;
 }
 
 async function hasNewMail() {
-  try{
+  try {
     var a = await fetch(getServerURL() + "/account/mail");
     if (a.ok) {
       var json = await a.json();
@@ -142,11 +136,11 @@ async function hasNewMail() {
       return false;
     }
     return false;
-  }catch(e){
+  } catch (e) {
     return false;
   }
 }
-function getCurrentValidationState () {
+function getCurrentValidationState() {
   return lastValidationState;
 }
 
@@ -163,5 +157,5 @@ module.exports = {
   hasNewMail,
   getCurrentValidationState,
   getJoinedRooms,
-  removeJoinedRoom
+  removeJoinedRoom,
 };

@@ -1,68 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>503 Service Unavailable — Too Much Chaos</title>
-<style>
-  :root {
-    --bg-color: #b8b8b8;
-    --main-font: arial, sans-serif;
-    --main-text-color: black;
-    --button-bg-color: #e0e0e0;
-    --button-text-color: #696969;
-    --button-hover-bg-color: #f2f2f2;
-    --border-radius: 3px;
-    --server-notifcation-color: #ffd000;
-  }
+  <head>
+    <title>
+      503 Service Unavailable - Things are malfunctioning in the server
+    </title>
+  </head>
+  <body>
+    <style>
+      body {
+        background: #b8b8b8;
+        color: black;
+        font-family: arial;
+      }
 
-  body {
-    background-color: var(--bg-color);
-    font-family: var(--main-font);
-    color: var(--main-text-color);
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-  }
+      .centeredDialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0px 30px black;
+        padding: 15px 15px;
+      }
 
-  .container {
-    background: var(--button-bg-color);
-    border-radius: var(--border-radius);
-    padding: 30px 40px;
-    max-width: 460px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    text-align: center;
-  }
+      .sep1 {
+        border-top: 3px dashed #696969;
+        padding: 5px 20px;
+        outline: none;
+      }
 
-  h1 {
-    margin: 0 0 12px 0;
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--server-notifcation-color);
-    letter-spacing: 1px;
-  }
+      .header {
+        font-weight: bold;
+        font-size: 35px;
+        padding: 3px 3px;
+      }
 
-  p {
-    margin: 0 0 16px 0;
-    font-size: 17px;
-    line-height: 1.4;
-    color: #4a4a4a;
-  }
+      .small {
+        font-size: 10px;
+      }
 
-  .hint {
-    font-style: italic;
-    font-size: 14px;
-    color: #696969;
-  }
-</style>
-</head>
-<body>
-  <div class="container">
-    <h1>503 Service Unavailable</h1>
-    <p>The server’s overwhelmed — it’s taking a nap.<br>Please come back later, probably tomorrow.</p>
-    <div class="hint">Too much chaos for one day.</div>
-  </div>
-</body>
+      a {
+        font-family: arial;
+        color: #4287f5;
+      }
+    </style>
+
+    <div class="centeredDialog">
+      <span class="header">503 Service Unavailable</span><br />
+      <span class="small">(Things are malfunctioning in the server)</span>
+      <div class="sep1"></div>
+      The server said "Too unstable right now"<br />
+      It means the server is having serious errors that need fixing, and it
+      can't continue working so it gave this error.<br />
+      <a href="./">Click here to go back to something that works</a>
+    </div>
+  </body>
 </html>

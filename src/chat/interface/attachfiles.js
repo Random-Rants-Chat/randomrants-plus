@@ -5,23 +5,13 @@ var accountHelper = require("../../accounthelper");
 var messageAttachFilesButton = elements.getGPId("messageAttachFilesButton");
 var messageInputBox = elements.getGPId("messageInputBox");
 
-async function uploadFileAsURL(blob) {
-  try {
-    const formData = new FormData();
-    formData.append("file", blob, blob.name); // Append the file as "file" field
-    var fileurl = accountHelper.getServerURL() + "/uploads/" + "file";
-    var a = await fetch(fileurl, { method: "POST", body: formData });
-    var b = await a.json();
-    return `${fileurl}/${b.id}/${encodeURIComponent(blob.name)}`;
-  } catch (e) {
-    return "";
-  }
-}
+var uploadFileAsURL = require("./uploadfiles.js");
+
 var ogAttachText = messageAttachFilesButton.innerHTML;
 messageAttachFilesButton.addEventListener("click", async function () {
   var buttonChoose = await dialogs.displayButtonChooser(
     "What type of file do you want to attach?",
-    ["Cancel", "Image", "Audio", "Video", "File download link"]
+    ["Cancel", "Image", "Audio", "Video", "File download link"],
   );
 
   var acceptTypes = "";
@@ -46,7 +36,7 @@ messageAttachFilesButton.addEventListener("click", async function () {
   input.onchange = async function () {
     if (input.files[0]) {
       messageAttachFilesButton.disabled = true;
-      messageAttachFilesButton.textContent = "Uploading files...";
+      messageAttachFilesButton.textContent = "0/" + input.files.length;
       var fileCount = 0;
       for (var file of input.files) {
         try {
@@ -76,6 +66,7 @@ messageAttachFilesButton.addEventListener("click", async function () {
       messageAttachFilesButton.disabled = false;
       messageAttachFilesButton.innerHTML = ogAttachText;
     }
+    input.remove();
   };
   input.type = "file";
   input.accept = acceptTypes;

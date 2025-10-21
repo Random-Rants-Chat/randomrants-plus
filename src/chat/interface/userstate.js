@@ -3,7 +3,7 @@ class RRUserState {
     this.isOwner = false;
     this.roomID = null;
     this.noPermissionDialog =
-      "Sorry bro, but this feature is off limits for you!\nPlease ask the owner (or someone with ownership) to fix this in the room settings.";
+      "Sorry man, but this feature is blocked!\nPlease try asking someone to enable the permission for this action.";
     this.permissions = {
       soundboard: true, //Allow playing sounds on soundboard.
       media: true, //Allow starting media via the media play button.
@@ -23,16 +23,16 @@ class RRUserState {
         }
       },
       //Events
-      permissionUpdate: []
+      permissionUpdate: [],
     };
   }
 
-  updatePermission (name,value) {
+  updatePermission(name, value) {
     this.permissions[name] = value;
-    this.emitEvent("permissionUpdate",name,value);
+    this.emitEvent("permissionUpdate", name, value);
   }
 
-  hasPermission (name) {
+  hasPermission(name) {
     return this.permissions[name];
   }
 

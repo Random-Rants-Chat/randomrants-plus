@@ -1,5 +1,10 @@
 [![Random Rants +](./wpstatic/images/randomrants-plus.svg)](https://randomrants-plus.onrender.com)
 
+### Temporary repostory notice
+
+Lost the other github account, so have to wait until I get access to it again.
+This _will_ be deleted and transfered to the original when I get it back, so don't try to use this as an permalink.
+
 ## What is Random Rants +?
 
 Random Rants + is the next generation of Random Rants,
@@ -25,7 +30,7 @@ I recommend using Node.JS 16.x, then either `git clone https://github.com/Random
 
 In the directory of package.json, run `npm install`. After that, use `npm run build` to build the website, and use `npm run start` to start up the server.
 
-If you now want to auto reload when you edit something: Then instead of `npm run start`, use `npm run dev`. Note this works for both building and server code.
+For auto reload: Then instead of `npm run start`, use `npm run development`. Note this works for both building and server code.
 
 Go to `http://localhost:3000/` to see the functional Random Rants + site in action.
 

@@ -1,3 +1,4 @@
+require("../../fontface.js");
 var styles = require("./chat-styles.css"); //Imported as text.
 //Elements will be processed by gp2/elements.js
 module.exports = [
@@ -10,7 +11,7 @@ module.exports = [
       top: "0",
       left: "0",
       width: "100vw",
-      height: "100vh"
+      height: "100vh",
     },
     children: [
       //Page stylesheet, but as an element.
@@ -36,11 +37,16 @@ module.exports = [
           require("./reconnecting.js"),
         ],
       },
+      require("./accountnotice.js"),
       require("./usernameerror.js"),
       require("./roomerror.js"),
       require("./noguests.js"),
+      require("./notallowed.js"),
+      require("./banned.js"),
       require("./update.js"),
       require("./offlineerror.js"),
+      require("./installappdialog.js"),
+      require("./toomanyconnections.js"),
     ],
   },
 ];

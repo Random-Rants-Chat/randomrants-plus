@@ -1,12 +1,114 @@
 require("../cookiewarning");
 require("./stylesheet.js");
+require("./navigate-loader.js");
+
+document.title = "Random Rants + | About";
+
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 var accountHelper = require("../accounthelper/index.js");
 var dialog = require("../dialogs.js");
 
+function createSocialDivJSON(
+  hueSatArray,
+  imagesrc,
+  name,
+  subname,
+  socialButtons,
+  discriptionArray
+) {
+  return {
+    element: "div",
+    className: "creatorDiv",
+    styleProperties: {
+      "--hue": hueSatArray[0],
+      "--sat": hueSatArray[1],
+    },
+    children: [
+      {
+        element: "div",
+        className: "creatorName",
+        children: [
+          {
+            element: "img",
+            src: imagesrc,
+            style: {
+              height: "65px",
+              width: "65px",
+              objectFit: "contain",
+              marginRight: "10px",
+              borderRadius: "5px",
+            },
+          },
+          {
+            element: "div",
+            className: "creatorNameText",
+            children: [
+              {
+                element: "span",
+                textContent: name,
+                style: {
+                  fontWeight: "bold",
+                  fontSize: "23px",
+                  marginRight: "10px",
+                },
+              },
+              {
+                element: "span",
+                textContent: subname,
+                style: {
+                  fontSize: "12px",
+                },
+              },
+            ],
+          },
+          {
+            element: "div",
+            style: {
+              marginRight: "auto",
+            },
+          },
+        ].concat(
+          socialButtons.map((button) => {
+            return {
+              element: "div",
+              className: "creatorSocialLink",
+              children: [
+                {
+                  element: "img",
+                  src: button.src,
+                  style: {
+                    height: "100%",
+                  },
+                },
+              ],
+              eventListeners: [
+                {
+                  event: "click",
+                  func: button.func,
+                },
+              ],
+            };
+          })
+        ),
+      },
+      {
+        element: "div",
+        className: "creatorDiscription",
+        children: discriptionArray.map((text) => {
+          return {
+            element: "span",
+            textContent: text,
+          };
+        }),
+      },
+    ],
+  };
+}
+
 var randomRantsAbout = [
   // Title and intro
+  require("./sitenews-notice.js"),
   {
     element: "h1",
     textContent: "About Random Rants +",
@@ -15,52 +117,264 @@ var randomRantsAbout = [
   },
   {
     element: "span",
-    textContent: "Important info about safety, ownership, and privacy",
+    textContent: "The page nobody reads, but you should.",
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Random Rants + is a browser-based hangout built for voice, video, chat, and enough chaos to keep things interesting — all while letting you pretend you’re being productive.",
+      "Random Rants + is the goofy site that lets you hang out with your friends online. Its made for both for school escape, and online chatting.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
 
-  // Features
+  //Created by:
   {
     element: "h2",
-    textContent: "What You Can Do",
+    textContent: "Created by",
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "div",
+    children: [
+      //Gvbvdxx - Jason Glen Evans
+      createSocialDivJSON(
+        ["43deg", "70%"],
+        "images/creators/gvbvdxx.svg",
+        "Gvbvdxx",
+        "Jason Glen Evans",
+        [
+          {
+            src: "images/social/youtube.svg",
+            func: function () {
+              var a = document.createElement("a");
+              a.href = "https://youtube.com/@gvbvdxx";
+              a.target = "_blank";
+              a.click();
+            },
+          },
+          {
+            src: "images/social/itch-io.svg",
+            func: function () {
+              var a = document.createElement("a");
+              a.href = "https://gvbvdxx.itch.io";
+              a.target = "_blank";
+              a.click();
+            },
+          },
+          {
+            src: "images/social/github.svg",
+            func: function () {
+              var a = document.createElement("a");
+              a.href = "https://github.com/gvbvdxxalt3";
+              a.target = "_blank";
+              a.click();
+            },
+          },
+        ],
+        [
+          "Thats me! The one that used to be on Scratch.",
+          "Obsessed with code, computers, and programming! Sacrificed education, homework, and classwork to make this site.",
+          "Started out making scratch projects, learned javascript, then I created a bunch of websites, this is one of them.",
+          "Responsible for almost everything here, ChatGPT & Google Gemini helped with some programming, but I did most of the programming work.",
+          "Banned from Scratch, dealing with life struggles (Grounded and stuff).",
+        ]
+      ),
+      //Im_CatmanYT - Eli Swan
+      createSocialDivJSON(
+        ["0deg", "50%"],
+        "images/creators/imcatman-oc.svg",
+        "Im_CatmanYT",
+        "Eli Swan",
+        [
+          {
+            src: "images/social/scratch.svg",
+            func: function () {
+              var a = document.createElement("a");
+              a.href = "https://scratch.mit.edu/users/Im_CatmanYT";
+              a.target = "_blank";
+              a.click();
+            },
+          },
+          {
+            src: "images/social/youtube.svg",
+            func: function () {
+              var a = document.createElement("a");
+              a.href = "https://www.youtube.com/@mop-3000";
+              a.target = "_blank";
+              a.click();
+            },
+          },
+        ],
+        [
+          "Met him in real life at middle school. He's a animator on scratch.",
+          'The one that suggested features through Google Docs, came up with some of the admin command ideas, and also came up the name "Random Rants" for this site.',
+          "He also gave a list of image-emojis, which of course was used in this site.",
+          "Also known as: MOP-3000",
+        ]
+      ),
+    ],
+  },
+
+  // Audience
+  {
+    element: "h2",
+    textContent: "Who this is made for",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
     children: [],
   },
   {
     element: "ul",
     children: [
-      { element: "li", textContent: "Voice & Video Chat — Talk, yell, or lurk silently.", children: [] },
-      { element: "li", textContent: "Screen Sharing — Only one slot per room, so expect friendly battles.", children: [] },
-      { element: "li", textContent: "Live Chat + Commands — Commands like ;shake and ;popcat are available to owners.", children: [] },
       {
         element: "li",
-        textContent: "Soundboard Spam — Meme sounds, mic peaks, and chaos are part of the fun. Enabled for everyone by default, but owners and ownership users can restrict or disable it.",
-        children: []
+        textContent:
+          "Anyone looking for ways to talk online or enjoy online hangouts",
       },
-      { element: "li", textContent: "Owner Privileges — Clear chat, rename rooms, or even nuke (remove) the room.", children: [] },
-      { element: "li", textContent: "File Uploads — Anyone can upload files and attach them to chat messages.", children: [] },
-      { element: "li", textContent: "Camera & Mic — Anyone can enable their camera and microphone independently.", children: [] },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Students that need a break, or wanting to escape school and enter the virtual world",
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent: "People that enjoy small bursts of chaos.",
+      },
     ],
   },
 
-  // Privacy & Ownership
+  // Features
   {
     element: "h2",
-    textContent: "Private & Unlisted Rooms",
+    textContent: "Things you can do",
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "ul",
+    children: [
+      {
+        element: "li",
+        textContent:
+          "Video & Voice chat - Scream loud, and make goofy faces. Just like your adverage online chats.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Screen Sharing — Only one screenshare per room, so expect battles between screensharing content.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          'Chat + Commands — Owners and users with ownership get special commands, list them all with ";help".',
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Soundboard — Meme sounds, and goofy noises. All synced to everyone in the chatroom. Its all you need for laughter, unless the owner shuts it down.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Owner & Ownership permissions — Owners can give out ownership. Ownership has the same permissions as owner. Owner permissions let you edit the room settings, and run commands. Ownership users can't remove the room owner. The room owner gets to keep their permissions.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "File Uploads — Drop anything you want, memes or cursed content. Whatever it is, its up to you.",
+        children: [],
+      },
+    ],
+  },
+
+  //Profiles
+  {
+    element: "h2",
+    textContent: "Profiles",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "All rooms are private and unlisted. Sharing the room URL (especially the part after the hash) allows others to join. Once someone joins, the room stays in their list until removed or the room is nuked.",
+      "Everyone that has signed up for Random Rants + has a profile.",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+
+  {
+    element: "p",
+    textContent:
+      "Your profile is private, but it can be seen when you join a room.",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+
+  {
+    element: "p",
+    textContent: "You can customize your profile in these ways: ",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+
+  {
+    element: "ul",
+    children: [
+      {
+        element: "li",
+        textContent:
+          "Username - You're locked to the one you have once you sign up. Pretty much how Random Rants + identifies you.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Display Name - This is basically a nickname for your account, change it any time. It allows almost any character. (Including spaces)",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "User Color - This will appear as your color when you join a room, change it any time you want.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Profile picture - Put a picture that identifies you, it doesn't need to be your face. Change any time you want.",
+        children: [],
+      },
+      { element: "br" },
+    ],
+  },
+
+  // Privacy & Ownership
+  {
+    element: "h2",
+    textContent: "Rooms/Chatrooms",
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "Every room is unlisted, and stuck to it. share it through the URL, Quick Join codes, or inviting through the username.",
     style: { fontSize: "1em", marginBottom: "0.5em" },
     children: [],
   },
@@ -70,21 +384,21 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "Ownership & Control",
+        textContent: "Ownership & Owner Control",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          'You start as the room owner. Owners can give others "ownership" through the online list. Owners and ownership users have equal control — they can rename or even nuke the room, but the original owner cannot be removed.',
+          "You have ownership when you make your own rooms, and you can hand it out to anyone you want.",
         style: { fontSize: "1em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Room name changes only reflect for users who are currently in the room or join afterward.",
+          "Users with ownership can remove others with ownership, but the room creator can't be removed.",
         style: { fontSize: "1em" },
         children: [],
       },
@@ -98,28 +412,21 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "No Filters & Limited Moderation",
+        textContent: "No filters, and barely no moderation.",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Random Rants + does not filter or censor messages, display names, or usernames. Usernames may be restricted by allowed characters, but anything typed is shown exactly as-is.",
+          "We dont censor any user content, pretty much simple as that.",
         style: { fontSize: "1em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "There is no mute or ban system (yet). Chat messages can only be cleared all at once by an owner or ownership user.",
-        style: { fontSize: "1em" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "Only owners and ownership users can use commands like ;shake, ;popcat, or manage room settings.",
+          "Moderation can be done by users with ownership. They can block/ban users from their rooms, or clear the whole chat.",
         style: { fontSize: "1em" },
         children: [],
       },
@@ -133,57 +440,48 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "Open Media & Sharing",
+        textContent: "Start media button",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Each chat room has an Open Media area visible on desktop and landscape mobile. Only one media can play here at a time — screen sharing, a 'show & tell' camera mode, or an embedded webpage.",
+          "This is pretty much a interactive virtual television. You can plug in your screen or start some other content.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Anyone can start media in this area by default — no ownership needed. Only owners and ownership users can change this setting to restrict it or disable it entirely.",
+          "Anyone can put anything in there. If an user with ownership doesn't want anyone doing anything, they can remove the function completley, or lock it to ownership only.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Embedded webpages open in everyone’s browser but do NOT sync playback or interaction — just the same page loaded for everyone.",
+          "You can start embeded sites, but those only open the url you typed, everything else is different for other users.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "All camera, mic, and screen sharing streams use peer-to-peer technology (Simple Peer and wrtc) to send your media directly to other users without central servers recording it.",
+          "Video streams (cameras, microphones, screenshares, etc) go straight to WebRTC, no sus servers watching your face or screen.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Other communication — chat messages, commands, and user lists — use WebSocket and HTTPS connections.",
-        style: { fontSize: "1em" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "There are no filters or moderation on embeds or media streams. If you see something inappropriate or unsafe, leave the room and remove it from your room list immediately.",
-        style: { fontSize: "1em", marginBottom: "1em" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "Warning: Sudden loud sounds can happen from soundboard spam (or some sounds in the soundboard), mic peaks, or other media. Please adjust your volume accordingly. We currently don't have ways to shut off the soundboard other than the volume slider in the soundboard menu.",
-        style: { fontSize: "1em", fontWeight: "bold", color: "#b22222", marginBottom: "1em" },
+          "Beware: The soundboard and this media function allow sudden loud sounds, turn down your volume before someone plays something loud, unless you like blowing your eardrums.",
+        style: {
+          fontSize: "1em",
+          fontWeight: "bold",
+          color: "#b22222",
+          marginBottom: "1em",
+        },
         children: [],
       },
     ],
@@ -196,155 +494,55 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "About Teen Jokes & Slang",
+        textContent: "Teen jokes & Teen goofyness",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Random Rants + started as a space for pre-teens and middle schoolers to joke around and be playful.",
+          "This place started as a place made by Middle Schoolers for Middle Schoolers to escape school and hop into the virtual online worlds.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "You might hear slang, memes, or ‘ayo’-style jokes that can sound silly or wild. Most are just for fun and not meant to offend.",
+          "The website doesn't have much of this content itself, but the user content may differ for everyone.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "If you feel uncomfortable or see something crossing a line, leave the room and avoid that chat.",
+          "If something feels too sus or crosses a line, you can hop out the room and remove it from you list.",
         style: { fontSize: "1em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Humor varies for everyone — try to keep an open mind and respect others, even if their jokes seem goofy.",
+          "Humor is different for everyone, laugh at what you think is funny, and keep rolling your eyes at the cringe stuff.",
         style: { fontSize: "1em", marginBottom: "1em" },
         children: [],
+      },
+    ],
+  },
+
+  {
+    element: "p",
+    style: { fontSize: "1em", marginBottom: "1em" },
+    children: [
+      {
+        element: "span",
+        textContent:
+          "Also, Random Rants + also has a big history of how it was created - ",
       },
       {
-        element: "p",
-        textContent:
-          "Note that also sometimes autism can be a little bullied by us. We (as in pre-teens) don't mean that autism is bad, just is funny and goofy sometimes.",
-        style: { fontSize: "1em", marginBottom: "1em" },
-        children: [],
+        element: "a",
+        href: "./history",
+        textContent: "click here to read it.",
       },
-    ],
-  },
-
-  // Audience
-  {
-    element: "h2",
-    textContent: "Who It’s For",
-    style: { fontSize: "1.5em", marginTop: "1.2em" },
-    children: [],
-  },
-  {
-    element: "ul",
-    children: [
-      { element: "li", textContent: "Students needing a break from schoolwork", children: [] },
-      { element: "li", textContent: "Friends wanting a casual, no-pressure place to hang out", children: [] },
-      { element: "li", textContent: "People who like a little chaos, but also respect the vibe", children: [] },
-      { element: "li", textContent: "Anyone who wants to pretend they’re working while actually goofing off", children: [] },
-      { element: "li", textContent: "People that want to chat over the internet", children: [] },
-    ],
-  },
-  {
-    element: "p",
-    textContent:
-      "Random Rants + is your place to rant, chill, and sometimes *accidentally* cause digital mayhem — all while keeping the illusion of productivity alive.",
-    style: { fontSize: "1.1em", marginTop: "1.5em" },
-    children: [],
-  },
-
-  // History
-  {
-    element: "h2",
-    textContent: "The Story of Original Random Rants",
-    style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "p",
-    children: [
-      { element: "strong", textContent: "Random Rants", children: [] },
-      { element: "span", textContent: " was a browser-based chatting and social app originally built to run smoothly on school Chromebooks." },
-    ],
-    style: { fontSize: "1.1em", marginBottom: "0.5em" },
-  },
-  {
-    element: "p",
-    children: [{ element: "em", textContent: "Note: The original Random Rants site is no longer active." }],
-    style: { fontSize: "1em", marginBottom: "0.3em" },
-  },
-  {
-    element: "p",
-    textContent:
-      "Random Rants began during my middle school days, back when I was in an elective class. I met someone using Scratch, and we started chatting. I showed him a simple chat site I had made called Macre’s Chat.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "That person was Im_CatmanYT, and he really liked the idea. Soon, I saw him and his friends using the site. When we next met, he suggested I make an improved version — and I agreed.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "He recommended a Google Docs–inspired color scheme, but I opted for a neutral gray instead. He also contributed some meme-inspired PNG emojis. And that’s how Random Rants v0.1 was born.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "From there, we shared ideas through Google Docs, and during school, I often found myself working on the project — sometimes as a welcome distraction. Small updates and tweaks gradually shaped what became the original Random Rants.",
-    style: { fontSize: "1.1em", marginBottom: "1.5em" },
-    children: [],
-  },
-
-  {
-    element: "h2",
-    textContent: "Why Random Rants Shut Down",
-    style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "The original Random Rants was hosted on Glitch, a platform I used for most of my projects. When Glitch stopped hosting projects, the site went offline.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "Beyond that, I lost motivation to maintain it. The codebase was outdated and had serious security issues. The app’s global room system allowed anyone to follow users with no privacy controls, which felt unsafe.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent: "Some main problems included:",
-    style: { fontSize: "1.1em", fontWeight: "bold", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "ul",
-    style: { fontSize: "1.1em", marginBottom: "1.5em" },
-    children: [
-      { element: "li", textContent: "No private or unlisted rooms", children: [] },
-      { element: "li", textContent: "Anyone could join your room or track your location", children: [] },
-      { element: "li", textContent: "The auto room selector favored rooms with people, increasing the chance of being followed", children: [] },
     ],
   },
 ];

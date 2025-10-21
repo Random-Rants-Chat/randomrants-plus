@@ -1,4 +1,3 @@
-
 module.exports = [
   {
     element: "div",
@@ -6,7 +5,13 @@ module.exports = [
     children: [
       {
         element: "div",
-        className: "loader",
+        className: "loader2Container",
+        children: [
+          {
+            element: "div",
+            className: "loader2",
+          },
+        ],
       },
       {
         element: "span",
@@ -33,6 +38,21 @@ module.exports = [
         },
         gid: "rrLoadingStatusText",
         textContent: "",
+      },
+      { element: "br" },
+      {
+        element: "span",
+        style: {
+          textAlign: "center",
+        },
+        hidden: true,
+        GPWhenCreated: function (elm) {
+          setTimeout(() => {
+            elm.hidden = false;
+          }, 4000);
+        },
+        textContent:
+          "Note: Long loading times are normal if some of our servers are still spinning up.",
       },
     ],
   },

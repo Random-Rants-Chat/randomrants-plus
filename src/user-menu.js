@@ -15,6 +15,21 @@ elements.appendElements(
   elements.createElementsFromJSON(elementJSON)
 );
 
+var customizeButton = {
+  element: "div",
+  className: "menuBarItem",
+  textContent: "Customise",
+  gid: "menu_customize",
+  eventListeners: [
+    {
+      event: "click",
+      func: () => {
+        window.location.href = "/myaccount";
+      },
+    },
+  ],
+};
+
 var signInButton = {
   element: "div",
   className: "menuBarItem",
@@ -35,15 +50,24 @@ var myAccountButton = {
 };
 
 function handleSignedOutAccountButtons() {
+  var params = new URLSearchParams(window.location.search);
   var signInButton = elements.getGPId("menu_signIn");
 
   signInButton.addEventListener("click", () => {
+    if (params.get("href")) {
+      window.location.href = "/signin?href=" + params.get("href");
+      return;
+    }
     window.location.href = "/signin";
   });
 
   var signUpButton = elements.getGPId("menu_signUp");
 
   signUpButton.addEventListener("click", () => {
+    if (params.get("href")) {
+      window.location.href = "/signup?href=" + params.get("href");
+      return;
+    }
     window.location.href = "/signup";
   });
 }
@@ -71,12 +95,15 @@ function handleUserAccountButtons() {
           element: "img",
           style: {
             outline: "none",
-            borderRadius: "40px",
+            borderRadius: "20px",
             backgroundColor: "#969696",
             imageRendering: "pixelated",
             top: "0px",
-            width: "40px",
-            height: "40px"
+            width: "36px",
+            height: "36px",
+            borderStyle: "solid",
+            borderWidth: "2px",
+            borderColor: "#767676",
           },
           src: accountHelper.getProfilePictureURL(validated.username),
         },
@@ -85,6 +112,7 @@ function handleUserAccountButtons() {
           style: {
             display: "flex",
             flexDirection: "column",
+            marginLeft: "5px",
           },
           children: [
             {
@@ -93,6 +121,8 @@ function handleUserAccountButtons() {
                 alignContent: "center",
                 fontWeight: "bold",
                 color: validated.color || "#000000",
+                fontSize: "15px",
+                fontFamily: validated.font,
               },
               textContent: validated.displayName,
             },
@@ -100,10 +130,10 @@ function handleUserAccountButtons() {
               element: "span",
               style: {
                 alignContent: "center",
-                color: validated.color || "#000000",
-                fontSize: "10px",
+                color: "#000000",
+                fontSize: "9.5px",
               },
-              textContent: validated.username,
+              textContent: "Account Settings & Customization",
             },
           ],
         },

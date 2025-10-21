@@ -1,4 +1,8 @@
 {
-  "soundboardURL": "https://random-rants-chat.github.io/randomrants-soundboard/soundboard.json",
+  "soundboardGithub": {
+    "user": "gvbvdxxalt3",
+    "repo": "randomrants-soundboard",
+    "version": "4c2358b"
+  },
   "vineboomBracketURL": "https://random-rants-chat.github.io/randomrants-soundboard/vineboom.wav"
 }

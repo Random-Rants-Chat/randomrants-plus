@@ -10,6 +10,14 @@ var elements = {
       elm.append(appendElm);
     }
   },
+  removeAllChildren: function (elm) {
+    Array.from(elm.children).forEach((elm) => elm.remove());
+  },
+  appendElementsFromJSON: function (elm, appendJSONArray) {
+    var elms = elements.createElementsFromJSON(appendJSONArray);
+    elements.appendElements(elm, elms);
+    return elms;
+  },
   createElementsFromJSON: function (jsonelmArray) {
     //converts an array of json's with element properties to a element list.
     function runElements(arry) {
@@ -33,7 +41,21 @@ var elements = {
                   }
                   setattri = false;
                 }
-                if (attriName == "innerHTML") {
+                if (attriName == "styleProperties") {
+                  for (var styleName of Object.keys(attributeValue)) {
+                    var styleValue = attributeValue[styleName];
+                    realElm.style.setProperty(styleName, styleValue);
+                  }
+                  setattri = false;
+                }
+                if (attriName == "dangerouslySetInnerHTML") {
+                  realElm.innerHTML = attributeValue;
+                  setattri = false;
+                } else if (attriName == "innerHTML") {
+                  console.trace(
+                    'Warning: The "innerHTML" property is deprecated. ' +
+                      'Please use "dangerouslySetInnerHTML" instead.'
+                  );
                   realElm.innerHTML = attributeValue;
                   setattri = false;
                 }

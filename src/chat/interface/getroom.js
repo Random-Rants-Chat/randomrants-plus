@@ -1,7 +1,7 @@
 var hash = window.location.hash;
 var curRoom = null;
 if (hash) {
-  curRoom = hash.slice(1,hash.length);
+  curRoom = hash.slice(1, hash.length);
   if (curRoom.length < 1) {
     curRoom = null;
   }

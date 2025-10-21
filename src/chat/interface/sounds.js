@@ -24,10 +24,23 @@ soundManager.load = async function () {
   var a = await fetch("external/uisound.json");
   var soundURLS = await a.json();
 
-  sounds.error = await audio.loadSoundFromURL(soundURLS.error);
-  sounds.notify = await audio.loadSoundFromURL(soundURLS.notify);
-  sounds.type = await audio.loadSoundFromURL(soundURLS.type);
-  sounds.select = await audio.loadSoundFromURL(soundURLS.select);
+  var soundsToLoad = ["error", "notify", "type", "select"];
+
+  for (var soundName of soundsToLoad) {
+    var data;
+    data = await audio.loadSoundFromURL(soundURLS[soundName]);
+    //loadSoundFromURL may fail and return null without throwing errors.
+    //although no errors would be thrown trying to play null, it would lead to unexpected bugs
+    if (!data) {
+      data = await audio.loadSoundFromURL(soundURLS[soundName + "Backup"]);
+    }
+    if (!data) {
+      console.warn(
+        `❌ UI sound "${soundName}" failed to load from both primary and backup.`,
+      );
+    }
+    sounds[soundName] = data;
+  }
 };
 
 soundManager.playingSounds = {};

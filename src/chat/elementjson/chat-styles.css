@@ -1,128 +1,304 @@
 :root {
-  
-  
+  --accent-default-hue: 0deg;
+  --accent-default-saturation: 0%;
+
   --doNotTouchThisEver: 100%; /* but... of what?? */
-  
-  
-  --bg-color: #b8b8b8;
-  --header-color: #b8b8b8;
+
+  --bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    72%
+  );
+  --header-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    72%
+  );
 
   --main-font: arial;
 
-  --main-text-color: black;
+  --main-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
 
-  --input-bg-color: #363636;
-  --input-text-color: #c9c9c9;
-  --input-border-color: #1f1f1f;
+  --input-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    21%
+  );
+  --input-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    79%
+  );
+  --input-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    12%
+  );
   --input-border-width: 3px;
 
-  --messages-bg-color: #919191;
-  --messages-text-color: #fcfcfc;
+  --messages-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    57%
+  );
+  --messages-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    99%
+  );
 
-  --profile-background: #969696;
-  --profile-border-color: #7d7d7d;
+  --profile-background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    59%
+  );
+  --profile-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    49%
+  );
 
-  --separator-color: #696969;
+  --separator-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    41%
+  );
 
-  --textbox-bg-color: #e0e0e0;
-  --textbox-border-color: #696969;
+  --textbox-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    88%
+  );
+  --textbox-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    41%
+  );
 
-  --button-bg-color: #e0e0e0;
-  --button-text-color: #696969;
-  --button-hover-bg-color: #f2f2f2;
-  --button-disabled-color: #5e5e5e;
+  --button-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    88%
+  );
+  --button-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    41%
+  );
+  --button-hover-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    95%
+  );
+  --button-disabled-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    37%
+  );
 
-  --loading-spinner-color: #878787;
+  --loading-spinner-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    53%
+  );
 
   --border-radius: 3px;
   --profile-border-radius: 64px;
 
   --spinner-rotation-seconds: 1.34s;
 
-  --popup-box-bg-color: white;
-  --popup-box-text-color: black;
+  --popup-box-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
+  --popup-box-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
 
-  --link-text-color: #4287f5;
+  --link-text-color: hsl(217, 90%, 61%);
 
   --main-font-size: 15px;
 
-  --selected-emoji-popup-dialog-bg-color: #15e64d;
-  --selected-emoji-popup-dialog-border-color: #23a646;
+  --selected-emoji-popup-dialog-bg-color: hsl(136, 83%, 49%);
+  --selected-emoji-popup-dialog-border-color: hsl(136, 65%, 39%);
   --selected-emoji-popup-dialog-border-width: 2px;
-  --selected-emoji-popup-dialog-text-color: #e6ffec;
+  --selected-emoji-popup-dialog-text-color: hsl(134, 100%, 95%);
 
-  --server-notifcation-color: #ffd000;
+  --server-notifcation-color: hsl(49, 100%, 50%);
 
   --default-font-weight: 0px;
 
-  --connection-status-normal-color: #000000;
-  --connection-status-connected-color: #039e00;
-  --connection-status-error-color: #9e0000;
+  --connection-status-normal-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
+  --connection-status-connected-color: hsl(119, 100%, 31%);
+  --connection-status-error-color: hsl(0, 100%, 31%);
 
-  --color-select-bg-color: #9e9e9e;
-  --color-select-border-color: #858585;
+  --color-select-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    62%
+  );
+  --color-select-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    52%
+  );
 
-  --color-select-highlight-color: #ffffff;
+  --color-select-highlight-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
 
-  --storage-group-background-color: #c9c9c9;
-  --storage-group-border-color: #bdbdbd;
-  --storage-group-text-color: #4a4a4a;
+  --storage-group-background-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    79%
+  );
+  --storage-group-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    74%
+  );
+  --storage-group-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    29%
+  );
 
-  --soundboard-button-bgcolor: #a1a1a1;
-  --soundboard-button-border-color: #545454;
-  --soundboard-button-hover-bgcolor: #bfbfbf;
+  --soundboard-button-bgcolor: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    63%
+  );
+  --soundboard-button-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    33%
+  );
+  --soundboard-button-hover-bgcolor: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    75%
+  );
 
-  --soundboard-stop-button-bgcolor: #d90000;
-  --soundboard-stop-button-border-color: #750000;
-  --soundboard-stop-button-hover-bgcolor: #ff0000;
-  
-  --menu-bar-hover-color: #ebebeb;
+  --soundboard-stop-button-bgcolor: hsl(0, 100%, 43%);
+  --soundboard-stop-button-border-color: hsl(0, 100%, 23%);
+  --soundboard-stop-button-hover-bgcolor: hsl(0, 100%, 50%);
 
-  --usercolors-1: #ff0000;
-  --usercolors-2: #ff6f00;
-  --usercolors-3: #ffd500;
-  --usercolors-4: #b7ff00;
-  --usercolors-5: #48ff00;
-  --usercolors-6: #00ff2a;
-  --usercolors-7: #00ffa2;
-  --usercolors-8: #00fff2;
-  --usercolors-9: #00ccff;
-  --usercolors-10: #0073ff;
-  --usercolors-11: #001aff;
-  --usercolors-12: #5900ff;
-  --usercolors-13: #b700ff;
-  --usercolors-14: #ff00e6;
-  --usercolors-15: #ff00a6;
-  --usercolors-16: #dbdbdb;
-  --usercolors-17: #adadad;
-  --usercolors-18: #808080;
-  --usercolors-19: #636363;
-  --usercolors-20: #404040;
-  --usercolors-21: #2e2e2e;
-  --usercolors-22: #000000;
-  
+  --menu-bar-hover-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    92%
+  );
+
+  --usercolors-1: hsl(0, 100%, 50%);
+  --usercolors-2: hsl(26, 100%, 50%);
+  --usercolors-3: hsl(50, 100%, 50%);
+  --usercolors-4: hsl(77, 100%, 50%);
+  --usercolors-5: hsl(103, 100%, 50%);
+  --usercolors-6: hsl(130, 100%, 50%);
+  --usercolors-7: hsl(158, 100%, 50%);
+  --usercolors-8: hsl(177, 100%, 50%);
+  --usercolors-9: hsl(192, 100%, 50%);
+  --usercolors-10: hsl(213, 100%, 50%);
+  --usercolors-11: hsl(234, 100%, 50%);
+  --usercolors-12: hsl(261, 100%, 50%);
+  --usercolors-13: hsl(283, 100%, 50%);
+  --usercolors-14: hsl(306, 100%, 50%);
+  --usercolors-15: hsl(321, 100%, 50%);
+  --usercolors-16: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    86%
+  );
+  --usercolors-17: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    68%
+  );
+  --usercolors-18: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    50%
+  );
+  --usercolors-19: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    39%
+  );
+  --usercolors-20: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    25%
+  );
+  --usercolors-21: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    18%
+  );
+  --usercolors-22: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
+
   /*windowDialogContainer*/
   --popup-dialog-font: "arial";
   /*windowDialogBox*/
-  --popup-dialog-background: #fff;
+  --popup-dialog-background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
   --popup-dialog-border-radius: 10px;
-  --popup-dialog-text-color: #000;
+  --popup-dialog-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
   /*windowDialogButton*/
-  --popup-dialog-button-background: #5985ff;
-  --popup-dialog-button-hover-background: #4275ff;
-  --popup-dialog-button-text-color: #fff;
+  --popup-dialog-button-background: hsl(224, 100%, 67%);
+  --popup-dialog-button-hover-background: hsl(224, 100%, 63%);
+  --popup-dialog-button-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
   --popup-dialog-button-radius: 5px;
   /*windowDialogInput*/
-  --popup-dialog-input-background: #fff;
+  --popup-dialog-input-background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
   --popup-dialog-input-border-width: 1.5px;
-  --popup-dialog-input-border-color: #bababa;
-  --popup-dialog-input-text-color: #000;
+  --popup-dialog-input-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    73%
+  );
+  --popup-dialog-input-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
   /*windowDialogHeader*/
   --popup-dialog-message-size: 16px;
 }
 
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 24px;
 }
 
 ::-webkit-scrollbar-track {
@@ -137,6 +313,11 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--button-hover-bg-color);
+  cursor: grab;
+}
+
+::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
 }
 
 body {
@@ -284,7 +465,11 @@ body {
   height: fit-content;
 }
 .whiteBox {
-  background: #fff;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
   padding: 10px;
   box-shadow: 0 0px 30px black;
   border-radius: 5px;
@@ -301,7 +486,11 @@ body {
   font-family: var(--popup-dialog-font);
 }
 .windowDialogBackground {
-  background: black;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
 }
 .windowDialogBox {
   background: var(--popup-dialog-background);
@@ -335,13 +524,38 @@ body {
   height: 150px;
   min-width: 150px;
   min-height: 150px;
-  background: black;
-  border: 2px solid #333; /* Subtle border for separation */
-  border-radius: 8px; /* Rounded corners for better aesthetics */
-  margin: 0 4px; /* Adds spacing between video elements */
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
+  border: 2px solid
+    hsl(var(--accent-default-hue), var(--accent-default-saturation), 20%);
+  border-radius: 8px;
+  margin: 0 4px;
   position: relative;
   top: 0;
   left: 0;
+  transition: 0.05s;
+  font-size: 13px;
+}
+
+.cameraVideo:hover {
+  cursor: pointer;
+  filter: drop-shadow(0px 0px 2px #ffffff);
+  border: 2px solid
+    hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
+}
+
+.cameraVideo[fullscreen] {
+  width: calc(100vw - 100px);
+  height: calc(100vh - 100px);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999999;
+  font-size: 30px;
 }
 
 .cameraVideoElement {
@@ -354,9 +568,8 @@ body {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
-  color: white;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
   font-weight: bold;
-  font-size: 13px;
   opacity: 0.5;
   max-width: 100px;
 }
@@ -386,6 +599,32 @@ body {
   }
 }
 
+.loaderImage {
+  width: 60px;
+  height: 60px;
+  animation: chillBounce 1.2s ease-in-out infinite;
+  position: absolute;
+  transform-origin: center center;
+}
+
+@keyframes chillBounce {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) rotate(3deg) scale(1.05, 0.95);
+  }
+  50% {
+    transform: translateY(0) rotate(-2deg) scale(0.95, 1.05);
+  }
+  75% {
+    transform: translateY(-4px) rotate(2deg) scale(1.02, 0.98);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
 .soundboardButton {
   min-width: 150px;
   width: fit-content;
@@ -402,7 +641,7 @@ body {
   border-bottom-width: 10px;
   border-bottom-color: var(--soundboard-button-border-color);
   height: 90px;
-  border-radius: 2px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .soundboardButton:hover {
@@ -417,6 +656,13 @@ body {
   cursor: pointer;
   border-bottom-width: 0px;
   height: 100px;
+}
+
+.soundboardButtonDisplayNames {
+  position: absolute;
+  transform: translate(calc(-50% - 0px), calc(-100% + 60px));
+  max-height: 100px;
+  overflow-y: auto;
 }
 
 .soundboardButtonStop {
@@ -435,7 +681,7 @@ body {
   border-bottom-width: 10px;
   border-bottom-color: var(--soundboard-stop-button-border-color);
   height: 90px;
-  border-radius: 2px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .soundboardButtonStop:hover {
@@ -532,30 +778,79 @@ a {
   top: 0;
   left: 0;
   background: var(--header-color);
-  width: 100vw;
+  width: 100%;
   height: 40px;
+  overflow: hidden;
 }
 
-.menuBarItem {
+.userMenuBar {
+  margin-left: auto;
+}
+
+.menuBarItem,
+.menuBarItemUsername,
+.menuBarItemLogo {
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
   height: 40px;
-  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   user-select: none;
-  width: fit-content;
-  height: 40px;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding: 0 8px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
-.menuBarItemInput {
-  height: 40px;
-  align-content: center;
-  width: fit-content;
-  height: 40px;
-  padding-left: 3px;
-  padding-right: 3px;
-}
+
 .menuBarItem:hover {
-  color: var(--menu-bar-hover-color);
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 92%);
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.menuBarItemUsername:hover {
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    47%
+  );
+  border-radius: 5px;
+}
+
+.menuBarItemLogo {
+  transition: 0.2s background;
+  border-radius: 5px;
+}
+.menuBarItemLogo:hover {
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    47%
+  );
+}
+.menuBarItemLogo.is-bouncing {
+  animation: menuBarLogoAnim 0.45s cubic-bezier(0.28, 0.84, 0.42, 1);
+  will-change: transform;
+}
+.menuBarItemLogo.returning {
+  transition:
+    0.2s background,
+    transform 0.1s ease-out;
+}
+
+@keyframes menuBarLogoAnim {
+  10% {
+    transform: scale(1.15, 0.85);
+  }
+  30% {
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    transform: scale(1.05, 0.95);
+  }
+  80% {
+    transform: scale(1);
+  }
 }
 
 .selectObj {
@@ -563,11 +858,11 @@ a {
   width: 200px;
 }
 .selectObj:hover {
-  background: #495057;
+  background: hsl(210, 9%, 31%);
 }
 .selection:hover {
   cursor: pointer;
-  background: #495057;
+  background: hsl(210, 9%, 31%);
 }
 
 .roomSelect {
@@ -623,8 +918,13 @@ a {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background */
-  backdrop-filter: blur(2px);      /* The blur effect */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Optional: semi-transparent background */
+  backdrop-filter: blur(2px); /* The blur effect */
   -webkit-backdrop-filter: blur(2px); /* For Safari */
 }
 
@@ -649,17 +949,19 @@ a {
 
 .chatInterfaceMessagesBox {
   width: 100%;
-  height: calc(100% - 130px);
+  height: calc(calc(100% - 130px) - 30px);
   background: var(--messages-bg-color);
   color: var(--messages-text-color);
   font-size: 20px;
   overflow: auto;
   flex-wrap: none;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .chatInterfaceOnlineViewBox {
   width: 100%;
-  height: calc(100% - 100px);
+  height: calc(100% - 130px);
   background: var(--messages-bg-color);
   color: var(--messages-text-color);
   font-size: 20px;
@@ -669,7 +971,20 @@ a {
 
 .chatInterfaceButtonBox {
   width: 100%;
-  height: 100px;
+  height: 130px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+.chatInterfaceButton {
+  display: flex;
+  flex-grow: 2;
+  font-size: 23px;
+  align-items: center;
+  align-content: center;
+}
+.chatInterfaceButton img {
+  height: 23px;
 }
 
 .chatInterfaceMessageTextBox {
@@ -678,6 +993,7 @@ a {
   border: none;
   padding: 0;
   font-size: 20px;
+  margin-right: 1px;
 }
 
 .chatInterfaceMessageSendButton {
@@ -689,9 +1005,10 @@ a {
   width: fit-content;
   height: fit-content;
   min-height: 30px;
-  min-width: 30px;
   align-content: center;
   text-align: center;
+  padding: 0px 2px;
+  margin: 0px 1px;
 }
 .chatInterfaceMessageSendButton:hover {
   background-color: var(--button-hover-bg-color);
@@ -708,9 +1025,13 @@ a {
 .usernameSpan {
   font-weight: bold;
   align-content: center;
+  display: block;
+  height: 32px;
 }
 .messageSpan {
   align-content: center;
+  display: "inline-block";
+  overflow-wrap: "break-word";
 }
 
 .onlineUserContainer {
@@ -736,7 +1057,11 @@ a {
 .mediaContentDiv {
   width: 100%;
   height: 100%;
-  background: #000000;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
   position: absolute;
   top: 0;
   left: 0;
@@ -779,7 +1104,11 @@ a {
   top: 0px;
   left: 0px;
   border: none;
-  background: #ffffff;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
 }
 
 .mediaContentMenuBar {
@@ -822,18 +1151,18 @@ a {
   height: fit-content;
   transform: translate(-50%, 0%);
 
-  background: #ff961f;
-  color: white;
+  background: hsl(32, 100%, 56%);
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
 
-  border-left-color: #ab5000;
+  border-left-color: hsl(28, 100%, 34%);
   border-left-style: solid;
   border-left-width: 2px;
 
-  border-right-color: #ab5000;
+  border-right-color: hsl(28, 100%, 34%);
   border-right-style: solid;
   border-right-width: 2px;
 
-  border-bottom-color: #ab5000;
+  border-bottom-color: hsl(28, 100%, 34%);
   border-bottom-style: solid;
   border-bottom-width: 2px;
 
@@ -854,19 +1183,13 @@ a {
 
 @keyframes noAudioAnimation {
   0% {
-    top: -1px;
     opacity: 0.5;
-    scale: 1 1.1;
   }
   50% {
-    top: 0;
     opacity: 1;
-    scale: 1 1;
   }
   100% {
-    top: -1px;
     opacity: 0.5;
-    scale: 1 1.1;
   }
 }
 
@@ -904,8 +1227,9 @@ a {
 
 @keyframes popupDialog {
   0% {
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(0, 0);
     opacity: 0;
+    filter: blur(30px);
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
@@ -920,7 +1244,11 @@ a {
 
 .onlineUserImgButton:hover {
   cursor: pointer;
-  background: #cfcfcf;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    81%
+  );
 }
 
 .ownerKeyIcon {
@@ -930,7 +1258,8 @@ a {
 }
 
 @keyframes glowPulse {
-  0%, 100% {
+  0%,
+  100% {
     filter: drop-shadow(0 0 4px #000000);
     transform: scale(1);
   }
@@ -959,4 +1288,254 @@ a {
 
 .buttonDiv [disabled] {
   pointer-events: none;
+}
+
+.typingNoticeDiv {
+  position: absolute;
+  right: 0;
+  transform: translate(0px, -100%);
+  padding: 8px 15px;
+  pointer-events: none;
+}
+
+.userTypingText {
+  font-weight: bold;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
+  padding: 4px 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+}
+
+.soundboardActiveText {
+  font-weight: bold;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
+  padding: 2px 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+.replyableUsernameSpan:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.usersContainerRoomSettings {
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    57%
+  );
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 99%);
+  font-size: 20px;
+  padding: 15px 30px;
+  border-radius: 3px;
+}
+
+.loader2 {
+  width: 100%;
+  height: 100%;
+  animation-name: newLoaderAnim;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+
+  position: relative;
+  top: 0;
+  left: 0;
+
+  background-image: url("images/appicon.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  transform-origin: bottom;
+
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+@keyframes newLoaderAnim {
+  /* Bounce */
+  0% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-in-out;
+  }
+  5% {
+    transform: translate(0, 0) scale(1.6, 0.4);
+    animation-timing-function: ease-out;
+  }
+  /* Outwards left*/
+  25% {
+    transform: translate(-25%, -200%) rotate(-10deg);
+    animation-timing-function: ease-in;
+  }
+  /* Bounce */
+  50% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-in-out;
+  }
+  55% {
+    transform: translate(0, 0) scale(1.6, 0.4);
+    animation-timing-function: ease-out;
+  }
+  /* Outwards right */
+  75% {
+    transform: translate(25%, -200%) rotate(10deg);
+    animation-timing-function: ease-in;
+  }
+  /* Go back to start (repeat) */
+  100% {
+    transform: translate(0, 0) scale(1, 1);
+  }
+}
+
+.loader2Container {
+  width: 72px;
+  height: 72px;
+}
+
+.messageCategorySeparator {
+  font-weight: bold;
+  padding: 5px 5px;
+  width: 100%;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
+  opacity: 0.5;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
+  border-radius: 3px;
+  border-style: dashed;
+  border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    0%
+  );
+  border-width: 2px;
+}
+
+.emojiDialogBox {
+  position: absolute;
+  right: 0;
+  transform: translate(-20px, -100%);
+
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
+  width: calc(100% - 40px);
+  height: calc(100% - 200px);
+  min-height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 0px 30px black;
+  display: flex;
+  flex-direction: column;
+  transform-origin: bottom;
+}
+.emojiDialogCategoryContainer {
+  display: flex;
+  height: fit-content;
+  width: fit-content;
+  flex-direction: row;
+}
+.emojiDialogCategoryContainerScroller {
+  display: block;
+  height: fit-content;
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.emojiDialogContainer2 {
+  height: 100%;
+  width: 100%;
+}
+.emojiDialogContainer {
+  flex-grow: 1;
+  display: block;
+  overflow: auto;
+}
+.emojiDialogButton {
+  float: left;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  margin: 3px 3px;
+  user-select: none;
+  display: block;
+  font-size: 30px;
+}
+.emojiDialogGroupText {
+  float: left;
+  font-weight: bold;
+  font-size: 15px;
+  width: 100%;
+}
+.emojiDialogCategoryButton {
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
+  border-radius: 4px;
+  width: fit-content;
+  height: 25px;
+  line-height: 25px;
+  padding: 10px 10px;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
+  display: flex-inline;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}
+.emojiDialogCategoryButton:hover {
+  cursor: pointer;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    95%
+  );
+}
+.emojiDialogCategoryButton[selected] {
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    50%
+  );
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
+  cursor: default;
+}
+
+.emojiDialogTextInput {
+  all: unset;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%
+  );
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: gray;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 2px;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
+  text-align: left;
+  padding: 1px 3px;
+}
+
+.emojiDialogTextInput:focus {
+  cursor: text;
+}
+
+.chooseMediaButton {
+  transition: 0.2s transform;
+}
+
+.chooseMediaButton:hover {
+  transform: scale(1.05);
+}
+
+.chooseMediaButton:active {
+  transition: 0.08s transform;
+  transform: scale(0.95);
 }

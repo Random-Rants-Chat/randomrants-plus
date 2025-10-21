@@ -1,22 +1,29 @@
 var sounds = require("./sounds.js");
 
-const clickableClasses = ["divButton"]; //Handling for div button styles.
+const clickableClasses = [
+  "divButton",
+  "emojiDialogCategoryButton",
+  "emojiDialogButton",
+]; //Handling for div button styles.
 
 document.addEventListener("click", (e) => {
-  let el = e.target;
+  var el = e.target;
 
   while (el && el !== document.body) {
-    const style = getComputedStyle(el);
-    const isClickable =
+    var style = getComputedStyle(el);
+    var classList = el.classList;
+    var isClickable =
       typeof el.onclick === "function" ||
       el.getAttribute("onclick") !== null ||
       style.cursor === "pointer" ||
       el.getAttribute("role") === "button" ||
-      clickableClasses.some(cls => el.classList.contains(cls)) ||
+      clickableClasses.some((cls) => {
+        return Array.from(classList).indexOf(cls) > -1;
+      }) ||
       el.tabIndex >= 0;
 
     if (isClickable) {
-      sounds.play("select",1);
+      sounds.play("select", 1);
       return;
     }
 
@@ -24,12 +31,12 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Global keydown listener for typing sound
-document.addEventListener("keydown", e => {
-  const el = e.target;
+// Global input listener for typing sound
+document.addEventListener("input", (e) => {
+  var el = e.target;
 
   // Check if typing is happening in editable fields
-  const isTypingTarget =
+  var isTypingTarget =
     el.matches("input[type='text'], textarea, input[type='search']") ||
     el.isContentEditable;
 
@@ -37,4 +44,3 @@ document.addEventListener("keydown", e => {
     sounds.play("type", 1);
   }
 });
-

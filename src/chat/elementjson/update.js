@@ -20,11 +20,11 @@ module.exports = {
             fontSize: "30px",
             fontWeight: "bold",
           },
-          textContent: "Time for a lil’ Chaos Refresh",
+          textContent: "Incoming Updates!",
         },
         {
           element: "div",
-          className: "sep1"
+          className: "sep1",
         },
         {
           element: "div",
@@ -48,7 +48,8 @@ module.exports = {
               children: [
                 {
                   element: "span",
-                  textContent: "Hey! We just dropped a new batch of Random Rants+ chaos. To catch all the updates (and maybe a few new bugs), just give it a quick reload.",
+                  textContent:
+                    "Some new crazy Random Rants + updates have been dropped! To get those you must press the reload button below.",
                 },
                 {
                   element: "br",
@@ -56,7 +57,30 @@ module.exports = {
                 {
                   element: "span",
                   textContent:
-                    "If this keeps popping up, Glitch might still be syncing behind the scenes—or maybe we’re just getting a bit too creative.",
+                    "If this keeps appearing, then things must be syncing or we're having too much fun tweaking things!",
+                },
+                {
+                  element: "br",
+                },
+                {
+                  element: "div",
+                  style: {
+                    fontWeight: "bold",
+                  },
+                  children: [
+                    {
+                      element: "span",
+                      textContent: "This update was dropped ",
+                    },
+                    {
+                      element: "span",
+                      gid: "updateVersionTime", //Inserts text like "1 minute".
+                    },
+                    {
+                      element: "span",
+                      textContent: " ago.",
+                    },
+                  ],
                 },
                 {
                   element: "br",
@@ -64,13 +88,12 @@ module.exports = {
                 {
                   element: "div",
                   className: "divButton roundborder",
-                  textContent: "Reload and vibe",
-                  title: "Reload and vibe",
+                  textContent: "Reload now",
                   eventListeners: [
                     {
                       event: "click",
                       func: function () {
-                        this.textContent = "Reloading…";
+                        this.textContent = "Reloading...";
                         this.disabled = true;
                         window.location.reload();
                       },

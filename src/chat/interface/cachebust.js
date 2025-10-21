@@ -1,6 +1,6 @@
-var cacheBuster = "?v="+Date.now();
+var cacheBuster = "?v=" + Date.now();
 
-function cacheBust (url) {
+function cacheBust(url) {
   return url + cacheBuster;
 }
 

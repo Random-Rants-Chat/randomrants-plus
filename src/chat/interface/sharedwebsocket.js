@@ -1,16 +1,20 @@
 var websocket = null;
+var reconnectTimeout = null;
 var sws = {
   isOpen: false,
-  CANCEL_RECONNECT: "CANCEL_RECONNECT"
+  CANCEL_RECONNECT: "CANCEL_RECONNECT",
+  _lastOpen: null,
 };
 
-function openWebsocket (url,onmessage,onopen,onclose) {
+function openWebsocket(url, onmessage, onopen, onclose) {
+  sws._lastOpen = [url, onmessage, onopen, onclose];
   if (websocket) {
     websocket.onclose = function () {};
     websocket.onmessage = function () {};
     websocket.onopen = function () {};
     websocket.close();
   }
+  clearTimeout(reconnectTimeout);
   sws.isOpen = false;
   websocket = new WebSocket(url);
   websocket.onclose = async function () {
@@ -20,7 +24,9 @@ function openWebsocket (url,onmessage,onopen,onclose) {
       result = await onclose();
     }
     if (result !== sws.CANCEL_RECONNECT) {
-      openWebsocket(url,onmessage,onopen,onclose);
+      reconnectTimeout = setTimeout(() => {
+        openWebsocket(url, onmessage, onopen, onclose);
+      }, 500);
     }
   };
   websocket.onopen = function (e) {
@@ -32,7 +38,7 @@ function openWebsocket (url,onmessage,onopen,onclose) {
   websocket.onmessage = onmessage;
 }
 
-function closeWebsocket () {
+function closeWebsocket() {
   if (websocket) {
     websocket.onclose = function () {};
     websocket.onmessage = function () {};
@@ -40,16 +46,26 @@ function closeWebsocket () {
     websocket.close();
   }
   sws.isOpen = false;
+  clearTimeout(reconnectTimeout);
 }
 
-function sendWebsocket (d) {
+function sendWebsocket(d) {
   if (sws.isOpen) {
     websocket.send(d);
   }
 }
 
+function openLastWebsocket() {
+  var args = sws._lastOpen;
+  if (!args) {
+    return;
+  }
+  openWebsocket(args[0], args[1], args[2], args[3]);
+}
+
 sws.open = openWebsocket;
 sws.close = closeWebsocket;
 sws.send = sendWebsocket;
+sws.openLast = openLastWebsocket;
 
 module.exports = sws;
