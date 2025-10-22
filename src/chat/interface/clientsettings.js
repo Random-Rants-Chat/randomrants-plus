@@ -6,12 +6,24 @@ class ClientSettingsMenu {
     this.client_settings_name = "randomRantsPlusClientSettings";
     this.defaultSettings = {
       CHAT_NOTIFY: true,
+      UI_SOUNDS: true,
+      JOKE_COMMANDS: true,
     };
     this.settings = {};
     this.settingsList = [
       {
         name: "Chat notifcations",
         id: "CHAT_NOTIFY",
+        type: "on-off",
+      },
+      {
+        name: "Interface sounds",
+        id: "UI_SOUNDS",
+        type: "on-off",
+      },
+      {
+        name: "Show goofy admin commands",
+        id: "JOKE_COMMANDS",
         type: "on-off",
       },
     ];
@@ -29,7 +41,7 @@ class ClientSettingsMenu {
     var value = this.getSetting(id);
     var _this = this;
     return {
-      element: "span",
+      element: "div",
       className: "clientSettingsSwitchButton",
       GPWhenCreated: function (elm) {
         if (value) {
@@ -121,8 +133,17 @@ class ClientSettingsMenu {
                 children: [
                   {
                     element: "p",
+                    textContent: "Tips:",
+                  },
+                  {
+                    element: "p",
                     textContent:
-                      "Tips: Notifcations must be enabled in your browser for this site so that you can see them, you can change which ones you recieve here.",
+                      "These settings won't be applied to everyone else, and these are only stored for this device.",
+                  },
+                  {
+                    element: "p",
+                    textContent:
+                      "For notifcations to work, make sure your current notifcations are cleared on your device and not blocked, and make sure the site is allowed to send notifications",
                   },
                 ],
               },
@@ -146,9 +167,13 @@ class ClientSettingsMenu {
                   if (settingInfo.type == "on-off") {
                     return {
                       element: "div",
+                      style: {
+                        padding: "4px 0px",
+                        display: "flex",
+                      },
                       children: [
                         {
-                          element: "span",
+                          element: "div",
                           textContent: settingInfo.name + ": ",
                         },
                         this.addClientSettingSwitchButton(settingInfo.id),

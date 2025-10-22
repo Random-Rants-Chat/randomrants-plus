@@ -6,6 +6,7 @@ var dialogs = require("../../../dialogs.js");
 var sws = require("../sharedwebsocket.js");
 var audio = require("../../../audio.js");
 var confetti = require("./confetti.js");
+var clientSettings = require("../clientsettings.js");
 
 var commandEffectsDiv = elements.getGPId("commandEffects");
 
@@ -32,6 +33,9 @@ com.popupMessage = function (message) {
 };
 
 com.macreJoke = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var img = document.createElement("img");
   img.src = "images/commands/macres-a.svg";
   img.style.top = "0";
@@ -57,6 +61,9 @@ com.macreJoke = function () {
 };
 
 com.luigJoke = async function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var video = document.createElement("video");
   video.src = "videos/luig.mp4";
   video.style.top = "0";
@@ -73,6 +80,9 @@ com.luigJoke = async function () {
 };
 
 com.spin = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var rotatedeg = 0;
   var chat = document.body;
   var int = setInterval(() => {
@@ -94,6 +104,9 @@ com.spin = function () {
 };
 
 com.popcat = function (time) {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var ms = 1000;
   if (Number(time)) {
     ms = Number(time) * 1000;
@@ -134,6 +147,9 @@ com.kick = function () {
 };
 
 com.shake = function (intensity = 1) {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   if (isNaN(intensity)) {
     intensity = 3;
   }
@@ -195,6 +211,9 @@ com.confetti = function () {
 };
 
 com.funni = async function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var img = document.createElement("img");
   img.src = "https://jasonglenevans.github.io/GvbvdxxChatEmojis/MSG_5.png";
   img.style.top = "0";
@@ -213,6 +232,9 @@ com.funni = async function () {
 };
 
 com.doom = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   let overlay = document.createElement("div");
   overlay.innerText = "⚠️ DOOM COUNTDOWN: 10 ⚠️";
   overlay.style.cssText = `position: fixed;top: 10px;left: 50%;transform: translateX(-50%);font-size: 2em;font-weight: bold;color: red;text-shadow: 2px 2px black;z-index: 9999;pointer-events: none;user-select: none;`;
@@ -238,6 +260,9 @@ com.doom = function () {
 };
 
 com.bandicam = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var overlay = document.createElement("span");
   overlay.innerText = "www.Bandicam.com";
   overlay.style.cssText = `position: fixed;
@@ -264,6 +289,9 @@ com.bandicam = function () {
 };
 
 com.spooky = async function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   let overlay = document.createElement("div");
   overlay.style.position = "fixed";
   overlay.style.top = "0";
@@ -294,6 +322,9 @@ com.spooky = async function () {
 };
 
 com.bsod = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
   var bsodStopped = false;
 
   var errors = []; // store all error icons

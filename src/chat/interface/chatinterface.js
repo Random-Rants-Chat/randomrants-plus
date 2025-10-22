@@ -523,7 +523,9 @@ var clientSettings = require("./clientsettings.js");
             json.color,
             json.font
           );
-          sounds.play("notify", 1);
+          if (clientSettings.getSetting("INTERFACE_SOUNDS")) {
+            sounds.play("notify", 1);
+          }
           if (clientSettings.getSetting("CHAT_NOTIFY")) {
             notify.sendIfNotOnScreen(
               "New message!",

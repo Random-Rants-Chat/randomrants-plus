@@ -1,4 +1,5 @@
 var sounds = require("./sounds.js");
+var clientSettings = require("./clientsettings.js");
 
 const clickableClasses = [
   "divButton",
@@ -23,7 +24,9 @@ document.addEventListener("click", (e) => {
       el.tabIndex >= 0;
 
     if (isClickable) {
-      sounds.play("select", 1);
+      if (clientSettings.getSetting("UI_SOUNDS")) {
+        sounds.play("select", 1);
+      }
       return;
     }
 
@@ -41,6 +44,8 @@ document.addEventListener("input", (e) => {
     el.isContentEditable;
 
   if (isTypingTarget) {
-    sounds.play("type", 1);
+    if (clientSettings.getSetting("UI_SOUNDS")) {
+      sounds.play("type", 1);
+    }
   }
 });
