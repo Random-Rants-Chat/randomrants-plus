@@ -8,6 +8,7 @@ class ClientSettingsMenu {
       CHAT_NOTIFY: true,
       UI_SOUNDS: true,
       JOKE_COMMANDS: true,
+      BRACKET_CODE_SOUNDS: true,
     };
     this.settings = {};
     this.settingsList = [
