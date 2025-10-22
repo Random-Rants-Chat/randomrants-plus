@@ -6,7 +6,7 @@ var notify = {};
 
 var lastNotifcation = null;
 
-notify.sendIfOnScreen = function (tag, message) {
+notify.sendIfNotOnScreen = function (tag, message) {
   if (document.visibilityState !== "visible") {
     lastNotifcation = new Notification("Random Rants +", {
       icon: "favicon.png",

@@ -40,7 +40,7 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      'I met a person in middle school (during 7th grade), in my elective class. Saw him using scratch, and I was like "yeah I use it too," and then switched topics and showed him an site called Macre\'s Chat.',
+      'I met a person. Saw him using scratch, and I was like "yeah I use it too," and then switched topics and showed him an site called Macre\'s Chat.',
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
@@ -61,7 +61,7 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      "The next grade (8th), is when it became truly popular around my school, but it was more like a spike - it went up, then dropped back down very quickly to barely nobody.",
+      "The next year, is when it became truly popular around my school, but it was more like a spike - it went up, then dropped back down very quickly to barely nobody.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
@@ -110,7 +110,7 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      "So thats how Random Rants, and Random Rants + was floating around school.",
+      "So thats how Random Rants, and Random Rants + was floating around.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },

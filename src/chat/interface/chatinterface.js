@@ -124,6 +124,7 @@ toggleMessageAndOnlineView.addEventListener(
 reconnectingScreen.hidden = true;
 
 var emojiReactions = require("./emojireactions.js");
+var clientSettings = require("./clientsettings.js");
 
 (async function () {
   try {
@@ -523,10 +524,12 @@ var emojiReactions = require("./emojireactions.js");
             json.font
           );
           sounds.play("notify", 1);
-          notify.sendIfOnScreen(
-            "New message!",
-            `${json.displayName}: ${shtml.bracketCodeRemoval(json.message)}`
-          );
+          if (clientSettings.getSetting("CHAT_NOTIFY")) {
+            notify.sendIfNotOnScreen(
+              "New message!",
+              `${json.displayName}: ${shtml.bracketCodeRemoval(json.message)}`
+            );
+          }
         }
         if (json.type == "usernameExists") {
           usernameErrorScreen.hidden = false;

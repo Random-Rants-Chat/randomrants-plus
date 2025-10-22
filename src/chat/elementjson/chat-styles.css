@@ -1539,3 +1539,24 @@ a {
   transition: 0.08s transform;
   transform: scale(0.95);
 }
+
+.clientSettingsSwitchButton {
+  background: #b01700;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  font-weight: bold;
+  user-select: none;
+}
+.clientSettingsSwitchButton:hover {
+  background: #d10000;
+  cursor: pointer;
+}
+
+.clientSettingsSwitchButton[ison] {
+  background: #12b000;
+}
+.clientSettingsSwitchButton[ison]:hover {
+  background: #23d100;
+  cursor: pointer;
+}

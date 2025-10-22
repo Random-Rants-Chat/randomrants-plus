@@ -2,6 +2,7 @@ var elements = require("../../gp2/elements.js");
 var accountHelper = require("../../accounthelper");
 
 var roomSelect = require("./roomselect.js");
+var clientSettings = require("./clientsettings.js");
 
 var menuBar = elements.getGPId("menuBar");
 
@@ -75,6 +76,25 @@ var menuItems = [
         event: "click",
         func: function () {
           window.location.href = "/join";
+        },
+      },
+    ],
+  },
+  {
+    element: "div",
+    style: {
+      marginRight: "auto",
+    },
+  },
+  {
+    element: "div",
+    className: "menuBarItem",
+    textContent: "Client settings",
+    eventListeners: [
+      {
+        event: "click",
+        func: function () {
+          clientSettings.openMenu();
         },
       },
     ],

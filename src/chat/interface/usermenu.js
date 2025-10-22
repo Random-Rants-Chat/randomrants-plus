@@ -1,14 +1,7 @@
 var elements = require("../../gp2/elements.js");
 var accountHelper = require("../../accounthelper/index.js");
 
-var elementJSON = [
-  {
-    element: "div",
-    className: "userMenuBar",
-    gid: "userMenuBar",
-    children: [],
-  },
-];
+var elementJSON = [];
 
 elements.appendElements(
   elements.getGPId("menuBar"),

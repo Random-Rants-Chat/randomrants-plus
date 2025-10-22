@@ -167,7 +167,7 @@ var randomRantsAbout = [
             src: "images/social/github.svg",
             func: function () {
               var a = document.createElement("a");
-              a.href = "https://github.com/gvbvdxxalt3";
+              a.href = "https://github.com/gvbvdxxalt2";
               a.target = "_blank";
               a.click();
             },
@@ -181,12 +181,12 @@ var randomRantsAbout = [
           "Banned from Scratch, dealing with life struggles (Grounded and stuff).",
         ]
       ),
-      //Im_CatmanYT
+      //MOP-3000/Im_CatmanYT
       createSocialDivJSON(
         ["0deg", "50%"],
-        "images/creators/imcatman-oc.svg",
+        "images/creators/mop3000.png",
+        "MOP 3000",
         "Im_CatmanYT",
-        "",
         [
           {
             src: "images/social/scratch.svg",
@@ -208,8 +208,8 @@ var randomRantsAbout = [
           },
         ],
         [
-          "Met him irl and he came up with the idea for the site along with some of the ideas for the site",
-          "2D animator",
+          "I met him in real life. Came up with the idea of Random Rants.",
+          "Is a 2D animator and obsessed with animation.",
         ]
       ),
     ],
