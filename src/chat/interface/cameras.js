@@ -42,20 +42,88 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
       cameras.hide(id);
     }
     var cameraVideo = {};
+    var transitionAnim = null;
+    var back = false;
     var elms = createCameraVideoDiv(() => {
       var div = elms.div;
       var fullScreenDiv = elms.fullScreenDiv;
+      if (transitionAnim) {
+        transitionAnim.cancel();
+        if (back) {
+          div.remove();
+          fullScreenDiv.remove();
+          cameraVideosDiv.append(div);
+        }
+      }
+      back = false;
       if (div.hasAttribute("fullscreen")) {
+        //Calculate estimated position.
         div.remove();
         fullScreenDiv.remove();
         cameraVideosDiv.append(div);
         div.removeAttribute("fullscreen");
+        var bounding = div.getBoundingClientRect();
+        div.remove();
+        fullScreenDiv.remove();
+        document.body.append(fullScreenDiv);
+        document.body.append(div);
+        //Animate
+        transitionAnim = div.animate(
+          [
+            {
+              width: "calc(100vw - 100px)",
+              height: "calc(100vh - 100px)",
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: "9999999",
+              fontSize: "30px",
+            },
+            {
+              width: "150px",
+              height: "150px",
+              position: "fixed",
+              top: bounding.top + "px",
+              left: bounding.left + "px",
+            },
+          ],
+          {
+            duration: 300,
+            easing: "ease-out",
+          }
+        );
+        back = true;
+        transitionAnim.onfinish = function () {
+          div.remove();
+          fullScreenDiv.remove();
+          cameraVideosDiv.append(div);
+        };
       } else {
+        var bounding = div.getBoundingClientRect();
         div.remove();
         fullScreenDiv.remove();
         document.body.append(fullScreenDiv);
         document.body.append(div);
         div.setAttribute("fullscreen", "");
+        transitionAnim = div.animate(
+          [
+            {
+              position: "fixed",
+              top: bounding.top + "px",
+              left: bounding.left + "px",
+              transform: "translate(0%, 0%)",
+              fontSize: "13px",
+              width: "150px",
+              height: "150px",
+            },
+            {},
+          ],
+          {
+            duration: 300,
+            easing: "ease-out",
+          }
+        );
       }
     });
     cameraVideo.elms = elms;
