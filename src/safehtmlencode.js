@@ -540,6 +540,20 @@ function getBracketCodeJSON(inputText = "") {
             textContent: "",
           });
         }
+        if (name == "large" && !exists) {
+          exists = true;
+
+          var newElm = run(true, "/large");
+          newElm.style = {
+            fontWeight: "bold",
+            fontSize: "30px",
+          };
+          elm.children.push(newElm);
+          elm.children.push({
+            element: "span",
+            textContent: "",
+          });
+        }
         if (name == "color" && !exists) {
           exists = true;
 
