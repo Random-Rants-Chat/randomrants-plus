@@ -20,6 +20,7 @@ var usersOnlineSockets = {};
 var wssServerOptions = {
   //Options to prevent abuse.
   maxPayload: 1024 * 10,
+  maxpayload: 1024 * 10,
 };
 try {
   fs.rmSync(userMediaDirectory, { directory: true, recursive: true });
