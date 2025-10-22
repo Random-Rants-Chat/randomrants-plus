@@ -79,7 +79,7 @@ class CommandHandler {
             "[color css=orange][bold]To unlock all commands, get ownership (admin) powers![/bold][/color][br]";
         }
         text += "Command list: ";
-        var excluded = ["commands"];
+        var excluded = ["commands", "align"];
         for (var c of Object.keys(_this.commands)) {
           var isNotExcluded = excluded.indexOf(c) < 0;
           if (isNotExcluded && commandIsAllowed(senderClient, c)) {
@@ -407,7 +407,7 @@ class CommandHandler {
           sendClientCommand(otherClient, "importantMessage", message);
         });
       },
-      "<Username> <Message>[br]Makes the screen of the target empty (besides like the background color) except for a small black box like a spoiler on discord and if you click it it slowly fades out and reveals a message, then after a second it returns the screen back to normal like nothing happened.",
+      "<Username> <Message>[br]Makes the screen of the target empty (besides like the background color) except for a small black box, and if you click it - it slowly fades out and reveals a message, then after a second it returns the screen back to normal like nothing happened.",
       true
     );
 
