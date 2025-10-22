@@ -9,11 +9,13 @@ var confetti = require("./confetti.js");
 var clientSettings = require("../clientsettings.js");
 
 var commandEffectsDiv = elements.getGPId("commandEffects");
-
+var isRotating = false;
 var xpErrorSound = "";
+var vineboomSound = null;
 (async function () {
   //Init audio files.
   xpErrorSound = await audio.loadSoundFromURL("sounds/xp-error.mp3");
+  vineboomSound = await audio.loadSoundFromURL("sounds/vineboom.wav");
 })();
 
 com._resetEffects = function () {
@@ -83,8 +85,12 @@ com.spin = function () {
   if (!clientSettings.getSetting("JOKE_COMMANDS")) {
     return;
   }
+  if (isRotating) {
+    return;
+  }
   var rotatedeg = 0;
   var chat = document.body;
+  isRotating = true;
   var int = setInterval(() => {
     var spd = (360 * 2 - rotatedeg) / 5;
     if (spd > 30) {
@@ -97,7 +103,7 @@ com.spin = function () {
     commandEffectsDiv.style.rotate = rotatedeg + "deg";
     if (rotatedeg + 0.2 > 360 * 2) {
       commandEffectsDiv.style.rotate = "";
-
+      isRotating = false;
       clearInterval(int);
     }
   }, 1000 / 60);
@@ -392,6 +398,205 @@ com.bsod = function () {
 
     document.removeEventListener("click", handler);
   });
+};
+
+com._bracket_vineboom_sound = function () {
+  if (!clientSettings.getSetting("BRACKET_CODE_SOUNDS")) {
+    return;
+  }
+  var sound = new audio.Player(vineboomSound);
+  sound.play();
+};
+
+com.vineboom = function () {
+  var sound = new audio.Player(vineboomSound);
+  sound.play();
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
+  var img = document.createElement("img");
+  img.style.pointerEvents = "none";
+  img.style.position = "fixed";
+  img.style.top = "0px";
+  img.style.left = "0px";
+  img.style.width = "100%";
+  img.style.height = "100vh";
+  img.style.objectFit = "contain";
+  img.src = "images/commands/whatthe.jpg";
+  img.animate(
+    [
+      {
+        opacity: 0,
+      },
+      {},
+    ],
+    {
+      duration: 50,
+      easing: "ease-out",
+    }
+  );
+  commandEffectsDiv.append(img);
+  setTimeout(() => {
+    var a = img.animate(
+      [
+        {
+          opacity: 1,
+        },
+        {
+          opacity: 0,
+        },
+      ],
+      {
+        duration: 300,
+        easing: "ease-out",
+      }
+    );
+    a.onfinish = function () {
+      img.remove();
+    };
+  }, 700);
+};
+
+com.breakdance = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
+  var img = document.createElement("img");
+  img.style.position = "fixed";
+  img.src = "images/commands/breakdance.gif";
+  img.style.width = "150px";
+  img.style.height = "150px";
+  img.style.cursor = "pointer";
+  img.style.objectFit = "contain";
+  img.style.opacity = 0.5;
+  function teleport() {
+    var x = Math.random() * (window.innerWidth - 150);
+    var y = Math.random() * (window.innerHeight - 150);
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+  }
+  teleport();
+  commandEffectsDiv.append(img);
+  var teleportInterval = setInterval(teleport, 500);
+  var timeout = setTimeout(() => {
+    clearInterval(teleportInterval);
+    img.remove();
+  }, 1000 * 30);
+  img.addEventListener("click", () => {
+    clearTimeout(timeout);
+    clearInterval(teleportInterval);
+    img.remove();
+  });
+};
+
+var rotateInterval = null;
+com.slowrotate = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
+  if (isRotating) {
+    return;
+  }
+  isRotating = true;
+  var angle = 0;
+  rotateInterval = setInterval(() => {
+    angle += 0.002;
+    commandEffectsDiv.style.transform = "rotate(" + angle + "deg)";
+  }, 1000 / 60);
+};
+com.slowrotateEnd = function () {
+  if (isRotating) {
+    clearInterval(rotateInterval);
+    commandEffectsDiv.style.transform = "";
+    isRotating = false;
+    return;
+  }
+};
+
+com.importantMessage = function (messageText) {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
+  var clicked = false;
+  var timeout = null;
+  var messageElement = elements.appendElementsFromJSON(commandEffectsDiv, [
+    {
+      element: "div",
+      style: {
+        position: "fixed",
+      },
+      children: [
+        {
+          element: "div",
+          style: {
+            background: "var(--bg-color)",
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            top: 0,
+            left: 0,
+          },
+        },
+        {
+          element: "div",
+          style: {
+            filter: "brightness(0)",
+            width: "fit-content",
+            height: "fit-content",
+            padding: "10px 10px",
+            color: "white",
+            background: "black",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            cursor: "pointer",
+            fontSize: "30px",
+            fontWeight: "bold",
+            borderRadius: "5px",
+            userSelect: "none",
+          },
+          textContent: messageText,
+          eventListeners: [
+            {
+              event: "click",
+              func: function () {
+                if (clicked) {
+                  return;
+                }
+                clicked = true;
+                clearTimeout(timeout);
+                this.style.filter = "brightness(1)";
+                this.style.cursor = "default";
+                var anim = this.animate(
+                  [
+                    {
+                      filter: "brightness(0)",
+                    },
+                    {
+                      filter: "brightness(1)",
+                    },
+                  ],
+                  {
+                    easing: "ease-out",
+                    duration: 1500,
+                  }
+                );
+                anim.onfinish = function () {
+                  setInterval(() => {
+                    messageElement.remove();
+                  }, 3000);
+                };
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ])[0];
+  timeout = setTimeout(() => {
+    messageElement.remove();
+  }, 10000);
 };
 
 module.exports = com;

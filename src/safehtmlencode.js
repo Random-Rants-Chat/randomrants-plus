@@ -447,7 +447,7 @@ function bracketCodeRemoval(text) {
 
 var elements = require("./gp2/elements.js");
 
-function getBracketCodeJSON(inputText = "") {
+function getBracketCodeJSON(inputText = "", triggerBracketCodes = {}) {
   var linkfixes = inputText.split(" ");
   var newinputstr = [];
   for (var word of linkfixes) {
@@ -736,6 +736,12 @@ function getBracketCodeJSON(inputText = "") {
         if (name == "year" && !exists) {
           exists = true;
           addChar(new Date().getFullYear());
+        }
+        for (var trigBracket of Object.keys(triggerBracketCodes)) {
+          if (name == trigBracket.trim() && !exists) {
+            exists = true;
+            triggerBracketCodes[trigBracket.trim()]();
+          }
         }
 
         if (!exists) {

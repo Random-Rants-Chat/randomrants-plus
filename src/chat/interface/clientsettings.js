@@ -26,6 +26,11 @@ class ClientSettingsMenu {
         id: "JOKE_COMMANDS",
         type: "on-off",
       },
+      {
+        name: "Message bracket sounds:",
+        id: "BRACKET_CODE_SOUNDS",
+        type: "on-off",
+      },
     ];
     this.init();
   }

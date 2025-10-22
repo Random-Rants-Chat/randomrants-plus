@@ -293,10 +293,20 @@ var clientSettings = require("./clientsettings.js");
         willScroll = true;
       }
 
+      if (isNew) {
+        var messageJsonElements = shtml.getBracketCodeJSON(message, {
+          vineboom: browserCommands._bracket_vineboom_sound,
+        });
+      } else {
+        var messageJsonElements = shtml.getBracketCodeJSON(message, {
+          vineboom: function () {},
+        });
+      }
+
       var messageElement = messageElementGenerator(
         username,
         displayName,
-        shtml.getBracketCodeJSON(message),
+        messageJsonElements,
         isServerMessage,
         userColor,
         userFont

@@ -1475,6 +1475,10 @@ async function startRoomWSS(roomid) {
       var displayName = generateGuestUsername();
       ws._rrUserColor = "#000000";
       ws._rrUserFont = "Arial";
+      ws._rrRenameDisplayName = function (newName) {
+        displayName = newName;
+        ws._rrDisplayName = newName;
+      };
       if (usercookie) {
         var decryptedUserdata = encryptor.decrypt(usercookie);
         var validation = await validateUserCookie(decryptedUserdata);
