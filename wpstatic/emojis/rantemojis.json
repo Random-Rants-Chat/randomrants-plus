@@ -4,6 +4,15 @@
     "slug": "rrp_emojis",
     "emojis": [
       {
+        "src": "images/randomrants-square-icon.png",
+        "name": "Random Rants + square icon",
+        "emojiURL": "rrp",
+        "tags": [
+          "square",
+          "icon"
+        ]
+      },
+      {
         "src": "images/doge.png",
         "name": "Doge",
         "emojiURL": "rrp",
@@ -277,15 +286,6 @@
         ]
       },
       {
-        "src": "images/randomrants-square-icon.png",
-        "name": "Random Rants + square icon",
-        "emojiURL": "rrp",
-        "tags": [
-          "square",
-          "icon"
-        ]
-      },
-      {
         "src": "images/hashbrowncat.png",
         "name": "Hash brown cat",
         "emojiURL": "rrp",
@@ -296,6 +296,20 @@
           "chineese",
           "cat",
           "food"
+        ]
+      },
+      {
+        "src": "images/mop3000.png",
+        "name": "MOP3000",
+        "emojiURL": "rrp",
+        "tags": [
+          "red",
+          "pfp",
+          "profile picture",
+          "character",
+          "pixels",
+          "pixelated",
+          "guy"
         ]
       }
     ]
