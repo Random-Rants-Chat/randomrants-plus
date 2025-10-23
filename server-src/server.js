@@ -1984,49 +1984,56 @@ async function startRoomWSS(roomid) {
             }
           }
           if (json.type == "postMessage") {
-            if (typeof json.message == "string") {
-              if (json.message.length > cons.MAX_MESSAGE_SIZE) {
-                ws.send(
-                  JSON.stringify({
-                    type: "newMessage",
-                    message:
-                      "The message you tried to post is too long.[br]The message was not posted.",
-                    isServer: true,
-                    displayName: "[Notice]",
-                  })
-                );
-                return;
-              }
-              wss.clients.forEach((cli) => {
-                if (!cli._rrIsReady) {
+            var commandResult = null;
+            if (hasPermission("commands", ws)) {
+              commandResult = wss._rrCommandHandler.handleMessage(
+                ws,
+                json.message
+              );
+            }
+            if (commandResult !== commandHandler.HIDE_MESSAGE) {
+              if (typeof json.message == "string") {
+                if (json.message.length > cons.MAX_MESSAGE_SIZE) {
+                  ws.send(
+                    JSON.stringify({
+                      type: "newMessage",
+                      message:
+                        "The message you tried to post is too long.[br]The message was not posted.",
+                      isServer: true,
+                      displayName: "[Notice]",
+                    })
+                  );
                   return;
                 }
-                cli.send(
-                  JSON.stringify({
-                    type: "newMessage",
-                    message: json.message,
-                    username: ws._rrUsername,
+                wss.clients.forEach((cli) => {
+                  if (!cli._rrIsReady) {
+                    return;
+                  }
+                  cli.send(
+                    JSON.stringify({
+                      type: "newMessage",
+                      message: json.message,
+                      username: ws._rrUsername,
+                      displayName: displayName,
+                      color: ws._rrUserColor,
+                      font: ws._rrUserFont,
+                    })
+                  );
+                });
+
+                if (!json.message.trim().startsWith(";")) {
+                  //Filter out command messages in history.
+                  messageChatNumber += 1;
+                  wss._rrRoomMessages.push({
                     displayName: displayName,
+                    username: ws._rrUsername,
+                    message: json.message,
                     color: ws._rrUserColor,
                     font: ws._rrUserFont,
-                  })
-                );
-              });
-              if (hasPermission("commands", ws)) {
-                wss._rrCommandHandler.handleMessage(ws, json.message);
-              }
-
-              if (!json.message.trim().startsWith(";")) {
-                //Filter out command messages in history.
-                messageChatNumber += 1;
-                wss._rrRoomMessages.push({
-                  displayName: displayName,
-                  username: ws._rrUsername,
-                  message: json.message,
-                  color: ws._rrUserColor,
-                  font: ws._rrUserFont,
-                });
-                wss._rrRoomMessages = wss._rrRoomMessages.slice(-50);
+                  });
+                  ws._rrLastMessagePosted = json.message;
+                  wss._rrRoomMessages = wss._rrRoomMessages.slice(-50);
+                }
               }
             }
           }

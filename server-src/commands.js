@@ -1,4 +1,5 @@
 class CommandHandler {
+  static HIDE_MESSAGE = "HIDE_MESSAGE";
   constructor(wss) {
     if (!wss) {
       return;
@@ -190,8 +191,9 @@ class CommandHandler {
       "broadcast",
       function (args, userInfo, senderClient) {
         var foundClients = searchUsersByKey(args[0], senderClient);
-        var message = args.slice(1, args.length).join(" ");
+        var message = args.join(" ");
         sendFeedbackGlobalWithName(message, "[Notice]");
+        return CommandHandler.HIDE_MESSAGE;
       },
       "<Message>[br]Broadcasts a message with the [bold][Notice][/bold] name",
       true
@@ -383,6 +385,7 @@ class CommandHandler {
         foundClients.forEach((otherClient) => {
           sendClientCommand(otherClient, "slowrotate");
         });
+        return CommandHandler.HIDE_MESSAGE;
       },
       "<Username>[br]Makes the specified users screen veeeeeeeeeery slowly start rotating to the left. VEEEEEEEEEEEEERY slow so that eventually they’ll start to realize their screen is a bit off",
       true
@@ -405,14 +408,15 @@ class CommandHandler {
         var message = args.slice(1, args.length).join(" ");
         if (message.trim().length < 1) {
           sendFeedbackLocal(
-            otherClient,
+            senderClient,
             "Message needs to be at least one character."
           );
-          return;
+          return CommandHandler.HIDE_MESSAGE;
         }
         foundClients.forEach((otherClient) => {
           sendClientCommand(otherClient, "importantMessage", message);
         });
+        return CommandHandler.HIDE_MESSAGE;
       },
       "<Username> <Message>[br]Makes the screen of the target empty (besides the background color) except for a small black box, and if you click it - it slowly fades out and reveals a message, then after a second it returns the screen back to normal like nothing happened.",
       true
@@ -425,7 +429,55 @@ class CommandHandler {
           sendClientCommand(otherClient, "cheeseStorm");
         });
       },
-      '<Username>[br]Many cheese images will show up on the users screen and each stay there for a few seconds. When the user clicks them, they go away and show "+1 cheese".'
+      '<Username>[br]Many cheese images will show up on the users screen and each stay there for a few seconds. When the user clicks them, they go away and show "+1 cheese".',
+      true
+    );
+    addCommand(
+      "quote",
+      function (args, userInfo, senderClient) {
+        var foundClients = searchUsersByKey(args[0], senderClient);
+        if (foundClients.length == 0) {
+          sendFeedbackLocal(senderClient, "No user was found");
+          return CommandHandler.HIDE_MESSAGE;
+        }
+        if (foundClients.length !== 1) {
+          sendFeedbackLocal(
+            senderClient,
+            "Too many users are selected, only one user needs to be chosen."
+          );
+          return CommandHandler.HIDE_MESSAGE;
+        }
+        var foundClient = foundClients[0];
+        var message = args.slice(1, args.length).join(" ");
+        var currentYear = new Date().getFullYear();
+        if (message.length > 0) {
+          sendFeedbackGlobalWithName(
+            `“${message}” -${userInfo.username}, ${currentYear}`,
+            "[Notice]"
+          );
+        } else {
+          var lastMessage = null;
+          var info = getUserInfo(foundClient);
+          for (var messageData of wss._rrRoomMessages) {
+            if (messageData.username == info.username) {
+              lastMessage = messageData.message;
+            }
+          }
+          if (!lastMessage) {
+            sendFeedbackLocal(senderClient, "Couldn't find message");
+            return CommandHandler.HIDE_MESSAGE;
+          }
+          sendFeedbackGlobalWithName(
+            `“${lastMessage}” -${getUserInfo(foundClient).username}, ${currentYear}`,
+            "[Notice]"
+          );
+        }
+        return CommandHandler.HIDE_MESSAGE;
+      },
+      "<Username> <Message (Optional)[br]Only doing the quote and username will have the “[Notice]” say “quote goes here” -<username>, " +
+        new Date().getFullYear() +
+        "” and the quote is the most recent message that the specified user sent. However if you write your own quote, it’ll just say the same thing but with the quote being the thing you said.",
+      false
     );
 
     ////////////////////////////////////////////////////
@@ -461,16 +513,17 @@ class CommandHandler {
     return false;
   }
 
-  async doCommand(args, client) {
+  doCommand(args, client) {
     var commandName = args[0];
 
     if (this.commandExists(commandName)) {
       try {
-        await this.commands[commandName](
+        var output = this.commands[commandName](
           args.slice(1),
           this.getUserInfo(client),
           client
         );
+        return output;
       } catch (e) {
         console.log(
           `[Command warning]: Command ${commandName} failed with error ${e}`
@@ -585,7 +638,7 @@ class CommandHandler {
         return; //No message, just return.
       }
 
-      this.doCommand(splitMessage, client);
+      return this.doCommand(splitMessage, client);
     }
   }
 
