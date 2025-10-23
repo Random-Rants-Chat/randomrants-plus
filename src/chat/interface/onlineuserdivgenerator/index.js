@@ -73,7 +73,7 @@ function generateDiv(
         style: {
           height: "23px",
         },
-        className: "divButton roundborder",
+        className: "divButton roundborder onlineDivButton",
         title: "Click to block/ban this user.",
         children: [
           {
@@ -110,7 +110,7 @@ function generateDiv(
           style: {
             height: "23px",
           },
-          className: "divButton roundborder",
+          className: "divButton roundborder onlineDivButton",
           title: "Click to remove ownership to this user.",
           children: [
             {
@@ -145,7 +145,7 @@ function generateDiv(
           style: {
             height: "23px",
           },
-          className: "divButton roundborder",
+          className: "divButton roundborder onlineDivButton",
           title: "Click to add ownership to this user.",
           children: [
             {

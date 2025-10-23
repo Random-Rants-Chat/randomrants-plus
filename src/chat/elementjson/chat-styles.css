@@ -1609,3 +1609,7 @@ a {
   margin-bottom: 10px;
   filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.4));
 }
+
+.onlineDivButton {
+  text-wrap: nowrap;
+}
