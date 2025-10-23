@@ -630,6 +630,20 @@ com.cheeseStorm = function () {
           {
             element: "img",
             src: "images/commands/cheese.png",
+            eventListeners: [
+              {
+                event: "select",
+                func: () => false,
+              },
+              {
+                event: "dragstart",
+                func: () => false,
+              },
+              {
+                event: "dragend",
+                func: () => false,
+              },
+            ],
             style: {
               height: "64px",
               transform: `rotate(${Math.random() * 45 * 2 - 45}deg)`,
@@ -687,7 +701,7 @@ com.cheeseStorm = function () {
               fontSize: "20px",
               fontWeight: "bold",
             },
-            textContent: "+1 Cheese",
+            textContent: "+1 CHEESE",
           },
         ]);
         cheeseDiv.animate(

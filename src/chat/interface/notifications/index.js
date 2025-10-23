@@ -171,6 +171,9 @@ class RealTimeNotifications {
     return {
       element: "div",
       className: "menuBarItem",
+      style: {
+        padding: "0px 0px",
+      },
       children: [
         {
           element: "img",
