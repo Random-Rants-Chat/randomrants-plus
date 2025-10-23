@@ -1266,6 +1266,109 @@ function generateWebsocketID() {
   return _websocketIDCounter + "_" + Math.round(Math.random() * 9999999);
 }
 
+var notifyWSS = new ws.WebSocketServer({ noServer: true, ...wssServerOptions });
+var notificationsForUsers = {};
+var notificationUserTimeouts = {};
+notifyWSS.on("connection", (ws, request) => {
+  (async function () {
+    var usercookie = getCookie("account", getCookieFromRequest(request));
+    if (usercookie) {
+      var decryptedUserdata = encryptor.decrypt(usercookie);
+      decryptedUserdata.username = (decryptedUserdata.username || "")
+        .toLowerCase()
+        .trim();
+      var validation = await validateUserCookie(decryptedUserdata);
+      if (validation.valid) {
+        ws._rrUsername = decryptedUserdata.username.toLowerCase().trim();
+        ws._rrDisplayName = validation.displayName;
+      } else {
+        ws.terminate();
+        return;
+      }
+    } else {
+      ws.terminate();
+      return;
+    }
+    terminateGhostSockets(ws);
+    if (!notificationsForUsers[ws._rrUsername]) {
+      notificationsForUsers[ws._rrUsername] = [];
+    }
+    clearTimeout(notificationUserTimeouts[ws._rrUsername]);
+    notificationUserTimeouts[ws._rrUsername] = undefined;
+    ws.on("message", (data) => {
+      var json = JSON.parse(data.toString());
+      if (json.type == "read") {
+        if (typeof json.id == "number") {
+          notificationsForUsers[ws._rrUsername] = notificationsForUsers[
+            ws._rrUsername
+          ].filter((n) => json.id !== n.id);
+          for (var client of notifyWSS.clients) {
+            if (client._rrUsername == ws._rrUsername) {
+              client.send(
+                JSON.stringify({
+                  type: "current",
+                  notifications: notificationsForUsers[ws._rrUsername],
+                })
+              );
+            }
+          }
+        }
+      }
+      if (json.type == "readAll") {
+        notificationsForUsers[ws._rrUsername] = [];
+        for (var client of notifyWSS.clients) {
+          if (client._rrUsername == ws._rrUsername) {
+            client.send(
+              JSON.stringify({
+                type: "current",
+                notifications: notificationsForUsers[ws._rrUsername],
+              })
+            );
+          }
+        }
+      }
+    });
+    ws.on("close", () => {
+      notificationUserTimeouts[ws._rrUsername] = setTimeout(
+        () => {
+          notificationsForUsers[ws._rrUsername] = undefined;
+          notificationUserTimeouts[ws._rrUsername] = undefined;
+        },
+        1000 * 60 * 10
+      ); //10 Minutes before all notifications are cleared.
+    });
+    ws.send(
+      JSON.stringify({
+        type: "current",
+        notifications: notificationsForUsers[ws._rrUsername],
+      })
+    );
+  })();
+});
+function sendNotify(username, notifyjson = {}) {
+  if (!notificationsForUsers[username]) {
+    notificationsForUsers[username] = [];
+  }
+  var notifyContent = {
+    id: Date.now(),
+    ...notifyjson,
+  };
+  notificationsForUsers[username].push(notifyContent);
+  notificationsForUsers[username] = notificationsForUsers[username].slice(
+    -cons.MAX_NOTIFICATIONS
+  );
+  for (var client of notifyWSS.clients) {
+    if (client._rrUsername == username.trim()) {
+      client.send(
+        JSON.stringify({
+          type: "new",
+          notification: notifyContent,
+        })
+      );
+    }
+  }
+}
+
 async function startRoomWSS(roomid) {
   var wss = new ws.WebSocketServer({ noServer: true, ...wssServerOptions });
   roomWebsockets[roomid.toString()] = "loading";
@@ -1482,6 +1585,9 @@ async function startRoomWSS(roomid) {
       };
       if (usercookie) {
         var decryptedUserdata = encryptor.decrypt(usercookie);
+        decryptedUserdata.username = (decryptedUserdata.username || "")
+          .toLowerCase()
+          .trim();
         var validation = await validateUserCookie(decryptedUserdata);
         for (var cli of wss.clients) {
           if (cli._rrUsername && cli._rrLoggedIn) {
@@ -1891,8 +1997,6 @@ async function startRoomWSS(roomid) {
                 );
                 return;
               }
-              messageChatNumber += 1;
-              wss._rrRoomMessages = wss._rrRoomMessages.slice(-100);
               wss.clients.forEach((cli) => {
                 if (!cli._rrIsReady) {
                   return;
@@ -1914,6 +2018,7 @@ async function startRoomWSS(roomid) {
 
               if (!json.message.trim().startsWith(";")) {
                 //Filter out command messages in history.
+                messageChatNumber += 1;
                 wss._rrRoomMessages.push({
                   displayName: displayName,
                   username: ws._rrUsername,
@@ -1921,6 +2026,7 @@ async function startRoomWSS(roomid) {
                   color: ws._rrUserColor,
                   font: ws._rrUserFont,
                 });
+                wss._rrRoomMessages = wss._rrRoomMessages.slice(-50);
               }
             }
           }
@@ -3954,6 +4060,12 @@ const server = http.createServer(async function (req, res) {
               }
             }
             profilejson.rooms = rooms;
+            sendNotify(json.username.toLowerCase().trim(), {
+              type: "invite",
+              from: decryptedUserdata.username.toLowerCase().trim(),
+              roomName: json.name,
+              roomID: json.id,
+            });
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
@@ -4470,6 +4582,12 @@ server.on("upgrade", async function upgrade(request, socket, head) {
   var id = urlsplit[1];
   var wss = null;
   try {
+    if (id == "notifications") {
+      notifyWSS.handleUpgrade(request, socket, head, function done(ws) {
+        notifyWSS.emit("connection", ws, request);
+      });
+      return;
+    }
     if (id) {
       id = id.toLowerCase();
       var roomWs = roomWebsockets[id.toString()];
@@ -4513,6 +4631,15 @@ function debugLogOnlineSockets() {
 setInterval(() => {
   debugLogOnlineSockets();
 }, 2000);*/
+
+/*setInterval(() => {
+  for (var username of Object.keys(notificationsForUsers)) {
+    sendNotify(username, {
+      type: "test",
+    });
+    console.log("Send to: " + username);
+  }
+}, 5000);*/
 
 var serverPort = 3000;
 if (process.env.serverPort) {

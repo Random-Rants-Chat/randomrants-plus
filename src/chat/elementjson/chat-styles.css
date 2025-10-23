@@ -1560,3 +1560,52 @@ a {
   background: #23d100;
   cursor: pointer;
 }
+
+.notificationDot {
+  position: absolute;
+  top: 2px;
+  left: 23px;
+  color: white;
+  background: rgb(189, 0, 0);
+  border-radius: 30%;
+  font-size: 12px;
+  font-weight: bold;
+  pointer-events: none;
+  padding: 2px 4px;
+}
+.notificationImage {
+  width: 40px;
+  height: 40px;
+  transition: 0.05s;
+  filter: brightness(1);
+  position: absolute;
+}
+.notificationImage:hover {
+  filter: brightness(10);
+}
+
+.notificationsDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.notificationContainer {
+  height: fit-content;
+  padding: 10px 10px;
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    78%
+  );
+  border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    40%
+  );
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 5px;
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 15%);
+  margin-bottom: 10px;
+  filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.4));
+}

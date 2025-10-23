@@ -25,5 +25,6 @@ e.MAX_SOCKETS_PER_GUEST_IP = 30; //Max user guest connected sockets.
 
 e.DISPLAYNAME_CHAR_SET =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890~`!@#$%^&*()-_=+{[]}|\\'\";:/?.>,<";
+e.MAX_NOTIFICATIONS = 20; //Max real time notifcations per user.
 
 module.exports = e;

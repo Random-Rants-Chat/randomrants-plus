@@ -255,7 +255,14 @@ class CommandHandler {
     addCommand(
       "popcat",
       function (args, userInfo, senderClient) {
-        sendClientCommand(senderClient, "popcat", args[0]);
+        var numb = +args[0] || 5;
+        if (numb > 5) {
+          numb = 5;
+        }
+        if (numb < 0.1) {
+          numb = 0.1;
+        }
+        sendClientCommand(senderClient, "popcat", numb);
       },
       "<Seconds>[br]Pop pop pop pop pop",
       true

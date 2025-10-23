@@ -234,7 +234,7 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Students that need a break, or wanting to escape school and enter the virtual world",
+          "Students that need a break, or wanting to escape school and enter the world of internet",
       },
       { element: "br" },
       {
@@ -499,7 +499,7 @@ var randomRantsAbout = [
       {
         element: "p",
         textContent:
-          "This place started as a place made by Middle Schoolers for Middle Schoolers to escape school and hop into the virtual online worlds.",
+          "This place started as a place made by Middle Schoolers - for Middle Schoolers to escape school and hop into the world of internet.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },

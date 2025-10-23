@@ -21,17 +21,18 @@ module.exports = [
   {
     element: "p",
     style: {
-      textAlign: "center"
+      textAlign: "center",
     },
-    textContent: "Google Gemini works fine, so I've been using that, but some of this stuff still applies."
+    textContent:
+      "Google Gemini works fine, so I've been using that, but some of this stuff still applies.",
   },
   {
-    element: "br"
+    element: "br",
   },
   {
     element: "p",
     textContent:
-      "The site will now mostly be personalized in tone, with only Me (Gvbvdxx). (And also Eli, if he ever gets on the google doc again)",
+      "The site will now mostly be personalized in tone, with only Me (Gvbvdxx). (And also MOP3000, if he ever gets on the google doc again)",
     style: {
       fontWeight: "bold",
       fontSize: "1.05em",

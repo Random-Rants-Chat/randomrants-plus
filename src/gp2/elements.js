@@ -18,6 +18,12 @@ var elements = {
     elements.appendElements(elm, elms);
     return elms;
   },
+  setInnerJSON: function (elm, appendJSONArray) {
+    elements.removeAllChildren(elm);
+    var elms = elements.createElementsFromJSON(appendJSONArray);
+    elements.appendElements(elm, elms);
+    return elms;
+  },
   createElementsFromJSON: function (jsonelmArray) {
     //converts an array of json's with element properties to a element list.
     function runElements(arry) {
