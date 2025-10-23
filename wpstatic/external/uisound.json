@@ -7,5 +7,7 @@
   "errorBackup": "uisounds/error.mp3",
   "notifyBackup": "uisounds/pop.mp3",
   "selectBackup": "uisounds/select.mp3",
-  "typeBackup": "uisounds/keyboard.mp3"
+  "typeBackup": "uisounds/keyboard.mp3",
+
+  "notificationBell": "uisounds/notification.wav"
 }

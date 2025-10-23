@@ -540,8 +540,9 @@ var clientSettings = require("./clientsettings.js");
           }
           if (clientSettings.getSetting("CHAT_NOTIFY")) {
             notify.sendIfNotOnScreen(
-              "New message!",
-              `${json.displayName}: ${shtml.bracketCodeRemoval(json.message)}`
+              "New message",
+              `${json.displayName}: ${shtml.bracketCodeRemoval(json.message)}`,
+              "New message"
             );
           }
         }

@@ -24,7 +24,7 @@ soundManager.load = async function () {
   var a = await fetch("external/uisound.json");
   var soundURLS = await a.json();
 
-  var soundsToLoad = ["error", "notify", "type", "select"];
+  var soundsToLoad = ["error", "notify", "type", "select", "notificationBell"];
 
   for (var soundName of soundsToLoad) {
     var data;
@@ -32,11 +32,13 @@ soundManager.load = async function () {
     //loadSoundFromURL may fail and return null without throwing errors.
     //although no errors would be thrown trying to play null, it would lead to unexpected bugs
     if (!data) {
-      data = await audio.loadSoundFromURL(soundURLS[soundName + "Backup"]);
+      if (soundURLS[soundName + "Backup"]) {
+        data = await audio.loadSoundFromURL(soundURLS[soundName + "Backup"]);
+      }
     }
     if (!data) {
       console.warn(
-        `❌ UI sound "${soundName}" failed to load from both primary and backup.`,
+        `❌ UI sound "${soundName}" failed to load from both primary and backup. (if provided)`
       );
     }
     sounds[soundName] = data;

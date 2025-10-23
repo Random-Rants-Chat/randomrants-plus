@@ -6,14 +6,14 @@ var notify = {};
 
 var lastNotifcation = null;
 
-notify.sendIfNotOnScreen = function (tag, message) {
+notify.sendIfNotOnScreen = function (tag, message, title = "Random Rants +") {
   if (document.visibilityState !== "visible") {
     if (lastNotifcation) {
       try {
         lastNotifcation.close();
       } catch (e) {}
     }
-    lastNotifcation = new Notification("Random Rants +", {
+    lastNotifcation = new Notification(title, {
       icon: "favicon.png",
       tag: tag,
       body: message,

@@ -2,6 +2,7 @@ var elements = require("../../../gp2/elements.js");
 var dialogs = require("../../../dialogs.js");
 var sws = require("../sharedwebsocket.js");
 var audio = require("../../../audio.js");
+var sounds = require("../sounds.js");
 var clientSettings = require("../clientsettings.js");
 var accountHelper = require("../../../accounthelper/index.js");
 var notify = require("../notify.js");
@@ -81,7 +82,7 @@ class RealTimeNotifications {
                   {
                     element: "p",
                     textContent:
-                      "You'll recive notifications actions such as invites to people from other rooms.",
+                      "You'll recive notifications here from certain things, such as invites to chatrooms.",
                   },
                   {
                     element: "p",
@@ -228,23 +229,31 @@ class RealTimeNotifications {
         this.notifications = this.notifications.slice(-100);
         this.loadNotifications();
         var notification = json.notification;
+        if (clientSettings.getSetting("UI_SOUNDS")) {
+          sounds.play("notificationBell", 1);
+        }
         if (
           notification.type == "test" &&
           clientSettings.getSetting("BELL_NOTIFCATIONS")
         ) {
-          notify.sendIfNotOnScreen("notification", "Test notification");
+          notify.sendIfNotOnScreen(
+            "Testing",
+            "Test notification",
+            "New notification received"
+          );
         }
         if (
           notification.type == "invite" &&
           clientSettings.getSetting("BELL_NOTIFCATIONS")
         ) {
           notify.sendIfNotOnScreen(
-            "notification",
+            "Chatroom Invitation",
             "@" +
               notification.from +
               ' has invited you to the chat room "' +
               notification.roomName +
-              '"'
+              '"',
+            "Invited to " + notification.roomName
           );
         }
       }

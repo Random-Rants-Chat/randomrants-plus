@@ -608,4 +608,10 @@ com.importantMessage = function (messageText) {
   }, 10000);
 };
 
+com.cheeseStorm = function () {
+  if (!clientSettings.getSetting("JOKE_COMMANDS")) {
+    return;
+  }
+};
+
 module.exports = com;
