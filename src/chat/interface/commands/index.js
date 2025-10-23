@@ -623,8 +623,7 @@ com.cheeseStorm = function () {
           left: x + "px",
           position: "fixed",
           cursor: "pointer",
-          transform:
-            "translate(-50%, -50%) rotate(" + Math.random() * 360 + "deg)",
+          transform: "translate(-50%, -50%)",
           transformOrigin: "center",
         },
         children: [
