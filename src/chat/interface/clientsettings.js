@@ -9,12 +9,18 @@ class ClientSettingsMenu {
       UI_SOUNDS: true,
       JOKE_COMMANDS: true,
       BRACKET_CODE_SOUNDS: true,
+      BELL_NOTIFICATIONS: true,
     };
     this.settings = {};
     this.settingsList = [
       {
         name: "Chat notifcations",
         id: "CHAT_NOTIFY",
+        type: "on-off",
+      },
+      {
+        name: "Bell Icon Notifcations:",
+        id: "BELL_NOTIFICATIONS",
         type: "on-off",
       },
       {

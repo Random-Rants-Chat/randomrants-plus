@@ -81,7 +81,12 @@ class RealTimeNotifications {
                   {
                     element: "p",
                     textContent:
-                      "Clicking on any notification would remove it, if it's an invite then it would also open the room select.",
+                      "You'll recive notifications actions such as invites to people from other rooms.",
+                  },
+                  {
+                    element: "p",
+                    textContent:
+                      "To dismiss your notifications, use the Remove All button, or for a single one just click the Remove button.",
                   },
                 ],
               },
@@ -223,10 +228,16 @@ class RealTimeNotifications {
         this.notifications = this.notifications.slice(-100);
         this.loadNotifications();
         var notification = json.notification;
-        if (notification.type == "test") {
+        if (
+          notification.type == "test" &&
+          clientSettings.getSetting("BELL_NOTIFCATIONS")
+        ) {
           notify.sendIfNotOnScreen("notification", "Test notification");
         }
-        if (notification.type == "invite") {
+        if (
+          notification.type == "invite" &&
+          clientSettings.getSetting("BELL_NOTIFCATIONS")
+        ) {
           notify.sendIfNotOnScreen(
             "notification",
             "@" +
