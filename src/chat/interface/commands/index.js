@@ -612,6 +612,85 @@ com.cheeseStorm = function () {
   if (!clientSettings.getSetting("JOKE_COMMANDS")) {
     return;
   }
+  function summonCheese() {
+    var x = Math.random() * window.innerWidth;
+    var y = Math.random() * window.innerHeight;
+    var cheeseDiv = elements.createElementsFromJSON([
+      {
+        element: "div",
+        style: {
+          top: y + "px",
+          left: x + "px",
+          position: "fixed",
+          cursor: "pointer",
+          transform:
+            "translate(-50%, -50%) rotate(" + Math.random() * 360 + "deg)",
+          transformOrigin: "center",
+        },
+        children: [
+          {
+            element: "img",
+            src: "images/commands/cheese.png",
+            style: {
+              height: "32px",
+            },
+          },
+        ],
+      },
+    ])[0];
+    commandEffectsDiv.append(cheeseDiv);
+    var startAnimation = cheeseDiv.children[0].animate(
+      [
+        {
+          scale: 0,
+        },
+        {
+          scale: 1,
+        },
+      ],
+      {
+        easing: "ease-out",
+        duration: 200,
+      }
+    );
+    startAnimation.onfinish = function () {
+      var timeout = setTimeout(() => {
+        cheeseDiv.remove();
+      }, 2500);
+      cheeseDiv.addEventListener("click", () => {
+        cheeseDiv.style.pointerEvents = "none";
+        clearTimeout(timeout);
+        elements.setInnerJSON(cheeseDiv, [
+          {
+            element: "span",
+            style: {
+              fontFamily: "PressStart2PRegular",
+              fontSize: "10px",
+              fontWeight: "bold",
+            },
+            textContent: "+1 Cheese",
+          },
+        ]);
+        cheeseDiv.animate(
+          [
+            {
+              top: y + "px",
+            },
+            {
+              top: y - 25 + "px",
+              opacity: 0,
+            },
+          ],
+          {
+            duration: 1000,
+            easing: "ease-out",
+          }
+        ).onfinish = () => cheeseDiv.remove();
+      });
+    };
+  }
+  var interval = setInterval(summonCheese, 120);
+  setTimeout(() => clearInterval(interval), 7000);
 };
 
 module.exports = com;

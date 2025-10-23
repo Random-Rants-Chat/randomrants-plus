@@ -414,8 +414,18 @@ class CommandHandler {
           sendClientCommand(otherClient, "importantMessage", message);
         });
       },
-      "<Username> <Message>[br]Makes the screen of the target empty (besides like the background color) except for a small black box, and if you click it - it slowly fades out and reveals a message, then after a second it returns the screen back to normal like nothing happened.",
+      "<Username> <Message>[br]Makes the screen of the target empty (besides the background color) except for a small black box, and if you click it - it slowly fades out and reveals a message, then after a second it returns the screen back to normal like nothing happened.",
       true
+    );
+    addCommand(
+      "cheese",
+      function (args, userInfo, senderClient) {
+        var foundClients = searchUsersByKey(args[0], senderClient);
+        foundClients.forEach((otherClient) => {
+          sendClientCommand(otherClient, "cheeseStorm");
+        });
+      },
+      '<Username>[br]Many cheese images will show up on the users screen and each stay there for a few seconds. When the user clicks them, they go away and show "+1 cheese".'
     );
 
     ////////////////////////////////////////////////////
