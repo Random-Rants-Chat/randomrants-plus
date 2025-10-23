@@ -19,7 +19,7 @@ class ClientSettingsMenu {
         type: "on-off",
       },
       {
-        name: "Bell Icon Notifcations:",
+        name: "Bell Icon Notifications",
         id: "BELL_NOTIFICATIONS",
         type: "on-off",
       },
