@@ -284,6 +284,19 @@
           "square",
           "icon"
         ]
+      },
+      {
+        "src": "images/hashbrowncat.png",
+        "name": "Hash brown cat",
+        "emojiURL": "rrp",
+        "tags": [
+          "hash brown",
+          "meme",
+          "MC Donalds",
+          "chineese",
+          "cat",
+          "food"
+        ]
       }
     ]
   },
