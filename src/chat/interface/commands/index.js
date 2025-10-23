@@ -631,7 +631,8 @@ com.cheeseStorm = function () {
             element: "img",
             src: "images/commands/cheese.png",
             style: {
-              height: "32px",
+              height: "64px",
+              transform: `rotate(${Math.random() * 45 * 2 - 45}deg)`,
             },
           },
         ],
@@ -653,10 +654,29 @@ com.cheeseStorm = function () {
       }
     );
     startAnimation.onfinish = function () {
+      var clickable = true;
       var timeout = setTimeout(() => {
-        cheeseDiv.remove();
+        clickable = false;
+        cheeseDiv.children[0].animate(
+          [
+            {},
+            {
+              scale: 0,
+              opacity: 0,
+            },
+          ],
+          {
+            duration: 100,
+            easing: "ease-out",
+          }
+        ).onfinish = () => {
+          cheeseDiv.remove();
+        };
       }, 2500);
       cheeseDiv.addEventListener("click", () => {
+        if (!clickable) {
+          return;
+        }
         cheeseDiv.style.pointerEvents = "none";
         clearTimeout(timeout);
         elements.setInnerJSON(cheeseDiv, [
@@ -664,7 +684,7 @@ com.cheeseStorm = function () {
             element: "span",
             style: {
               fontFamily: "PressStart2PRegular",
-              fontSize: "10px",
+              fontSize: "20px",
               fontWeight: "bold",
             },
             textContent: "+1 Cheese",
