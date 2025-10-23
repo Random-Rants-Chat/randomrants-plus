@@ -296,10 +296,12 @@ var clientSettings = require("./clientsettings.js");
       if (isNew) {
         var messageJsonElements = shtml.getBracketCodeJSON(message, {
           vineboom: browserCommands._bracket_vineboom_sound,
+          badtothebone: browserCommands._bracket_badtothebone_sound,
         });
       } else {
         var messageJsonElements = shtml.getBracketCodeJSON(message, {
           vineboom: function () {},
+          badtothebone: function () {},
         });
       }
 

@@ -12,10 +12,12 @@ var commandEffectsDiv = elements.getGPId("commandEffects");
 var isRotating = false;
 var xpErrorSound = "";
 var vineboomSound = null;
+var badToTheBoneSound = null;
 (async function () {
   //Init audio files.
   xpErrorSound = await audio.loadSoundFromURL("sounds/xp-error.mp3");
   vineboomSound = await audio.loadSoundFromURL("sounds/vineboom.wav");
+  badToTheBoneSound = await audio.loadSoundFromURL("sounds/badtothebone.wav");
 })();
 
 com._resetEffects = function () {
@@ -405,6 +407,13 @@ com._bracket_vineboom_sound = function () {
     return;
   }
   var sound = new audio.Player(vineboomSound);
+  sound.play();
+};
+com._bracket_badtothebone_sound = function () {
+  if (!clientSettings.getSetting("BRACKET_CODE_SOUNDS")) {
+    return;
+  }
+  var sound = new audio.Player(badToTheBoneSound);
   sound.play();
 };
 
