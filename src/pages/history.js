@@ -82,7 +82,7 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      "Also the popular spike happened again sometime again during 8th grade, but this time it was different, instead of enjoyment, it was a big spam of people being rude other people, not expected.",
+      "Also the popular spike happened again sometime again during another grade, but this time it was different, instead of enjoyment, it was a big spam of people being rude other people, not expected.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
