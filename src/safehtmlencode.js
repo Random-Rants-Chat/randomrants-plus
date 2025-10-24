@@ -604,12 +604,34 @@ function getBracketCodeJSON(inputText = "", triggerBracketCodes = {}) {
           });
         }
 
-        if (name == "dance" && !exists) {
+        if (name == "dancingemoji" && !exists) {
           exists = true;
 
-          var newElm = run(true, "/dance");
-          newElm.className = "danceBracket";
-          elm.children.push(newElm);
+          var url = value.trim();
+          if (value.indexOf("@") > -1) {
+            var split = value.trim().split("@");
+            url = split[0];
+            var urlReference = value.trim().split("@")[1];
+            url = emojiURLs[urlReference] + url + "?v=" + cacheBuster;
+          }
+          if (isSafeURLOrDomain(url)) {
+            elm.children.push({
+              element: "div",
+              className: "danceBracketContainer",
+              children: [
+                {
+                  element: "img",
+                  style: {
+                    objectFit: "contain",
+                    width: "40px",
+                    height: "40px",
+                  },
+                  className: "danceBracket",
+                  src: url,
+                },
+              ],
+            });
+          }
           elm.children.push({
             element: "span",
             textContent: "",

@@ -1614,6 +1614,11 @@ a {
   text-wrap: nowrap;
 }
 
+.danceBracketContainer {
+  width: 40px;
+  height: 40px;
+}
+
 .danceBracket {
   animation-name: danceBracketAnim;
   animation-duration: 1.3s;
