@@ -929,7 +929,7 @@ a {
 }
 
 .chatInterfaceLeft {
-  position: fixed;
+  position: absolute;
   top: 40px;
   left: 0;
   width: calc(100vw - 700px);
@@ -939,7 +939,7 @@ a {
 }
 
 .chatInterfaceRight {
-  position: fixed;
+  position: absolute;
   top: 40px;
   right: 0;
   width: 700px;
