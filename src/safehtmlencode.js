@@ -604,6 +604,18 @@ function getBracketCodeJSON(inputText = "", triggerBracketCodes = {}) {
           });
         }
 
+        if (name == "dance" && !exists) {
+          exists = true;
+
+          var newElm = run(true, "/dance");
+          newElm.className = "danceBracket";
+          elm.children.push(newElm);
+          elm.children.push({
+            element: "span",
+            textContent: "",
+          });
+        }
+
         if (name == "link" && !exists) {
           exists = true;
 

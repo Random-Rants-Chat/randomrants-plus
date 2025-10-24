@@ -1613,3 +1613,40 @@ a {
 .onlineDivButton {
   text-wrap: nowrap;
 }
+
+.danceBracket {
+  animation-name: danceBracketAnim;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+@keyframes danceBracketAnim {
+  /* Bounce */
+  0% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-in-out;
+  }
+  /* Outwards left*/
+  25% {
+    transform: translate(-25%, -200%) rotate(-10deg);
+    animation-timing-function: ease-in;
+  }
+  /* Bounce */
+  50% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-in-out;
+  }
+  /* Outwards right */
+  75% {
+    transform: translate(25%, -200%) rotate(10deg);
+    animation-timing-function: ease-in;
+  }
+  /* Go back to start (repeat) */
+  100% {
+    transform: translate(0, 0) scale(1, 1);
+  }
+}
