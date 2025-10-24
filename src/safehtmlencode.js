@@ -616,7 +616,7 @@ function getBracketCodeJSON(inputText = "", triggerBracketCodes = {}) {
           }
           if (isSafeURLOrDomain(url)) {
             elm.children.push({
-              element: "div",
+              element: "span",
               className: "danceBracketContainer",
               children: [
                 {
