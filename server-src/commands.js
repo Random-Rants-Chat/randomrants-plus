@@ -452,7 +452,7 @@ class CommandHandler {
         var currentYear = new Date().getFullYear();
         if (message.length > 0) {
           sendFeedbackGlobalWithName(
-            `“${message}” -${userInfo.username}, ${currentYear}`,
+            `“${message}” -${getUserInfo(foundClient).username}, ${currentYear}`,
             "[Notice]"
           );
         } else {
