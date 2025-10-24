@@ -929,7 +929,7 @@ a {
 }
 
 .chatInterfaceLeft {
-  position: absolute;
+  position: fixed;
   top: 40px;
   left: 0;
   width: calc(100vw - 700px);
