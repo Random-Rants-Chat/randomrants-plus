@@ -1617,6 +1617,8 @@ a {
 .danceBracketContainer {
   width: 40px;
   height: 40px;
+  pointer-events: none;
+  user-select: none;
 }
 
 .danceBracket {
@@ -1628,6 +1630,7 @@ a {
   top: 0;
   left: 0;
   pointer-events: none;
+  user-select: none;
 }
 
 @keyframes danceBracketAnim {
