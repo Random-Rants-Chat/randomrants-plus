@@ -405,6 +405,9 @@ function doLoadingMediaScreen() {
     {
       element: "div",
       className: "whiteBox centerMiddle popupDialogAnimation",
+      style: {
+        overflow: "unset",
+      },
       children: [
         {
           element: "div",
@@ -413,6 +416,7 @@ function doLoadingMediaScreen() {
             width: "32px",
             height: "32px",
             transform: "translate(0px, -100%)",
+            overflow: "none",
           },
           children: [
             {
@@ -941,5 +945,3 @@ userState.on("permissionUpdate", (name, value) => {
 });
 
 module.exports = mediaHelper;
-
-//var loadingMediaDiv = doLoadingMediaScreen();
