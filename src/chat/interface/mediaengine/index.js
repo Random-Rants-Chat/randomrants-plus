@@ -827,7 +827,6 @@ async function doMediaSelect() {
 
                   //This is not going to die (i hope), i'm just working on making it work with render.com
 
-                  /*
                   {
                     element: "div",
                     className: "divButton roundborder",
@@ -843,14 +842,15 @@ async function doMediaSelect() {
 
                           try {
                             const response = await fetch(
-                              "https://gvbpaint-realtime-ws.glitch.me/room/create"
+                              "https://randomrants-rt-paint-server.onrender.com/room/create"
                             );
                             const { roomId } = await response.json();
 
                             loadingMediaDiv.remove();
 
-                            const embedURL = `https://gvbpaint-realtime.glitch.me/?server=${encodeURIComponent(
-                              "wss://gvbpaint-realtime-ws.glitch.me/" + roomId
+                            const embedURL = `https://random-rants-chat.github.io/randomrants-paint-realtime/?server=${encodeURIComponent(
+                              "wss://randomrants-rt-paint-server.onrender.com/" +
+                                roomId
                             )}`;
 
                             sws.send(
@@ -885,11 +885,12 @@ async function doMediaSelect() {
                         },
                         {
                           element: "span",
-                          textContent: "Collaborative canvas (Modified gvbpaint)",
+                          textContent:
+                            "Collaborative canvas (Modified gvbpaint)",
                         },
                       ]),
                     ],
-                  }, */
+                  },
                   {
                     element: "br",
                   },

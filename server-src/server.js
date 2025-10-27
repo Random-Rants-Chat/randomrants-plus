@@ -769,11 +769,13 @@ async function destroyAccount(username) {
   var data = await storage.downloadFile(`user-${username}.json`);
   var json = JSON.parse(data);
 
-  json.destroyed = true;
-  json.color = "#d40000";
-  json.displayName = "[DEACTIVATED]";
-  json.password = "";
-  json.sessions = [];
+  json = {
+    destroyed: true,
+    color: "#d40000",
+    displayName: "[DEACTIVATED]",
+    password: "",
+    sessions: [],
+  };
 
   await storage.uploadFile(
     `user-${username}.json`,
@@ -3854,7 +3856,164 @@ const server = http.createServer(async function (req, res) {
       }
       return;
     }
+    if (urlsplit[2] == "myuserlist" && req.method == "GET") {
+      if (decryptedUserdata) {
+        try {
+          var stuff = await validateUserCookie(decryptedUserdata);
+          if (!stuff.valid) {
+            runStaticStuff(req, res, {
+              status: 403,
+            });
+            return;
+          }
+          try {
+            var userListFile = `userlist-${decryptedUserdata.username}.json`;
+            var userListRawText = await storage.downloadFile(userListFile);
+            var json = JSON.parse(userListRawText.toString());
+            res.end(
+              JSON.stringify({
+                users: json.map((usr) => usr.username),
+              })
+            );
+          } catch (e) {
+            res.end(
+              JSON.stringify({
+                users: [],
+              })
+            );
+            return;
+          }
+        } catch (e) {
+          runStaticStuff(req, res, {
+            status: 500,
+          });
+        }
+      } else {
+        runStaticStuff(req, res, {
+          status: 403,
+        });
+      }
+      return;
+    }
+    if (urlsplit[2] == "adduserlist" && req.method == "POST") {
+      if (decryptedUserdata) {
+        try {
+          var body = await waitForBody(req);
+          var bodyJson = JSON.parse(body.toString());
+          if (typeof bodyJson.username !== "string") {
+            res.statusCode = 400;
+            res.end("Username property must be type of string.");
+            return;
+          }
+          var stuff = await validateUserCookie(decryptedUserdata);
+          if (!stuff.valid) {
+            runStaticStuff(req, res, {
+              status: 403,
+            });
+            return;
+          }
+          var userListFile = `userlist-${decryptedUserdata.username}.json`;
+          try {
+            var userListRawText = await storage.downloadFile(userListFile);
+          } catch (e) {
+            var userListRawText = "[]";
+          }
+          var json = JSON.parse(userListRawText.toString());
+          var safeUsername = bodyJson.username.trim().toLowerCase();
+          if (
+            !(
+              checkUsername(safeUsername) &&
+              (await doesUsernameExist(safeUsername))
+            )
+          ) {
+            res.statusCode = 404;
+            res.end("Username doesn't exist or invalid");
+            return;
+          }
+          if (safeUsername == decryptedUserdata.username) {
+            res.statusCode = 400;
+            res.end("You can't add yourself!");
+            return;
+          }
+          if (!json.find((usr) => usr.username == safeUsername)) {
+            json.push({ username: safeUsername });
+          }
+          if (json.length > cons.MAX_USERLIST_SIZE) {
+            res.statusCode = 400;
+            res.end(
+              "Too many trusted usernames stored, remove some to add more."
+            );
+            return;
+          }
+          await storage.uploadFile(
+            userListFile,
+            JSON.stringify(json),
+            "application/json"
+          );
+          res.end("");
+        } catch (e) {
+          runStaticStuff(req, res, {
+            status: 500,
+          });
+        }
+      } else {
+        runStaticStuff(req, res, {
+          status: 403,
+        });
+      }
+      return;
+    }
+    if (urlsplit[2] == "removeuserlist" && req.method == "POST") {
+      if (decryptedUserdata) {
+        try {
+          var body = await waitForBody(req);
+          var bodyJson = JSON.parse(body.toString());
+          if (typeof bodyJson.username !== "string") {
+            res.statusCode = 400;
+            res.end("Username property must be type of string.");
+            return;
+          }
+          var stuff = await validateUserCookie(decryptedUserdata);
+          if (!stuff.valid) {
+            runStaticStuff(req, res, {
+              status: 403,
+            });
+            return;
+          }
+          var userListFile = `userlist-${decryptedUserdata.username}.json`;
+          try {
+            var userListRawText = await storage.downloadFile(userListFile);
+          } catch (e) {
+            var userListRawText = "[]";
+          }
+          var json = JSON.parse(userListRawText.toString());
+          var safeUsername = bodyJson.username.trim().toLowerCase();
 
+          if (!checkUsername(safeUsername)) {
+            res.statusCode = 404;
+            res.end("Username isn't invalid");
+            return;
+          }
+
+          json = json.filter((usr) => usr.username !== safeUsername);
+          await storage.uploadFile(
+            userListFile,
+            JSON.stringify(json),
+            "application/json"
+          );
+          res.end("");
+        } catch (e) {
+          runStaticStuff(req, res, {
+            status: 500,
+          });
+        }
+      } else {
+        runStaticStuff(req, res, {
+          status: 403,
+        });
+      }
+      return;
+    }
     if (urlsplit[2] == "myrooms" && req.method == "GET") {
       if (decryptedUserdata) {
         try {

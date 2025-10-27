@@ -372,9 +372,12 @@ class CommandHandler {
         var allClients = getActiveClients();
         var randomClient =
           allClients[Math.floor(Math.random(allClients.length - 1))];
+        if (args[0]) {
+          randomClient = searchUsersByKey(args[0], senderClient);
+        }
         sendClientCommand(randomClient, "breakdance");
       },
-      "Shows a microwave breakdancing on someones screen, small in a random spot, and teleports around the screen every 1/2 seconds and keeps doing that until the user clicks him or after 30 seconds.",
+      "<Username>[br]Shows a microwave breakdancing on someones screen, small in a random spot, and teleports around the screen every 1/2 seconds and keeps doing that until the user clicks him or after 30 seconds.",
       true
     );
 

@@ -27,4 +27,6 @@ e.DISPLAYNAME_CHAR_SET =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890~`!@#$%^&*()-_=+{[]}|\\'\";:/?.>,<";
 e.MAX_NOTIFICATIONS = 20; //Max real time notifcations per user.
 
+e.MAX_USERLIST_SIZE = 150; //Max usernames in user list.
+
 module.exports = e;

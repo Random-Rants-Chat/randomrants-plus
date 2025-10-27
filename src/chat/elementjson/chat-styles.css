@@ -473,6 +473,10 @@ body {
   padding: 10px;
   box-shadow: 0 0px 30px black;
   border-radius: 5px;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+  max-width: calc(100vw - 300px);
+  min-width: 360px;
 }
 
 .centerHorizontal {
@@ -866,32 +870,32 @@ a {
 }
 
 .roomSelect {
-  min-width: 300px;
-  min-height: 230px;
-  width: calc(100vw - 100px);
-  height: calc(100vh - 330px);
+  min-width: 200px;
+  height: 300px;
   background: var(--storage-group-background-color);
   border-width: 2px;
   border-color: var(--storage-group-text-color);
   border-style: solid;
   overflow-y: scroll;
   overflow-x: hidden;
+  border-radius: 5px;
 }
 .roomSelectIcon {
   height: 100%;
   width: 30px;
 }
 .roomButton {
-  width: 100%;
+  /*width: calc(calc(100% - 6px) - 5px);*/
   height: fit-content;
   min-height: 80px;
   background: var(--storage-group-background-color);
-  border-width: 0.5px;
+  border-width: 5px;
   border-color: var(--storage-group-border-color);
   border-style: solid;
   margin: flex;
   text-align: left;
   color: var(--storage-group-text-color);
+  padding: 3px 3px;
 }
 .roomButtonText {
   overflow: hidden;

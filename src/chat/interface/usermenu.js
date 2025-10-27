@@ -1,6 +1,7 @@
 var elements = require("../../gp2/elements.js");
 var accountHelper = require("../../accounthelper/index.js");
 var RTNotifications = require("./notifications/index.js");
+var KnownUserList = require("./userlist-menu.js");
 
 var elementJSON = [];
 
@@ -141,6 +142,7 @@ if (validated) {
   elements.appendElements(
     elements.getGPId("menuBar"),
     elements.createElementsFromJSON([
+      KnownUserList.getMenuItem(),
       RTNotifications.getMenuItem(),
       myAccountButton,
     ])

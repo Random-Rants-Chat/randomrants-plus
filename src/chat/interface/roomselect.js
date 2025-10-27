@@ -2,6 +2,7 @@ var elements = require("../../gp2/elements.js");
 var accountHelper = require("../../accounthelper");
 var dialog = require("../../dialogs.js");
 var currentRoom = require("./getroom.js");
+var KnownUserList = require("./userlist-menu.js");
 var rs = {};
 
 var validState = accountHelper.getCurrentValidationState();
@@ -333,8 +334,8 @@ async function doRoomSelect() {
                 func: async function (e) {
                   e.preventDefault();
                   try {
-                    var inviteTarget = await dialog.prompt(
-                      "Who do you want to invite to this room?\nType their username to bring them in!"
+                    var inviteTarget = await KnownUserList.getUserPrompt(
+                      "Choose a username to invite"
                     );
                     if (!inviteTarget) {
                       return;
@@ -356,6 +357,10 @@ async function doRoomSelect() {
                           "\n" +
                           "Server said: " +
                           response.status
+                      );
+                    } else {
+                      dialog.alert(
+                        "Invite success! This user should see the invite in their notifications."
                       );
                     }
                   } catch (e) {
@@ -423,6 +428,10 @@ async function doRoomSelect() {
       {
         element: "div",
         className: "whiteBox centerMiddle popupDialogAnimation",
+        style: {
+          width: "calc(100vw - 50px)",
+          minWidth: "300px"
+        },
         children: [
           {
             element: "span",
@@ -434,6 +443,22 @@ async function doRoomSelect() {
           },
           {
             element: "br",
+          },
+          {
+            element: "div",
+            className: "divButton roundborder",
+            textContent: "Close",
+            eventListeners: [
+              {
+                event: "click",
+                func: function () {
+                  div.remove();
+                },
+              },
+            ],
+          },
+          {
+            element: "br"
           },
           {
             element: "span",
@@ -473,33 +498,79 @@ async function doRoomSelect() {
           },
           {
             element: "div",
-            className: "divButton roundborder",
-            textContent: "🚪 Summon a room",
-            eventListeners: [
+            children: [
               {
-                event: "click",
-                func: async function () {
-                  try {
-                    var a = await fetch(
-                      accountHelper.getServerURL() + "/rooms/create",
-                      { method: "POST" }
-                    );
-                    if (a.ok) {
-                      var json = await a.json();
-                      window.location.hash = "#" + encodeURIComponent(json.id);
-                      window.location.reload();
-                    } else {
-                      dialog.alert(
-                        "Couldn't create the room, maybe sign in or sign up first?"
-                      );
-                    }
-                  } catch (e) {
-                    dialog.alert(`Something went wrong: ${e}`);
-                    console.error(e);
-                  }
+                element: "div",
+                className: "divButton roundborder",
+                style: {
+                  margin: "3px 3px"
                 },
+                children: [
+                  {
+                    element: "img",
+                    src: "images/room.svg",
+                    style: {
+                      height: "24px",
+                    },
+                  },
+                  "Summon a room",
+                ],
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      try {
+                        var a = await fetch(
+                          accountHelper.getServerURL() + "/rooms/create",
+                          { method: "POST" }
+                        );
+                        if (a.ok) {
+                          var json = await a.json();
+                          window.location.hash = "#" + encodeURIComponent(json.id);
+                          window.location.reload();
+                        } else {
+                          dialog.alert(
+                            "Couldn't create the room, maybe sign in or sign up first?"
+                          );
+                        }
+                      } catch (e) {
+                        dialog.alert(`Something went wrong: ${e}`);
+                        console.error(e);
+                      }
+                    },
+                  },
+                ],
+              },
+              {
+                element: "div",
+                className: "divButton roundborder",
+                style: {
+                  margin: "3px 3px"
+                },
+                children: [
+                  {
+                    element: "img",
+                    src: "images/reload.svg",
+                    style: {
+                      height: "24px",
+                    },
+                  },
+                  "Reload room list",
+                ],
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      div.remove();
+                      doRoomSelect();
+                    },
+                  },
+                ],
               },
             ],
+            style: {
+              display: "flex"
+            }
           },
           {
             element: "div",

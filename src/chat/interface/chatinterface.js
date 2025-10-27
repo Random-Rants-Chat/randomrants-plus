@@ -125,6 +125,7 @@ reconnectingScreen.hidden = true;
 
 var emojiReactions = require("./emojireactions.js");
 var clientSettings = require("./clientsettings.js");
+var KnownUserList = require("./userlist-menu.js");
 
 (async function () {
   try {
@@ -354,9 +355,7 @@ var clientSettings = require("./clientsettings.js");
     }
 
     addOwnershipUsernameButton.addEventListener("click", async function () {
-      var response = await dialogs.prompt(
-        "Who do you want to give ownership (admin powers) to?\nDrop their username below:"
-      );
+      var response = await KnownUserList.getUserPrompt("Add co-owner");
       if (!response) {
         return;
       }
@@ -372,9 +371,7 @@ var clientSettings = require("./clientsettings.js");
     });
 
     addBanUserButton.addEventListener("click", async function () {
-      var response = await dialogs.prompt(
-        "Who do you want to block/ban?\nDrop their username below:"
-      );
+      var response =  await KnownUserList.getUserPrompt("Block/ban user");
       if (!response) {
         return;
       }
@@ -390,9 +387,7 @@ var clientSettings = require("./clientsettings.js");
     });
 
     addAllowUserButton.addEventListener("click", async function () {
-      var response = await dialogs.prompt(
-        "Who do you want to add to the allow list?\nDrop their username below:"
-      );
+      var response =  await KnownUserList.getUserPrompt("Allow an user");
       if (!response) {
         return;
       }
@@ -595,6 +590,7 @@ var clientSettings = require("./clientsettings.js");
               }),
             });
           })();
+          document.title = "Random Rants + | Chatroom [" + json.name + "]";
         }
         if (json.type == "onlineList") {
           var a = [];
