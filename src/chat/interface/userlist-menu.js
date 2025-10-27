@@ -7,6 +7,7 @@ var elements = require("../../gp2/elements.js");
 var accountHelper = require("../../accounthelper");
 var shtml = require("../../safehtmlencode.js");
 var cacheBust = require("./cachebust.js");
+var sws = require("./sharedwebsocket.js");
 
 function makeUserListDiv(username, removeFunction, selectFunction) {
   var pfp = accountHelper.getProfilePictureURL(username);
@@ -359,6 +360,7 @@ class UserListMenu {
   }
 
   async removeFromUserList(username) {
+    var dialogBG = this.showLoadingScreen();
     try {
       var r = await fetch(
         accountHelper.getServerURL() + "/account/removeuserlist",
@@ -372,6 +374,7 @@ class UserListMenu {
       if (!r.ok) {
         throw new Error("");
       }
+
       this.loadUserListMenu();
     } catch (e) {
       dialogs.alert(
@@ -379,6 +382,7 @@ class UserListMenu {
       );
       console.error(e);
     }
+    dialogBG.remove();
   }
 
   async addUsername(username) {
@@ -430,6 +434,28 @@ class UserListMenu {
         },
       ]);
     }
+
+    try {
+      sws.send(
+        JSON.stringify({
+          type: "onlineList",
+        })
+      );
+    } catch (e) {}
+  }
+
+  isUserAdded(username) {
+    var formattedUsername = username.trim().toLowerCase();
+    var state = accountHelper.getCurrentValidationState();
+    if (state) {
+      if (formattedUsername == state.username.trim().toLowerCase()) {
+        return true;
+      }
+    }
+    if (this.currentUserList) {
+      return this.currentUserList.indexOf(formattedUsername) > -1;
+    }
+    return false;
   }
 
   getUserPrompt(infoText = "Choose an user") {
@@ -530,14 +556,10 @@ class UserListMenu {
                     overflow: "auto",
                   },
                   children: _this.currentUserList.map((username) => {
-                    return makeUserListDiv(
-                      username,
-                      null,
-                      function () {
-                        usernameInput.value = username;
-                        usernameInput.scrollIntoView();
-                      }
-                    );
+                    return makeUserListDiv(username, null, function () {
+                      usernameInput.value = username;
+                      usernameInput.scrollIntoView();
+                    });
                   }),
                 },
               ],

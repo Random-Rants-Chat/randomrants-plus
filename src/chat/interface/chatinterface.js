@@ -174,6 +174,17 @@ var KnownUserList = require("./userlist-menu.js");
       );
     }
 
+    rrLoadingStatusText.textContent = "Loading known user list...";
+
+    try {
+      await KnownUserList.fetchUserList();
+    } catch (e) {
+      console.error(e);
+      dialogs.alert(
+        "Something went wrong while trying to load your known user list."
+      );
+    }
+
     rrLoadingStatusText.textContent = "Connecting to the rant room...";
 
     if (!window.screenShareClient) {
@@ -371,7 +382,7 @@ var KnownUserList = require("./userlist-menu.js");
     });
 
     addBanUserButton.addEventListener("click", async function () {
-      var response =  await KnownUserList.getUserPrompt("Block/ban user");
+      var response = await KnownUserList.getUserPrompt("Block/ban user");
       if (!response) {
         return;
       }
@@ -387,7 +398,7 @@ var KnownUserList = require("./userlist-menu.js");
     });
 
     addAllowUserButton.addEventListener("click", async function () {
-      var response =  await KnownUserList.getUserPrompt("Allow an user");
+      var response = await KnownUserList.getUserPrompt("Allow an user");
       if (!response) {
         return;
       }

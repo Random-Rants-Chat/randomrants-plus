@@ -1454,6 +1454,8 @@ async function startRoomWSS(roomid) {
       return true;
     }
   }
+  var _currentOnlineListMessage = "";
+  var _currentOnlineListMessageOwner = "";
   function sendOnlineList() {
     var userlist = [];
     for (var cli of wss.clients) {
@@ -1492,6 +1494,8 @@ async function startRoomWSS(roomid) {
       type: "onlineList",
       list: userlist,
     });
+    _currentOnlineListMessage = onlistNonOwner;
+    _currentOnlineListMessageOwner = onlist;
     wss.clients.forEach((cli) => {
       if (!cli._rrIsReady) {
         return;
@@ -1752,6 +1756,13 @@ async function startRoomWSS(roomid) {
                   emoji: json.emoji,
                 })
               );
+            }
+          }
+          if (json.type == "onlineList") {
+            if (ws._rrIsOwner) {
+              ws.send(_currentOnlineListMessageOwner);
+            } else {
+              ws.send(_currentOnlineListMessage);
             }
           }
           if (json.type == "typing") {

@@ -2,6 +2,7 @@ var elements = require("../../../gp2/elements.js");
 var accountHelper = require("../../../accounthelper");
 var shtml = require("../../../safehtmlencode.js");
 var cacheBust = require("../cachebust.js");
+var KnownUserList = require("../userlist-menu.js");
 
 function generateDiv(
   username,
@@ -187,6 +188,46 @@ function generateDiv(
           title: "This person has ownership of this room.",
         });
       }
+    }
+  }
+
+  if (username) {
+    if (!KnownUserList.isUserAdded(username)) {
+      icons.push({
+        element: "div",
+        style: {
+          height: "23px",
+        },
+        className: "divButton roundborder onlineDivButton",
+        title: "Click to add to your known users list",
+        children: [
+          {
+            element: "img",
+            style: {
+              height: "100%",
+            },
+            src: "images/adduserlist.svg",
+          },
+          {
+            element: "span",
+            textContent: "Know this user",
+          },
+        ],
+        eventListeners: [
+          {
+            event: "click",
+            func: async function () {
+              this.disabled = true;
+              this.innerHTML = "";
+              this.className = "loader";
+              this.src = "";
+              this.style.width = "23px";
+              await KnownUserList.addUsername(username);
+              this.remove();
+            },
+          },
+        ],
+      });
     }
   }
 
