@@ -13,6 +13,9 @@ module.exports = {
     {
       element: "div",
       className: "whiteBox centerMiddle popupDialogAnimation",
+      style: {
+        overflow: "unset",
+      },
       children: [
         {
           element: "div",
