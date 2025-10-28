@@ -977,7 +977,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("3dlasertag")}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("isolation")}`;
 
                             sws.send(
                               JSON.stringify({
@@ -1002,9 +1002,13 @@ async function doMediaSelect() {
                     children: [
                       surroundFlexboxDiv([
                         {
+                          element: "img",
+                          src: "images/isolation.svg",
+                          style: { height: "25px" },
+                        },
+                        {
                           element: "span",
-                          textContent:
-                            "3D Laser Tag (Edit of grifpatch's project)",
+                          textContent: "Isolation (by colinmacc)",
                         },
                       ]),
                     ],
