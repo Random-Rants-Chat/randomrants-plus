@@ -3,6 +3,7 @@ var dialog = require("../../../dialogs.js");
 var sws = require("../sharedwebsocket.js");
 var userState = require("../userstate.js");
 var uploadFileAsURL = require("../uploadfiles.js");
+var accountHelper = require("../../../accounthelper/index.js");
 
 var movingMediaTexts = [
   "Loading up the shrek videos...",
@@ -911,8 +912,13 @@ async function doMediaSelect() {
 
                           try {
                             loadingMediaDiv.remove();
-
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/#${Math.round(Date.now())}`;
+                            var username = "player";
+                            if (accountHelper.getCurrentValidationState()) {
+                              username =
+                                accountHelper.getCurrentValidationState()
+                                  .username;
+                            }
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}`;
 
                             sws.send(
                               JSON.stringify({
