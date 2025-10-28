@@ -977,7 +977,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("3d-laser-tag")}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("3dlasertag")}`;
 
                             sws.send(
                               JSON.stringify({
