@@ -895,6 +895,61 @@ async function doMediaSelect() {
                       ]),
                     ],
                   },
+
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+
+                          var loadingMediaDiv = doLoadingMediaScreen();
+
+                          try {
+                            loadingMediaDiv.remove();
+
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/#${Math.round(Date.now())}`;
+
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaResetRequest",
+                              })
+                            );
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaEmbedRunning",
+                                url: embedURL,
+                              })
+                            );
+                          } catch (err) {
+                            loadingMediaDiv.remove();
+                            dialog.alert("Error creating game room:\n" + err);
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/tacoshoot.png",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent:
+                            "Taco Shoot (Edit of griffpatch's taco burp)",
+                        },
+                      ]),
+                    ],
+                  },
+
                   {
                     element: "br",
                   },
