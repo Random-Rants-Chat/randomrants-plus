@@ -918,7 +918,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&v=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}`;
 
                             sws.send(
                               JSON.stringify({
@@ -951,6 +951,60 @@ async function doMediaSelect() {
                           element: "span",
                           textContent:
                             "Taco Shoot (Edit of griffpatch's taco burp)",
+                        },
+                      ]),
+                    ],
+                  },
+
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+
+                          var loadingMediaDiv = doLoadingMediaScreen();
+
+                          try {
+                            loadingMediaDiv.remove();
+                            var username = "player";
+                            if (accountHelper.getCurrentValidationState()) {
+                              username =
+                                accountHelper.getCurrentValidationState()
+                                  .username;
+                            }
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("3d-laser-tag")}`;
+
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaResetRequest",
+                              })
+                            );
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaEmbedRunning",
+                                url: embedURL,
+                              })
+                            );
+                          } catch (err) {
+                            loadingMediaDiv.remove();
+                            dialog.alert("Error creating game room:\n" + err);
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "span",
+                          textContent:
+                            "3D Laser Tag (Edit of grifpatch's project)",
                         },
                       ]),
                     ],

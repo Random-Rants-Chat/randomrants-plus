@@ -1891,7 +1891,7 @@ async function startRoomWSS(roomid) {
               if (json.url.length < 1) {
                 return;
               }
-              if (json.url.length > 500) {
+              if (json.url.length > 700) {
                 return;
               }
               resetMediaValues();
