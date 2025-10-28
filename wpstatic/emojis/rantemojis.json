@@ -311,6 +311,18 @@
           "pixelated",
           "guy"
         ]
+      },
+      {
+        "src": "images/mc-parrot.png",
+        "name": "Red Minecraft Parrot",
+        "emojiURL": "rrp",
+        "tags": [
+          "red",
+          "parrot",
+          "animal",
+          "bird",
+          "minecraft"
+        ]
       }
     ]
   },
