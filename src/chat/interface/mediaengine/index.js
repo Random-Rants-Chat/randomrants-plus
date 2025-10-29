@@ -227,14 +227,27 @@ function createEmbedURLMedia(url) {
 
   var dom = elements.createElementsFromJSON([
     {
-      element: "embed",
+      element: "iframe",
       className: "mediaEmbed",
       gid: "mEmbed",
       src: url,
       GPWhenCreated: function (elm) {
         //this function is used to get the element as soon as its values and everything else is applied.
         embedMediaElement = elm;
-      },
+        elm.onload = function () {
+          var validationState = accountHelper.getCurrentValidationState();
+          var win = elm.contentWindow;
+          if (validationState) {
+            win.postMessage({
+              type: "RRUserInfo",
+              username: validationState.username.trim(),
+              displayName: validationState.displayName.trim(),
+              color: validationState.color,
+              font: validationState.font
+            }, elm.src);
+          }
+        };
+      }
     },
     getMediaPlayingMenuBar(),
   ]);
