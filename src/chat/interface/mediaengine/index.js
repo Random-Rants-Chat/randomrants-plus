@@ -238,16 +238,19 @@ function createEmbedURLMedia(url) {
           var validationState = accountHelper.getCurrentValidationState();
           var win = elm.contentWindow;
           if (validationState) {
-            win.postMessage({
-              type: "RRUserInfo",
-              username: validationState.username.trim(),
-              displayName: validationState.displayName.trim(),
-              color: validationState.color,
-              font: validationState.font
-            }, elm.src);
+            win.postMessage(
+              {
+                type: "RRUserInfo",
+                username: validationState.username.trim(),
+                displayName: validationState.displayName.trim(),
+                color: validationState.color,
+                font: validationState.font,
+              },
+              "*"
+            );
           }
         };
-      }
+      },
     },
     getMediaPlayingMenuBar(),
   ]);
