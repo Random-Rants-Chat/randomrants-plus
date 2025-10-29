@@ -977,7 +977,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("isolation")}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("isolation-fixed")}`;
 
                             sws.send(
                               JSON.stringify({
@@ -1009,6 +1009,65 @@ async function doMediaSelect() {
                         {
                           element: "span",
                           textContent: "Isolation (by colinmacc)",
+                        },
+                      ]),
+                    ],
+                  },
+
+                  {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+
+                          var loadingMediaDiv = doLoadingMediaScreen();
+
+                          try {
+                            loadingMediaDiv.remove();
+                            var username = "player";
+                            if (accountHelper.getCurrentValidationState()) {
+                              username =
+                                accountHelper.getCurrentValidationState()
+                                  .username;
+                            }
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("multiplayermonopolyjunior")}`;
+
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaResetRequest",
+                              })
+                            );
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaEmbedRunning",
+                                url: embedURL,
+                              })
+                            );
+                          } catch (err) {
+                            loadingMediaDiv.remove();
+                            dialog.alert("Error creating game room:\n" + err);
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/multiplayermonopolyjunior.png",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent:
+                            "Multiplayer Monopoly Junior (by RokCoder)",
                         },
                       ]),
                     ],
