@@ -430,7 +430,7 @@ async function doRoomSelect() {
         className: "whiteBox centerMiddle popupDialogAnimation",
         style: {
           width: "calc(100vw - 50px)",
-          minWidth: "300px"
+          minWidth: "300px",
         },
         children: [
           {
@@ -458,7 +458,7 @@ async function doRoomSelect() {
             ],
           },
           {
-            element: "br"
+            element: "br",
           },
           {
             element: "span",
@@ -503,7 +503,7 @@ async function doRoomSelect() {
                 element: "div",
                 className: "divButton roundborder",
                 style: {
-                  margin: "3px 3px"
+                  margin: "3px 3px",
                 },
                 children: [
                   {
@@ -526,7 +526,8 @@ async function doRoomSelect() {
                         );
                         if (a.ok) {
                           var json = await a.json();
-                          window.location.hash = "#" + encodeURIComponent(json.id);
+                          window.location.hash =
+                            "#" + encodeURIComponent(json.id);
                           window.location.reload();
                         } else {
                           dialog.alert(
@@ -545,7 +546,7 @@ async function doRoomSelect() {
                 element: "div",
                 className: "divButton roundborder",
                 style: {
-                  margin: "3px 3px"
+                  margin: "3px 3px",
                 },
                 children: [
                   {
@@ -569,8 +570,8 @@ async function doRoomSelect() {
               },
             ],
             style: {
-              display: "flex"
-            }
+              display: "flex",
+            },
           },
           {
             element: "div",
