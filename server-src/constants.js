@@ -22,11 +22,10 @@ e.MAX_REQUESTS_TIMEOUT = 15000; //Time it takes to timeout requests.
 e.BCRYPT_SALT_ROUNDS = 10; //bcryptjs salt rounds used for comparing hashed passwords.
 e.MAX_USER_SESSIONS = 15; //Max user sessions per user.
 e.MAX_SOCKETS_PER_GUEST_IP = 30; //Max user guest connected sockets.
-
 e.DISPLAYNAME_CHAR_SET =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890~`!@#$%^&*()-_=+{[]}|\\'\";:/?.>,<";
 e.MAX_NOTIFICATIONS = 20; //Max real time notifcations per user.
-
 e.MAX_USERLIST_SIZE = 150; //Max usernames in user list.
+e.MAX_ROOM_NAME_SIZE = 230; //230 Characters max of room name.
 
 module.exports = e;

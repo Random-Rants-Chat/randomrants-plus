@@ -2850,10 +2850,8 @@ const server = http.createServer(async function (req, res) {
             res.end("");
             return;
           }
-          if (json.name.length > 100) {
-            res.statusCode = 400;
-            res.end("");
-            return;
+          if (json.name.length > cons.MAX_ROOM_NAME_SIZE) {
+            json.name = json.name.slice(0, cons.MAX_ROOM_NAME_SIZE);
           }
           if (defaultRooms.indexOf(json.id) > -1) {
             res.statusCode = 400;
