@@ -1146,5 +1146,4 @@ userState.on("permissionUpdate", (name, value) => {
     chooseMediaButton.hidden = !value; //Show button IF has permission to do so.
   }
 });
-
 module.exports = mediaHelper;
