@@ -12,4 +12,4 @@ jobs:
       - name: Trigger Render Deploy Hook
         run: |
           # Use curl to send a POST request to your Render deploy hook URL
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
