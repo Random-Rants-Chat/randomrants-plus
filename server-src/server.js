@@ -2092,7 +2092,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "roomName",
           name: info.name,
-          discription: info.discription || "",
+          description: info.description || "",
           id: roomid,
         })
       );
@@ -2223,7 +2223,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "roomName",
           name: info.name,
-          discription: info.discription || "",
+          description: info.description || "",
           id: roomid,
         })
       );
@@ -2901,7 +2901,7 @@ const server = http.createServer(async function (req, res) {
       })();
       return;
     }
-    if (urlsplit[2] == "discription" && req.method == "POST") {
+    if (urlsplit[2] == "description" && req.method == "POST") {
       (async function () {
         try {
           var body = await waitForBody(req);
@@ -2918,20 +2918,20 @@ const server = http.createServer(async function (req, res) {
             return;
           }
 
-          if (typeof json.discription !== "string") {
+          if (typeof json.description !== "string") {
             res.statusCode = 400;
             res.end("");
             return;
           }
-          if (json.discription.length < 1) {
+          if (json.description.length < 1) {
             res.statusCode = 400;
             res.end("");
             return;
           }
-          if (json.discription.length > cons.MAX_ROOM_DISCRIPTION_SIZE) {
-            json.discription = json.discription.slice(
+          if (json.description.length > cons.MAX_ROOM_DESCRIPTION_SIZE) {
+            json.description = json.description.slice(
               0,
-              cons.MAX_ROOM_DISCRIPTION_SIZE
+              cons.MAX_ROOM_DESCRIPTION_SIZE
             );
           }
           if (defaultRooms.indexOf(json.id) > -1) {
@@ -2955,7 +2955,7 @@ const server = http.createServer(async function (req, res) {
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
-            roomData.discription = json.discription;
+            roomData.description = json.description;
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
@@ -4138,7 +4138,7 @@ const server = http.createServer(async function (req, res) {
             }
             roomlistreal.push({
               name: room.name,
-              discription: room.discription || "",
+              description: room.description || "",
               id: room.id,
               invited: room.invited,
               users: userCount,
@@ -4192,7 +4192,7 @@ const server = http.createServer(async function (req, res) {
               res.end("");
               return;
             }
-            if (typeof json.discription !== "string") {
+            if (typeof json.description !== "string") {
               res.statusCode = 400;
               res.end("");
               return;
@@ -4223,14 +4223,14 @@ const server = http.createServer(async function (req, res) {
                 for (var room of rooms) {
                   if (room.id == json.id) {
                     room.name = json.name;
-                    room.discription = json.discription;
+                    room.description = json.description;
                     room.invited = undefined;
                   }
                 }
               } else {
                 rooms.push({
                   name: json.name,
-                  discription: json.discription,
+                  description: json.description,
                   id: json.id,
                 });
               }

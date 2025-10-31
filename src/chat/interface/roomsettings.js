@@ -272,7 +272,7 @@ var dom = elements.createElementsFromJSON([
 
       {
         element: "span",
-        textContent: "Discription:",
+        textContent: "Description:",
       },
       {
         element: "span",
@@ -285,7 +285,7 @@ var dom = elements.createElementsFromJSON([
         element: "textarea",
         type: "text",
         className: "inputText1 roundborder",
-        gid: "roomSettingsDiscription",
+        gid: "roomSettingsDescription",
         style: {
           width: "calc(100% - 8px)",
           height: "150px",
@@ -296,11 +296,11 @@ var dom = elements.createElementsFromJSON([
             func: async function () {
               this.disabled = true;
               var response = await fetch(
-                accountHelper.getServerURL() + "/rooms/discription",
+                accountHelper.getServerURL() + "/rooms/description",
                 {
                   method: "POST",
                   body: JSON.stringify({
-                    discription: this.value,
+                    description: this.value,
                     id: userState.roomID,
                   }),
                 }
@@ -783,10 +783,10 @@ rs.changeRoomName = function (name) {
   roomSettingsNameInput.value = name;
 };
 
-var roomSettingsDiscription = elements.getGPId("roomSettingsDiscription");
+var roomSettingsDescription = elements.getGPId("roomSettingsDescription");
 
-rs.changeRoomDiscription = function (discription) {
-  roomSettingsDiscription.value = discription;
+rs.changeRoomDescription = function (description) {
+  roomSettingsDescription.value = description;
 };
 
 rs.updatePermission = function (name, value) {

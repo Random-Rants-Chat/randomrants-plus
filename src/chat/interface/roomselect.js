@@ -9,7 +9,7 @@ var rs = {};
 
 var validState = accountHelper.getCurrentValidationState();
 
-function getJSONElementDiscription(text, spanStyles = {}) {
+function getJSONElementDescription(text, spanStyles = {}) {
   var elms = [
     {
       element: "span",
@@ -301,8 +301,8 @@ async function doRoomSelect() {
               fontSize: "17px",
               fontStyle: "italic",
             },
-            children: getJSONElementDiscription(
-              room.discription || "No discription was provided"
+            children: getJSONElementDescription(
+              room.description || "No description was provided"
             ),
           },
           { element: "br" },
