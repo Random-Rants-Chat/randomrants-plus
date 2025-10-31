@@ -785,6 +785,9 @@ async function destroyAccount(username) {
   try {
     await storage.deleteFile(`user-${username}-profile`);
   } catch (e) {}
+  try {
+    await storage.deleteFile(`userlist-${username}.json`);
+  } catch (e) {}
 }
 
 async function updateUserPassword(username, newPassword, oldPassword) {
@@ -2089,6 +2092,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "roomName",
           name: info.name,
+          discription: info.discription || "",
           id: roomid,
         })
       );
@@ -2219,6 +2223,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "roomName",
           name: info.name,
+          discription: info.discription || "",
           id: roomid,
         })
       );
@@ -2875,6 +2880,82 @@ const server = http.createServer(async function (req, res) {
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
             roomData.name = json.name;
+            await storage.uploadFile(
+              `room-${json.id}-info.json`,
+              JSON.stringify(roomData),
+              "application/json"
+            );
+            if (roomWebsockets[json.id]) {
+              roomWebsockets[json.id]._rrUpdateRoomInfo();
+            }
+            res.end("");
+          } else {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+        } catch (e) {
+          res.statusCode = 500;
+          res.end("");
+        }
+      })();
+      return;
+    }
+    if (urlsplit[2] == "discription" && req.method == "POST") {
+      (async function () {
+        try {
+          var body = await waitForBody(req);
+          var json = JSON.parse(body.toString());
+          if (!decryptedUserdata) {
+            res.statusCode = 401;
+            res.end("You aren't signed in");
+            return;
+          }
+          var stuff = await validateUserCookie(decryptedUserdata);
+          if (!stuff.valid) {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+
+          if (typeof json.discription !== "string") {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+          if (json.discription.length < 1) {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+          if (json.discription.length > cons.MAX_ROOM_DISCRIPTION_SIZE) {
+            json.discription = json.discription.slice(
+              0,
+              cons.MAX_ROOM_DISCRIPTION_SIZE
+            );
+          }
+          if (defaultRooms.indexOf(json.id) > -1) {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+          if (typeof json.id !== "string") {
+            res.statusCode = 400;
+            res.end("");
+            return;
+          }
+
+          if (!decryptedUserdata) {
+            res.statusCode = 401;
+            res.end("");
+            return;
+          }
+          var roomBuffer = await storage.downloadFile(
+            `room-${json.id}-info.json`
+          );
+          var roomData = JSON.parse(roomBuffer.toString());
+          if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
+            roomData.discription = json.discription;
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
@@ -4057,6 +4138,7 @@ const server = http.createServer(async function (req, res) {
             }
             roomlistreal.push({
               name: room.name,
+              discription: room.discription || "",
               id: room.id,
               invited: room.invited,
               users: userCount,
@@ -4110,6 +4192,11 @@ const server = http.createServer(async function (req, res) {
               res.end("");
               return;
             }
+            if (typeof json.discription !== "string") {
+              res.statusCode = 400;
+              res.end("");
+              return;
+            }
 
             var stuff = await validateUserCookie(decryptedUserdata);
             if (!stuff.valid) {
@@ -4136,14 +4223,20 @@ const server = http.createServer(async function (req, res) {
                 for (var room of rooms) {
                   if (room.id == json.id) {
                     room.name = json.name;
+                    room.discription = json.discription;
                     room.invited = undefined;
                   }
                 }
               } else {
-                rooms.push({ name: json.name, id: json.id });
+                rooms.push({
+                  name: json.name,
+                  discription: json.discription,
+                  id: json.id,
+                });
               }
             }
             profilejson.rooms = rooms;
+
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),

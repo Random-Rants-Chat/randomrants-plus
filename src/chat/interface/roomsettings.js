@@ -271,6 +271,47 @@ var dom = elements.createElementsFromJSON([
       },
 
       {
+        element: "span",
+        textContent: "Discription:",
+      },
+      {
+        element: "span",
+        dangerouslySetInnerHTML: "&nbsp;",
+      },
+      {
+        element: "br",
+      },
+      {
+        element: "textarea",
+        type: "text",
+        className: "inputText1 roundborder",
+        gid: "roomSettingsDiscription",
+        style: {
+          width: "calc(100% - 8px)",
+          height: "150px",
+        },
+        eventListeners: [
+          {
+            event: "change",
+            func: async function () {
+              this.disabled = true;
+              var response = await fetch(
+                accountHelper.getServerURL() + "/rooms/discription",
+                {
+                  method: "POST",
+                  body: JSON.stringify({
+                    discription: this.value,
+                    id: userState.roomID,
+                  }),
+                }
+              );
+              this.disabled = false;
+            },
+          },
+        ],
+      },
+
+      {
         element: "br",
       },
 
@@ -740,6 +781,12 @@ var roomSettingsNameInput = elements.getGPId("roomSettingsName");
 
 rs.changeRoomName = function (name) {
   roomSettingsNameInput.value = name;
+};
+
+var roomSettingsDiscription = elements.getGPId("roomSettingsDiscription");
+
+rs.changeRoomDiscription = function (discription) {
+  roomSettingsDiscription.value = discription;
 };
 
 rs.updatePermission = function (name, value) {

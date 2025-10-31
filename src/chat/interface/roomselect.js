@@ -9,6 +9,35 @@ var rs = {};
 
 var validState = accountHelper.getCurrentValidationState();
 
+function getJSONElementDiscription(text, spanStyles = {}) {
+  var elms = [
+    {
+      element: "span",
+      textContent: "",
+      style: {
+        ...spanStyles,
+      },
+    },
+  ];
+  var i = 0;
+  while (i < text.length) {
+    if (text[i] == "\n") {
+      elms.push({ element: "br" });
+      elms.push({
+        element: "span",
+        textContent: "",
+        style: {
+          ...spanStyles,
+        },
+      });
+    } else {
+      elms[elms.length - 1].textContent += text[i];
+    }
+    i += 1;
+  }
+  return elms;
+}
+
 async function getRooms() {
   var rooms = [];
   if (validState) {
@@ -260,10 +289,27 @@ async function doRoomSelect() {
             className: "roomTextButton",
             style: {
               fontSize: "30px",
+              fontWeight: "bold",
             },
             textContent: room.name,
           },
           { element: "br" },
+          {
+            element: "span",
+            className: "roomTextButton",
+            style: {
+              fontSize: "17px",
+              fontStyle: "italic",
+            },
+            children: getJSONElementDiscription(
+              room.discription || "No discription was provided"
+            ),
+          },
+          { element: "br" },
+          {
+            element: "div",
+            className: "sep1",
+          },
           {
             element: "span",
             className: "roomTextButton",

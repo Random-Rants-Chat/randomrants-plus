@@ -591,6 +591,7 @@ var KnownUserList = require("./userlist-menu.js");
         }
         if (json.type == "roomName") {
           roomSettings.changeRoomName(json.name);
+          roomSettings.changeRoomDiscription(json.discription);
           userState.roomID = json.id;
           (async function () {
             await fetch(accountHelper.getServerURL() + "/account/addroom", {
@@ -598,6 +599,7 @@ var KnownUserList = require("./userlist-menu.js");
               body: JSON.stringify({
                 id: json.id,
                 name: json.name,
+                discription: json.discription,
               }),
             });
           })();
