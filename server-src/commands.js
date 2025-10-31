@@ -373,7 +373,10 @@ class CommandHandler {
         var randomClient =
           allClients[Math.floor(Math.random(allClients.length - 1))];
         if (args[0]) {
-          randomClient = searchUsersByKey(args[0], senderClient);
+          searchUsersByKey(args[0], senderClient).forEach((client) => {
+            sendClientCommand(client, "breakdance");
+          });
+          return;
         }
         sendClientCommand(randomClient, "breakdance");
       },

@@ -209,6 +209,7 @@ var dom = elements.createElementsFromJSON([
           {
             event: "change",
             func: async function () {
+              this.disabled = true;
               var response = await fetch(
                 accountHelper.getServerURL() + "/rooms/rename",
                 {
@@ -219,6 +220,7 @@ var dom = elements.createElementsFromJSON([
                   }),
                 }
               );
+              this.disabled = false;
             },
           },
         ],

@@ -1,4 +1,3 @@
-"We sacrificed doing work to bring you this site."
 "Our GPAs died for this. Use it wisely."
 "Many assignments were harmed in the making of this platform."
 "Someone had to fail their midterms to bring you this. It was us."
@@ -33,7 +32,6 @@
 "Our notebooks are empty, but our servers are full."
 "A monument to academic irresponsibility."
 "Instead of writing essays, we wrote code."
-"We learned HTML, not history."
 "The cause of several concerned parent-teacher conferences."
 "Every failed quiz added a new feature to this website."
 "We closed our textbooks so we could open this site for you."
