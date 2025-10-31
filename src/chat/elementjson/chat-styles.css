@@ -28,6 +28,11 @@
     var(--accent-default-saturation),
     21%
   );
+  --input-disabled-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    2%
+  );
   --input-text-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
@@ -350,6 +355,10 @@ body {
   border-color: var(--input-border-color);
   outline: none;
   font-family: var(--main-font);
+}
+.inputText1 [disabled] {
+  background-color: var(--input-disabled-bg-color);
+  pointer-events: none;
 }
 .sep1 {
   border-top: 3px dashed var(--separator-color);
@@ -1665,6 +1674,7 @@ a {
 }
 
 .veryImportantDialog {
+  /* Important dialogs go to the front so that they can be visible */
   position: fixed;
   top: 0;
   left: 0;

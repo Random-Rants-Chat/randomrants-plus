@@ -9,7 +9,12 @@ var shtml = require("../../safehtmlencode.js");
 var cacheBust = require("./cachebust.js");
 var sws = require("./sharedwebsocket.js");
 
-function makeUserListDiv(username, removeFunction, selectFunction) {
+function makeUserListDiv(
+  username,
+  removeFunction,
+  selectFunction,
+  addFunction
+) {
   var pfp = accountHelper.getProfilePictureURL(username);
   var ownerNoteThing = {
     element: "div",
@@ -62,6 +67,72 @@ function makeUserListDiv(username, removeFunction, selectFunction) {
           event: "click",
           func: function () {
             selectFunction();
+          },
+        },
+      ],
+    });
+  }
+
+  if (addFunction) {
+    var isAdded = false;
+    const SELECT_IMAGE = "images/check.svg";
+    const SELECT_TEXT = "Select";
+    const DESELECT_IMAGE = "images/remove.svg";
+    const DESELECT_TEXT = "Deselect";
+    var selectElm = null;
+    icons.push({
+      element: "div",
+      style: {
+        height: "23px",
+        marginLeft: "4px",
+      },
+      className: "divButton roundborder",
+      title: "Click to add this user",
+      GPWhenCreated: function (elm) {
+        selectElm = elm;
+      },
+      children: [
+        {
+          element: "img",
+          src: SELECT_IMAGE,
+          height: 20,
+        },
+        {
+          element: "span",
+          textContent: SELECT_TEXT,
+        },
+      ],
+      eventListeners: [
+        {
+          event: "click",
+          func: function () {
+            isAdded = !isAdded;
+            if (isAdded) {
+              elements.setInnerJSON(selectElm, [
+                {
+                  element: "img",
+                  src: DESELECT_IMAGE,
+                  height: 20,
+                },
+                {
+                  element: "span",
+                  textContent: DESELECT_TEXT,
+                },
+              ]);
+            } else {
+              elements.setInnerJSON(selectElm, [
+                {
+                  element: "img",
+                  src: SELECT_IMAGE,
+                  height: 20,
+                },
+                {
+                  element: "span",
+                  textContent: SELECT_TEXT,
+                },
+              ]);
+            }
+            addFunction(isAdded);
           },
         },
       ],
@@ -560,6 +631,116 @@ class UserListMenu {
                       usernameInput.value = username;
                       usernameInput.scrollIntoView();
                     });
+                  }),
+                },
+              ],
+            },
+          ],
+        },
+      ])[0];
+    });
+  }
+
+  getUsersPrompt(infoText = "Choose users") {
+    var _this = this;
+    return new Promise(async (accept, reject) => {
+      var usernameInput = null;
+      await _this.loadUserListMenu();
+      var selectedUsers = [];
+      var dialogElement = elements.appendElementsFromJSON(document.body, [
+        {
+          element: "div",
+          children: [
+            //Background
+            {
+              element: "div",
+              className: "dialogBackground",
+            },
+            //Dialog box
+            {
+              element: "div",
+              className: "whiteBox centerMiddle popupDialogAnimation",
+              style: {
+                overflowY: "auto",
+                maxHeight: "calc(100vh - 100px)",
+                maxWidth: "calc(100vw - 300px)",
+              },
+              children: [
+                {
+                  element: "span",
+                  style: {
+                    fontSize: "30px",
+                    fontWeight: "bold",
+                  },
+                  textContent: infoText,
+                },
+
+                {
+                  element: "br",
+                },
+                {
+                  element: "button",
+                  className: "roundborder",
+                  textContent: "OK",
+                  eventListeners: [
+                    {
+                      event: "click",
+                      func: function () {
+                        dialogElement.remove();
+                        accept(selectedUsers);
+                      },
+                    },
+                  ],
+                },
+                {
+                  element: "button",
+                  className: "roundborder",
+                  textContent: "Cancel",
+                  eventListeners: [
+                    {
+                      event: "click",
+                      func: function () {
+                        dialogElement.remove();
+                        accept([]);
+                      },
+                    },
+                  ],
+                },
+                {
+                  element: "br",
+                },
+
+                {
+                  element: "br",
+                },
+
+                {
+                  element: "span",
+                  textContent: "From your known user list: ",
+                },
+
+                {
+                  element: "div",
+                  className: "usersContainerRoomSettings",
+                  style: {
+                    maxHeight: "130px",
+                    overflow: "auto",
+                  },
+                  children: _this.currentUserList.map((username) => {
+                    return makeUserListDiv(
+                      username,
+                      null,
+                      null,
+                      function (addOrRemove) {
+                        if (addOrRemove) {
+                          selectedUsers.push(username);
+                        } else {
+                          selectedUsers = selectedUsers.filter(
+                            (otherUser) => otherUser !== username
+                          );
+                        }
+                      }
+                    );
                   }),
                 },
               ],
