@@ -9,6 +9,7 @@ var notify = require("../notify.js");
 var sws = require("./sws.js");
 var isSecure = require("../is-secure.js");
 var roomSelect = require("../roomselect.js");
+var LoadingScreen = require("../mini-loader.js");
 
 class RealTimeNotifications {
   constructor() {

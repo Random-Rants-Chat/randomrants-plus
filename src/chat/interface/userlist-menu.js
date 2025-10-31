@@ -9,6 +9,8 @@ var shtml = require("../../safehtmlencode.js");
 var cacheBust = require("./cachebust.js");
 var sws = require("./sharedwebsocket.js");
 
+var LoadingScreen = require("./mini-loader.js");
+
 function makeUserListDiv(
   username,
   removeFunction,
@@ -269,10 +271,6 @@ class UserListMenu {
                   },
                 ],
               },
-
-              {
-                element: "br",
-              },
               {
                 element: "div",
                 style: {
@@ -333,11 +331,6 @@ class UserListMenu {
                   _this.userListDiv = elm;
                 },
               },
-
-              {
-                element: "br",
-              },
-
               {
                 element: "div",
                 className: "divButton roundborder",
@@ -405,7 +398,7 @@ class UserListMenu {
     this.dialogElement.hidden = false;
   }
   async loadUserListMenu() {
-    var dialogBG = this.showLoadingScreen();
+    var dialogBG = new LoadingScreen("Loading your known user list...");
     await this.fetchUserList();
     dialogBG.remove();
   }
@@ -431,7 +424,9 @@ class UserListMenu {
   }
 
   async removeFromUserList(username) {
-    var dialogBG = this.showLoadingScreen();
+    var dialogBG = new LoadingScreen(
+      'Removing "' + username + '" from your known user list...'
+    );
     try {
       var r = await fetch(
         accountHelper.getServerURL() + "/account/removeuserlist",
@@ -457,7 +452,9 @@ class UserListMenu {
   }
 
   async addUsername(username) {
-    var dialogBG = this.showLoadingScreen();
+    var dialogBG = new LoadingScreen(
+      'Adding "' + username + '" to your known user list...'
+    );
     try {
       var r = await fetch(
         accountHelper.getServerURL() + "/account/adduserlist",

@@ -5,6 +5,7 @@ module.exports = {
   style: {
     zIndex: 10,
   },
+  className: "normalLevelDialog",
   children: [
     {
       element: "div",
@@ -52,7 +53,7 @@ module.exports = {
                 window.location.href =
                   "/signin?href=" +
                   encodeURIComponent(
-                    window.location.pathname + window.location.hash,
+                    window.location.pathname + window.location.hash
                   );
               },
             },
@@ -69,7 +70,7 @@ module.exports = {
                 window.location.href =
                   "/signup?href=" +
                   encodeURIComponent(
-                    window.location.pathname + window.location.hash,
+                    window.location.pathname + window.location.hash
                   );
               },
             },

@@ -4,6 +4,7 @@ var dialog = require("../../dialogs.js");
 var currentRoom = require("./getroom.js");
 var KnownUserList = require("./userlist-menu.js");
 var commandEffects = elements.getGPId("commandEffects");
+var LoadingScreen = require("./mini-loader.js");
 var rs = {};
 
 var validState = accountHelper.getCurrentValidationState();
@@ -147,18 +148,7 @@ async function doRoomSelect() {
       });
     }
 
-    var dialogBG = document.createElement("div");
-    var loadingSpinnerDiv = document.createElement("div");
-    var loadingSpinnerContainerDiv = document.createElement("div");
-    var loadingSpinnerCDiv = document.createElement("div");
-    loadingSpinnerContainerDiv.className = "loader2Container";
-    dialogBG.className = "dialogBackground";
-    loadingSpinnerDiv.className = "loader2";
-    loadingSpinnerContainerDiv.append(loadingSpinnerDiv);
-    loadingSpinnerCDiv.append(loadingSpinnerContainerDiv);
-    loadingSpinnerCDiv.className = "centerMiddle";
-    dialogBG.append(loadingSpinnerCDiv);
-    commandEffects.append(dialogBG);
+    var dialogBG = new LoadingScreen("Loading rooms...");
     try {
       var rooms = await getRooms();
       dialogBG.remove();
@@ -190,7 +180,7 @@ async function doRoomSelect() {
                   div.remove();
                   doRoomSelect();
                 } catch (err) {
-                  dialog.alert("Error removing this room ${err}");
+                  dialog.alert(`Error removing this room ${err}`);
                 }
               }
             },
@@ -328,45 +318,52 @@ async function doRoomSelect() {
           {
             element: "div",
             className: "divButton roundborder",
-            textContent: "Invite someone to this room",
+            textContent: "Invite users",
             eventListeners: [
               {
                 event: "click",
                 func: async function (e) {
                   e.preventDefault();
                   try {
-                    var inviteTarget = await KnownUserList.getUserPrompt(
-                      "Choose a username to invite"
+                    var inviteTargets = await KnownUserList.getUsersPrompt(
+                      "Select users to invite"
                     );
-                    if (!inviteTarget) {
+                    if (!inviteTargets) {
                       return;
                     }
-                    var response = await fetch(
-                      accountHelper.getServerURL() + "/account/inviteroom",
-                      {
-                        method: "POST",
-                        body: JSON.stringify({
-                          id: room.id,
-                          name: room.name,
-                          username: inviteTarget,
-                        }),
-                      }
-                    );
-                    if (!response.ok) {
-                      dialog.alert(
-                        "Invite error. That username doesn’t exist... or maybe it escaped through a portal. Check it and try again!" +
-                          "\n" +
-                          "Server said: " +
-                          response.status
-                      );
-                    } else {
-                      dialog.alert(
-                        "Invite success! This user should see the invite in their notifications."
-                      );
+                    if (inviteTargets.length == 0) {
+                      return;
                     }
+                    var loader = new LoadingScreen();
+                    var invited = 0;
+                    for (var username of inviteTargets) {
+                      invited += 1;
+                      loader.setText(
+                        `Inviting "${username}"... (${invited}/${inviteTargets.length})`
+                      );
+                      try {
+                        var response = await fetch(
+                          accountHelper.getServerURL() + "/account/inviteroom",
+                          {
+                            method: "POST",
+                            body: JSON.stringify({
+                              id: room.id,
+                              name: room.name,
+                              username: username,
+                            }),
+                          }
+                        );
+                      } catch (e) {
+                        console.error(e);
+                      }
+                    }
+                    loader.remove();
+                    dialog.alert(
+                      "All selected users have been invited! These users should see the invite in their notifications."
+                    );
                   } catch (e) {
                     dialog.alert(
-                      "Failed to invite a user to room. Error Message: ${e}"
+                      `Failed to invite a user to room. Error Message: ${e}`
                     );
                   }
                 },
@@ -483,7 +480,7 @@ async function doRoomSelect() {
               {
                 element: "li",
                 textContent:
-                  'Use "Invite someone" to bring a friend in via username.',
+                  'Use "Invite users" to bring friend(s) in via username.',
               },
               {
                 element: "li",

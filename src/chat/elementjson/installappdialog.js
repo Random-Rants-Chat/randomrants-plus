@@ -8,6 +8,7 @@ module.exports = {
   style: {
     zIndex: 10,
   },
+  className: "normalLevelDialog",
   children: [
     {
       element: "div",
