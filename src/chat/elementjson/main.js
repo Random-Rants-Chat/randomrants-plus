@@ -1,5 +1,6 @@
 require("../../fontface.js");
 var styles = require("./chat-styles.css"); //Imported as text.
+var elements = require("../../gp2/elements.js");
 //Elements will be processed by gp2/elements.js
 module.exports = [
   {
@@ -34,19 +35,27 @@ module.exports = [
           require("./noroom.js"),
           require("./chatinterface.js"),
           require("./chatmenu.js"),
-          require("./reconnecting.js"),
         ],
       },
-      require("./accountnotice.js"),
-      require("./usernameerror.js"),
-      require("./roomerror.js"),
-      require("./noguests.js"),
-      require("./notallowed.js"),
-      require("./banned.js"),
-      require("./update.js"),
-      require("./offlineerror.js"),
-      require("./installappdialog.js"),
-      require("./toomanyconnections.js"),
     ],
   },
 ];
+//Dialogs.
+elements.appendElementsFromJSON(document.body, [
+  //Low level dialogs, not really important.
+  require("./accountnotice.js"),
+  require("./installappdialog.js"),
+
+  //Medium level dialogs, important notices.
+  require("./usernameerror.js"),
+  require("./roomerror.js"),
+  require("./noguests.js"),
+  require("./notallowed.js"),
+  require("./toomanyconnections.js"),
+
+  require("./reconnecting.js"),
+
+  //High level dialogs, these need to be to front.
+  require("./update.js"),
+  require("./offlineerror.js"),
+]);

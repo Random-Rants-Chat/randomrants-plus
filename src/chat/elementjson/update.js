@@ -5,6 +5,7 @@ module.exports = {
   },
   gid: "rrUpdateScreen",
   hidden: true,
+  className: "veryImportantDialog",
   children: [
     {
       element: "div",

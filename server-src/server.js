@@ -4823,7 +4823,6 @@ if (process.env.serverPort) {
 if (process.env.PORT) {
   serverPort = Number(process.env.PORT);
 }
-
 (async function () {
   await checkServerLoop(); //when it loops back, it accepts the promise.
   server.listen(serverPort);

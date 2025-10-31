@@ -5,6 +5,7 @@ module.exports = {
   style: {
     zIndex: 10,
   },
+  className: "veryImportantDialog",
   children: [
     {
       element: "div",

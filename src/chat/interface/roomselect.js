@@ -3,6 +3,7 @@ var accountHelper = require("../../accounthelper");
 var dialog = require("../../dialogs.js");
 var currentRoom = require("./getroom.js");
 var KnownUserList = require("./userlist-menu.js");
+var commandEffects = elements.getGPId("commandEffects");
 var rs = {};
 
 var validState = accountHelper.getCurrentValidationState();
@@ -102,7 +103,7 @@ function doJoinCodeScreen(code) {
     },
   ]);
   elements.appendElements(div, dom);
-  document.body.append(div);
+  commandEffects.append(div);
 
   return {
     remove: function () {
@@ -157,7 +158,7 @@ async function doRoomSelect() {
     loadingSpinnerCDiv.append(loadingSpinnerContainerDiv);
     loadingSpinnerCDiv.className = "centerMiddle";
     dialogBG.append(loadingSpinnerCDiv);
-    document.body.append(dialogBG);
+    commandEffects.append(dialogBG);
     try {
       var rooms = await getRooms();
       dialogBG.remove();
@@ -595,7 +596,7 @@ async function doRoomSelect() {
       },
     ]);
     elements.appendElements(div, dom);
-    document.body.append(div);
+    commandEffects.append(div);
   } catch (e) {
     window.alert(e);
   }
