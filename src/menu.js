@@ -111,6 +111,20 @@ var elementJSON = [
           },
         ],
       },
+      //Documentary button.
+      {
+        element: "div",
+        className: "menuBarItem",
+        textContent: "Site Documentary",
+        eventListeners: [
+          {
+            event: "click",
+            func: function () {
+              AElement.openInNewTab("https://randomrants-docs.onrender.com");
+            },
+          },
+        ],
+      },
     ],
   },
   {

@@ -81,6 +81,22 @@ var menuItems = [
       },
     ],
   },
+  //Command Docs button.
+  {
+    element: "div",
+    className: "menuBarItem",
+    textContent: "Command Docs",
+    eventListeners: [
+      {
+        event: "click",
+        func: function () {
+          AElement.openInNewTab(
+            "https://randomrants-docs.onrender.com/commands/"
+          );
+        },
+      },
+    ],
+  },
   {
     element: "div",
     style: {
