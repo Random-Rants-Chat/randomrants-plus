@@ -541,7 +541,7 @@ var KnownUserList = require("./userlist-menu.js");
             json.color,
             json.font
           );
-          if (clientSettings.getSetting("INTERFACE_SOUNDS")) {
+          if (clientSettings.getSetting("UI_SOUNDS")) {
             sounds.play("notify", 1);
           }
           if (clientSettings.getSetting("CHAT_NOTIFY")) {

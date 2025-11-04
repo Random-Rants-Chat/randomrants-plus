@@ -1594,7 +1594,7 @@ a {
   position: absolute;
 }
 .notificationImage:hover {
-  filter: brightness(10);
+  filter: brightness(100);
 }
 
 .notificationsDiv {

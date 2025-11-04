@@ -89,7 +89,17 @@ var menuItems = [
   {
     element: "div",
     className: "menuBarItem",
-    textContent: "Client settings",
+    style: {
+      padding: "0px 0px",
+      width: "40px",
+    },
+    children: [
+      {
+        element: "img",
+        className: "notificationImage",
+        src: "images/settings.svg",
+      },
+    ],
     eventListeners: [
       {
         event: "click",
