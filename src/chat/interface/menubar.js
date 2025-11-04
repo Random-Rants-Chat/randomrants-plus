@@ -1,4 +1,5 @@
 var elements = require("../../gp2/elements.js");
+var AElement = require("../../gp2/aelement.js");
 var accountHelper = require("../../accounthelper");
 
 var roomSelect = require("./roomselect.js");
@@ -23,7 +24,7 @@ var menuItems = [
       {
         event: "click",
         func: function () {
-          window.location.href = "/";
+          AElement.openLink("/");
         },
       },
     ],
@@ -75,7 +76,7 @@ var menuItems = [
       {
         event: "click",
         func: function () {
-          window.location.href = "/join";
+          AElement.openLink("/join");
         },
       },
     ],

@@ -1,4 +1,5 @@
 var elements = require("../../gp2/elements.js");
+var AElement = require("../../gp2/aelement.js");
 var accountHelper = require("../../accounthelper/index.js");
 var RTNotifications = require("./notifications/index.js");
 var KnownUserList = require("./userlist-menu.js");
@@ -9,21 +10,6 @@ elements.appendElements(
   elements.getGPId("menuBar"),
   elements.createElementsFromJSON(elementJSON)
 );
-
-var customizeButton = {
-  element: "div",
-  className: "menuBarItem",
-  textContent: "Customise",
-  gid: "menu_customize",
-  eventListeners: [
-    {
-      event: "click",
-      func: () => {
-        window.location.href = "/myaccount";
-      },
-    },
-  ],
-};
 
 var signInButton = {
   element: "div",
@@ -50,20 +36,20 @@ function handleSignedOutAccountButtons() {
 
   signInButton.addEventListener("click", () => {
     if (params.get("href")) {
-      window.location.href = "/signin?href=" + params.get("href");
+      AElement.openLink("/signin?href=" + params.get("href"));
       return;
     }
-    window.location.href = "/signin";
+    AElement.openLink("/signin");
   });
 
   var signUpButton = elements.getGPId("menu_signUp");
 
   signUpButton.addEventListener("click", () => {
     if (params.get("href")) {
-      window.location.href = "/signup?href=" + params.get("href");
+      AElement.openLink("/signup?href=" + params.get("href"));
       return;
     }
-    window.location.href = "/signup";
+    AElement.openLink("/signup");
   });
 }
 
@@ -71,7 +57,7 @@ function handleUserAccountButtons() {
   var myAccountButton = elements.getGPId("menu_myAccount");
 
   myAccountButton.addEventListener("click", () => {
-    window.location.href = "/myaccount";
+    AElement.openInNewTab("/myaccount");
   });
 }
 

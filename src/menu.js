@@ -1,4 +1,5 @@
 var elements = require("./gp2/elements.js");
+var AElement = require("./gp2/aelement.js");
 
 var elementJSON = [
   {
@@ -23,7 +24,7 @@ var elementJSON = [
           {
             event: "click",
             func: function () {
-              window.location.href = "/";
+              AElement.openLink("/");
             },
           },
         ],
@@ -63,7 +64,7 @@ var elementJSON = [
           {
             event: "click",
             func: function () {
-              window.location.href = "/chat";
+              AElement.openLink("/chat");
             },
           },
         ],
@@ -77,7 +78,7 @@ var elementJSON = [
           {
             event: "click",
             func: function () {
-              window.location.href = "/join";
+              AElement.openLink("/join");
             },
           },
         ],
@@ -91,7 +92,7 @@ var elementJSON = [
           {
             event: "click",
             func: function () {
-              window.location.href = "/about";
+              AElement.openLink("/about");
             },
           },
         ],
@@ -105,7 +106,7 @@ var elementJSON = [
           {
             event: "click",
             func: function () {
-              window.location.href = "/sitenews";
+              AElement.openLink("/sitenews");
             },
           },
         ],
@@ -124,7 +125,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.body,
-  elements.createElementsFromJSON(elementJSON),
+  elements.createElementsFromJSON(elementJSON)
 );
 
 require("./user-menu.js");
