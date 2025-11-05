@@ -138,6 +138,7 @@ class ImageViewerDialog {
                             event: "click",
                             func: function () {
                               _this.dialogElement.hidden = true;
+                              _this.imageElement.src = "";
                             },
                           },
                         ],
