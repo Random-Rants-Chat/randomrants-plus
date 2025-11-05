@@ -13,7 +13,23 @@ var isRotating = false;
 var xpErrorSound = "";
 var vineboomSound = null;
 var badToTheBoneSound = null;
+function initImage(src) {
+  return new Promise((accept, reject) => {
+    var img = document.createElement("img");
+    img.src = src;
+    img.onload = function () {
+      accept();
+      img.remove();
+    };
+    img.onerror = function () {
+      accept();
+      img.remove();
+    };
+  });
+}
 (async function () {
+  //Init image files.
+  await initImage("images/commands/rock-eyebrow.png");
   //Init audio files.
   xpErrorSound = await audio.loadSoundFromURL("sounds/xp-error.mp3");
   vineboomSound = await audio.loadSoundFromURL("sounds/vineboom.wav");
@@ -431,7 +447,7 @@ com.vineboom = function () {
   img.style.width = "100%";
   img.style.height = "100vh";
   img.style.objectFit = "contain";
-  img.src = "images/commands/whatthe.jpg";
+  img.src = "images/commands/rock-eyebrow.png";
   img.animate(
     [
       {
