@@ -29,6 +29,9 @@ var reactionEmojis = [
   "🙌",
   "😬",
   "😝",
+  "🧢",
+  "💔",
+  "🥀",
 ];
 
 var chatEmojis = require("../../chat-emojis.js");

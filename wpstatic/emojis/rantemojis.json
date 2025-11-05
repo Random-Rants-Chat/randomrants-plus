@@ -323,6 +323,19 @@
           "bird",
           "minecraft"
         ]
+      },
+      {
+        "src": "images/sadsponge.png",
+        "name": "Sad Spongebob",
+        "tags": [
+          "sad",
+          "spongebob",
+          "sponge",
+          "boowomp",
+          "nick",
+          "nicklodeon",
+          "paramount"
+        ]
       }
     ]
   },
