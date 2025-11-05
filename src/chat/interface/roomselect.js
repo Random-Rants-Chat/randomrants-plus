@@ -146,13 +146,9 @@ async function doRoomSelect() {
   try {
     var div = document.createElement("div");
 
-    var addButtonJSON = { element: "div" };
-
     var roomSelectChildren = [];
 
-    if (validState) {
-      roomSelectChildren.push(addButtonJSON);
-    } else {
+    if (!validState) {
       roomSelectChildren.push({
         element: "div",
         className: "roomButton",
@@ -620,7 +616,45 @@ async function doRoomSelect() {
           {
             element: "div",
             className: "roomSelect",
-            children: roomSelectChildren,
+            children:
+              roomSelectChildren.length == 0
+                ? [
+                    {
+                      element: "div",
+                      style: {
+                        width: "fit-content",
+                        height: "fit-content",
+                        padding: "10px 5px",
+                        background: "white",
+                        color: "black",
+                        opacity: 0.5,
+                        borderRadius: "10px",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        textAlign: "center",
+                      },
+                      children: [
+                        {
+                          element: "span",
+                          style: {
+                            fontWeight: "bold",
+                          },
+                          textContent: "You have no chatrooms!",
+                        },
+                        {
+                          element: "br",
+                        },
+                        {
+                          element: "span",
+                          textContent:
+                            'Click "Summon a room" to make your own, or tell someone to invite you to theirs.',
+                        },
+                      ],
+                    },
+                  ]
+                : roomSelectChildren,
           },
           {
             element: "div",

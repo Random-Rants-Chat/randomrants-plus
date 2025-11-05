@@ -889,6 +889,7 @@ a {
   overflow-y: scroll;
   overflow-x: hidden;
   border-radius: 5px;
+  position: relative;
 }
 .roomSelectIcon {
   height: 100%;
