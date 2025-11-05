@@ -12,6 +12,9 @@ function generateMessageDiv(
   userFont
 ) {
   var pfp = accountHelper.getProfilePictureURL(username);
+  if (!displayName) {
+    pfp = accountHelper.getProfilePictureURL("");
+  }
   var color = userColor;
   if (isServerMessage) {
     color = "var(--server-notifcation-color)";
@@ -44,37 +47,56 @@ function generateMessageDiv(
               ],
             },
             {
-              element: "span",
-              className: "usernameSpan" + realUserStyles,
-              textContent: displayName + ":",
-              title: noUndefinedUsername,
+              element: "div",
               style: {
-                color: color,
-                fontFamily: userFont || "Arial",
+                display: "flex",
+                flexDirection: "column",
               },
-              eventListeners: [
+              children: [
                 {
-                  event: "click",
-                  func: function () {
-                    if (!username) {
-                      return;
-                    }
-                    var messageInputBox = elements.getGPId("messageInputBox");
-                    var message = messageInputBox.value;
-                    var messageTrimmed = message.trim();
-                    if (messageTrimmed.startsWith("@")) {
-                      var splitMessage = messageTrimmed.split(" ");
-                      var targetUsername = splitMessage[0].slice(1); //Remove the @ symbol.
-                      var privateMessage = splitMessage.slice(1).join(" ");
-
-                      messageInputBox.value =
-                        "@" + username + " " + privateMessage;
-                    } else {
-                      messageInputBox.value =
-                        "@" + username + " " + messageInputBox.value;
-                    }
+                  element: "span",
+                  className: "usernameSpan" + realUserStyles,
+                  textContent: displayName + ":",
+                  title: noUndefinedUsername,
+                  style: {
+                    color: color,
+                    fontFamily: userFont || "Arial",
                   },
+                  eventListeners: [
+                    {
+                      event: "click",
+                      func: function () {
+                        if (!username) {
+                          return;
+                        }
+                        var messageInputBox =
+                          elements.getGPId("messageInputBox");
+                        var message = messageInputBox.value;
+                        var messageTrimmed = message.trim();
+                        if (messageTrimmed.startsWith("@")) {
+                          var splitMessage = messageTrimmed.split(" ");
+                          var targetUsername = splitMessage[0].slice(1); //Remove the @ symbol.
+                          var privateMessage = splitMessage.slice(1).join(" ");
+
+                          messageInputBox.value =
+                            "@" + username + " " + privateMessage;
+                        } else {
+                          messageInputBox.value =
+                            "@" + username + " " + messageInputBox.value;
+                        }
+                      },
+                    },
+                  ],
                 },
+                /*{
+                  element: "span",
+                  style: {
+                    color: userColor,
+                    fontSize: "10px",
+                    fontFamily: userFont || "Arial",
+                  },
+                  textContent: username || "",
+                },*/
               ],
             },
             {
