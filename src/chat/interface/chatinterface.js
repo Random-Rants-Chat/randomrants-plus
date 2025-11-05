@@ -83,10 +83,10 @@ var isOffline = false;
 function updateToggleOnlineViewText() {
   if (toggleOnlineView) {
     toggleMessageAndOnlineView.innerHTML =
-      '<img src="images/chaticon.svg" height="17">' + "View chat messages";
+      '<img src="images/chat.svg" height="17">' + "View chat messages";
   } else {
     toggleMessageAndOnlineView.innerHTML =
-      '<img src="images/profile.svg" height="17">' + "View online users";
+      '<img src="images/userlist.svg" height="17">' + "View online users";
   }
 }
 

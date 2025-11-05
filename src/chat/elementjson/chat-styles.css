@@ -719,6 +719,7 @@ body {
   width: 100%;
   height: auto;
   overflow: auto;
+  position: relative;
 }
 
 .divButton {

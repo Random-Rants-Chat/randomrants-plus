@@ -74,129 +74,158 @@ var dom = elements.createElementsFromJSON([
         className: "centerHorizontal",
         children: [
           {
-            element: "br",
-          },
-          {
-            element: "span",
-            style: {
-              fontWeight: "bold",
-              fontSize: "30px",
-            },
-            textContent: "Soundboard",
-          },
-          {
-            element: "br",
-          },
-          {
-            element: "span",
-            textContent: "Play sounds that sync for the whole room.",
-          },
-          {
-            element: "br",
-          },
-          {
-            element: "button",
-            gid: "soundboardMuteButton",
-            GPWhenCreated: function (elm) {
-              //Load soundboard volume state.
-              if (localStorage.getItem("soundboardUnmuteState") == "N") {
-                //Use off (The value N) so that if no value is set then it defaults to on.
-                soundboardVolume = 0;
-              } else {
-                soundboardVolume = 100;
-              }
-
-              //Update text.
-              if (soundboardVolume == 0) {
-                elm.textContent = "Unmute";
-              } else {
-                elm.textContent = "Mute";
-              }
-            },
-            eventListeners: [
-              {
-                event: "click",
-                func: function () {
-                  //Unmute or mute.
-                  if (soundboardVolume == 100) {
-                    soundboardVolume = 0;
-                    localStorage.setItem("soundboardUnmuteState", "N");
-                  } else {
-                    soundboardVolume = 100;
-                    localStorage.setItem("soundboardUnmuteState", "Y");
-                  }
-
-                  //Update text
-                  if (soundboardVolume == 0) {
-                    this.textContent = "Unmute";
-                  } else {
-                    this.textContent = "Mute";
-                  }
-                },
-              },
-            ],
-          },
-          {
-            element: "br",
-          },
-          {
-            element: "span",
-            textContent: "Soundboard Boost:",
-          },
-          {
-            element: "button",
-            className: "roundborder",
-            title: "Click it to make your sounds louder",
-            textContent: soundboardMultipliers[soundboardMutliplier].label,
-            eventListeners: [
-              {
-                event: "click",
-                func: function () {
-                  soundboardMutliplier += 1;
-                  if (soundboardMutliplier > soundboardMultipliers.length - 1) {
-                    soundboardMutliplier = 0;
-                  }
-                  this.textContent =
-                    soundboardMultipliers[soundboardMutliplier].label;
-                },
-              },
-            ],
-          },
-          { element: "br" },
-          {
-            element: "button",
-            className: "roundborder",
-            eventListeners: [
-              {
-                event: "click",
-                func: function () {
-                  dialogDiv.hidden = true;
-                },
-              },
-            ],
-            textContent: "Close",
-          },
-          { element: "hr" },
-          {
             element: "div",
-            className: "soundboardButtons",
-            gid: "soundboardButtonsContainer",
+            style: {
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+            },
             children: [
               {
                 element: "div",
-                className: "soundboardButtonStop",
+                style: {
+                  display: "block",
+                  padding: "10px 10px",
+                },
                 children: [
                   {
                     element: "span",
-                    textContent: "Stop all sounds",
-                  },
-                ],
-                eventListeners: [
-                  {
-                    event: "click",
-                    func: function () {
-                      sb.onSoundStopClick();
+                    style: {
+                      fontWeight: "bold",
+                      fontSize: "30px",
                     },
+                    textContent: "Soundboard",
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "span",
+                    textContent: "Play sounds that sync for the whole room.",
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "span",
+                    textContent: "Soundboard Boost:",
+                  },
+                  {
+                    element: "button",
+                    className: "roundborder",
+                    title: "Click it to make your sounds louder",
+                    textContent:
+                      soundboardMultipliers[soundboardMutliplier].label,
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          soundboardMutliplier += 1;
+                          if (
+                            soundboardMutliplier >
+                            soundboardMultipliers.length - 1
+                          ) {
+                            soundboardMutliplier = 0;
+                          }
+                          this.textContent =
+                            soundboardMultipliers[soundboardMutliplier].label;
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "button",
+                    className: "roundborder",
+                    style: {
+                      marginRight: "2px",
+                    },
+                    gid: "soundboardMuteButton",
+                    GPWhenCreated: function (elm) {
+                      //Load soundboard volume state.
+                      if (
+                        localStorage.getItem("soundboardUnmuteState") == "N"
+                      ) {
+                        //Use off (The value N) so that if no value is set then it defaults to on.
+                        soundboardVolume = 0;
+                      } else {
+                        soundboardVolume = 100;
+                      }
+
+                      //Update text.
+                      if (soundboardVolume == 0) {
+                        elm.textContent = "Unmute";
+                      } else {
+                        elm.textContent = "Mute";
+                      }
+                    },
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          //Unmute or mute.
+                          if (soundboardVolume == 100) {
+                            soundboardVolume = 0;
+                            localStorage.setItem("soundboardUnmuteState", "N");
+                          } else {
+                            soundboardVolume = 100;
+                            localStorage.setItem("soundboardUnmuteState", "Y");
+                          }
+
+                          //Update text
+                          if (soundboardVolume == 0) {
+                            this.textContent = "Unmute";
+                          } else {
+                            this.textContent = "Mute";
+                          }
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    element: "button",
+                    className: "roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          dialogDiv.hidden = true;
+                        },
+                      },
+                    ],
+                    textContent: "Close",
+                  },
+                  {
+                    element: "br",
+                  },
+                  { element: "div", className: "sep1" },
+                ],
+              },
+              {
+                element: "div",
+                className: "soundboardButtons",
+                gid: "soundboardButtonsContainer",
+                children: [
+                  {
+                    element: "div",
+                    className: "soundboardButtonStop",
+                    children: [
+                      {
+                        element: "span",
+                        textContent: "Stop all sounds",
+                      },
+                    ],
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: function () {
+                          sb.onSoundStopClick();
+                        },
+                      },
+                    ],
                   },
                 ],
               },
