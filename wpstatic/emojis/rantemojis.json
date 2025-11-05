@@ -327,6 +327,7 @@
       {
         "src": "images/sadsponge.png",
         "name": "Sad Spongebob",
+        "emojiURL": "rrp",
         "tags": [
           "sad",
           "spongebob",
