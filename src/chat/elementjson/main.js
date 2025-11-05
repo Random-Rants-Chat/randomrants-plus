@@ -47,13 +47,13 @@ elements.appendElementsFromJSON(document.body, [
   require("./installappdialog.js"),
 
   //Medium level dialogs, important notices.
+  require("./reconnecting.js"),
+
   require("./usernameerror.js"),
   require("./roomerror.js"),
   require("./noguests.js"),
   require("./notallowed.js"),
   require("./toomanyconnections.js"),
-
-  require("./reconnecting.js"),
 
   //High level dialogs, these need to be to front.
   require("./update.js"),
