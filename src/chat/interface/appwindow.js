@@ -24,12 +24,12 @@ function resizeStuff() {
       // Full width chat for portrait mobile
       sharedAppInterface.style.display = "none";
       chatInterfaceRight.style.display = "block";
-      chatInterfaceRight.style.width = "100vw";
+      chatInterfaceRight.style.width = "100svw";
     } else {
       // Hide chat in landscape mobile
       sharedAppInterface.style.display = "block";
       chatInterfaceRight.style.display = "none";
-      sharedAppInterface.style.width = "100vw";
+      sharedAppInterface.style.width = "100svw";
     }
   }
   // Tablet and Desktop rule (everything 768px and wider)
@@ -42,7 +42,7 @@ function resizeStuff() {
     if (chatAreaWidth < 350) {
       chatAreaWidth = 350;
     }
-    sharedAppInterface.style.width = `calc(100vw - ${chatAreaWidth}px)`;
+    sharedAppInterface.style.width = `calc(100svw - ${chatAreaWidth}px)`;
     chatInterfaceRight.style.width = chatAreaWidth + "px";
   }
 }

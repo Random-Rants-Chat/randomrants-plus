@@ -1,5 +1,6 @@
 var elements = require("../../gp2/elements.js");
 var sws = require("./sharedwebsocket.js");
+var shtml = require("../../safehtmlencode.js");
 
 var emojiReactions = {};
 
@@ -16,7 +17,7 @@ function createFloatingEmoji(emojiText, spawnAnywhere = false, spawnAt) {
       return;
     }
     var emoji = document.createElement("div");
-    emoji.textContent = emojiText;
+    elements.setInnerJSON(emoji, [shtml.getBracketCodeJSON(emojiText)]);
     emoji.style.position = "absolute";
     emoji.style.fontSize = `${200 + Math.random() * 100}%`;
 
@@ -114,7 +115,7 @@ Array.from(emojiReactionButtonsContainer.children).forEach((emojiButton) => {
     sws.send(
       JSON.stringify({
         type: "reaction",
-        emoji: this.textContent,
+        emoji: this.getAttribute("realContent"),
       })
     );
   });

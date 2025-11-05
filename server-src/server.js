@@ -1744,7 +1744,7 @@ async function startRoomWSS(roomid) {
             if (typeof json.emoji !== "string") {
               return;
             }
-            if (json.emoji.length > 4) {
+            if (json.emoji.length > 140) {
               //It should be pretty small for it.
               return;
             }
