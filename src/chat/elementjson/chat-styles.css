@@ -533,10 +533,10 @@ body {
 
 /* Styling for individual video elements */
 .cameraVideo {
-  width: 150px;
-  height: 150px;
-  min-width: 150px;
-  min-height: 150px;
+  width: 180px;
+  height: 180px;
+  min-width: 180px;
+  min-height: 180px;
   background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
@@ -550,7 +550,7 @@ body {
   top: 0;
   left: 0;
   transition: 0.05s;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .cameraVideo:hover {
@@ -573,7 +573,22 @@ body {
 
 .cameraVideoElement {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 15px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+.cameraVideo[fullscreen] > .cameraVideoElement {
+  width: 100%;
+  height: calc(100% - 30px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 5px;
 }
 
 .cameraVideoUsername {
