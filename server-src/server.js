@@ -1138,7 +1138,7 @@ async function getRoomInfo(id) {
 }
 
 function generateGuestUsername() {
-  return `Guest${Math.round(Math.random() * 10000)}`;
+  return `Guest${Math.round(Date.now() * 10)}`;
 }
 
 function getFormattedTime() {
@@ -1380,7 +1380,7 @@ async function startRoomWSS(roomid) {
   var info = await getRoomInfo(roomid);
   if (!info) {
     roomWebsockets[roomid.toString()] = undefined;
-    return noRoomWss;
+    return "NO_ROOM";
   }
   info = applyNewRoomPermissionValues(info); //Apply the new permission stuff if not done yet.
   wss._rrRoomPermissions = info.permissions;
@@ -4869,7 +4869,12 @@ server.on("upgrade", async function upgrade(request, socket, head) {
         roomWebsockets[id] = roomStillLoadingWss;
         try {
           wss = await startRoomWSS(id);
-          roomWebsockets[id] = wss;
+          if (wss == "NO_ROOM") {
+            wss = noRoomWss;
+            roomWebsockets[id] = undefined;
+          } else {
+            roomWebsockets[id] = wss;
+          }
         } catch (e) {
           console.log("Room failed to load: ", e);
           wss = directCloseWss;

@@ -208,6 +208,19 @@ function getBracketCodeJSON(
             textContent: "",
           });
         }
+        if (name == "italic" && !exists) {
+          exists = true;
+
+          var newElm = run(true, "/italic");
+          newElm.style = {
+            fontStyle: "italic",
+          };
+          elm.children.push(newElm);
+          elm.children.push({
+            element: "span",
+            textContent: "",
+          });
+        }
         if (name == "large" && !exists) {
           exists = true;
 
@@ -445,7 +458,6 @@ function getBracketCodeJSON(
             triggerBracketCodes[trigBracket.trim()]();
           }
         }
-
         if (!exists) {
           i -= 1;
           addChar("[");
@@ -466,7 +478,7 @@ function getMessageHTML(inputstr, noBracketCode, otherBracketCodes = {}) {
   if (noBracketCode) {
     return getSafeHTML(inputstr);
   }
-  var div = elements.createElementsFromJSON([getBracketCodeJSON(inputstr)]);
+  var div = elements.createElementsFromJSON([getBracketCodeJSON(inputstr)])[0];
   var inner = div.innerHTML;
   div.remove();
   return inner;

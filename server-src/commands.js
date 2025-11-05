@@ -458,7 +458,7 @@ class CommandHandler {
         var currentYear = new Date().getFullYear();
         if (message.length > 0) {
           sendFeedbackGlobalWithName(
-            `“${message}” -${getUserInfo(foundClient).username}, ${currentYear}`,
+            `“${message}” -${getUserInfo(foundClient).name}, ${currentYear}`,
             "[Notice]"
           );
         } else {
@@ -474,7 +474,7 @@ class CommandHandler {
             return CommandHandler.HIDE_MESSAGE;
           }
           sendFeedbackGlobalWithName(
-            `“${lastMessage}” -${getUserInfo(foundClient).username}, ${currentYear}`,
+            `“${lastMessage}” -${getUserInfo(foundClient).name}, ${currentYear}`,
             "[Notice]"
           );
         }
@@ -484,6 +484,206 @@ class CommandHandler {
         new Date().getFullYear() +
         "” and the quote is the most recent message that the specified user sent. However if you write your own quote, it’ll just say the same thing but with the quote being the thing you said.",
       false
+    );
+
+    addCommand(
+      "me",
+      function (args, userInfo, senderClient) {
+        if (args.length < 1) {
+          sendFeedbackLocal(senderClient, "Usage: ;me <message>");
+          return CommandHandler.HIDE_MESSAGE;
+        }
+
+        var message = args.join(" ");
+
+        sendFeedbackGlobalWithName(
+          `[italic]${message}[/italic]`,
+          `* ${userInfo.name}`
+        );
+
+        return CommandHandler.HIDE_MESSAGE;
+      },
+      "<message>[br]Broadcasts an 'action' message to the room. (e.g., ';me is grounded')",
+      false
+    );
+
+    addCommand(
+      "roll",
+      function (args, userInfo, senderClient) {
+        var max = 100;
+        var roll = Math.floor(Math.random() * max) + 1;
+
+        if (args[0] && args[0].includes("d")) {
+          var parts = args[0].split("d");
+          var dice = parseInt(parts[0]) || 1;
+          var sides = parseInt(parts[1]) || 20;
+
+          if (dice > 100) dice = 100; // Limit to 100 dice
+          if (sides > 1000) sides = 1000; // Limit to 1000 sides
+
+          roll = 0;
+          for (var i = 0; i < dice; i++) {
+            roll += Math.floor(Math.random() * sides) + 1;
+          }
+          sendFeedbackGlobal(
+            `[bold]${userInfo.name}[/bold] rolled ${dice}d${sides} and got... [bold]${roll}[/bold]!`
+          );
+        } else {
+          // Simple ;roll 1-100
+          sendFeedbackGlobal(
+            `[bold]${userInfo.name}[/bold] rolled a [bold]${roll}[/bold] (1-100)`
+          );
+        }
+
+        return CommandHandler.HIDE_MESSAGE;
+      },
+      "<1d20 (optional)>[br]Rolls a dice. Defaults to 1-100.",
+      false // false = for everyone!
+    );
+
+    // ;8ball - The magic 8-ball
+    addCommand(
+      "8ball",
+      function (args, userInfo, senderClient) {
+        if (args.length < 1) {
+          sendFeedbackLocal(senderClient, "Usage: ;8ball <question>");
+          return CommandHandler.HIDE_MESSAGE;
+        }
+
+        var responses = [
+          "As I see it, yes.",
+          "Ask again later.",
+          "Better not tell you now.",
+          "Cannot predict now.",
+          "Concentrate and ask again.",
+          "Don't count on it.",
+          "It is certain.",
+          "It is decidedly so.",
+          "Most likely.",
+          "My reply is no.",
+          "My sources say no.",
+          "Outlook good.",
+          "Outlook not so good.",
+          "Reply hazy, try again.",
+          "Signs point to yes.",
+          "Very doubtful.",
+          "Without a doubt.",
+          "Yes.",
+          "Yes - definitely.",
+          "You may rely on it.",
+        ];
+
+        var question = args.join(" ");
+        var answer = responses[Math.floor(Math.random() * responses.length)];
+
+        sendFeedbackGlobal(
+          `🎱 [bold]${userInfo.info}[/bold] asked: "[italic]${question}[/italic]"[br]The magic 8-ball says: [bold]${answer}[/bold]`
+        );
+
+        return CommandHandler.HIDE_MESSAGE;
+      },
+      "<question>[br]Asks the magic 8-ball a question.",
+      false // false = for everyone!
+    );
+
+    // ;mute - The "timeout" command (now handles spaces)
+    addCommand(
+      "mute",
+      function (args, userInfo, senderClient) {
+        if (args.length === 0) {
+          sendFeedbackLocal(senderClient, "Usage: ;mute <Username> <Minutes>");
+          return;
+        }
+
+        var minutes = 5; // Default
+        var nameToSearch;
+
+        // Check if the last argument is a number (for time)
+        var lastArg = args[args.length - 1];
+        var parsedMinutes = parseFloat(lastArg);
+
+        if (!isNaN(parsedMinutes) && parsedMinutes > 0) {
+          // Last arg IS a time
+          minutes = parsedMinutes;
+          nameToSearch = args.slice(0, args.length - 1).join(" "); // All args *except* the last one
+        } else {
+          // Last arg is NOT a time, so it's part of the name
+          minutes = 5; // Use default time
+          nameToSearch = args.join(" "); // All args are the name
+        }
+
+        if (nameToSearch.length === 0) {
+          sendFeedbackLocal(
+            senderClient,
+            "No user specified. Usage: ;mute <Username> <Minutes>"
+          );
+          return;
+        }
+
+        // Now, search with the *full name*
+        var foundClients = searchUsersByKey(nameToSearch, senderClient);
+        if (foundClients.length === 0) {
+          sendFeedbackLocal(
+            senderClient,
+            "User not found: '" + nameToSearch + "'"
+          );
+          return;
+        }
+
+        var durationMs = minutes * 60 * 1000;
+
+        foundClients.forEach((client) => {
+          client._rrMutedUntil = Date.now() + durationMs;
+
+          var targetInfo = getUserInfo(client);
+          sendFeedbackGlobal(
+            `[bold]${targetInfo.displayName}[/bold] has been muted for ${minutes} minute(s).`
+          );
+          sendFeedbackLocal(
+            client,
+            `[bold][color css=red]You have been muted for ${minutes} minute(s) by an owner.[/color][/bold]`
+          );
+        });
+      },
+      "<Username> <Minutes>[br]Mutes a user, preventing them from sending any messages or commands. Defaults to 5 minutes.",
+      true // true = owner only!
+    );
+
+    // ;unmute - The command to undo the mute (now handles spaces)
+    addCommand(
+      "unmute",
+      function (args, userInfo, senderClient) {
+        if (args.length === 0) {
+          sendFeedbackLocal(senderClient, "Usage: ;unmute <Username>");
+          return;
+        }
+
+        var nameToSearch = args.join(" "); // All args are the name
+        var foundClients = searchUsersByKey(nameToSearch, senderClient);
+
+        if (foundClients.length === 0) {
+          sendFeedbackLocal(
+            senderClient,
+            "User not found: '" + nameToSearch + "'"
+          );
+          return;
+        }
+
+        foundClients.forEach((client) => {
+          client._rrMutedUntil = null; // Clear the mute
+
+          var targetInfo = getUserInfo(client);
+          sendFeedbackGlobal(
+            `[bold]${targetInfo.displayName}[/bold] has been unmuted.`
+          );
+          sendFeedbackLocal(
+            client,
+            `[bold][color css=green]You have been unmuted by an owner.[/color][/bold]`
+          );
+        });
+      },
+      "<Username>[br]Unmutes a user.",
+      true // true = owner only!
     );
 
     ////////////////////////////////////////////////////
@@ -547,6 +747,7 @@ class CommandHandler {
     return {
       displayName: client._rrDisplayName,
       username: client._rrUsername,
+      name: client._rrDisplayName || client._rrUsername,
       loggedOn: client._rrLoggedIn, //If false, the user is a guest.
       color: client._rrUsername,
       isOwner: client._rrLoggedIn && client._rrIsOwner, //_rrIsOwner means if owner or has ownership
@@ -572,43 +773,43 @@ class CommandHandler {
     var clients = this.getActiveClients();
     var senderClientInfo = this.getUserInfo(senderClient);
 
-    //You can use @all, @others, and @me to do multiple people or yourself.
-
+    // --- @ commands are the same ---
     if (lowercaseKey == "@all") {
-      //Everyone, including the sender.
       return clients;
     }
-
     if (lowercaseKey == "@others") {
-      //Everyone, except the sender.
       var otherClients = [];
       for (var client of clients) {
-        //The server should reject people joining with the same username so it will be fine.
-        if (senderClientInfo.username !== this.getUserInfo(client).username) {
+        if (client._rrConnectionID !== senderClient._rrConnectionID) {
           otherClients.push(client);
         }
       }
       return otherClients;
     }
-
     if (lowercaseKey == "@me" || lowercaseKey == "@self") {
-      //Only the sender, better than typing your username.
       return [senderClient];
     }
 
-    //Otherwise, its a username search.
-
+    var foundClients = [];
     for (var client of clients) {
-      var lowercaseUsername = this.getUserInfo(client)
-        .username.toLowerCase()
-        .trim(); //trim(), just to make sure.
-      if (lowercaseUsername == lowercaseKey) {
-        return [client];
+      var info = this.getUserInfo(client);
+
+      if (info.username) {
+        var lowercaseUsername = info.username.toLowerCase().trim();
+        if (lowercaseUsername == lowercaseKey) {
+          foundClients.push(client);
+          continue;
+        }
+      }
+
+      if (info.displayName && !info.loggedOn) {
+        var lowercaseDisplayName = info.displayName.toLowerCase().trim();
+        if (lowercaseDisplayName == lowercaseKey) {
+          foundClients.push(client);
+        }
       }
     }
-
-    //Else, return empty array.
-    return [];
+    return foundClients; // Return an array of all matches
   }
 
   commandIsAllowed(client, commandName) {
@@ -629,6 +830,19 @@ class CommandHandler {
 
   handleMessage(client, message) {
     var { displayName, username, color } = this.getUserInfo(client);
+
+    if (client._rrMutedUntil && client._rrMutedUntil > Date.now()) {
+      // User is muted. Send them a reminder and stop processing their message.
+      var timeLeft = Math.ceil((client._rrMutedUntil - Date.now()) / 1000 / 60);
+      this.sendFeedbackLocal(
+        client,
+        `[bold][color css=red]You are muted. You cannot send messages or commands for ${timeLeft} more minute(s).[/color][/bold]`
+      );
+      return CommandHandler.HIDE_MESSAGE; // Stop here!
+    } else if (client._rrMutedUntil) {
+      // Mute expired, clear it
+      client._rrMutedUntil = null;
+    }
 
     var trimmedMessage = message.trim();
 

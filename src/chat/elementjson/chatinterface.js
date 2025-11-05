@@ -32,7 +32,7 @@ var reactionEmojis = [
   "🧢",
   "💔",
   "🥀",
-  "[emoji src=images/mc-parrot.png@rrp]",
+  "[emoji src=images/hashbrowncat.png@rrp]",
   "[emoji src=images/sadsponge.png@rrp]",
   "[emoji src=images/thisisfine.png@rrp]",
 ];
