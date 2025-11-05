@@ -577,7 +577,7 @@ class CommandHandler {
         var answer = responses[Math.floor(Math.random() * responses.length)];
 
         sendFeedbackGlobal(
-          `🎱 [bold]${userInfo.info}[/bold] asked: "[italic]${question}[/italic]"[br]The magic 8-ball says: [bold]${answer}[/bold]`
+          `🎱 [bold]${userInfo.name}[/bold] asked: "[italic]${question}[/italic]"[br]The magic 8-ball says: [bold]${answer}[/bold]`
         );
 
         return CommandHandler.HIDE_MESSAGE;

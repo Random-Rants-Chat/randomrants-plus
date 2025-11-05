@@ -21,7 +21,7 @@ function generateDiv(
 ) {
   var pfp = accountHelper.getProfilePictureURL(username);
   if (!username) {
-    pfp = accountHelper.getProfilePictureURL(displayName);
+    pfp = accountHelper.getProfilePictureURL("");
   }
   var ownerNoteThing = {
     element: "div",
