@@ -32,11 +32,10 @@ class ImageViewerDialog {
             element: "div",
             className: "whiteBox centerMiddle popupDialogAnimation",
             style: {
-              overflowY: "auto",
-              maxHeight: "calc(100vh - 100px)",
-              maxWidth: "calc(100vw - 300px)",
-              minWidth: "360px",
-              minHeight: "360px",
+              maxHeight: "calc(100svh - 100px)",
+              maxWidth: "calc(100svw - 300px)",
+              minWidth: "50px",
+              minHeight: "50px",
             },
             children: [
               {
@@ -44,12 +43,15 @@ class ImageViewerDialog {
                 style: {
                   display: "flex",
                   flexDirection: "column",
+                  width: "100%",
+                  height: "100%",
                 },
                 children: [
                   {
                     element: "div",
                     style: {
                       display: "block",
+                      width: "100%",
                     },
                     children: [
                       {
@@ -57,6 +59,7 @@ class ImageViewerDialog {
                         style: {
                           fontSize: "30px",
                           fontWeight: "bold",
+                          textAlign: "center",
                         },
                         textContent: "Attached image",
                       },
@@ -66,22 +69,39 @@ class ImageViewerDialog {
                   {
                     element: "div",
                     style: {
-                      margin: "8px 0",
                       padding: "8px",
-                      backgroundColor: "#fffae6",
-                      border: "1px solid #f0e68c",
                       borderRadius: "6px",
-                      fontSize: "14px",
-                      color: "#665500",
+                      background: "black",
                       flexGrow: "1",
+                      flexShrink: "0",
+                      overflow: "auto",
+                      maxHeight: "calc(100svh - 250px)",
+                      minHeight: "300px",
+                      justifyContent: "center",
                     },
-                    children: [],
+                    children: [
+                      {
+                        element: "img",
+                        src: "",
+                        style: {
+                          pointerEvents: "none",
+                          objectFit: "contain",
+                          minWidth: "300px",
+                          minHeight: "300px",
+                          position: "relative",
+                        },
+                        GPWhenCreated: function (elm) {
+                          _this.imageElement = elm;
+                        },
+                      },
+                    ],
                   },
 
                   {
                     element: "div",
                     style: {
                       display: "flex",
+                      alignItems: "center",
                     },
                     children: [
                       {
@@ -89,13 +109,19 @@ class ImageViewerDialog {
                         className: "divButton roundborder",
                         textContent: "Download",
                         style: {
-                          flexGrow: "1",
+                          margin: "2px",
                         },
                         eventListeners: [
                           {
                             event: "click",
                             func: function () {
-                              _this.dialogElement.hidden = true;
+                              var a = document.createElement("a");
+                              a.href = _this.imageElement.src;
+                              a.download = _this.imageElement.src
+                                .slice("/")
+                                .pop();
+                              a.click();
+                              a.remove();
                             },
                           },
                         ],
@@ -105,7 +131,7 @@ class ImageViewerDialog {
                         className: "divButton roundborder",
                         textContent: "Close",
                         style: {
-                          flexGrow: "1",
+                          margin: "2px",
                         },
                         eventListeners: [
                           {
@@ -126,8 +152,9 @@ class ImageViewerDialog {
       },
     ])[0];
   }
-  showImage() {
-    dialogElement.hidden = true;
+  showImage(src) {
+    this.imageElement.src = src;
+    this.dialogElement.hidden = false;
   }
 }
 

@@ -1,6 +1,7 @@
 var elements = require("../../gp2/elements.js");
 var AElement = require("../../gp2/aelement.js");
 var { isSafeURLOrDomain } = require("../../safehtmlencode.js");
+var imageViewer = require("./viewers/image.js");
 
 function getBracketCodeJSON(
   inputText = "",
@@ -274,6 +275,7 @@ function getBracketCodeJSON(
                 objectFit: "contain",
                 width: IMAGE_EMOJI_SIZE + "px",
                 height: IMAGE_EMOJI_SIZE + "px",
+                pointerEvents: "none",
               },
               src: url,
             });
@@ -287,36 +289,44 @@ function getBracketCodeJSON(
         if (name == "image" && !exists) {
           exists = true;
           if (isSafeURLOrDomain(value.trim())) {
-            elm.children.push({
-              element: "div",
-              className: "divButton roundborder",
-              style: {
-                padding: "4px 4px",
-              },
-              eventListeners: [
-                {
-                  event: "click",
-                  func: async function () {},
+            (function (value) {
+              elm.children.push({
+                element: "div",
+                className: "divButton roundborder",
+                style: {
+                  padding: "4px 4px",
+                  textAlign: "center",
+                  fontSize: "10px",
                 },
-              ],
-              children: [
-                {
-                  element: "img",
-                  src: value.trim(),
-                  style: {
-                    width: "40px",
-                    height: "40px",
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      imageViewer.showImage(value);
+                    },
                   },
-                },
-                {
-                  element: "br",
-                },
-                {
-                  element: "b",
-                  textContent: "Image",
-                },
-              ],
-            });
+                ],
+                children: [
+                  {
+                    element: "img",
+                    src: value.trim(),
+                    style: {
+                      width: "40px",
+                      height: "40px",
+                      objectFit: "contain",
+                      pointerEvents: "none",
+                    },
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "b",
+                    textContent: "Image",
+                  },
+                ],
+              });
+            })(value);
           }
           elm.children.push({
             element: "span",

@@ -2,6 +2,7 @@ var loader = require("./loadingscreen.js");
 
 var isLoading = true;
 var loadingScreen = loader.doLoadingScreen();
+document.body.append(loadingScreen);
 
 document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", () => {
@@ -15,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
 navigation.addEventListener("navigate", (event) => {
   var destinationUrl = event.destination.url;
   var navigationType = event.navigationType;
+  if (event.downloadRequest) {
+    return; // Don't show loading screen for downloads
+  }
 
   if (!isLoading) {
     isLoading = true;
@@ -31,6 +35,13 @@ navigation.addEventListener("navigatesuccess", (event) => {
 
 navigation.addEventListener("navigateerror", (event) => {
   if (isLoading) {
+    isLoading = false;
+    loadingScreen.remove();
+  }
+});
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && isLoading) {
     isLoading = false;
     loadingScreen.remove();
   }
