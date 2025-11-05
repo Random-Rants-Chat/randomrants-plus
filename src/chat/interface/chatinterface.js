@@ -287,6 +287,8 @@ var KnownUserList = require("./userlist-menu.js");
       }
     }
 
+    var chatMessageGen = require("./chatmessagegen.js");
+
     function putMessage(
       username,
       displayName,
@@ -306,12 +308,12 @@ var KnownUserList = require("./userlist-menu.js");
       }
 
       if (isNew) {
-        var messageJsonElements = shtml.getBracketCodeJSON(message, {
+        var messageJsonElements = chatMessageGen(message, {
           vineboom: browserCommands._bracket_vineboom_sound,
           badtothebone: browserCommands._bracket_badtothebone_sound,
         });
       } else {
-        var messageJsonElements = shtml.getBracketCodeJSON(message, {
+        var messageJsonElements = chatMessageGen(message, {
           vineboom: function () {},
           badtothebone: function () {},
         });

@@ -598,7 +598,7 @@ async function doMediaSelect() {
                       surroundFlexboxDiv([
                         {
                           element: "img",
-                          src: "images/screenshare.svg",
+                          src: "images/cast.svg",
                           style: { height: "25px" },
                         },
                         {
@@ -650,7 +650,7 @@ async function doMediaSelect() {
                       surroundFlexboxDiv([
                         {
                           element: "img",
-                          src: "images/screenshare.svg",
+                          src: "images/cast.svg",
                           style: { height: "25px" },
                         },
                         {
@@ -901,7 +901,7 @@ async function doMediaSelect() {
                       surroundFlexboxDiv([
                         {
                           element: "img",
-                          src: "images/brush.svg",
+                          src: "images/draw.svg",
                           style: { height: "25px" },
                         },
                         {

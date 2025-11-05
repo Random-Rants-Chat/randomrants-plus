@@ -401,7 +401,7 @@ var rightSide = {
         children: [
           {
             element: "img",
-            src: "images/file.svg",
+            src: "images/attach.svg",
             style: {
               height: "25px",
             },

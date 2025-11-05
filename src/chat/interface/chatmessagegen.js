@@ -1,115 +1,6 @@
-var dialogs = require("./dialogs.js");
-var emojiURLs = require("./emoji-urls");
-
-var cacheBuster = Math.round(Date.now());
-
-function getSafeHTML(unsafeText) {
-  var safeText = "";
-  var i = 0;
-  while (i < unsafeText.length) {
-    switch (unsafeText[i]) {
-      case "\n":
-        safeText += "<br>";
-        break;
-      case " ":
-        if (unsafeText[i + 1] == " ") {
-          safeText += "&nbsp;";
-        } else {
-          safeText += " ";
-        }
-        break;
-      case "\t":
-        if (unsafeText[i - 1] != "\t") safeText += " ";
-        break;
-      case "&":
-        safeText += "&amp;";
-        break;
-      case '"':
-        safeText += "&quot;";
-        break;
-      case ">":
-        safeText += "&gt;";
-        break;
-      case "<":
-        safeText += "&lt;";
-        break;
-      default:
-        safeText += unsafeText[i]; //Part of text seems safe to just put plain.
-    }
-    i += 1;
-  }
-  return safeText;
-}
-
-function isSafeURLOrDomain(urlOrDomain) {
-  if (!urlOrDomain || typeof urlOrDomain !== "string") {
-    return false;
-  }
-
-  let fullURL = urlOrDomain;
-
-  const protocolSeparatorIndex = fullURL.indexOf("://");
-  let hasExplicitProtocol = false;
-
-  if (protocolSeparatorIndex > 0) {
-    const protocolPart = fullURL
-      .substring(0, protocolSeparatorIndex)
-      .toLowerCase();
-
-    if (protocolPart.indexOf("/") === -1 && protocolPart.indexOf(" ") === -1) {
-      hasExplicitProtocol = true;
-    }
-  }
-
-  if (!hasExplicitProtocol) {
-    fullURL = "https://" + fullURL;
-  }
-
-  try {
-    const urlObject = new URL(fullURL);
-    const protocol = urlObject.protocol.toLowerCase();
-
-    const safeProtocols = ["http:", "https:", "mailto:"];
-
-    if (safeProtocols.includes(protocol)) {
-      return !!urlObject.hostname;
-    }
-
-    const dangerousProtocols = ["javascript:", "data:", "vbscript:", "file:"];
-    if (dangerousProtocols.includes(protocol)) {
-      return false;
-    }
-
-    return false;
-  } catch (e) {
-    return false;
-  }
-}
-
-function bracketCodeRemoval(text) {
-  var i = 0;
-  var removing = false;
-  var newText = "";
-  while (i < text.length) {
-    if (text[i] == "[") {
-      removing = true;
-    } else {
-      if (text[i] == "]") {
-        removing = false;
-      } else {
-        if (!removing) {
-          newText += text[i];
-        }
-      }
-    }
-
-    i += 1;
-  }
-
-  return newText;
-}
-
-var elements = require("./gp2/elements.js");
+var elements = require("../../gp2/elements.js");
+var AElement = require("../../gp2/aelement.js");
+var { isSafeURLOrDomain } = require("../../safehtmlencode.js");
 
 function getBracketCodeJSON(
   inputText = "",
@@ -397,8 +288,34 @@ function getBracketCodeJSON(
           exists = true;
           if (isSafeURLOrDomain(value.trim())) {
             elm.children.push({
-              element: "img",
-              src: value.trim(),
+              element: "div",
+              className: "divButton roundborder",
+              style: {
+                padding: "4px 4px",
+              },
+              eventListeners: [
+                {
+                  event: "click",
+                  func: async function () {},
+                },
+              ],
+              children: [
+                {
+                  element: "img",
+                  src: value.trim(),
+                  style: {
+                    width: "40px",
+                    height: "40px",
+                  },
+                },
+                {
+                  element: "br",
+                },
+                {
+                  element: "b",
+                  textContent: "Image",
+                },
+              ],
             });
           }
           elm.children.push({
@@ -474,20 +391,4 @@ function getBracketCodeJSON(
   return output;
 }
 
-function getMessageHTML(inputstr, noBracketCode, otherBracketCodes = {}) {
-  if (noBracketCode) {
-    return getSafeHTML(inputstr);
-  }
-  var div = elements.createElementsFromJSON([getBracketCodeJSON(inputstr)])[0];
-  var inner = div.innerHTML;
-  div.remove();
-  return inner;
-}
-
-module.exports = {
-  getSafeHTML,
-  getMessageHTML,
-  bracketCodeRemoval,
-  getBracketCodeJSON,
-  isSafeURLOrDomain,
-};
+module.exports = getBracketCodeJSON;
