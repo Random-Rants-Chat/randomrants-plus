@@ -466,6 +466,13 @@ var randomRantsAbout = [
       {
         element: "p",
         textContent:
+          "There is also other cool modes, like scratch cloud mini-games (we use modified TurboWarp) for your room, and also a shared painting canvas.",
+        style: { fontSize: "1em", marginBottom: "0.5em" },
+        children: [],
+      },
+      {
+        element: "p",
+        textContent:
           "Video streams (cameras, microphones, screenshares, etc) go straight to WebRTC, no sus servers watching your face or screen.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
