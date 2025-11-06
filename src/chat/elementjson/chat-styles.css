@@ -181,22 +181,6 @@
     29%
   );
 
-  --soundboard-button-bgcolor: hsl(
-    var(--accent-default-hue),
-    var(--accent-default-saturation),
-    63%
-  );
-  --soundboard-button-border-color: hsl(
-    var(--accent-default-hue),
-    var(--accent-default-saturation),
-    33%
-  );
-  --soundboard-button-hover-bgcolor: hsl(
-    var(--accent-default-hue),
-    var(--accent-default-saturation),
-    75%
-  );
-
   --soundboard-stop-button-bgcolor: hsl(0, 100%, 43%);
   --soundboard-stop-button-border-color: hsl(0, 100%, 23%);
   --soundboard-stop-button-hover-bgcolor: hsl(0, 100%, 50%);
@@ -654,6 +638,18 @@ body {
 }
 
 .soundboardButton {
+  --soundboard-button-bgcolor: hsl(var(--button-hue), var(--button-sat), 63%);
+  --soundboard-button-border-color: hsl(
+    var(--button-hue),
+    var(--button-sat),
+    33%
+  );
+  --soundboard-button-hover-bgcolor: hsl(
+    var(--button-hue),
+    var(--button-sat),
+    75%
+  );
+
   min-width: 150px;
   width: fit-content;
   font-size: 20px;

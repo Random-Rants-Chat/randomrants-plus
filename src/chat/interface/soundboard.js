@@ -80,6 +80,8 @@ var dom = elements.createElementsFromJSON([
               width: "100%",
               display: "flex",
               flexDirection: "column",
+              minWidth: "500px",
+              minHeight: "800px",
             },
             children: [
               {
@@ -204,30 +206,33 @@ var dom = elements.createElementsFromJSON([
                   { element: "div", className: "sep1" },
                 ],
               },
+
+              {
+                element: "div",
+                className: "soundboardButtonStop",
+                style: {
+                  width: "100%",
+                  flexShrink: "0",
+                },
+                children: [
+                  {
+                    element: "span",
+                    textContent: "Stop all sounds",
+                  },
+                ],
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: function () {
+                      sb.onSoundStopClick();
+                    },
+                  },
+                ],
+              },
               {
                 element: "div",
                 className: "soundboardButtons",
                 gid: "soundboardButtonsContainer",
-                children: [
-                  {
-                    element: "div",
-                    className: "soundboardButtonStop",
-                    children: [
-                      {
-                        element: "span",
-                        textContent: "Stop all sounds",
-                      },
-                    ],
-                    eventListeners: [
-                      {
-                        event: "click",
-                        func: function () {
-                          sb.onSoundStopClick();
-                        },
-                      },
-                    ],
-                  },
-                ],
               },
             ],
           },
@@ -244,10 +249,15 @@ sb.onSoundButtonClick = function () {};
 sb.onSoundStopClick = function () {};
 
 function createSoundboardButtonDiv(sound, index) {
+  var buttonHue = (index * 20) % 360;
   var dom = elements.createElementsFromJSON([
     {
       element: "div",
       className: "soundboardButton",
+      styleProperties: {
+        "--button-hue": buttonHue + "deg",
+        "--button-sat": "20%",
+      },
       children: [
         {
           element: "div",
