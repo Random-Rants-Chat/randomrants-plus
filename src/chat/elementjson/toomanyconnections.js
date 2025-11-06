@@ -68,6 +68,20 @@ module.exports = {
                   textContent: "Reconnect anyway",
                   gid: "reconnectTooManyError",
                 },
+                {
+                  element: "a",
+                  style: {
+                    all: "unset",
+                  },
+                  href: "./chat",
+                  children: [
+                    {
+                      element: "div",
+                      className: "divButton roundborder",
+                      textContent: "Go to manage rooms screen",
+                    },
+                  ],
+                },
               ],
             },
           ],

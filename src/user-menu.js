@@ -2,6 +2,14 @@ var elements = require("./gp2/elements.js");
 var AElement = require("./gp2/aelement.js");
 var accountHelper = require("./accounthelper/index.js");
 
+function getHrefURLOrNormalURL (normalURL) {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get("href")) {
+    return (normalURL+"?href=" + params.get("href"));
+  }
+  return normalURL;
+}
+
 var elementJSON = [
   {
     element: "div",
@@ -16,32 +24,19 @@ elements.appendElements(
   elements.createElementsFromJSON(elementJSON)
 );
 
-var customizeButton = {
-  element: "div",
-  className: "menuBarItem",
-  textContent: "Customise",
-  gid: "menu_customize",
-  eventListeners: [
-    {
-      event: "click",
-      func: () => {
-        AElement.openLink("/myaccount");
-      },
-    },
-  ],
-};
-
 var signInButton = {
-  element: "div",
+  element: "a",
   className: "menuBarItem",
   textContent: "Sign in",
   gid: "menu_signIn",
+  href: getHrefURLOrNormalURL("./signin"),
 };
 var signUpButton = {
-  element: "div",
+  element: "a",
   className: "menuBarItem",
   textContent: "Sign up",
   gid: "menu_signUp",
+  href: getHrefURLOrNormalURL("./signup"),
 };
 
 var myAccountButton = {
@@ -50,44 +45,14 @@ var myAccountButton = {
   gid: "menu_myAccount",
 };
 
-function handleSignedOutAccountButtons() {
-  var params = new URLSearchParams(window.location.search);
-  var signInButton = elements.getGPId("menu_signIn");
-
-  signInButton.addEventListener("click", () => {
-    if (params.get("href")) {
-      AElement.openLink("/signin?href=" + params.get("href"));
-      return;
-    }
-    AElement.openLink("/signin");
-  });
-
-  var signUpButton = elements.getGPId("menu_signUp");
-
-  signUpButton.addEventListener("click", () => {
-    if (params.get("href")) {
-      AElement.openLink("/signup?href=" + params.get("href"));
-      return;
-    }
-    AElement.openLink("/signup");
-  });
-}
-
-function handleUserAccountButtons() {
-  var myAccountButton = elements.getGPId("menu_myAccount");
-
-  myAccountButton.addEventListener("click", () => {
-    AElement.openLink("/myaccount");
-  });
-}
-
 (async function () {
   var validated = await accountHelper.checkSessionCookie();
   if (validated) {
     myAccountButton = {
-      element: "div",
+      element: "a",
       gid: "menu_myAccount",
       className: "menuBarItemUsername",
+      href: "./myaccount",
       style: {
         display: "flex",
       },
@@ -150,12 +115,10 @@ function handleUserAccountButtons() {
       elements.getGPId("menu_bar"),
       elements.createElementsFromJSON([myAccountButton])
     );
-    handleUserAccountButtons();
   } else {
     elements.appendElements(
       elements.getGPId("menu_bar"),
       elements.createElementsFromJSON([signInButton, signUpButton])
     );
-    handleSignedOutAccountButtons();
   }
 })();

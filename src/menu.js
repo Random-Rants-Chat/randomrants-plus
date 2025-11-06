@@ -9,7 +9,7 @@ var elementJSON = [
     children: [
       //Home button
       {
-        element: "div",
+        element: "a",
         className: "menuBarItemLogo",
         children: [
           {
@@ -20,14 +20,7 @@ var elementJSON = [
             },
           },
         ],
-        eventListeners: [
-          {
-            event: "click",
-            func: function () {
-              AElement.openLink("/");
-            },
-          },
-        ],
+        href: "./",
         GPWhenCreated: function (el) {
           el.addEventListener("mouseenter", () => {
             el.classList.remove("returning");
@@ -57,78 +50,43 @@ var elementJSON = [
       },
       //Chat button.
       {
-        element: "div",
+        element: "a",
         className: "menuBarItem",
         textContent: "Chat",
-        eventListeners: [
-          {
-            event: "click",
-            func: function () {
-              AElement.openLink("/chat");
-            },
-          },
-        ],
+        href: "./chat"
       },
       //Quick join button.
       {
-        element: "div",
+        element: "a",
         className: "menuBarItem",
         textContent: "Quick join",
-        eventListeners: [
-          {
-            event: "click",
-            func: function () {
-              AElement.openLink("/join");
-            },
-          },
-        ],
+        href: "./join"
       },
       //About button.
       {
-        element: "div",
+        element: "a",
         className: "menuBarItem",
         textContent: "About",
-        eventListeners: [
-          {
-            event: "click",
-            func: function () {
-              AElement.openLink("/about");
-            },
-          },
-        ],
+        href: "./about"
       },
       //News button.
       {
-        element: "div",
+        element: "a",
         className: "menuBarItem",
         textContent: "Site News",
-        eventListeners: [
-          {
-            event: "click",
-            func: function () {
-              AElement.openLink("/sitenews");
-            },
-          },
-        ],
+        href: "./sitenews"
       },
       //Documentary button.
       {
-        element: "div",
+        element: "a",
         className: "menuBarItem",
         textContent: "Site Documentary",
-        eventListeners: [
-          {
-            event: "click",
-            func: function () {
-              AElement.openInNewTab("https://randomrants-docs.onrender.com");
-            },
-          },
-        ],
+        href: "https://randomrants-docs.onrender.com",
+        target: "_blank"
       },
     ],
   },
   {
-    //Since using position:fixed removes spacing, manually just add it by using a invisible div element.
     element: "div",
     style: {
       width: "100%",

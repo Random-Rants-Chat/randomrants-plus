@@ -102,37 +102,39 @@ module.exports = {
           },
           children: [
             {
-              element: "div",
-              className: "divButton roundborder",
-              textContent: "Sign in",
-              eventListeners: [
+              element: "a",
+              style: {
+                all: "unset",
+              },
+              href:
+                "./signin?href=" +
+                encodeURIComponent(
+                  window.location.pathname + window.location.hash
+                ),
+              children: [
                 {
-                  event: "click",
-                  func: function () {
-                    window.location.href =
-                      "/signin?href=" +
-                      encodeURIComponent(
-                        window.location.pathname + window.location.hash
-                      );
-                  },
+                  element: "div",
+                  className: "divButton roundborder",
+                  textContent: "Sign in",
                 },
               ],
             },
             { element: "div", style: { width: "2px" } },
             {
-              element: "div",
-              className: "divButton roundborder",
-              textContent: "Sign up",
-              eventListeners: [
+              element: "a",
+              style: {
+                all: "unset",
+              },
+              href:
+                "./signup?href=" +
+                encodeURIComponent(
+                  window.location.pathname + window.location.hash
+                ),
+              children: [
                 {
-                  event: "click",
-                  func: function () {
-                    window.location.href =
-                      "/signup?href=" +
-                      encodeURIComponent(
-                        window.location.pathname + window.location.hash
-                      );
-                  },
+                  element: "div",
+                  className: "divButton roundborder",
+                  textContent: "Sign up",
                 },
               ],
             },

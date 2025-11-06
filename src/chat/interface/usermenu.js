@@ -4,6 +4,14 @@ var accountHelper = require("../../accounthelper/index.js");
 var RTNotifications = require("./notifications/index.js");
 var KnownUserList = require("./userlist-menu.js");
 
+function getHrefURLOrNormalURL (normalURL) {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get("href")) {
+    return (normalURL+"?href=" + params.get("href"));
+  }
+  return normalURL;
+}
+
 var elementJSON = [];
 
 elements.appendElements(
@@ -12,59 +20,27 @@ elements.appendElements(
 );
 
 var signInButton = {
-  element: "div",
+  element: "a",
   className: "menuBarItem",
   textContent: "Sign in",
   gid: "menu_signIn",
+  href: getHrefURLOrNormalURL("./signin")
 };
 var signUpButton = {
-  element: "div",
+  element: "a",
   className: "menuBarItem",
   textContent: "Sign up",
   gid: "menu_signUp",
+  href: getHrefURLOrNormalURL("./signup")
 };
 
-var myAccountButton = {
-  element: "div",
-  className: "menuBarItem",
-  gid: "menu_myAccount",
-};
-
-function handleSignedOutAccountButtons() {
-  var params = new URLSearchParams(window.location.search);
-  var signInButton = elements.getGPId("menu_signIn");
-
-  signInButton.addEventListener("click", () => {
-    if (params.get("href")) {
-      AElement.openLink("/signin?href=" + params.get("href"));
-      return;
-    }
-    AElement.openLink("/signin");
-  });
-
-  var signUpButton = elements.getGPId("menu_signUp");
-
-  signUpButton.addEventListener("click", () => {
-    if (params.get("href")) {
-      AElement.openLink("/signup?href=" + params.get("href"));
-      return;
-    }
-    AElement.openLink("/signup");
-  });
-}
-
-function handleUserAccountButtons() {
-  var myAccountButton = elements.getGPId("menu_myAccount");
-
-  myAccountButton.addEventListener("click", () => {
-    AElement.openInNewTab("/myaccount");
-  });
-}
+var myAccountButton = {};
 
 var validated = accountHelper.getCurrentValidationState();
 if (validated) {
   myAccountButton = {
-    element: "div",
+    element: "a",
+    href: "./myaccount",
     gid: "menu_myAccount",
     className: "menuBarItemUsername",
     style: {
@@ -134,11 +110,9 @@ if (validated) {
     ])
   );
   RTNotifications.startup();
-  handleUserAccountButtons();
 } else {
   elements.appendElements(
     elements.getGPId("menuBar"),
     elements.createElementsFromJSON([signInButton, signUpButton])
   );
-  handleSignedOutAccountButtons();
 }

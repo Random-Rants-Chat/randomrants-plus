@@ -10,6 +10,15 @@ var elements = {
       elm.append(appendElm);
     }
   },
+  getStylelessAJSON(props = {}) {
+    return {
+      element: "a",
+      style: {
+        all: "unset"
+      },
+      ...props
+    };
+  },
   removeAllChildren: function (elm) {
     Array.from(elm.children).forEach((elm) => elm.remove());
   },

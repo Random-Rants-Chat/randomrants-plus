@@ -9,7 +9,7 @@ var menuBar = elements.getGPId("menuBar");
 
 var menuItems = [
   {
-    element: "div",
+    element: "a",
     className: "menuBarItemLogo",
     children: [
       {
@@ -20,14 +20,7 @@ var menuItems = [
         },
       },
     ],
-    eventListeners: [
-      {
-        event: "click",
-        func: function () {
-          AElement.openLink("/");
-        },
-      },
-    ],
+    href: "./",
     GPWhenCreated: function (el) {
       el.addEventListener("mouseenter", () => {
         el.classList.remove("returning");
@@ -56,7 +49,7 @@ var menuItems = [
     },
   },
   {
-    element: "div",
+    element: "a",
     className: "menuBarItem",
     textContent: "Manage rooms",
     eventListeners: [
@@ -69,33 +62,17 @@ var menuItems = [
     ],
   },
   {
-    element: "div",
+    element: "a",
     className: "menuBarItem",
     textContent: "Quick join",
-    eventListeners: [
-      {
-        event: "click",
-        func: function () {
-          AElement.openLink("/join");
-        },
-      },
-    ],
+    href: "./join"
   },
   //Command Docs button.
   {
-    element: "div",
+    element: "a",
     className: "menuBarItem",
     textContent: "Command Docs",
-    eventListeners: [
-      {
-        event: "click",
-        func: function () {
-          AElement.openInNewTab(
-            "https://randomrants-docs.onrender.com/commands/"
-          );
-        },
-      },
-    ],
+    href: "https://randomrants-docs.onrender.com/commands/"
   },
   {
     element: "div",

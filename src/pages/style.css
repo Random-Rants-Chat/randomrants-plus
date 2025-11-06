@@ -33,6 +33,7 @@ body {
 .menuBarItem,
 .menuBarItemUsername,
 .menuBarItemLogo {
+  all: unset;
   color: #000;
   height: 40px;
   display: flex;
@@ -42,13 +43,14 @@ body {
   user-select: none;
   padding: 0 8px;
   transition:
-    background-color 0.2s,
-    color 0.2s;
+    background-color 0.05s,
+    color 0.05s;
 }
 
 .menuBarItem:hover {
   color: #ebebeb;
   filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
+  text-decoration: underline;
 }
 
 .menuBarItemUsername:hover {

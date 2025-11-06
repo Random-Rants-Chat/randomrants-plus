@@ -79,15 +79,16 @@ module.exports = {
                   element: "br",
                 },
                 {
-                  element: "div",
-                  className: "divButton roundborder",
-                  textContent: "Find another room",
-                  eventListeners: [
+                  element: "a",
+                  style: {
+                    all: "unset",
+                  },
+                  href: "./chat",
+                  children: [
                     {
-                      event: "click",
-                      func: function () {
-                        window.location.href = "/chat"; //Goes to chat home page
-                      },
+                      element: "div",
+                      className: "divButton roundborder",
+                      textContent: "Find another room",
                     },
                   ],
                 },
