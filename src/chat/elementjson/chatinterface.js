@@ -6,37 +6,6 @@ function surroundFlexboxDiv(c) {
   };
 }
 
-var reactionEmojis = [
-  "👍",
-  "😂",
-  "🔥",
-  "❤️",
-  "🤯",
-  "🤔",
-  "💀",
-  "🎉",
-  "🗿",
-  "🤣",
-  "👋",
-  "🤡",
-  "🥲",
-  "😭",
-  "🗣",
-  "💯",
-  "👑",
-  "✨",
-  "🤠",
-  "🙌",
-  "😬",
-  "😝",
-  "🧢",
-  "💔",
-  "🥀",
-  "[emoji src=images/hashbrowncat.png@rrp]",
-  "[emoji src=images/sadsponge.png@rrp]",
-  "[emoji src=images/thisisfine.png@rrp]",
-];
-
 var chatEmojis = require("../../chat-emojis.js");
 var shtml = require("../../safehtmlencode.js");
 
@@ -135,45 +104,6 @@ var leftSide = {
                     transform: "translate(-50%, 0px)",
                     paddingBottom: "4px",
                   },
-                  children: reactionEmojis.map((emoji) => {
-                    return {
-                      element: "div",
-                      className:
-                        "divButton roundborder reactionButtonAnimation",
-                      style: {
-                        margin: "0px 2px",
-                        userSelect: "none",
-                        flexShrink: 0,
-                        position: "relative",
-                        padding: "4px",
-                        fontSize: "30px",
-                      },
-                      children: [
-                        {
-                          element: "div",
-                          style: {
-                            width: "40px",
-                            height: "40px",
-                          },
-                        },
-                        {
-                          element: "div",
-                          style: {
-                            textAlign: "center",
-                            lineHeight: "40px",
-                            position: "absolute",
-                            top: "4px",
-                            left: "4px",
-                            width: "40px",
-                            height: "40px",
-                          },
-                          className: "reactionButtonImage",
-                          children: [shtml.getBracketCodeJSON(emoji, {}, 40)],
-                        },
-                      ],
-                      realContent: emoji,
-                    };
-                  }),
                 },
                 {
                   element: "div",

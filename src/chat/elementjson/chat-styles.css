@@ -1711,10 +1711,10 @@ a {
 }
 
 .reactionButtonAnimation:hover > .reactionButtonImage {
-  transform: scale(1.2);
+  transform: scale(1.12);
 }
 
 .reactionButtonAnimation:active > .reactionButtonImage {
-  transform: scale(1.1);
+  transform: scale(1.07);
   transition: 0.05s;
 }
