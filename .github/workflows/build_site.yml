@@ -126,3 +126,47 @@ jobs:
           git add -f public
           git commit -m "${{ github.sha }} [Weekly Deploy]" || echo "No changes to commit"
           git push -f origin deploy-weekly
+          
+  deploy_production:
+    name: 🌍 Deploy to 'deploy-monthly' (Production)
+    # This 'if' check runs for the monthly cron OR a manual run
+    if: (github.event_name == 'schedule' && github.event.schedule == '0 4 1 * *') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Check for new commits vs. 'deploy-monthly'
+        id: check_commits
+        run: |
+          MAIN_SHA=$(git rev-parse main)
+          if git rev-parse --verify origin/deploy-monthly >/dev/null 2>&1; then
+            DEPLOY_MSG=$(git log origin/deploy-monthly -1 --pretty=%B)
+            LAST_DEPLOY_SHA=$(echo "$DEPLOY_MSG" | awk '{print $1}')
+            if [ "$MAIN_SHA" == "$LAST_DEPLOY_SHA" ]; then
+              echo "No new commits for Production. Skipping."
+              echo "needs_build=false" >> $GITHUB_OUTPUT
+            else
+              echo "New commits found for Production. Building."
+              echo "needs_build=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "First Production build. Proceeding."
+            echo "needs_build=true" >> $GITHUB_OUTPUT
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.check_commits.outputs.needs_build == 'true'
+        with: { node-version: 16.x }
+      - run: |
+          npm install
+          npm run build
+        if: steps.check_commits.outputs.needs_build == 'true'
+      - name: Commit and Push to 'deploy-monthly'
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B deploy-monthly
+          git add .
+          git add -f public
+          git commit -m "${{ github.sha }} [Monthly Production Deploy]" || echo "No changes to commit"
+          git push -f origin deploy-monthly
