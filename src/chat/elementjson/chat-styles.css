@@ -1708,3 +1708,16 @@ a {
   height: 100%;
   z-index: 999999999;
 }
+
+.reactionButtonAnimation > .reactionButtonImage {
+  transform: scale(1);
+  transition: 0.1s;
+}
+
+.reactionButtonAnimation:hover > .reactionButtonImage {
+  transform: scale(1.2);
+}
+
+.reactionButtonAnimation:active > .reactionButtonImage {
+  transform: scale(1.1);
+}

@@ -138,12 +138,15 @@ var leftSide = {
                   children: reactionEmojis.map((emoji) => {
                     return {
                       element: "div",
-                      className: "divButton roundborder",
+                      className:
+                        "divButton roundborder reactionButtonAnimation",
                       style: {
                         margin: "0px 2px",
                         userSelect: "none",
                         flexShrink: 0,
-                        fontSize: "25px",
+                        position: "relative",
+                        padding: "4px",
+                        fontSize: "30px",
                       },
                       children: [
                         {
@@ -151,9 +154,20 @@ var leftSide = {
                           style: {
                             width: "40px",
                             height: "40px",
+                          },
+                        },
+                        {
+                          element: "div",
+                          style: {
                             textAlign: "center",
                             lineHeight: "40px",
+                            position: "absolute",
+                            top: "4px",
+                            left: "4px",
+                            width: "40px",
+                            height: "40px",
                           },
+                          className: "reactionButtonImage",
                           children: [shtml.getBracketCodeJSON(emoji, {}, 40)],
                         },
                       ],
