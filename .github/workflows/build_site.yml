@@ -1,20 +1,31 @@
-name: Build Random Rants +
+name: Build and Deploy
 
 on:
+  # Trigger for the 'deploy_immediate' job
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    
+  # Trigger for the 'deploy_weekly' job
+  schedule:
+    - cron: '0 3 * * 0' # 3:00 AM UTC on Sunday
+    
+  # Allows manual triggering (will run the 'deploy_weekly' logic)
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  #----------------------------------------------------
+  # JOB 1: Deploys immediately on every push to main
+  #----------------------------------------------------
+  deploy_immediate:
+    name: 🚀 Deploy to 'deploy' (Immediate)
+    # This 'if' condition is key: only run this job for 'push' events
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     strategy:
       matrix:
         node-version: [16.x]
@@ -33,12 +44,85 @@ jobs:
           npm install
           npm run build
 
-      - name: Commit and Push to Deploy Branch 🚀
+      - name: Commit and Push to 'deploy' branch 🚀
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git checkout -B deploy
           git add .
           git add -f public
-          git commit -m "${{ github.sha }} [Run webpack for commit]" || echo "No changes to commit"
+          git commit -m "${{ github.sha }} [Immediate Deploy]" || echo "No changes to commit"
           git push -f origin deploy
+
+  #----------------------------------------------------
+  # JOB 2: Deploys weekly, only if new commits exist
+  #----------------------------------------------------
+  deploy_weekly:
+    name: 📅 Deploy to 'deploy-weekly' (Weekly)
+    # This 'if' condition is key: only run for 'schedule' or 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout main branch 🛎️
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history to compare main and deploy-weekly
+          fetch-depth: 0
+
+      - name: Check for new commits vs. 'deploy-weekly' 🧐
+        id: check_commits
+        run: |
+          echo "Checking for new commits..."
+          MAIN_SHA=$(git rev-parse main)
+          
+          # Check if origin/deploy-weekly branch exists
+          if git rev-parse --verify origin/deploy-weekly >/dev/null 2>&1; then
+            # Get the last commit message from the 'deploy-weekly' branch
+            DEPLOY_MSG=$(git log origin/deploy-weekly -1 --pretty=%B)
+            # Extract the SHA (which is the first "word" of the message)
+            LAST_DEPLOY_SHA=$(echo "$DEPLOY_MSG" | awk '{print $1}')
+            
+            echo "Latest main SHA: $MAIN_SHA"
+            echo "Last deployed SHA (from deploy-weekly): $LAST_DEPLOY_SHA"
+            
+            if [ "$MAIN_SHA" == "$LAST_DEPLOY_SHA" ]; then
+              echo "No new commits on main since last weekly deploy. Skipping build."
+              echo "needs_build=false" >> $GITHUB_OUTPUT
+            else
+              echo "New commits found. Proceeding with build."
+              echo "needs_build=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "Deploy-weekly branch not found. Proceeding with first build."
+            echo "needs_build=true" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - name: Use Node.js ${{ matrix.node-version }} ⚙️
+        if: steps.check_commits.outputs.needs_build == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and Build Frontend 🏗️
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          npm install
+          npm run build
+
+      - name: Commit and Push to 'deploy-weekly' branch 🚀
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B deploy-weekly
+          git add .
+          git add -f public
+          git commit -m "${{ github.sha }} [Weekly Deploy]" || echo "No changes to commit"
+          git push -f origin deploy-weekly
