@@ -1,0 +1,97 @@
+name: Build Random Rants +
+
+on:
+  # Trigger on push or PR to main (your original triggers)
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  
+  # 1. ADDED: Runs weekly (e.g., every Sunday at 3:00 AM UTC)
+  schedule:
+    - cron: '0 3 * * 0'
+    
+  # Allow running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout main branch 🛎️
+        uses: actions/checkout@v4
+        with:
+          # 2. ADDED: Fetch all history/branches to compare main and deploy
+          fetch-depth: 0
+
+      # 3. ADDED: New step to check if a build is needed on schedule
+      - name: Check for new commits 🧐
+        id: check_commits
+        run: |
+          # Default to true, so push/PR/dispatch triggers always build
+          echo "needs_build=true" >> $GITHUB_OUTPUT
+          
+          # Only run the check if this is a 'schedule' event
+          if [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "Running on schedule, checking for new commits..."
+            MAIN_SHA=$(git rev-parse main)
+            
+            # Check if origin/deploy branch exists
+            if git rev-parse --verify origin/deploy >/dev/null 2>&1; then
+              # Get the last commit message from the deploy branch
+              DEPLOY_MSG=$(git log origin/deploy -1 --pretty=%B)
+              # Extract the SHA (which is the first "word" of the message)
+              LAST_DEPLOY_SHA=$(echo "$DEPLOY_MSG" | awk '{print $1}')
+              
+              echo "Latest main SHA: $MAIN_SHA"
+              echo "Last deployed SHA: $LAST_DEPLOY_SHA"
+              
+              if [ "$MAIN_SHA" == "$LAST_DEPLOY_SHA" ]; then
+                echo "No new commits on main since last deploy. Skipping build."
+                echo "needs_build=false" >> $GITHUB_OUTPUT
+              else
+                echo "New commits found. Proceeding with build."
+                echo "needs_build=true" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "Deploy branch not found. Proceeding with first build."
+              echo "needs_build=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+        shell: bash
+
+      - name: Use Node.js ${{ matrix.node-version }} ⚙️
+        # 4. ADDED: Conditional check
+        if: steps.check_commits.outputs.needs_build == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and Build Frontend 🏗️
+        # 5. ADDED: Conditional check
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          npm install
+          npm run build
+
+      - name: Commit and Push to Deploy Branch 🚀
+        # 6. ADDED: Conditional check
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B deploy-week-night
+          git add .
+          git add -f public
+          git commit -m "${{ github.sha }} [Run webpack for commit]" || echo "No changes to commit"
+          git push -f origin deploy-week-night
