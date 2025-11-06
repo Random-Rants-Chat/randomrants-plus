@@ -1720,4 +1720,5 @@ a {
 
 .reactionButtonAnimation:active > .reactionButtonImage {
   transform: scale(1.1);
+  transition: 0.05s;
 }
