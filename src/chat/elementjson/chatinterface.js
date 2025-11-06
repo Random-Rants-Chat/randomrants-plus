@@ -245,7 +245,7 @@ var rightSide = {
             },
             {
               element: "span",
-              textContent: "Soundboard",
+              textContent: "Meme Soundboard",
             },
           ],
         },
