@@ -1,7 +1,45 @@
 var elements = require("../../gp2/elements.js");
 var AElement = require("../../gp2/aelement.js");
 var { isSafeURLOrDomain } = require("../../safehtmlencode.js");
+var emojiURLs = require("../../emoji-urls.js");
+
 var imageViewer = require("./viewers/image.js");
+var videoViewer = require("./viewers/video.js");
+var audioViewer = require("./viewers/audio.js");
+
+var cacheBuster = Date.now();
+
+function generateBrowserThumbnail(videoFile, timeInSeconds = 2) {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    video.preload = "metadata";
+
+    video.src = videoFile;
+
+    video.onloadeddata = () => {
+      video.currentTime = timeInSeconds;
+    };
+
+    video.onseeked = () => {
+      var canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      resolve(canvas.toDataURL("image/webp", 0.5));
+      video.src = "";
+      video.remove();
+    };
+
+    video.onerror = (err) => {
+      reject(new Error("Video loading error: " + err.message));
+      video.src = "";
+      video.remove();
+    };
+  });
+}
 
 function getBracketCodeJSON(
   inputText = "",
@@ -291,8 +329,8 @@ function getBracketCodeJSON(
           if (isSafeURLOrDomain(value.trim())) {
             (function (value) {
               elm.children.push({
-                element: "div",
-                className: "divButton roundborder",
+                element: "button",
+                className: "roundborder",
                 style: {
                   padding: "4px 4px",
                   textAlign: "center",
@@ -337,11 +375,52 @@ function getBracketCodeJSON(
         if (name == "video" && !exists) {
           exists = true;
           if (isSafeURLOrDomain(value.trim())) {
-            elm.children.push({
-              element: "video",
-              controls: true,
-              src: value.trim(),
-            });
+            (function (value) {
+              elm.children.push({
+                element: "button",
+                className: "roundborder",
+                style: {
+                  padding: "4px 4px",
+                  textAlign: "center",
+                  fontSize: "10px",
+                },
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      videoViewer.showVideo(value);
+                    },
+                  },
+                ],
+                children: [
+                  {
+                    element: "img",
+                    GPWhenCreated: async function (elm) {
+                      elm.src = "images/video-file.svg";
+                      try {
+                        elm.src = await generateBrowserThumbnail(value.trim());
+                      } catch (e) {
+                        elm.src = "images/video-file.svg";
+                        console.warn(e);
+                      }
+                    },
+                    style: {
+                      width: "40px",
+                      height: "40px",
+                      objectFit: "contain",
+                      pointerEvents: "none",
+                    },
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "b",
+                    textContent: "Video",
+                  },
+                ],
+              });
+            })(value);
           }
           elm.children.push({
             element: "span",
@@ -352,11 +431,101 @@ function getBracketCodeJSON(
         if (name == "audio" && !exists) {
           exists = true;
           if (isSafeURLOrDomain(value.trim())) {
-            elm.children.push({
-              element: "video",
-              controls: true,
-              src: value.trim(),
-            });
+            (function (value) {
+              elm.children.push({
+                element: "button",
+                className: "roundborder",
+                style: {
+                  padding: "4px 4px",
+                  textAlign: "center",
+                  fontSize: "10px",
+                },
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      audioViewer.showAudio(value);
+                    },
+                  },
+                ],
+                children: [
+                  {
+                    element: "img",
+                    src: "images/audio-file.svg",
+                    style: {
+                      width: "40px",
+                      height: "40px",
+                      objectFit: "contain",
+                      pointerEvents: "none",
+                    },
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "b",
+                    textContent: "Audio",
+                  },
+                ],
+              });
+            })(value);
+          }
+          elm.children.push({
+            element: "span",
+            textContent: "",
+          });
+        }
+
+        if (name == "download" && !exists) {
+          exists = true;
+          if (isSafeURLOrDomain(value.trim())) {
+            (function (value) {
+              elm.children.push({
+                element: "button",
+                className: "roundborder",
+                style: {
+                  padding: "4px 4px",
+                  textAlign: "center",
+                  fontSize: "10px",
+                  maxWidth: "60px",
+                  textWrap: "wrap",
+                },
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: async function () {
+                      var a = document.createElement("a");
+                      a.href = value.trim();
+                      a.download = decodeURIComponent(
+                        value.trim().split("/").pop()
+                      );
+                      a.click();
+                      a.remove();
+                    },
+                  },
+                ],
+                children: [
+                  {
+                    element: "img",
+                    src: "images/download.svg",
+                    style: {
+                      width: "40px",
+                      height: "40px",
+                      objectFit: "contain",
+                      pointerEvents: "none",
+                    },
+                  },
+                  {
+                    element: "br",
+                  },
+                  {
+                    element: "b",
+                    textContent:
+                      'Download "' + value.trim().split("/").pop() + '"',
+                  },
+                ],
+              });
+            })(value);
           }
           elm.children.push({
             element: "span",

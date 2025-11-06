@@ -57,9 +57,11 @@ var dialog = {
     button.style.height = "fit-content";
     button.style.minWidth = "30px";
     button.style.minHeight = "20px";
-    button.style.padding = "3px";
+    button.style.padding = "4px";
     button.style.cursor = "pointer";
     button.style.display = "inline-block";
+    button.style.margin = "2px 2px";
+    button.style.fontWeight = "bold";
 
     return button;
   },

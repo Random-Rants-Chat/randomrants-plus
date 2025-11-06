@@ -11,7 +11,14 @@ var ogAttachText = messageAttachFilesButton.innerHTML;
 messageAttachFilesButton.addEventListener("click", async function () {
   var buttonChoose = await dialogs.displayButtonChooser(
     "What type of file do you want to attach?",
-    ["Cancel", "Image", "Audio", "Video", "File download link"],
+    [
+      "Cancel",
+      "Image",
+      "Audio",
+      "Video",
+      "Download button",
+      "File download link",
+    ]
   );
 
   var acceptTypes = "";
@@ -29,6 +36,9 @@ messageAttachFilesButton.addEventListener("click", async function () {
     acceptTypes = "video/*";
   }
   if (buttonChoose == 4) {
+    acceptTypes = "";
+  }
+  if (buttonChoose == 5) {
     acceptTypes = "";
   }
 
@@ -51,6 +61,9 @@ messageAttachFilesButton.addEventListener("click", async function () {
             messageInputBox.value += `[video url=${fileurl}]`;
           }
           if (buttonChoose == 4) {
+            messageInputBox.value += `[download url=${fileurl}]`;
+          }
+          if (buttonChoose == 5) {
             if (!messageInputBox.value.endsWith(" ")) {
               messageInputBox.value += " ";
             }
