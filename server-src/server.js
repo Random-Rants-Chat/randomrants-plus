@@ -4932,6 +4932,6 @@ if (process.env.PORT) {
 (async function () {
   await checkServerLoop(); //when it loops back, it accepts the promise.
   server.listen(serverPort, () => {
-	console.log("Server active on http://localhost:" + serverPort);
+		console.log("Server active (port " + serverPort + ")");
   });
 })();

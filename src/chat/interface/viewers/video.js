@@ -75,7 +75,7 @@ class VideoViewerDialog {
                       flexShrink: "0",
                       overflow: "auto",
                       maxHeight: "calc(100svh - 250px)",
-                      minHeight: "300px",
+                      minHeight: "32px",
                       justifyContent: "center",
                     },
                     children: [
