@@ -5,6 +5,14 @@ var userState = require("../userstate.js");
 var uploadFileAsURL = require("../uploadfiles.js");
 var accountHelper = require("../../../accounthelper/index.js");
 
+var isSecure = require("../is-secure.js");
+
+function getScratchCloudURI() {
+	return (isSecure() ? "wss://" : "ws://") +
+          window.location.host +
+          "/scratchcloud/";
+}
+
 var movingMediaTexts = [
   "Loading up the shrek videos...",
   "Finishing up with Jason touch...",
@@ -927,9 +935,6 @@ async function doMediaSelect() {
                           var loadingMediaDiv = doLoadingMediaScreen();
 
                           try {
-                            var response = await fetch(
-                              "https://randomrants-minigame-cloud.onrender.com/"
-                            );
                             loadingMediaDiv.remove();
                             var username = "player";
                             if (accountHelper.getCurrentValidationState()) {
@@ -937,7 +942,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&cloud_host=${getScratchCloudURI()}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}`;
 
                             sws.send(
                               JSON.stringify({
@@ -999,7 +1004,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("isolation-fixed")}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&cloud_host=${getScratchCloudURI()}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("isolation-fixed")}`;
 
                             sws.send(
                               JSON.stringify({
@@ -1060,7 +1065,7 @@ async function doMediaSelect() {
                                 accountHelper.getCurrentValidationState()
                                   .username;
                             }
-                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("multiplayermonopolyjunior-fixed")}`;
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&cloud_host=${getScratchCloudURI()}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("multiplayermonopolyjunior-fixed")}`;
 
                             sws.send(
                               JSON.stringify({

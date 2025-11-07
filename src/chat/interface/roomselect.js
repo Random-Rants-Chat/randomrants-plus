@@ -337,26 +337,21 @@ async function doRoomSelect() {
             },
             children: userPFPs,
           },
-          {
-            element: "div",
-            className: "divButton roundborder",
-            textContent: "Join room",
-            eventListeners: [
-              {
-                event: "click",
-                func: function (e) {
-                  e.preventDefault();
-
-                  if (room.id == currentRoom) {
-                    div.remove();
-                    return;
-                  }
-                  window.location.hash = "#" + encodeURIComponent(room.id);
-                  window.location.reload();
-                },
-              },
-            ],
-          },
+		{
+			element: "a",
+			href: "./chat#"+ encodeURIComponent(room.id),
+			style: {
+				all: "unset",
+				display: (currentRoom||"").trim().toLowerCase() == room.id.trim().toLowerCase() ? "none" : "block"
+			},
+			children: [
+				{
+		            element: "div",
+		            className: "divButton roundborder",
+		            textContent: "Join room",
+		        }
+			]
+		},
           {
             element: "div",
             className: "divButton roundborder",

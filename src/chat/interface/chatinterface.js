@@ -806,7 +806,7 @@ var KnownUserList = require("./userlist-menu.js");
       sws.open(
         (isSecure() ? "wss://" : "ws://") +
           window.location.host +
-          "/" +
+          "/room/" +
           currentRoom,
         onMessage,
         onOpen,

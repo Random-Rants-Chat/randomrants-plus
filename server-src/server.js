@@ -15,6 +15,7 @@ var gvbbaseStorage = require("./waityourturn-storage.js"); //Supabase storage mo
 var cons = require("./constants.js");
 var bcrypt = require("bcryptjs");
 var crypto = require("crypto");
+var scratchCloudWss = require("./scratch-cloud.js");
 var userMediaDirectory = "./usermedia";
 var usersOnlineSockets = {};
 var wssServerOptions = {
@@ -4847,16 +4848,23 @@ server.on("upgrade", async function upgrade(request, socket, head) {
 
   var url = decodeURIComponent(request.url);
   var urlsplit = url.split("/");
-  var id = urlsplit[1];
+	var method = urlsplit[1];
+  var id = urlsplit[2];
   var wss = null;
   try {
-    if (id == "notifications") {
+    if (method == "notifications") {
       notifyWSS.handleUpgrade(request, socket, head, function done(ws) {
         notifyWSS.emit("connection", ws, request);
       });
       return;
     }
-    if (id) {
+    if (method == "scratchcloud") {
+      scratchCloudWss.handleUpgrade(request, socket, head, function done(ws) {
+        scratchCloudWss.emit("connection", ws, request);
+      });
+      return;
+    }
+    if (id && method == "room") {
       id = id.toLowerCase();
       var roomWs = roomWebsockets[id.toString()];
       if (roomWs) {
@@ -4923,6 +4931,7 @@ if (process.env.PORT) {
 }
 (async function () {
   await checkServerLoop(); //when it loops back, it accepts the promise.
-  server.listen(serverPort);
-  console.log("Server active on http://localhost:" + serverPort);
+  server.listen(serverPort, () => {
+	console.log("Server active on http://localhost:" + serverPort);
+  });
 })();
