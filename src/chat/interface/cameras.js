@@ -3,6 +3,7 @@ var cameras = {};
 var elements = require("../../gp2/elements.js");
 var dialogs = require("../../dialogs.js");
 var screenShareClient = require("../../webrtc/");
+var loadingStream = require("./loadingstream.js");
 
 var cameraVideosDiv = elements.getGPId("camerasVideosDiv");
 
@@ -132,6 +133,12 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
     elms.displayNameSpan.style.fontFamily = userFont;
 
     cameraVideosDiv.append(elms.div);
+
+    elms.video.srcObject = loadingStream;
+
+    try {
+      elms.video.play();
+    } catch (e) {}
 
     cameraVideo.ss = screenShareClient.connectTo(
       code,

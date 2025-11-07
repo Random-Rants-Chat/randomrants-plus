@@ -4,6 +4,7 @@ var sws = require("../sharedwebsocket.js");
 var userState = require("../userstate.js");
 var uploadFileAsURL = require("../uploadfiles.js");
 var accountHelper = require("../../../accounthelper/index.js");
+var loadingStream = require("../loadingstream.js");
 
 var screenShareClient = require("../../../webrtc/");
 
@@ -203,6 +204,12 @@ function createMediaScreenshareVideo(code) {
   ]);
 
   var videoElement = elements.getGPId("ssVideo");
+
+  videoElement.srcObject = loadingStream;
+
+  try {
+    videoElement.play();
+  } catch (e) {}
 
   screenshareClientObject = screenShareClient.connectTo(
     code,
