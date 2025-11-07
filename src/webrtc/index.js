@@ -19,6 +19,10 @@ function getWSSURI(id) {
 var configstuff = {
   iceServers: [
     { urls: "stun:stun.l.google.com:19302" },
+    { urls: "stun:stun1.l.google.com:19302" },
+    { urls: "stun:stun2.l.google.com:19302" },
+    { urls: "stun:stun.services.mozilla.com:3478" },
+    { urls: "stun:stunserver.stunprotocol.org:3478" },
     { urls: "stun:vpn.mikedev101.cc:3478" },
     {
       urls: "turn:vpn.mikedev101.cc:3478",
@@ -43,6 +47,16 @@ var configstuff = {
       urls: "turn:turn.anyfirewall.com:443?transport=tcp",
       credential: "webrtc",
       username: "webrtc",
+    },
+    {
+      urls: "turn:openrelay.metered.ca:80",
+      username: "openrelayproject",
+      credential: "openrelayproject",
+    },
+    {
+      urls: "turn:openrelay.metered.ca:443?transport=tcp", // Use 443 with TCP/TLS
+      username: "openrelayproject",
+      credential: "openrelayproject",
     },
   ],
   iceTransportPolicy: "all",

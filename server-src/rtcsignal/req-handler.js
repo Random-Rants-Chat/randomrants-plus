@@ -136,7 +136,7 @@ function newHostThing(val) {
   var host = hosts[key];
   host = fakeIoCreate();
   host.endFunction = function () {
-	host.close();
+    host.close();
     delete hosts[key];
   };
   hosts[key] = host;
