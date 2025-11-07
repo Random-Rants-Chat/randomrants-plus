@@ -98,6 +98,13 @@ function fakeIoCreate() {
             number: (connectedUser.number = i),
           };
         });
+
+      if (socket.id == hostId) {
+        io.close();
+        if (io.endFunction) {
+          io.endFunction();
+        }
+      }
     });
 
     socket.on("newOffer", (data) => {
