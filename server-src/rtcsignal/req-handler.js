@@ -133,12 +133,12 @@ function newHostThing(val) {
   if (val) {
     key = val;
   }
-	var host = hosts[key];
+  var host = hosts[key];
   host = fakeIoCreate();
-  hosts[key].endFunction = function () {
-	  delete hosts[key];
-	};
-	hosts[key] = host;
+  host.endFunction = function () {
+    delete hosts[key];
+  };
+  hosts[key] = host;
   return key;
 }
 
@@ -173,7 +173,7 @@ async function handleUpgrade(request, socket, head) {
   var urlsplit = url.split("/");
   var method = urlsplit[1];
   var hostkey = urlsplit[2];
-	var host = hosts[hostkey];
+  var host = hosts[hostkey];
   if (method == "webrtc" && host) {
     var wss = host.wss;
 

@@ -35,7 +35,7 @@ try {
 var storage = new gvbbaseStorage(
   process.env.sbBucket,
   process.env.sbURL,
-  process.env.sbAPIKey
+  process.env.sbAPIKey,
 );
 var wss = wssHandler.wss;
 var messageChatNumber = 0;
@@ -51,7 +51,7 @@ function closeUserFromUserSocket(username) {
           socket.send(
             JSON.stringify({
               type: "userInfoChanged",
-            })
+            }),
           );
           socket.close(); //Ghost sockets would be closed anyways.
         }
@@ -73,7 +73,7 @@ async function checkServer() {
       await storage.uploadFile(
         "server_check.txt",
         "used to check the servers with.",
-        "text/plain"
+        "text/plain",
       );
       return true;
     }
@@ -120,7 +120,7 @@ async function doesUsernameExist(username) {
   }
   try {
     var json = JSON.parse(
-      (await storage.downloadFile(`user-${username}.json`)).toString()
+      (await storage.downloadFile(`user-${username}.json`)).toString(),
     );
     if (json.destroyed) {
       return false;
@@ -146,7 +146,7 @@ async function getUserProfilePictureResponse(username, req, res) {
       `user-${username}-profile`,
       {},
       res,
-      ["content-type"]
+      ["content-type"],
     );
   } catch (e) {
     var pfp = fs.readFileSync("template/default_pfp.png");
@@ -325,7 +325,7 @@ async function validateUserCookie(decryptedUserdata) {
     }
     const currentSessionToken = decryptedUserdata.session;
     const isValidSession = json.sessions.some(
-      (session) => session.id === currentSessionToken
+      (session) => session.id === currentSessionToken,
     );
     if (isValidSession) {
       return {
@@ -381,7 +381,7 @@ async function destroySessionCookie(decryptedUserdata) {
     }
     var sessions = json.sessions;
     const sessionIndex = sessions.findIndex(
-      (session) => session.id === currentSession
+      (session) => session.id === currentSession,
     );
     if (sessionIndex > -1) {
       sessions.splice(sessionIndex, 1);
@@ -389,7 +389,7 @@ async function destroySessionCookie(decryptedUserdata) {
       await storage.uploadFile(
         `user-${username}.json`,
         JSON.stringify(json),
-        "application/json"
+        "application/json",
       );
       return true;
     } else {
@@ -525,7 +525,7 @@ async function validateUser(username, password) {
       await storage.uploadFile(
         `user-${username}.json`,
         JSON.stringify(json),
-        "application/json"
+        "application/json",
       );
       return {
         success: true,
@@ -653,7 +653,7 @@ async function createUser(username, password) {
           bio: "",
           sessions: [newSession],
         }),
-        "application/json"
+        "application/json",
       );
       return {
         success: true,
@@ -733,7 +733,7 @@ async function validateUserCookiePassword(decryptedUserdata, password) {
     }
     const currentSessionToken = decryptedUserdata.session;
     const isValidSession = json.sessions.some(
-      (session) => session.id === currentSessionToken
+      (session) => session.id === currentSessionToken,
     );
     if (isValidSession) {
       if (await bcrypt.compare(password, json.password)) {
@@ -782,7 +782,7 @@ async function destroyAccount(username) {
   await storage.uploadFile(
     `user-${username}.json`,
     JSON.stringify(json),
-    "application/json"
+    "application/json",
   );
   try {
     await storage.deleteFile(`user-${username}-profile`);
@@ -811,7 +811,7 @@ async function updateUserPassword(username, newPassword, oldPassword) {
   await storage.uploadFile(
     `user-${username}.json`,
     JSON.stringify(json),
-    "application/json"
+    "application/json",
   );
   return sessionString;
 }
@@ -1019,7 +1019,7 @@ async function writeMail(username, mailinfo, senderUsername) {
     await storage.uploadFile(
       profileFile,
       JSON.stringify(json),
-      "application/json"
+      "application/json",
     );
     writingMailTo[username] -= 1;
     if (writingMailTo[username] < 0) {
@@ -1059,7 +1059,7 @@ async function writeMailAsRead(username) {
     await storage.uploadFile(
       profileFile,
       JSON.stringify(json),
-      "application/json"
+      "application/json",
     );
     writingMailTo[username] -= 1;
     if (writingMailTo[username] < 0) {
@@ -1095,7 +1095,7 @@ async function clearMail(username) {
     await storage.uploadFile(
       profileFile,
       JSON.stringify(json),
-      "application/json"
+      "application/json",
     );
     writingMailTo[username] -= 1;
     if (writingMailTo[username] < 0) {
@@ -1222,7 +1222,7 @@ noRoomWss.on("connection", (ws, request) => {
   ws.send(
     JSON.stringify({
       type: "doesNotExist",
-    })
+    }),
   );
   var timeout = setTimeout(() => {
     ws.close();
@@ -1238,7 +1238,7 @@ noRoomWss.on("connection", (ws, request) => {
   ws.send(
     JSON.stringify({
       type: "doesNotExist",
-    })
+    }),
   );
   var timeout = setTimeout(() => {
     ws.close();
@@ -1257,7 +1257,7 @@ roomStillLoadingWss.on("connection", (ws, request) => {
   ws.send(
     JSON.stringify({
       type: "roomStillLoading",
-    })
+    }),
   );
   var timeout = setTimeout(() => {
     ws.close();
@@ -1315,7 +1315,7 @@ notifyWSS.on("connection", (ws, request) => {
                 JSON.stringify({
                   type: "current",
                   notifications: notificationsForUsers[ws._rrUsername],
-                })
+                }),
               );
             }
           }
@@ -1329,7 +1329,7 @@ notifyWSS.on("connection", (ws, request) => {
               JSON.stringify({
                 type: "current",
                 notifications: notificationsForUsers[ws._rrUsername],
-              })
+              }),
             );
           }
         }
@@ -1341,14 +1341,14 @@ notifyWSS.on("connection", (ws, request) => {
           notificationsForUsers[ws._rrUsername] = undefined;
           notificationUserTimeouts[ws._rrUsername] = undefined;
         },
-        1000 * 60 * 10
+        1000 * 60 * 10,
       ); //10 Minutes before all notifications are cleared.
     });
     ws.send(
       JSON.stringify({
         type: "current",
         notifications: notificationsForUsers[ws._rrUsername],
-      })
+      }),
     );
   })();
 });
@@ -1362,7 +1362,7 @@ function sendNotify(username, notifyjson = {}) {
   };
   notificationsForUsers[username].push(notifyContent);
   notificationsForUsers[username] = notificationsForUsers[username].slice(
-    -cons.MAX_NOTIFICATIONS
+    -cons.MAX_NOTIFICATIONS,
   );
   for (var client of notifyWSS.clients) {
     if (client._rrUsername == username.trim()) {
@@ -1370,7 +1370,7 @@ function sendNotify(username, notifyjson = {}) {
         JSON.stringify({
           type: "new",
           notification: notifyContent,
-        })
+        }),
       );
     }
   }
@@ -1411,7 +1411,7 @@ async function startRoomWSS(roomid) {
         ws.send(
           JSON.stringify({
             type: "noGuests",
-          })
+          }),
         );
         ws._rrBlockedConnection = true;
         ws._rrCloseAndTerminate();
@@ -1430,7 +1430,7 @@ async function startRoomWSS(roomid) {
       ws.send(
         JSON.stringify({
           type: "banned",
-        })
+        }),
       );
       ws._rrBlockedConnection = true;
       ws._rrCloseAndTerminate();
@@ -1452,7 +1452,7 @@ async function startRoomWSS(roomid) {
       ws.send(
         JSON.stringify({
           type: "notInAllowList",
-        })
+        }),
       );
       ws._rrBlockedConnection = true;
       ws._rrCloseAndTerminate();
@@ -1532,7 +1532,7 @@ async function startRoomWSS(roomid) {
           message: message,
           isServer: true,
           displayName,
-        })
+        }),
       );
     });
   }
@@ -1547,7 +1547,7 @@ async function startRoomWSS(roomid) {
       JSON.stringify({
         type: "roomPermissions",
         perms: socketPerms,
-      })
+      }),
     );
 
     if (ws._rrIsOwner) {
@@ -1556,7 +1556,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "roomPermissionSettings",
           perms: wss._rrRoomPermissions,
-        })
+        }),
       );
     }
   }
@@ -1634,7 +1634,7 @@ async function startRoomWSS(roomid) {
               ws.send(
                 JSON.stringify({
                   type: "tooManyConnections",
-                })
+                }),
               );
               setTimeout(() => {
                 try {
@@ -1672,7 +1672,7 @@ async function startRoomWSS(roomid) {
             ws.send(
               JSON.stringify({
                 type: "tooManyConnections",
-              })
+              }),
             );
             setTimeout(() => {
               try {
@@ -1704,7 +1704,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "media",
           command: "reset",
-        })
+        }),
       );
       var lastMicCode = null;
       var lastCamCode = null;
@@ -1716,7 +1716,7 @@ async function startRoomWSS(roomid) {
             type: "media",
             command: "screenshareRun",
             code: currentScreenshareCode,
-          })
+          }),
         );
         _isMediaRunning = true;
       }
@@ -1726,7 +1726,7 @@ async function startRoomWSS(roomid) {
             type: "media",
             command: "mediaEmbedRun",
             url: currentMediaEmbedURL,
-          })
+          }),
         );
         _isMediaRunning = true;
       }
@@ -1759,7 +1759,7 @@ async function startRoomWSS(roomid) {
                   color: ws._rrUserColor,
                   font: ws._rrUserFont,
                   emoji: json.emoji,
-                })
+                }),
               );
             }
           }
@@ -1779,7 +1779,7 @@ async function startRoomWSS(roomid) {
                   displayName: ws._rrDisplayName,
                   color: ws._rrUserColor,
                   font: ws._rrUserFont,
-                })
+                }),
               );
             }
           }
@@ -1795,7 +1795,7 @@ async function startRoomWSS(roomid) {
                   mult: json.mult,
                   displayName: ws._rrDisplayName,
                   username: ws._rrUsername,
-                })
+                }),
               );
             }
           }
@@ -1807,7 +1807,7 @@ async function startRoomWSS(roomid) {
               client.send(
                 JSON.stringify({
                   type: "stopSoundboard",
-                })
+                }),
               );
             }
           }
@@ -1861,7 +1861,7 @@ async function startRoomWSS(roomid) {
                     type: "media",
                     command: "reset",
                     fromSelf,
-                  })
+                  }),
                 );
               });
             }
@@ -1882,7 +1882,7 @@ async function startRoomWSS(roomid) {
                     type: "media",
                     command: "screenshareRun",
                     code: currentScreenshareCode,
-                  })
+                  }),
                 );
               });
             }
@@ -1911,7 +1911,7 @@ async function startRoomWSS(roomid) {
                     type: "media",
                     command: "mediaEmbedRun",
                     url: currentMediaEmbedURL,
-                  })
+                  }),
                 );
               });
             }
@@ -1928,7 +1928,7 @@ async function startRoomWSS(roomid) {
                   username: ws._rrUsername,
                   color: ws._rrUserColor,
                   font: ws._rrUserFont,
-                })
+                }),
               );
             });
           }
@@ -1945,7 +1945,7 @@ async function startRoomWSS(roomid) {
                     message: "The username to send to is invalid.",
                     isServer: true,
                     displayName: "[Notice]",
-                  })
+                  }),
                 );
                 return;
               }
@@ -1957,7 +1957,7 @@ async function startRoomWSS(roomid) {
                       "The private message you tried to post is too long.[br]The message was not posted.",
                     isServer: true,
                     displayName: "[Notice]",
-                  })
+                  }),
                 );
                 return;
               }
@@ -1996,7 +1996,7 @@ async function startRoomWSS(roomid) {
                       "The private message wasn't sent because the username was not found in this room.",
                     isServer: true,
                     displayName: "[Notice]",
-                  })
+                  }),
                 );
               }
             }
@@ -2006,7 +2006,7 @@ async function startRoomWSS(roomid) {
             if (hasPermission("commands", ws)) {
               commandResult = wss._rrCommandHandler.handleMessage(
                 ws,
-                json.message
+                json.message,
               );
             }
             if (commandResult !== commandHandler.HIDE_MESSAGE) {
@@ -2019,7 +2019,7 @@ async function startRoomWSS(roomid) {
                         "The message you tried to post is too long.[br]The message was not posted.",
                       isServer: true,
                       displayName: "[Notice]",
-                    })
+                    }),
                   );
                   return;
                 }
@@ -2035,7 +2035,7 @@ async function startRoomWSS(roomid) {
                       displayName: displayName,
                       color: ws._rrUserColor,
                       font: ws._rrUserFont,
-                    })
+                    }),
                   );
                 });
 
@@ -2064,14 +2064,14 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "messages",
           messages: wss._rrRoomMessages,
-        })
+        }),
       );
       if (info.owners.indexOf(ws._rrUsername) > -1) {
         ws.send(
           JSON.stringify({
             type: "isOwner",
             isOwner: true,
-          })
+          }),
         );
         ws._rrIsOwner = true;
       } else {
@@ -2079,7 +2079,7 @@ async function startRoomWSS(roomid) {
           JSON.stringify({
             type: "isOwner",
             isOwner: false,
-          })
+          }),
         );
       }
 
@@ -2087,7 +2087,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "allowGuests",
           allow: info.allowGuests,
-        })
+        }),
       );
 
       ws.send(
@@ -2096,20 +2096,20 @@ async function startRoomWSS(roomid) {
           name: info.name,
           description: info.description || "",
           id: roomid,
-        })
+        }),
       );
       ws.send(
         JSON.stringify({
           type: "updateTheme",
           index: info.theme || 0,
-        })
+        }),
       );
       sendOnlineList();
       sendPermData(ws);
       sendRoomChatMessage(
         "[Notice]",
         `[font family=${ws._rrUserFont}]${displayName}[/font] has joined the room.`,
-        true
+        true,
       );
       if (wss._rrEndRoomTimeout) {
         clearTimeout(wss._rrEndRoomTimeout); //Clear the timeout after a new websocket hops in.
@@ -2127,14 +2127,14 @@ async function startRoomWSS(roomid) {
           }
           wss._rrEndRoomTimeout = setTimeout(
             wss._rrEndRoom,
-            cons.ROOM_CLEANUP_TIMEOUT
+            cons.ROOM_CLEANUP_TIMEOUT,
           ); //Destory the room websocket, but not the room data after the period of inactivity.
         }
         sendOnlineList();
         sendRoomChatMessage(
           "[Notice]",
           `[font family=${ws._rrUserFont}]${displayName}[/font] has left the room.`,
-          true
+          true,
         );
         if (ws._rrConnectionID == currentScreensharingWebsocket) {
           currentScreenshareCode = null;
@@ -2147,7 +2147,7 @@ async function startRoomWSS(roomid) {
               JSON.stringify({
                 type: "media",
                 command: "screenshareStop",
-              })
+              }),
             );
           });
         }
@@ -2227,13 +2227,13 @@ async function startRoomWSS(roomid) {
           name: info.name,
           description: info.description || "",
           id: roomid,
-        })
+        }),
       );
       client.send(
         JSON.stringify({
           type: "updateTheme",
           index: info.theme || 0,
-        })
+        }),
       );
     }
     for (var client of wss.clients) {
@@ -2253,7 +2253,7 @@ async function startRoomWSS(roomid) {
           JSON.stringify({
             type: "isOwner",
             isOwner: client._rrIsOwner,
-          })
+          }),
         );
       }
     }
@@ -2275,7 +2275,7 @@ async function startRoomWSS(roomid) {
         JSON.stringify({
           type: "allowGuests",
           allow: info.allowGuests,
-        })
+        }),
       );
     });
 
@@ -2310,7 +2310,7 @@ async function startRoomWSS(roomid) {
                   color: client2._rrUserColor,
                   font: client2._rrUserFont,
                   isSelf: isSelf,
-                })
+                }),
               );
             }
 
@@ -2329,7 +2329,7 @@ async function startRoomWSS(roomid) {
                   color: client2._rrUserColor,
                   font: client2._rrUserFont,
                   isSelf: isSelf,
-                })
+                }),
               );
             }
           }
@@ -2484,7 +2484,7 @@ function applyRateLimit(req) {
 
   if (DEBUG_RATE_LIMIT) {
     console.log(
-      `[RateLimit Debug] Total requests made per minute: ${entry.count}`
+      `[RateLimit Debug] Total requests made per minute: ${entry.count}`,
     );
   }
 
@@ -2503,7 +2503,7 @@ setInterval(() => {
     ) {
       if (DEBUG_RATE_LIMIT) {
         console.log(
-          `[RateLimit Debug] Cleaning up idle entry for ${id}, total requests handled: ${entry.totalRequests}`
+          `[RateLimit Debug] Cleaning up idle entry for ${id}, total requests handled: ${entry.totalRequests}`,
         );
       }
       delete rateLimitUsers[id];
@@ -2517,18 +2517,18 @@ const server = http.createServer(async function (req, res) {
   if (applyRateLimit(req)) {
     res.writeHead(429, { "Content-Type": "text/html; charset=utf-8" });
     res.end(
-      `<!DOCTYPE HTML><h1>Yikes!</h1><br><span>It seems like you hit our request limit, try again later.</span><script>setTimeout(() => {window.location.reload();},1000);</script>`
+      `<!DOCTYPE HTML><h1>Yikes!</h1><br><span>It seems like you hit our request limit, try again later.</span><script>setTimeout(() => {window.location.reload();},1000);</script>`,
     );
     return;
   }
-	try{
-		if (await WebRTCSignaler.handleHTTP(req,res)) {
-			return;
-		}
-	}catch(e){
-		console.log(e);
-	}
-	
+  try {
+    if (await WebRTCSignaler.handleHTTP(req, res)) {
+      return;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
   var ip = getIPFromRequest(req);
 
   var url = decodeURIComponent(req.url);
@@ -2560,7 +2560,7 @@ const server = http.createServer(async function (req, res) {
     if (hasInvalid) {
       res.setHeader(
         "Set-Cookie",
-        `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+        `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
       );
       decryptedUserdata = null;
     }
@@ -2597,7 +2597,7 @@ const server = http.createServer(async function (req, res) {
           }
 
           var roomBuffer = await storage.downloadFile(
-            `room-${json.id}-info.json`
+            `room-${json.id}-info.json`,
           );
           var qjCode = generateSafeJoinCode();
           quickJoinRooms[qjCode] = json.id;
@@ -2606,12 +2606,12 @@ const server = http.createServer(async function (req, res) {
               quickJoinRooms[qjCode] = undefined;
               quickJoinRoomTimeouts[qjCode] = null;
             },
-            15 * 60 * 1000
+            15 * 60 * 1000,
           ); //15 minutes before code expires.
           res.end(
             JSON.stringify({
               code: qjCode,
-            })
+            }),
           );
         } catch (e) {
           res.statusCode = 500;
@@ -2630,7 +2630,7 @@ const server = http.createServer(async function (req, res) {
             quickJoinRooms[qjCode] = undefined;
             quickJoinRoomTimeouts[qjCode] = null;
           },
-          15 * 60 * 1000
+          15 * 60 * 1000,
         );
         res.end(quickJoinRooms[qjCode]);
       } else {
@@ -2672,7 +2672,7 @@ const server = http.createServer(async function (req, res) {
           ) {
             res.statusCode = 413;
             res.end(
-              "User media folder is too large, please wait for some files to expire."
+              "User media folder is too large, please wait for some files to expire.",
             );
             console.log("Warning: the user media folder is hitting limits");
             return;
@@ -2680,7 +2680,7 @@ const server = http.createServer(async function (req, res) {
           var id = generateRandomStuff();
           fs.writeFileSync(
             path.join(userMediaDirectory, id + ".media"),
-            fileInfo.buffer
+            fileInfo.buffer,
           );
           fileUploadTypes[id] = fileInfo.mimeType;
           fileUploadCount += 1;
@@ -2691,7 +2691,7 @@ const server = http.createServer(async function (req, res) {
               fileUploadTimeouts[id] = null;
               fs.rmSync(path.join(userMediaDirectory, id + ".media"));
             },
-            1000 * 60 * 10
+            1000 * 60 * 10,
           ); //should be 10 minutes
         } catch (e) {
           res.statusCode = 500;
@@ -2713,7 +2713,7 @@ const server = http.createServer(async function (req, res) {
             fileUploadTimeouts[id] = null;
             fs.rmSync(path.join(userMediaDirectory, id + ".media"));
           },
-          1000 * 60 * 10
+          1000 * 60 * 10,
         );
         var fileStat = fs.statSync(filePath);
         // Get the file length
@@ -2747,7 +2747,7 @@ const server = http.createServer(async function (req, res) {
             res.setHeader("Content-Type", type); // Correct MIME type for audio
             res.setHeader(
               "Content-Range",
-              `bytes ${start}-${end}/${fileLength}`
+              `bytes ${start}-${end}/${fileLength}`,
             );
             res.setHeader("Content-Length", end - start + 1);
             res.setHeader("Accept-Ranges", "bytes"); // Inform the client we support ranges
@@ -2822,13 +2822,13 @@ const server = http.createServer(async function (req, res) {
           await storage.uploadFile(
             `room-${roomId}-info.json`,
             JSON.stringify(roomInfo),
-            "application/json"
+            "application/json",
           );
 
           res.end(
             JSON.stringify({
               id: roomId,
-            })
+            }),
           );
         } catch (e) {
           res.statusCode = 500;
@@ -2884,7 +2884,7 @@ const server = http.createServer(async function (req, res) {
             return;
           }
           var roomBuffer = await storage.downloadFile(
-            `room-${json.id}-info.json`
+            `room-${json.id}-info.json`,
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
@@ -2892,7 +2892,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[json.id]) {
               roomWebsockets[json.id]._rrUpdateRoomInfo();
@@ -2940,7 +2940,7 @@ const server = http.createServer(async function (req, res) {
           if (json.description.length > cons.MAX_ROOM_DESCRIPTION_SIZE) {
             json.description = json.description.slice(
               0,
-              cons.MAX_ROOM_DESCRIPTION_SIZE
+              cons.MAX_ROOM_DESCRIPTION_SIZE,
             );
           }
           if (defaultRooms.indexOf(json.id) > -1) {
@@ -2960,7 +2960,7 @@ const server = http.createServer(async function (req, res) {
             return;
           }
           var roomBuffer = await storage.downloadFile(
-            `room-${json.id}-info.json`
+            `room-${json.id}-info.json`,
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
@@ -2968,7 +2968,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[json.id]) {
               roomWebsockets[json.id]._rrUpdateRoomInfo();
@@ -3011,7 +3011,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(json.id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3039,7 +3039,7 @@ const server = http.createServer(async function (req, res) {
           }
 
           var roomBuffer = await storage.downloadFile(
-            `room-${json.id}-info.json`
+            `room-${json.id}-info.json`,
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
@@ -3051,7 +3051,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[json.id]) {
               roomWebsockets[json.id]._rrUpdateRoomInfo();
@@ -3094,7 +3094,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(json.id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3106,7 +3106,7 @@ const server = http.createServer(async function (req, res) {
           }
 
           var roomBuffer = await storage.downloadFile(
-            `room-${json.id}-info.json`
+            `room-${json.id}-info.json`,
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
@@ -3117,7 +3117,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${json.id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[json.id]) {
               roomWebsockets[json.id]._rrUpdateRoomInfo();
@@ -3161,7 +3161,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3208,7 +3208,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               roomWebsockets[id]._rrUpdateRoomInfo();
@@ -3255,7 +3255,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3287,7 +3287,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               roomWebsockets[id]._rrUpdateRoomInfo();
@@ -3334,7 +3334,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3355,7 +3355,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               roomWebsockets[id]._rrUpdateRoomInfo();
@@ -3406,7 +3406,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3449,7 +3449,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               roomWebsockets[id]._rrUpdateRoomInfo();
@@ -3500,7 +3500,7 @@ const server = http.createServer(async function (req, res) {
           if (defaultRooms.indexOf(id) > -1) {
             res.statusCode = 400;
             res.end(
-              "Room ID is from a default room ID, these can't be edited!"
+              "Room ID is from a default room ID, these can't be edited!",
             );
             return;
           }
@@ -3532,7 +3532,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               roomWebsockets[id]._rrUpdateRoomInfo();
@@ -3585,7 +3585,7 @@ const server = http.createServer(async function (req, res) {
             return;
           }
           var roomBuffer = await storage.downloadFile(
-            `room-${json.id}-info.json`
+            `room-${json.id}-info.json`,
           );
           var roomData = JSON.parse(roomBuffer.toString());
           if (roomData.owners.indexOf(decryptedUserdata.username) > -1) {
@@ -3669,14 +3669,14 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               try {
                 await roomWebsockets[id]._rrUpdateRoomInfo();
                 roomWebsockets[id]._rrSendChatMessage(
                   "[Notice]",
-                  `${json.who} is now an owner.`
+                  `${json.who} is now an owner.`,
                 );
               } catch (e) {}
             }
@@ -3743,14 +3743,14 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               `room-${id}-info.json`,
               JSON.stringify(roomData),
-              "application/json"
+              "application/json",
             );
             if (roomWebsockets[id]) {
               try {
                 await roomWebsockets[id]._rrUpdateRoomInfo();
                 roomWebsockets[id]._rrSendChatMessage(
                   "[Notice]",
-                  `${json.who} is no longer an owner.`
+                  `${json.who} is no longer an owner.`,
                 );
               } catch (e) {}
             }
@@ -3802,7 +3802,7 @@ const server = http.createServer(async function (req, res) {
                 error: true,
                 valid: false,
                 success: false,
-              })
+              }),
             );
             return;
           }
@@ -3813,7 +3813,7 @@ const server = http.createServer(async function (req, res) {
               error: true,
               valid: false,
               success: false,
-            })
+            }),
           );
           return;
         }
@@ -3825,7 +3825,7 @@ const server = http.createServer(async function (req, res) {
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader(
           "Set-Cookie",
-          `account=${usercookie}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+          `account=${usercookie}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
         );
         res.end(JSON.stringify(infoJson));
         return;
@@ -3836,7 +3836,7 @@ const server = http.createServer(async function (req, res) {
             error: true,
             valid: false,
             success: false,
-          })
+          }),
         );
         return;
       }
@@ -3860,7 +3860,7 @@ const server = http.createServer(async function (req, res) {
         }
         var stuff = await createUser(
           json.username.toLowerCase(),
-          json.password
+          json.password,
         );
         if (stuff.valid) {
           var value = encryptor.encrypt({
@@ -3870,7 +3870,7 @@ const server = http.createServer(async function (req, res) {
           res.setHeader("Access-Control-Allow-Credentials", "true");
           res.setHeader(
             "Set-Cookie",
-            `account=${value}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+            `account=${value}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
           );
         }
         res.end(
@@ -3878,7 +3878,7 @@ const server = http.createServer(async function (req, res) {
             valid: stuff.valid,
             error: stuff.error,
             message: stuff.message,
-          })
+          }),
         );
       });
       return;
@@ -3895,7 +3895,7 @@ const server = http.createServer(async function (req, res) {
           try {
             if (body.length < 1) {
               await storage.deleteFile(
-                `user-${decryptedUserdata.username}-profile`
+                `user-${decryptedUserdata.username}-profile`,
               );
               res.end("");
               return;
@@ -3903,7 +3903,7 @@ const server = http.createServer(async function (req, res) {
             var buffer = Buffer.from(body.toString(), "base64");
             if (buffer.length > cons.MAX_PROFILE_PICTURE_SIZE) {
               await storage.deleteFile(
-                `user-${decryptedUserdata.username}-profile`
+                `user-${decryptedUserdata.username}-profile`,
               );
               res.end("");
               return;
@@ -3911,7 +3911,7 @@ const server = http.createServer(async function (req, res) {
             await uploadUserProfilePicture(
               decryptedUserdata.username,
               buffer,
-              req.headers["content-type"]
+              req.headers["content-type"],
             );
             res.end("");
             return;
@@ -3945,7 +3945,7 @@ const server = http.createServer(async function (req, res) {
         res.end(
           JSON.stringify({
             bio: profileJson.bio,
-          })
+          }),
         );
       } catch (e) {
         runStaticStuff(req, res, {
@@ -3972,13 +3972,13 @@ const server = http.createServer(async function (req, res) {
             res.end(
               JSON.stringify({
                 users: json.map((usr) => usr.username),
-              })
+              }),
             );
           } catch (e) {
             res.end(
               JSON.stringify({
                 users: [],
-              })
+              }),
             );
             return;
           }
@@ -4040,14 +4040,14 @@ const server = http.createServer(async function (req, res) {
           if (json.length > cons.MAX_USERLIST_SIZE) {
             res.statusCode = 400;
             res.end(
-              "Too many trusted usernames stored, remove some to add more."
+              "Too many trusted usernames stored, remove some to add more.",
             );
             return;
           }
           await storage.uploadFile(
             userListFile,
             JSON.stringify(json),
-            "application/json"
+            "application/json",
           );
           res.end("");
         } catch (e) {
@@ -4098,7 +4098,7 @@ const server = http.createServer(async function (req, res) {
           await storage.uploadFile(
             userListFile,
             JSON.stringify(json),
-            "application/json"
+            "application/json",
           );
           res.end("");
         } catch (e) {
@@ -4163,13 +4163,13 @@ const server = http.createServer(async function (req, res) {
             res.end(
               JSON.stringify({
                 rooms: roomlistreal,
-              })
+              }),
             );
           } else {
             res.end(
               JSON.stringify({
                 rooms: [],
-              })
+              }),
             );
           }
         } catch (e) {
@@ -4249,7 +4249,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
-              "application/json"
+              "application/json",
             );
 
             res.end("");
@@ -4346,7 +4346,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
-              "application/json"
+              "application/json",
             );
 
             res.end("");
@@ -4395,7 +4395,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
-              "application/json"
+              "application/json",
             );
             closeUserFromUserSocket(decryptedUserdata.username);
             res.end("");
@@ -4444,7 +4444,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
-              "application/json"
+              "application/json",
             );
             closeUserFromUserSocket(decryptedUserdata.username);
             res.end("");
@@ -4500,7 +4500,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
-              "application/json"
+              "application/json",
             );
             closeUserFromUserSocket(decryptedUserdata.username);
             res.end("");
@@ -4554,7 +4554,7 @@ const server = http.createServer(async function (req, res) {
             await storage.uploadFile(
               profileFile,
               JSON.stringify(profilejson),
-              "application/json"
+              "application/json",
             );
             res.end("");
           } catch (e) {
@@ -4589,7 +4589,7 @@ const server = http.createServer(async function (req, res) {
         }
         var stuff = await validateUser(
           json.username.toLowerCase(),
-          json.password
+          json.password,
         );
         if (stuff.valid) {
           var value = encryptor.encrypt({
@@ -4599,7 +4599,7 @@ const server = http.createServer(async function (req, res) {
           res.setHeader("Access-Control-Allow-Credentials", "true");
           res.setHeader(
             "Set-Cookie",
-            `account=${value}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+            `account=${value}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
           );
         }
         res.end(JSON.stringify(stuff));
@@ -4614,7 +4614,7 @@ const server = http.createServer(async function (req, res) {
             res.setHeader("Access-Control-Allow-Credentials", "true");
             res.setHeader(
               "Set-Cookie",
-              `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+              `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
             );
             res.end("Successfully & safely logged out.");
           } catch (e) {
@@ -4638,7 +4638,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "No session was provided",
-              })
+              }),
             );
             return;
           }
@@ -4650,7 +4650,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "Session isn't valid.",
-              })
+              }),
             );
             return;
           }
@@ -4663,14 +4663,14 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "password must be string.",
-              })
+              }),
             );
             return;
           }
 
           var session = await validateUserCookiePassword(
             decryptedUserdata,
-            json.password
+            json.password,
           );
 
           if (!session) {
@@ -4680,7 +4680,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "Password isn't correct.",
-              })
+              }),
             );
             return;
           }
@@ -4690,7 +4690,7 @@ const server = http.createServer(async function (req, res) {
           res.setHeader("Access-Control-Allow-Credentials", "true");
           res.setHeader(
             "Set-Cookie",
-            `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+            `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
           );
           closeUserFromUserSocket(decryptedUserdata.username);
 
@@ -4704,7 +4704,7 @@ const server = http.createServer(async function (req, res) {
               success: false,
               error: true,
               message: "Unknown server error",
-            })
+            }),
           );
         }
       })();
@@ -4721,7 +4721,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "No session was provided",
-              })
+              }),
             );
             return;
           }
@@ -4733,7 +4733,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "Session isn't valid.",
-              })
+              }),
             );
             return;
           }
@@ -4746,7 +4746,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "oldPassword must be string.",
-              })
+              }),
             );
             return;
           }
@@ -4757,7 +4757,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "newPassword must be string.",
-              })
+              }),
             );
             return;
           }
@@ -4765,7 +4765,7 @@ const server = http.createServer(async function (req, res) {
           var session = await updateUserPassword(
             decryptedUserdata.username.trim(),
             json.newPassword,
-            json.oldPassword
+            json.oldPassword,
           );
           if (!session) {
             res.statusCode = 400;
@@ -4774,7 +4774,7 @@ const server = http.createServer(async function (req, res) {
                 success: false,
                 error: true,
                 message: "Old password isn't correct.",
-              })
+              }),
             );
             return;
           }
@@ -4786,7 +4786,7 @@ const server = http.createServer(async function (req, res) {
           res.setHeader("Access-Control-Allow-Credentials", "true");
           res.setHeader(
             "Set-Cookie",
-            `account=${value}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`
+            `account=${value}; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
           );
           closeUserFromUserSocket(decryptedUserdata.username);
 
@@ -4800,7 +4800,7 @@ const server = http.createServer(async function (req, res) {
               success: false,
               error: true,
               message: "Unknown server error",
-            })
+            }),
           );
         }
       })();
@@ -4856,7 +4856,7 @@ server.on("upgrade", async function upgrade(request, socket, head) {
 
   var url = decodeURIComponent(request.url);
   var urlsplit = url.split("/");
-	var method = urlsplit[1];
+  var method = urlsplit[1];
   var id = urlsplit[2];
   var wss = null;
   try {
@@ -4872,11 +4872,11 @@ server.on("upgrade", async function upgrade(request, socket, head) {
       });
       return;
     }
-		if (method == "webrtc") {
-			if (await WebRTCSignaler.handleUpgrade(request, socket, head)) {
-				return;
-			}
-		}
+    if (method == "webrtc") {
+      if (await WebRTCSignaler.handleUpgrade(request, socket, head)) {
+        return;
+      }
+    }
     if (id && method == "room") {
       id = id.toLowerCase();
       var roomWs = roomWebsockets[id.toString()];
@@ -4945,6 +4945,6 @@ if (process.env.PORT) {
 (async function () {
   await checkServerLoop(); //when it loops back, it accepts the promise.
   server.listen(serverPort, () => {
-		console.log("Server active (port " + serverPort + ")");
+    console.log("Server active (port " + serverPort + ")");
   });
 })();

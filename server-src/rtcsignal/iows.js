@@ -92,7 +92,7 @@ class fakeIOSocket {
             ws.sockID +
             '".',
           e,
-          "Might be a sign of attempting to hack."
+          "Might be a sign of attempting to hack.",
         );
         ws.close();
       }
@@ -118,11 +118,11 @@ class fakeIOSocket {
     this.events[eventName].push(func);
   }
 
-	removeEvent(eventName, func) {
-	  if (this.events[eventName]) {
-	    this.events[eventName] = this.events[eventName].filter(f => f !== func);
-	  }
-	}
+  removeEvent(eventName, func) {
+    if (this.events[eventName]) {
+      this.events[eventName] = this.events[eventName].filter((f) => f !== func);
+    }
+  }
 }
 
 class fakeIOServer {
@@ -196,9 +196,9 @@ class fakeIOServer {
       JSON.stringify({
         event: "auth",
         sockID: id,
-      })
+      }),
     );
-		terminateGhostSockets(ws);
+    terminateGhostSockets(ws);
     var cli = new fakeIOSocket(ws);
     this.clients.push(cli);
     this.events.emit("connection", cli);

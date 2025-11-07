@@ -60,18 +60,24 @@ class fakeIOClient {
   }
 
   close() {
-    this.ws.onclose();
-    this.ws.onclose = function () {};
     this.ws.close();
   }
 
   emit(name, ...values) {
-    this.ws.send(
-      stringifyJSONSafe({
-        event: name,
-        args: values,
-      }),
-    );
+    if (this.ws.readyState !== WebSocket.OPEN) {
+      // Don't try to send if not open
+      return;
+    }
+    try {
+      this.ws.send(
+        stringifyJSONSafe({
+          event: name,
+          args: values,
+        }),
+      );
+    } catch (e) {
+      console.error("Failed to send WebSocket message:", e);
+    }
   }
 
   on(eventName, func) {
@@ -83,22 +89,7 @@ class fakeIOClient {
 
   removeEvent(eventName, func) {
     if (this.events[eventName]) {
-      var newEventArray = [];
-
-      var removed = false;
-
-      for (var event of this.events[eventName]) {
-        if (removed) {
-          newEventArray.push(event);
-        } else {
-          if (event !== func) {
-            newEventArray.push(event);
-            removed = true;
-          }
-        }
-      }
-
-      this.events[eventName] = newEventArray;
+      this.events[eventName] = this.events[eventName].filter((f) => f !== func);
     }
   }
 }
