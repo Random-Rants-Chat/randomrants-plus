@@ -2,6 +2,7 @@ const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VersionUpdatePlugin = require("./versionstampplugin.js");
+const webpack = require('webpack');
 
 const pages = [
   "index",
@@ -115,5 +116,8 @@ module.exports = {
       ],
     }),
     new VersionUpdatePlugin(),
+	new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
 };

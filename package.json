@@ -22,6 +22,7 @@
     "http": "^0.0.1-security",
     "jszip": "^3.10.1",
     "nodemon": "^3.1.10",
+    "process": "^0.11.10",
     "raw-loader": "^4.0.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.97.1",

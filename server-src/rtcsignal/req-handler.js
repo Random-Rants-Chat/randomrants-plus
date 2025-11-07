@@ -98,13 +98,6 @@ function fakeIoCreate() {
             number: (connectedUser.number = i),
           };
         });
-
-      if (socket.id == hostId) {
-        io.close();
-        if (io.endFunction) {
-          io.endFunction();
-        }
-      }
     });
 
     socket.on("newOffer", (data) => {
@@ -143,6 +136,7 @@ function newHostThing(val) {
   var host = hosts[key];
   host = fakeIoCreate();
   host.endFunction = function () {
+	host.close();
     delete hosts[key];
   };
   hosts[key] = host;
