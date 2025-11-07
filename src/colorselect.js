@@ -428,7 +428,7 @@ var colorSelector = {
           currentHSL.s,
           currentHSL.l,
           cvs.width,
-          cvs.height
+          cvs.height,
         );
         var color = getHex();
 
@@ -464,7 +464,7 @@ var colorSelector = {
         var hsl = rgbToHsl(
           +redInput.value,
           +greenInput.value,
-          +blueInput.value
+          +blueInput.value,
         );
         hueInput.value = hsl.h;
         saturationInput.value = hsl.s;
@@ -505,7 +505,7 @@ var colorSelector = {
           clickX,
           clickY,
           cvs.width,
-          cvs.height
+          cvs.height,
         );
         hueInput.value = hsl.h;
         saturationInput.value = hsl.s;

@@ -9,7 +9,7 @@ function generateMessageDiv(
   messageContent,
   isServerMessage,
   userColor,
-  userFont
+  userFont,
 ) {
   var pfp = accountHelper.getProfilePictureURL(username);
   if (!displayName) {

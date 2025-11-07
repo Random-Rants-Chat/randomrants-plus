@@ -100,7 +100,7 @@ var fontSelector = {
       var fontElements = {};
       fontList.forEach((font) => {
         fontElements[font.family] = elements.getGPId(
-          "fontSelect_" + font.family
+          "fontSelect_" + font.family,
         );
         elements.disposeGPId("fontSelect_" + font.family);
       });

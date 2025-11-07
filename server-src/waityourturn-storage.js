@@ -51,7 +51,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.getFileStatus.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -60,7 +60,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.downloadFile.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -69,7 +69,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.downloadFileAdvanced.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -78,7 +78,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.downloadFileResponseProxy.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -87,7 +87,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.uploadFile.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -96,7 +96,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.uploadFileAdvanced.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -105,7 +105,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.deleteFile.bind(storage),
-      ...args
+      ...args,
     );
   }
 
@@ -114,7 +114,7 @@ class WaitYourTurnStorage {
     return await this._handleTurn(
       args[0],
       storage.deleteFileAdvanced.bind(storage),
-      ...args
+      ...args,
     );
   }
 }

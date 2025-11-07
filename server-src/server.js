@@ -16,6 +16,7 @@ var cons = require("./constants.js");
 var bcrypt = require("bcryptjs");
 var crypto = require("crypto");
 var scratchCloudWss = require("./scratch-cloud.js");
+var WebRTCSignaler = require("./rtcsignal/req-handler.js");
 var userMediaDirectory = "./usermedia";
 var usersOnlineSockets = {};
 var wssServerOptions = {
@@ -2520,7 +2521,14 @@ const server = http.createServer(async function (req, res) {
     );
     return;
   }
-
+	try{
+		if (await WebRTCSignaler.handleHTTP(req,res)) {
+			return;
+		}
+	}catch(e){
+		console.log(e);
+	}
+	
   var ip = getIPFromRequest(req);
 
   var url = decodeURIComponent(req.url);
@@ -4864,6 +4872,11 @@ server.on("upgrade", async function upgrade(request, socket, head) {
       });
       return;
     }
+		if (method == "webrtc") {
+			if (await WebRTCSignaler.handleUpgrade(request, socket, head)) {
+				return;
+			}
+		}
     if (id && method == "room") {
       id = id.toLowerCase();
       var roomWs = roomWebsockets[id.toString()];

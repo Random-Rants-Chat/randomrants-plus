@@ -53,28 +53,28 @@ var elementJSON = [
         element: "a",
         className: "menuBarItem",
         textContent: "Chat",
-        href: "./chat"
+        href: "./chat",
       },
       //Quick join button.
       {
         element: "a",
         className: "menuBarItem",
         textContent: "Quick join",
-        href: "./join"
+        href: "./join",
       },
       //About button.
       {
         element: "a",
         className: "menuBarItem",
         textContent: "About",
-        href: "./about"
+        href: "./about",
       },
       //News button.
       {
         element: "a",
         className: "menuBarItem",
         textContent: "Site News",
-        href: "./sitenews"
+        href: "./sitenews",
       },
       //Documentary button.
       {
@@ -82,7 +82,7 @@ var elementJSON = [
         className: "menuBarItem",
         textContent: "Site Documentary",
         href: "https://randomrants-docs.onrender.com",
-        target: "_blank"
+        target: "_blank",
       },
     ],
   },
@@ -97,7 +97,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.body,
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 require("./user-menu.js");

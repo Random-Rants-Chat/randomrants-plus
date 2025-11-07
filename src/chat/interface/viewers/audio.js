@@ -112,7 +112,7 @@ class AudioViewerDialog {
                               var a = document.createElement("a");
                               a.href = _this.audioElement.src;
                               a.download = decodeURIComponent(
-                                _this.audioElement.src.split("/").pop()
+                                _this.audioElement.src.split("/").pop(),
                               );
                               a.click();
                               a.remove();

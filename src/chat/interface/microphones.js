@@ -2,6 +2,7 @@ var microphones = {};
 
 var elements = require("../../gp2/elements.js");
 var dialogs = require("../../dialogs.js");
+var screenShareClient = require("../../webrtc/");
 
 var microphoneUsageTexts = elements.getGPId("typingNoticeDiv");
 
@@ -18,9 +19,9 @@ microphones.start = function (
   displayName,
   userColor,
   userFont,
-  isSelf
+  isSelf,
 ) {
-  var ssc = window.screenShareClient;
+  var ssc = screenShareClient;
   if (ssc) {
     if (userMicrophones[id]) {
       microphones.end(id);
@@ -52,7 +53,7 @@ microphones.start = function (
     userMicrophone.span = span;
     microphoneUsageTexts.append(span);
 
-    userMicrophone.ss = window.screenShareClient.connectTo(
+    userMicrophone.ss = screenShareClient.connectTo(
       code,
       true,
       function (stream) {
@@ -63,7 +64,7 @@ microphones.start = function (
           } catch (e) {}
         }
       },
-      () => {}
+      () => {},
     );
 
     userMicrophones[id] = userMicrophone;
@@ -71,7 +72,7 @@ microphones.start = function (
 };
 
 microphones.end = function (id) {
-  var ssc = window.screenShareClient;
+  var ssc = screenShareClient;
   if (ssc) {
     if (!userMicrophones[id]) {
       return;

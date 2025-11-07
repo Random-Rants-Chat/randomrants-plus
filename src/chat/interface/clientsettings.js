@@ -246,7 +246,7 @@ class ClientSettingsMenu {
     }
     if (localStorage.getItem(this.client_settings_name)) {
       var settingJSON = JSON.parse(
-        localStorage.getItem(this.client_settings_name)
+        localStorage.getItem(this.client_settings_name),
       );
       for (var settingName of Object.keys(settingJSON)) {
         this.settings[settingName] = settingJSON[settingName];
@@ -256,7 +256,7 @@ class ClientSettingsMenu {
   saveSettings() {
     localStorage.setItem(
       this.client_settings_name,
-      JSON.stringify(this.settings)
+      JSON.stringify(this.settings),
     );
   }
 }

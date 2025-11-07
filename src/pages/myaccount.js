@@ -62,7 +62,7 @@ function compressImage(oldsrc) {
     };
     oldImg.onerror = function () {
       reject(
-        "Unable to load this image to compress and resize, maybe your browser doesn't support that format."
+        "Unable to load this image to compress and resize, maybe your browser doesn't support that format.",
       );
     };
   });
@@ -396,12 +396,12 @@ function compressImage(oldsrc) {
       var queryNumber = 0;
       var pfp = elements.getGPId("profilePicture_account");
       var selectUsernameColorButton = elements.getGPId(
-        "selectUsernameColorButton"
+        "selectUsernameColorButton",
       );
       var usernameSpan = elements.getGPId("usernameSpan");
       var changeDisplayNameButton = elements.getGPId("changeDisplayNameButton");
       var changeDisplayNameFontButton = elements.getGPId(
-        "changeDisplayNameFontButton"
+        "changeDisplayNameFontButton",
       );
       var displayNameInput = elements.getGPId("displayNameInput");
       var changePasswordButton = elements.getGPId("changePasswordButton");
@@ -433,7 +433,7 @@ function compressImage(oldsrc) {
               family: "monospace",
             },
           ].concat(fontList),
-          displayNameInput.style.fontFamily
+          displayNameInput.style.fontFamily,
         );
         if (!selectedFont) {
           return;
@@ -473,22 +473,22 @@ function compressImage(oldsrc) {
                 } catch (e) {
                   dialog.alert(
                     "Image resizing and compression hit an error. Try another image?\nTechnical error: " +
-                      e
+                      e,
                   );
                   return;
                 }
 
                 await fetch(
                   accountHelper.getServerURL() + "/account/picture/",
-                  { method: "POST", body: newImage.split(",").pop() }
+                  { method: "POST", body: newImage.split(",").pop() },
                 );
                 loadImage(newImage);
                 dialog.alert(
-                  "Profile picture upload success!\nReload all chatrooms to apply the new profile picture."
+                  "Profile picture upload success!\nReload all chatrooms to apply the new profile picture.",
                 );
               } catch (e) {
                 dialog.alert(
-                  `Couldn't upload your profile picture\nTry doing it again when you're ready.\nTechnical error: ${e}`
+                  `Couldn't upload your profile picture\nTry doing it again when you're ready.\nTechnical error: ${e}`,
                 );
               }
             };
@@ -502,7 +502,7 @@ function compressImage(oldsrc) {
         resetPFP.disabled = true;
 
         var accepted = await dialog.confirm(
-          "Are you sure to reset your picture? Once its gone, its gone forever!"
+          "Are you sure to reset your picture? Once its gone, its gone forever!",
         );
 
         if (!accepted) {
@@ -561,11 +561,11 @@ function compressImage(oldsrc) {
             body: JSON.stringify({
               displayName,
             }),
-          }
+          },
         );
         if (!response.ok) {
           dialog.alert(
-            "This name is too goofy or long, make it something shorter."
+            "This name is too goofy or long, make it something shorter.",
           );
           displayNameInput.disabled = false;
           return;
@@ -581,14 +581,14 @@ function compressImage(oldsrc) {
         changePasswordButton.disabled = true;
         if (await dialog.confirm(confirmPasswordMessage)) {
           var oldPassword = await dialog.passwordPrompt(
-            "Type your old password, just to confirm its you."
+            "Type your old password, just to confirm its you.",
           );
           if (!oldPassword) {
             dialog.alert("Password change canceled, nothing has been changed.");
             return;
           }
           var newPassword = await dialog.passwordPrompt(
-            "Make a new password, make sure its unique to other sites you use."
+            "Make a new password, make sure its unique to other sites you use.",
           );
           if (!newPassword) {
             dialog.alert("Password change canceled, nothing has been changed.");
@@ -603,17 +603,17 @@ function compressImage(oldsrc) {
                 newPassword,
                 oldPassword,
               }),
-            }
+            },
           );
           loadingScreen.remove();
           if (!response.ok) {
             dialog.alert(
-              "Something went wrong while changing your password. Maybe try again?"
+              "Something went wrong while changing your password. Maybe try again?",
             );
             return;
           }
           dialog.alert(
-            "Password was changed! All other devices have been signed out until you change the password back again."
+            "Password was changed! All other devices have been signed out until you change the password back again.",
           );
         }
         changePasswordButton.disabled = false;
@@ -631,7 +631,7 @@ function compressImage(oldsrc) {
               "- Rooms you own won't be deleted, they can still be accessed.\n" +
               "- Your profile picture and some info would be deleted to save database space.\n" +
               "- People that try to refrence your username would get an error.\n" +
-              "Deactivate your account now? You can't undo this action!"
+              "Deactivate your account now? You can't undo this action!",
           );
           if (!destroyConfirm) {
             dialog.alert("Deactivation canceled.");
@@ -639,7 +639,7 @@ function compressImage(oldsrc) {
             return;
           }
           var destroyPassword = await dialog.passwordPrompt(
-            "To make sure its actually you, enter your password:"
+            "To make sure its actually you, enter your password:",
           );
           if (!destroyPassword) {
             dialog.alert("Deactivation canceled.");
@@ -652,12 +652,12 @@ function compressImage(oldsrc) {
               body: JSON.stringify({
                 password: destroyPassword,
               }),
-            }
+            },
           );
           if (!destroyResponse.ok) {
             dialog.alert(
               "Deactivation had an error. Error: " +
-                (await destroyResponse.json()).message
+                (await destroyResponse.json()).message,
             );
             return;
           }
@@ -715,7 +715,7 @@ function compressImage(oldsrc) {
                         window.location.href =
                           "/signin?href=" +
                           encodeURIComponent(
-                            window.location.pathname + window.location.hash
+                            window.location.pathname + window.location.hash,
                           );
                       },
                     },
@@ -738,7 +738,7 @@ function compressImage(oldsrc) {
                         window.location.href =
                           "/signup?href=" +
                           encodeURIComponent(
-                            window.location.pathname + window.location.hash
+                            window.location.pathname + window.location.hash,
                           );
                       },
                     },

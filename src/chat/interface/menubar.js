@@ -65,14 +65,14 @@ var menuItems = [
     element: "a",
     className: "menuBarItem",
     textContent: "Quick join",
-    href: "./join"
+    href: "./join",
   },
   //Command Docs button.
   {
     element: "a",
     className: "menuBarItem",
     textContent: "Command Docs",
-    href: "https://randomrants-docs.onrender.com/commands/"
+    href: "https://randomrants-docs.onrender.com/commands/",
   },
   {
     element: "div",

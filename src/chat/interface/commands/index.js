@@ -458,7 +458,7 @@ com.vineboom = function () {
     {
       duration: 50,
       easing: "ease-out",
-    }
+    },
   );
   commandEffectsDiv.append(img);
   setTimeout(() => {
@@ -474,7 +474,7 @@ com.vineboom = function () {
       {
         duration: 300,
         easing: "ease-out",
-      }
+      },
     );
     a.onfinish = function () {
       img.remove();
@@ -605,7 +605,7 @@ com.importantMessage = function (messageText) {
                   {
                     easing: "ease-out",
                     duration: 1500,
-                  }
+                  },
                 );
                 anim.onfinish = function () {
                   setInterval(() => {
@@ -681,7 +681,7 @@ com.cheeseStorm = function () {
       {
         easing: "ease-out",
         duration: 200,
-      }
+      },
     );
     startAnimation.onfinish = function () {
       var clickable = true;
@@ -698,7 +698,7 @@ com.cheeseStorm = function () {
           {
             duration: 100,
             easing: "ease-out",
-          }
+          },
         ).onfinish = () => {
           cheeseDiv.remove();
         };
@@ -733,7 +733,7 @@ com.cheeseStorm = function () {
           {
             duration: 1000,
             easing: "ease-out",
-          }
+          },
         ).onfinish = () => cheeseDiv.remove();
       });
     };

@@ -5,12 +5,14 @@ var userState = require("../userstate.js");
 var uploadFileAsURL = require("../uploadfiles.js");
 var accountHelper = require("../../../accounthelper/index.js");
 
+var screenShareClient = require("../../../webrtc/");
+
 var isSecure = require("../is-secure.js");
 
 function getScratchCloudURI() {
-	return (isSecure() ? "wss://" : "ws://") +
-          window.location.host +
-          "/scratchcloud/";
+  return (
+    (isSecure() ? "wss://" : "ws://") + window.location.host + "/scratchcloud/"
+  );
 }
 
 var movingMediaTexts = [
@@ -74,7 +76,7 @@ function stopScreenshareStream() {
     });
   } catch (e) {
     console.warn(
-      `Failed to stop screenshare stream, screenshare stream must be closed manually.`
+      `Failed to stop screenshare stream, screenshare stream must be closed manually.`,
     );
   }
   screenshareStream = null;
@@ -117,7 +119,7 @@ function getMediaPlayingMenuBar() {
                 JSON.stringify({
                   type: "media",
                   command: "mediaResetRequest",
-                })
+                }),
               );
               stopScreenshareStream();
             },
@@ -202,7 +204,7 @@ function createMediaScreenshareVideo(code) {
 
   var videoElement = elements.getGPId("ssVideo");
 
-  screenshareClientObject = window.screenShareClient.connectTo(
+  screenshareClientObject = screenShareClient.connectTo(
     code,
     true,
     function (stream) {
@@ -213,7 +215,7 @@ function createMediaScreenshareVideo(code) {
       videoElement.pause();
       videoElement.remove();
       mediaVideo = null;
-    }
+    },
   );
 
   elements.appendElements(div, dom);
@@ -254,7 +256,7 @@ function createEmbedURLMedia(url) {
                 color: validationState.color,
                 font: validationState.font,
               },
-              "*"
+              "*",
             );
           }
         };
@@ -299,7 +301,7 @@ function screenshareStopFunction() {
 }
 
 async function startScreenshareButton(stream) {
-  if (window.screenShareClient) {
+  if (screenShareClient) {
     try {
       stopScreenshareStream();
       screenshareStream = stream;
@@ -312,7 +314,7 @@ async function startScreenshareButton(stream) {
               return;
             }
           }
-          screenshare = await window.screenShareClient.newHost(
+          screenshare = await screenShareClient.newHost(
             screenshareStream,
             true,
             function () {
@@ -320,7 +322,7 @@ async function startScreenshareButton(stream) {
               setTimeout(() => {
                 loadScreenshare();
               }, 500);
-            }
+            },
           );
           await (function () {
             return new Promise((accept) => {
@@ -338,7 +340,7 @@ async function startScreenshareButton(stream) {
                   JSON.stringify({
                     type: "media",
                     command: "mediaResetRequest",
-                  })
+                  }),
                 );
               });
             });
@@ -349,7 +351,7 @@ async function startScreenshareButton(stream) {
               type: "media",
               command: "screenshareRunning",
               code: screenshare.host.key,
-            })
+            }),
           );
           if (force) {
             screenshareRunning = true;
@@ -366,18 +368,18 @@ async function startScreenshareButton(stream) {
         JSON.stringify({
           type: "media",
           command: "mediaResetRequest",
-        })
+        }),
       );
       loadScreenshare(true);
       screenshareCode = null;
     } catch (e) {
       dialog.alert(
-        "Screenshare failed, does your current web browser support screen sharing?"
+        "Screenshare failed, does your current web browser support screen sharing?",
       );
     }
   } else {
     dialog.alert(
-      "The external screenshare runtime script is currently unavailible, please refresh your page to fix this error."
+      "The external screenshare runtime script is currently unavailible, please refresh your page to fix this error.",
     );
   }
 }
@@ -391,7 +393,7 @@ function messageHandler(json) {
   if (json.command == "screenshareRun") {
     hideMediaContent();
     mediaContentDiv.hidden = false;
-    if (window.screenShareClient) {
+    if (screenShareClient) {
       createMediaScreenshareVideo(json.code);
     }
   }
@@ -596,7 +598,7 @@ async function doMediaSelect() {
                             startScreenshareButton(stream);
                           } catch (e) {
                             dialog.alert(
-                              "Camera request failed, does your current browser support camera?\nCheck and see if your camera is blocked."
+                              "Camera request failed, does your current browser support camera?\nCheck and see if your camera is blocked.",
                             );
                           }
                         },
@@ -648,7 +650,7 @@ async function doMediaSelect() {
                             startScreenshareButton(stream);
                           } catch (e) {
                             dialog.alert(
-                              "Screenshare failed, does your current web browser support screen sharing?"
+                              "Screenshare failed, does your current web browser support screen sharing?",
                             );
                           }
                         },
@@ -763,21 +765,21 @@ async function doMediaSelect() {
                           div.remove();
                           div = null;
                           var embedURL = await dialog.prompt(
-                            "Type a link to embed to.\nCertian websites may block embedding for security purposes.\nClick cancel or type nothing to cancel."
+                            "Type a link to embed to.\nCertian websites may block embedding for security purposes.\nClick cancel or type nothing to cancel.",
                           );
                           if (embedURL) {
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaResetRequest",
-                              })
+                              }),
                             );
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaEmbedRunning",
                                 url: embedURL,
-                              })
+                              }),
                             );
                           }
                         },
@@ -820,14 +822,14 @@ async function doMediaSelect() {
                                   JSON.stringify({
                                     type: "media",
                                     command: "mediaResetRequest",
-                                  })
+                                  }),
                                 );
                                 sws.send(
                                   JSON.stringify({
                                     type: "media",
                                     command: "mediaEmbedRunning",
                                     url: url,
-                                  })
+                                  }),
                                 );
                               }
                             }
@@ -871,7 +873,7 @@ async function doMediaSelect() {
 
                           try {
                             const response = await fetch(
-                              "https://randomrants-rt-paint-server.onrender.com/room/create"
+                              "https://randomrants-rt-paint-server.onrender.com/room/create",
                             );
                             const { roomId } = await response.json();
 
@@ -879,27 +881,27 @@ async function doMediaSelect() {
 
                             const embedURL = `https://random-rants-chat.github.io/randomrants-paint-realtime/?server=${encodeURIComponent(
                               "wss://randomrants-rt-paint-server.onrender.com/" +
-                                roomId
+                                roomId,
                             )}`;
 
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaResetRequest",
-                              })
+                              }),
                             );
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaEmbedRunning",
                                 url: embedURL,
-                              })
+                              }),
                             );
                           } catch (err) {
                             loadingMediaDiv.remove();
                             dialog.alert(
                               "Error creating collaborative canvas room:\n" +
-                                err
+                                err,
                             );
                           }
                         },
@@ -948,14 +950,14 @@ async function doMediaSelect() {
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaResetRequest",
-                              })
+                              }),
                             );
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaEmbedRunning",
                                 url: embedURL,
-                              })
+                              }),
                             );
                           } catch (err) {
                             loadingMediaDiv.remove();
@@ -995,7 +997,7 @@ async function doMediaSelect() {
 
                           try {
                             var response = await fetch(
-                              "https://randomrants-minigame-cloud.onrender.com/"
+                              "https://randomrants-minigame-cloud.onrender.com/",
                             );
                             loadingMediaDiv.remove();
                             var username = "player";
@@ -1010,14 +1012,14 @@ async function doMediaSelect() {
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaResetRequest",
-                              })
+                              }),
                             );
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaEmbedRunning",
                                 url: embedURL,
-                              })
+                              }),
                             );
                           } catch (err) {
                             loadingMediaDiv.remove();
@@ -1056,7 +1058,7 @@ async function doMediaSelect() {
 
                           try {
                             var response = await fetch(
-                              "https://randomrants-minigame-cloud.onrender.com/"
+                              "https://randomrants-minigame-cloud.onrender.com/",
                             );
                             loadingMediaDiv.remove();
                             var username = "player";
@@ -1071,14 +1073,14 @@ async function doMediaSelect() {
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaResetRequest",
-                              })
+                              }),
                             );
                             sws.send(
                               JSON.stringify({
                                 type: "media",
                                 command: "mediaEmbedRunning",
                                 url: embedURL,
-                              })
+                              }),
                             );
                           } catch (err) {
                             loadingMediaDiv.remove();

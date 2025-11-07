@@ -2,6 +2,7 @@ var cameras = {};
 
 var elements = require("../../gp2/elements.js");
 var dialogs = require("../../dialogs.js");
+var screenShareClient = require("../../webrtc/");
 
 var cameraVideosDiv = elements.getGPId("camerasVideosDiv");
 
@@ -36,7 +37,7 @@ function createCameraVideoDiv(fullScreenToggleFunction) {
 var cameraVideos = {};
 
 cameras.show = function (id, code, displayName, userColor, userFont) {
-  var ssc = window.screenShareClient;
+  var ssc = screenShareClient;
   if (ssc) {
     if (cameraVideos[id]) {
       cameras.hide(id);
@@ -91,7 +92,7 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
           {
             duration: 300,
             easing: "ease-out",
-          }
+          },
         );
         back = true;
         transitionAnim.onfinish = function () {
@@ -122,7 +123,7 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
           {
             duration: 300,
             easing: "ease-out",
-          }
+          },
         );
       }
     });
@@ -132,7 +133,7 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
 
     cameraVideosDiv.append(elms.div);
 
-    cameraVideo.ss = window.screenShareClient.connectTo(
+    cameraVideo.ss = screenShareClient.connectTo(
       code,
       true,
       function (stream) {
@@ -140,7 +141,7 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
         elms.video.muted = true;
         elms.video.play();
       },
-      () => {}
+      () => {},
     );
 
     cameraVideos[id] = cameraVideo;
@@ -148,7 +149,7 @@ cameras.show = function (id, code, displayName, userColor, userFont) {
 };
 
 cameras.hide = function (id) {
-  var ssc = window.screenShareClient;
+  var ssc = screenShareClient;
   if (ssc) {
     if (!cameraVideos[id]) {
       return;

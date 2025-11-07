@@ -9,7 +9,7 @@ var repoURL = getGHFileURL(
   "Random-Rants-Chat",
   "randomrants-new-fonts",
   "4d837ee",
-  "fonts/"
+  "fonts/",
 );
 
 var pageElements = elements.createElementsFromJSON([

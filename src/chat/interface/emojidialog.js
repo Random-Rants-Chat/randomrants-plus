@@ -123,7 +123,7 @@ function reloadEmojis() {
         }
         return existsNoCaseSensitive(
           lettersAndNumbersOnly(emoji.name),
-          termToFind
+          termToFind,
         );
       });
     }
@@ -170,7 +170,7 @@ function reloadEmojis() {
     if (foundEmojis) {
       elements.appendElementsFromJSON(
         emojiDialogContainer,
-        mapToButtons(foundEmojis)
+        mapToButtons(foundEmojis),
       );
     }
     return;
@@ -180,7 +180,7 @@ function reloadEmojis() {
   if (currentGroup) {
     elements.appendElementsFromJSON(
       emojiDialogContainer,
-      mapToButtons(currentGroup.emojis)
+      mapToButtons(currentGroup.emojis),
     );
   }
 }

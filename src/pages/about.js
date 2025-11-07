@@ -15,7 +15,7 @@ function createSocialDivJSON(
   name,
   subname,
   socialButtons,
-  discriptionArray
+  discriptionArray,
 ) {
   return {
     element: "div",
@@ -89,7 +89,7 @@ function createSocialDivJSON(
                 },
               ],
             };
-          })
+          }),
         ),
       },
       {
@@ -179,7 +179,7 @@ var randomRantsAbout = [
           "Started out making scratch projects, learned javascript, then I created a bunch of websites, this is one of them.",
           "Responsible for almost everything here, ChatGPT & Google Gemini helped with some programming, but I did most of the programming work.",
           "Banned from Scratch, dealing with life struggles (Grounded and stuff).",
-        ]
+        ],
       ),
       //MOP-3000/Im_CatmanYT
       createSocialDivJSON(
@@ -210,7 +210,7 @@ var randomRantsAbout = [
         [
           "I met him in real life. Came up with the idea of Random Rants.",
           "Is a 2D animator and obsessed with animation.",
-        ]
+        ],
       ),
     ],
   },

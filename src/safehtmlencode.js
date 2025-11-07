@@ -114,7 +114,7 @@ var elements = require("./gp2/elements.js");
 function getBracketCodeJSON(
   inputText = "",
   triggerBracketCodes = {},
-  IMAGE_EMOJI_SIZE = 40
+  IMAGE_EMOJI_SIZE = 40,
 ) {
   var linkfixes = inputText.split(" ");
   var newinputstr = [];

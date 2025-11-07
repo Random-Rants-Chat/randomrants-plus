@@ -2,10 +2,10 @@ var elements = require("./gp2/elements.js");
 var AElement = require("./gp2/aelement.js");
 var accountHelper = require("./accounthelper/index.js");
 
-function getHrefURLOrNormalURL (normalURL) {
+function getHrefURLOrNormalURL(normalURL) {
   var params = new URLSearchParams(window.location.search);
   if (params.get("href")) {
-    return (normalURL+"?href=" + params.get("href"));
+    return normalURL + "?href=" + params.get("href");
   }
   return normalURL;
 }
@@ -21,7 +21,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.getGPId("menu_bar"),
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 var signInButton = {
@@ -113,12 +113,12 @@ var myAccountButton = {
     };
     elements.appendElements(
       elements.getGPId("menu_bar"),
-      elements.createElementsFromJSON([myAccountButton])
+      elements.createElementsFromJSON([myAccountButton]),
     );
   } else {
     elements.appendElements(
       elements.getGPId("menu_bar"),
-      elements.createElementsFromJSON([signInButton, signUpButton])
+      elements.createElementsFromJSON([signInButton, signUpButton]),
     );
   }
 })();

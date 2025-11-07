@@ -4,10 +4,10 @@ var accountHelper = require("../../accounthelper/index.js");
 var RTNotifications = require("./notifications/index.js");
 var KnownUserList = require("./userlist-menu.js");
 
-function getHrefURLOrNormalURL (normalURL) {
+function getHrefURLOrNormalURL(normalURL) {
   var params = new URLSearchParams(window.location.search);
   if (params.get("href")) {
-    return (normalURL+"?href=" + params.get("href"));
+    return normalURL + "?href=" + params.get("href");
   }
   return normalURL;
 }
@@ -16,7 +16,7 @@ var elementJSON = [];
 
 elements.appendElements(
   elements.getGPId("menuBar"),
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 var signInButton = {
@@ -24,14 +24,14 @@ var signInButton = {
   className: "menuBarItem",
   textContent: "Sign in",
   gid: "menu_signIn",
-  href: getHrefURLOrNormalURL("./signin")
+  href: getHrefURLOrNormalURL("./signin"),
 };
 var signUpButton = {
   element: "a",
   className: "menuBarItem",
   textContent: "Sign up",
   gid: "menu_signUp",
-  href: getHrefURLOrNormalURL("./signup")
+  href: getHrefURLOrNormalURL("./signup"),
 };
 
 var myAccountButton = {};
@@ -107,12 +107,12 @@ if (validated) {
       KnownUserList.getMenuItem(),
       RTNotifications.getMenuItem(),
       myAccountButton,
-    ])
+    ]),
   );
   RTNotifications.startup();
 } else {
   elements.appendElements(
     elements.getGPId("menuBar"),
-    elements.createElementsFromJSON([signInButton, signUpButton])
+    elements.createElementsFromJSON([signInButton, signUpButton]),
   );
 }

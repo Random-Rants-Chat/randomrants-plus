@@ -117,7 +117,7 @@ class RealTimeNotifications {
                       sws.send(
                         JSON.stringify({
                           type: "readAll",
-                        })
+                        }),
                       );
                     },
                   },
@@ -216,7 +216,7 @@ class RealTimeNotifications {
       (isSecure() ? "wss://" : "ws://") +
         window.location.host +
         "/notifications",
-      this.onMessage.bind(this)
+      this.onMessage.bind(this),
     );
   }
   onMessage(e) {
@@ -243,7 +243,7 @@ class RealTimeNotifications {
           notify.sendIfNotOnScreen(
             "Testing",
             "Test notification",
-            "New notification received"
+            "New notification received",
           );
         }
         if (
@@ -257,7 +257,7 @@ class RealTimeNotifications {
               ' has invited you to the chat room "' +
               notification.roomName +
               '"',
-            "Invited to " + notification.roomName
+            "Invited to " + notification.roomName,
           );
         }
       }
@@ -279,7 +279,7 @@ class RealTimeNotifications {
       JSON.stringify({
         type: "read",
         id: notification.id,
-      })
+      }),
     );
   }
 
@@ -296,7 +296,7 @@ class RealTimeNotifications {
               JSON.stringify({
                 type: "read",
                 id: notification.id,
-              })
+              }),
             );
           },
         },
@@ -403,7 +403,7 @@ class RealTimeNotifications {
           ];
         }
         return div;
-      })
+      }),
     );
   }
 }

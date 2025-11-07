@@ -31,11 +31,11 @@ varsSplit = varsSplit.map((variable) => {
   if (variable.indexOf("background") > -1 || variable.indexOf("color") > -1) {
     variable = variable.replaceAll(
       "white",
-      "hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%)"
+      "hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%)",
     );
     variable = variable.replaceAll(
       "black",
-      "hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%)"
+      "hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%)",
     );
   }
   return variable;

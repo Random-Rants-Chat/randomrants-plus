@@ -125,7 +125,7 @@ function createFloatingEmoji(emojiText, spawnAnywhere = false, spawnAt) {
       {
         easing: "ease-out",
         duration: 500,
-      }
+      },
     );
 
     var startTime = performance.now();
@@ -186,7 +186,7 @@ function mapAllEmojiReactions(reactions) {
               JSON.stringify({
                 type: "reaction",
                 emoji: this.getAttribute("realContent"),
-              })
+              }),
             );
           },
         },
@@ -229,7 +229,7 @@ function mapAllEmojiReactions(reactions) {
 
 elements.setInnerJSON(
   emojiReactionButtonsContainer,
-  mapAllEmojiReactions(REACTION_EMOJIS)
+  mapAllEmojiReactions(REACTION_EMOJIS),
 );
 
 module.exports = emojiReactions;

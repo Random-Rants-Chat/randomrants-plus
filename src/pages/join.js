@@ -41,7 +41,7 @@ var elementJSON = [
           duration: 700,
           iterations: 1,
           easing: "ease-out",
-        }
+        },
       );
     },
     children: [
@@ -120,13 +120,13 @@ async function joinToRoom() {
   var joinCodeString = joinCodeInput.value.toUpperCase();
 
   var response = await fetch(
-    accountHelper.getServerURL() + "/quickjoin/code/" + joinCodeString
+    accountHelper.getServerURL() + "/quickjoin/code/" + joinCodeString,
   );
   if (!response.ok) {
     dialog.alert(
       "💥 Error " +
         response.status +
-        "! That code might’ve exploded or expired."
+        "! That code might’ve exploded or expired.",
     );
     return;
   }

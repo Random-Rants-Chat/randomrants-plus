@@ -298,7 +298,7 @@ function createSoundboardButtonDiv(sound, index) {
           func: function () {
             sb.onSoundButtonClick(
               index,
-              soundboardMultipliers[soundboardMutliplier].mult
+              soundboardMultipliers[soundboardMutliplier].mult,
             );
           },
         },
@@ -335,7 +335,7 @@ sb.load = function (otherJSON, onProgress) {
     otherJSON.soundboardGithub.user,
     otherJSON.soundboardGithub.repo,
     otherJSON.soundboardGithub.version,
-    ""
+    "",
   );
 
   return new Promise((accept, reject) => {
@@ -438,7 +438,7 @@ sb.playSound = function (index, mult = 1, displayName) {
           {
             easing: "ease-in",
             duration: 50,
-          }
+          },
         );
       }
     }
@@ -473,7 +473,7 @@ sb.playSound = function (index, mult = 1, displayName) {
             {
               easing: "ease-in",
               duration: 50,
-            }
+            },
           );
           animation.addEventListener("finish", () => {
             player._element.remove();

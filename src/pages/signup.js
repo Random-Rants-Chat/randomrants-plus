@@ -112,7 +112,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.body,
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 var goButton = elements.getGPId("goButton");

@@ -38,6 +38,7 @@
     "delay": 2500
   },
   "dependencies": {
-    "prettier": "^3.6.2"
+    "prettier": "^3.6.2",
+    "simple-peer": "^9.11.1"
   }
 }

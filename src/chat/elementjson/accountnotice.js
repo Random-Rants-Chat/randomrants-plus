@@ -109,7 +109,7 @@ module.exports = {
               href:
                 "./signin?href=" +
                 encodeURIComponent(
-                  window.location.pathname + window.location.hash
+                  window.location.pathname + window.location.hash,
                 ),
               children: [
                 {
@@ -128,7 +128,7 @@ module.exports = {
               href:
                 "./signup?href=" +
                 encodeURIComponent(
-                  window.location.pathname + window.location.hash
+                  window.location.pathname + window.location.hash,
                 ),
               children: [
                 {

@@ -38,12 +38,12 @@ class CommandHandler {
       function (args, userInfo, senderClient) {
         sendFeedbackLocal(
           senderClient,
-          "The new command for all listed commands is ;help"
+          "The new command for all listed commands is ;help",
         );
         _this.doCommand(["help"], senderClient); //Run help command as the sender.
       },
       "Just a placeholder command, it only tells the person using it to use the help command.",
-      false
+      false,
     );
 
     //This is a useful command, but is separated because yes:
@@ -61,14 +61,14 @@ class CommandHandler {
             ) {
               sendFeedbackLocal(
                 senderClient,
-                `[bold][color css=yellow];${commandName}[/color][/bold] - ${_this.commandHelp[commandName]}`
+                `[bold][color css=yellow];${commandName}[/color][/bold] - ${_this.commandHelp[commandName]}`,
               );
             } else {
               sendFeedbackLocal(
                 senderClient,
                 'Help was unable to find command "' +
                   commandName +
-                  '". You must mention this command in its proper case.'
+                  '". You must mention this command in its proper case.',
               );
             }
             return;
@@ -92,7 +92,7 @@ class CommandHandler {
         sendFeedbackLocal(senderClient, text);
       },
       "<Command Name (Not required)>[br]Gives you the list of commands, or type the command name as the first argument for it.",
-      false
+      false,
     );
 
     //Useful commands:
@@ -103,7 +103,7 @@ class CommandHandler {
         wss._rrRefreshRoom(); //Random rants + has special properties assigned to client and the room websocket server.
       },
       "Restarts the room, this will clear all the messages.",
-      true
+      true,
     );
 
     addCommand(
@@ -126,7 +126,7 @@ class CommandHandler {
         });
       },
       "<Username> <Command>[br]Runs the following command as someone else (as the sender) or multiple people.[br]This should [bold]n o t[/bold] be very annoying.",
-      true
+      true,
     );
 
     addCommand(
@@ -139,7 +139,7 @@ class CommandHandler {
         });
       },
       "<Username> <Message>[br]Shows a popup to the user's browser saying the message provided.",
-      true
+      true,
     );
 
     addCommand(
@@ -152,7 +152,7 @@ class CommandHandler {
         });
       },
       "<Username>[br]Kick out the specified user from the room.",
-      true
+      true,
     );
 
     addCommand(
@@ -164,7 +164,7 @@ class CommandHandler {
         });
       },
       "<Username>[br]Freezes the UI temporarily for the user.",
-      true
+      true,
     );
 
     addCommand(
@@ -175,7 +175,7 @@ class CommandHandler {
         if (!/^https?:\/\//.test(url)) {
           sendFeedbackLocal(
             senderClient,
-            "URL must start with http:// or https://"
+            "URL must start with http:// or https://",
           );
           return;
         }
@@ -184,7 +184,7 @@ class CommandHandler {
         });
       },
       "<Username> <URL>[br]Redirects the user to a new page.",
-      true
+      true,
     );
 
     addCommand(
@@ -196,7 +196,7 @@ class CommandHandler {
         return CommandHandler.HIDE_MESSAGE;
       },
       "<Message>[br]Broadcasts a message with the [bold][Notice][/bold] name",
-      true
+      true,
     );
 
     addCommand(
@@ -209,12 +209,12 @@ class CommandHandler {
           renamed = true;
           client._rrRenameDisplayName(newName);
           sendFeedbackGlobal(
-            `[bold]${client._rrUsername}[/bold]'s display name was temporarily changed to "[bold]${newName}[/bold]".`
+            `[bold]${client._rrUsername}[/bold]'s display name was temporarily changed to "[bold]${newName}[/bold]".`,
           );
         });
       },
       "<Username> <New Display Name>[br]Changes display name for that user only for that room, or until they rejoin",
-      true
+      true,
     );
 
     //Joke commands:
@@ -230,7 +230,7 @@ class CommandHandler {
         });
       },
       "Ballz",
-      true
+      true,
     );
 
     addCommand(
@@ -242,7 +242,7 @@ class CommandHandler {
         });
       },
       "Run it, and it will explain it all",
-      true
+      true,
     );
 
     addCommand(
@@ -251,7 +251,7 @@ class CommandHandler {
         sendClientCommand(senderClient, "spin");
       },
       "Spinny spin spin!",
-      false
+      false,
     );
 
     addCommand(
@@ -267,7 +267,7 @@ class CommandHandler {
         sendClientCommand(senderClient, "popcat", numb);
       },
       "<Seconds>[br]Pop pop pop pop pop",
-      true
+      true,
     );
 
     addCommand(
@@ -279,7 +279,7 @@ class CommandHandler {
         });
       },
       "<Username> <Intensity>[br]Gives the username typed a screen shake.",
-      true
+      true,
     );
 
     addCommand(
@@ -291,7 +291,7 @@ class CommandHandler {
         });
       },
       "<Username>[br]Flashes the screen background for a moment.",
-      true
+      true,
     );
 
     addCommand(
@@ -300,7 +300,7 @@ class CommandHandler {
         sendClientCommand(senderClient, "funni");
       },
       "XD",
-      true
+      true,
     );
 
     addCommand(
@@ -315,7 +315,7 @@ class CommandHandler {
         });
       },
       "<Username>[br]Yipee!",
-      false
+      false,
     );
 
     addCommand(
@@ -327,7 +327,7 @@ class CommandHandler {
         });
       },
       'Triggers a "dramatic" DOOM countdown on everyone\'s screen.',
-      false
+      false,
     );
 
     addCommand(
@@ -339,7 +339,7 @@ class CommandHandler {
         });
       },
       "Enjoy your free trial!",
-      false
+      false,
     );
 
     addCommand(
@@ -351,7 +351,7 @@ class CommandHandler {
         });
       },
       "<Username>[br]Summons a bunch of fake errors and does BSOD on the username.",
-      true //Should be owner only because it could be laggy to inactive users when the errors start to stack up.
+      true, //Should be owner only because it could be laggy to inactive users when the errors start to stack up.
     );
 
     addCommand(
@@ -363,7 +363,7 @@ class CommandHandler {
         });
       },
       "Plays vineboom on everyone's device",
-      true
+      true,
     );
 
     addCommand(
@@ -381,7 +381,7 @@ class CommandHandler {
         sendClientCommand(randomClient, "breakdance");
       },
       "<Username>[br]Shows a microwave breakdancing on someones screen, small in a random spot, and teleports around the screen every 1/2 seconds and keeps doing that until the user clicks him or after 30 seconds.",
-      true
+      true,
     );
 
     addCommand(
@@ -394,7 +394,7 @@ class CommandHandler {
         return CommandHandler.HIDE_MESSAGE;
       },
       "<Username>[br]Makes the specified users screen veeeeeeeeeery slowly start rotating to the left. VEEEEEEEEEEEEERY slow so that eventually they’ll start to realize their screen is a bit off",
-      true
+      true,
     );
     addCommand(
       "align",
@@ -405,7 +405,7 @@ class CommandHandler {
         });
       },
       "<Username>[br]Aligns the specified users screen back to its default position from the mildly infuriating command, this command won’t show in the ;help list",
-      true
+      true,
     );
     addCommand(
       "importantMessage",
@@ -415,7 +415,7 @@ class CommandHandler {
         if (message.trim().length < 1) {
           sendFeedbackLocal(
             senderClient,
-            "Message needs to be at least one character."
+            "Message needs to be at least one character.",
           );
           return CommandHandler.HIDE_MESSAGE;
         }
@@ -425,7 +425,7 @@ class CommandHandler {
         return CommandHandler.HIDE_MESSAGE;
       },
       "<Username> <Message>[br]Makes the screen of the target empty (besides the background color) except for a small black box, and if you click it - it slowly fades out and reveals a message, then after a second it returns the screen back to normal like nothing happened.",
-      true
+      true,
     );
     addCommand(
       "cheese",
@@ -436,7 +436,7 @@ class CommandHandler {
         });
       },
       '<Username>[br]Many cheese images will show up on the users screen and each stay there for a few seconds. When the user clicks them, they go away and show "+1 cheese".',
-      true
+      true,
     );
     addCommand(
       "quote",
@@ -449,7 +449,7 @@ class CommandHandler {
         if (foundClients.length !== 1) {
           sendFeedbackLocal(
             senderClient,
-            "Too many users are selected, only one user needs to be chosen."
+            "Too many users are selected, only one user needs to be chosen.",
           );
           return CommandHandler.HIDE_MESSAGE;
         }
@@ -459,7 +459,7 @@ class CommandHandler {
         if (message.length > 0) {
           sendFeedbackGlobalWithName(
             `“${message}” -${getUserInfo(foundClient).name}, ${currentYear}`,
-            "[Notice]"
+            "[Notice]",
           );
         } else {
           var lastMessage = null;
@@ -475,7 +475,7 @@ class CommandHandler {
           }
           sendFeedbackGlobalWithName(
             `“${lastMessage}” -${getUserInfo(foundClient).name}, ${currentYear}`,
-            "[Notice]"
+            "[Notice]",
           );
         }
         return CommandHandler.HIDE_MESSAGE;
@@ -483,7 +483,7 @@ class CommandHandler {
       "<Username> <Message (Optional)[br]Only doing the quote and username will have the “[Notice]” say “quote goes here” -<username>, " +
         new Date().getFullYear() +
         "” and the quote is the most recent message that the specified user sent. However if you write your own quote, it’ll just say the same thing but with the quote being the thing you said.",
-      false
+      false,
     );
 
     addCommand(
@@ -498,13 +498,13 @@ class CommandHandler {
 
         sendFeedbackGlobalWithName(
           `[italic]${message}[/italic]`,
-          `* ${userInfo.name}`
+          `* ${userInfo.name}`,
         );
 
         return CommandHandler.HIDE_MESSAGE;
       },
       "<message>[br]Broadcasts an 'action' message to the room. (e.g., ';me is grounded')",
-      false
+      false,
     );
 
     addCommand(
@@ -526,19 +526,19 @@ class CommandHandler {
             roll += Math.floor(Math.random() * sides) + 1;
           }
           sendFeedbackGlobal(
-            `[bold]${userInfo.name}[/bold] rolled ${dice}d${sides} and got... [bold]${roll}[/bold]!`
+            `[bold]${userInfo.name}[/bold] rolled ${dice}d${sides} and got... [bold]${roll}[/bold]!`,
           );
         } else {
           // Simple ;roll 1-100
           sendFeedbackGlobal(
-            `[bold]${userInfo.name}[/bold] rolled a [bold]${roll}[/bold] (1-100)`
+            `[bold]${userInfo.name}[/bold] rolled a [bold]${roll}[/bold] (1-100)`,
           );
         }
 
         return CommandHandler.HIDE_MESSAGE;
       },
       "<1d20 (optional)>[br]Rolls a dice. Defaults to 1-100.",
-      false // false = for everyone!
+      false, // false = for everyone!
     );
 
     // ;8ball - The magic 8-ball
@@ -577,13 +577,13 @@ class CommandHandler {
         var answer = responses[Math.floor(Math.random() * responses.length)];
 
         sendFeedbackGlobal(
-          `🎱 [bold]${userInfo.name}[/bold] asked: "[italic]${question}[/italic]"[br]The magic 8-ball says: [bold]${answer}[/bold]`
+          `🎱 [bold]${userInfo.name}[/bold] asked: "[italic]${question}[/italic]"[br]The magic 8-ball says: [bold]${answer}[/bold]`,
         );
 
         return CommandHandler.HIDE_MESSAGE;
       },
       "<question>[br]Asks the magic 8-ball a question.",
-      false // false = for everyone!
+      false, // false = for everyone!
     );
 
     // ;mute - The "timeout" command (now handles spaces)
@@ -615,7 +615,7 @@ class CommandHandler {
         if (nameToSearch.length === 0) {
           sendFeedbackLocal(
             senderClient,
-            "No user specified. Usage: ;mute <Username> <Minutes>"
+            "No user specified. Usage: ;mute <Username> <Minutes>",
           );
           return;
         }
@@ -625,7 +625,7 @@ class CommandHandler {
         if (foundClients.length === 0) {
           sendFeedbackLocal(
             senderClient,
-            "User not found: '" + nameToSearch + "'"
+            "User not found: '" + nameToSearch + "'",
           );
           return;
         }
@@ -637,16 +637,16 @@ class CommandHandler {
 
           var targetInfo = getUserInfo(client);
           sendFeedbackGlobal(
-            `[bold]${targetInfo.displayName}[/bold] has been muted for ${minutes} minute(s).`
+            `[bold]${targetInfo.displayName}[/bold] has been muted for ${minutes} minute(s).`,
           );
           sendFeedbackLocal(
             client,
-            `[bold][color css=red]You have been muted for ${minutes} minute(s) by an owner.[/color][/bold]`
+            `[bold][color css=red]You have been muted for ${minutes} minute(s) by an owner.[/color][/bold]`,
           );
         });
       },
       "<Username> <Minutes>[br]Mutes a user, preventing them from sending any messages or commands. Defaults to 5 minutes.",
-      true // true = owner only!
+      true, // true = owner only!
     );
 
     // ;unmute - The command to undo the mute (now handles spaces)
@@ -664,7 +664,7 @@ class CommandHandler {
         if (foundClients.length === 0) {
           sendFeedbackLocal(
             senderClient,
-            "User not found: '" + nameToSearch + "'"
+            "User not found: '" + nameToSearch + "'",
           );
           return;
         }
@@ -674,16 +674,16 @@ class CommandHandler {
 
           var targetInfo = getUserInfo(client);
           sendFeedbackGlobal(
-            `[bold]${targetInfo.displayName}[/bold] has been unmuted.`
+            `[bold]${targetInfo.displayName}[/bold] has been unmuted.`,
           );
           sendFeedbackLocal(
             client,
-            `[bold][color css=green]You have been unmuted by an owner.[/color][/bold]`
+            `[bold][color css=green]You have been unmuted by an owner.[/color][/bold]`,
           );
         });
       },
       "<Username>[br]Unmutes a user.",
-      true // true = owner only!
+      true, // true = owner only!
     );
 
     ////////////////////////////////////////////////////
@@ -696,7 +696,7 @@ class CommandHandler {
         type: "commandToClient",
         cType: type,
         args,
-      })
+      }),
     );
   }
 
@@ -727,18 +727,18 @@ class CommandHandler {
         var output = this.commands[commandName](
           args.slice(1),
           this.getUserInfo(client),
-          client
+          client,
         );
         return output;
       } catch (e) {
         console.log(
-          `[Command warning]: Command ${commandName} failed with error ${e}`
+          `[Command warning]: Command ${commandName} failed with error ${e}`,
         );
       }
     } else {
       this.sendFeedbackLocal(
         client,
-        `Unable to find command "${commandName}". Remember commands are case sensitive.`
+        `Unable to find command "${commandName}". Remember commands are case sensitive.`,
       );
     }
   }
@@ -836,7 +836,7 @@ class CommandHandler {
       var timeLeft = Math.ceil((client._rrMutedUntil - Date.now()) / 1000 / 60);
       this.sendFeedbackLocal(
         client,
-        `[bold][color css=red]You are muted. You cannot send messages or commands for ${timeLeft} more minute(s).[/color][/bold]`
+        `[bold][color css=red]You are muted. You cannot send messages or commands for ${timeLeft} more minute(s).[/color][/bold]`,
       );
       return CommandHandler.HIDE_MESSAGE; // Stop here!
     } else if (client._rrMutedUntil) {
@@ -870,7 +870,7 @@ class CommandHandler {
           message: message,
           isServer: true,
           displayName: "[Commands]",
-        })
+        }),
       );
     }
   }
@@ -883,7 +883,7 @@ class CommandHandler {
           message: message,
           isServer: true,
           displayName: name,
-        })
+        }),
       );
     }
   }
@@ -897,7 +897,7 @@ class CommandHandler {
             message: message,
             isServer: true,
             displayName: "[Commands]",
-          })
+          }),
         );
       }
     }
@@ -912,7 +912,7 @@ class CommandHandler {
             message: message,
             isServer: true,
             displayName: name,
-          })
+          }),
         );
       }
     }

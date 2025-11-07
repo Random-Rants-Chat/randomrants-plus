@@ -72,7 +72,7 @@ function createFloatingEmoji(spawnAnywhere = false, spawnAt) {
         duration: 350,
         iterations: 1,
         easing: "ease-out",
-      }
+      },
     );
   }
 
@@ -93,7 +93,7 @@ function createFloatingEmoji(spawnAnywhere = false, spawnAt) {
         duration: 350,
         iterations: 1,
         easing: "ease-out",
-      }
+      },
     );
     animation.addEventListener("finish", () => {
       emoji.remove();

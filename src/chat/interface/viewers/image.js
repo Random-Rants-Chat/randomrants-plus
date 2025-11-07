@@ -118,7 +118,7 @@ class ImageViewerDialog {
                               var a = document.createElement("a");
                               a.href = _this.imageElement.src;
                               a.download = decodeURIComponent(
-                                _this.imageElement.src.split("/").pop()
+                                _this.imageElement.src.split("/").pop(),
                               );
                               a.click();
                               a.remove();

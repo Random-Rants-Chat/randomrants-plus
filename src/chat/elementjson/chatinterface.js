@@ -324,7 +324,7 @@ var rightSide = {
             event: "input",
             func: function () {
               this.placeholder = returnRandomValueFromArray(
-                chatInputPlaceholders
+                chatInputPlaceholders,
               );
             },
           },

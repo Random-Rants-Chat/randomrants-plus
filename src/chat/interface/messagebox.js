@@ -41,7 +41,7 @@ function sendMessageFromTextBox() {
         type: "postMessagePrivate",
         message: privateMessage,
         targetUser: targetUsername,
-      })
+      }),
     );
 
     return;
@@ -52,7 +52,7 @@ function sendMessageFromTextBox() {
     JSON.stringify({
       type: "postMessage",
       message,
-    })
+    }),
   );
 }
 
@@ -65,7 +65,7 @@ messageInputBox.addEventListener("input", function () {
   sws.send(
     JSON.stringify({
       type: "typing",
-    })
+    }),
   );
 });
 

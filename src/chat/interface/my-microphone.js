@@ -1,6 +1,7 @@
 var elements = require("../../gp2/elements.js");
 var dialogs = require("../../dialogs.js");
 var sws = require("./sharedwebsocket.js");
+var screenShareClient = require("../../webrtc/");
 
 var toggleButton = elements.getGPId("toggleMicrophoneButton");
 
@@ -55,7 +56,7 @@ toggleButton.addEventListener("click", async () => {
         return;
       }
 
-      contentSS = await window.screenShareClient.newHost(
+      contentSS = await screenShareClient.newHost(
         contentStream,
         true,
         function () {

@@ -17,7 +17,7 @@ function generateDiv(
   isAbleToChangeOwnership,
   changeOwnershipFunction,
   forceOwnershipChangable,
-  blockUserFunction
+  blockUserFunction,
 ) {
   var pfp = accountHelper.getProfilePictureURL(username);
   if (!username) {

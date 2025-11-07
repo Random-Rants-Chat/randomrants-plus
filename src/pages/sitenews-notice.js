@@ -12,8 +12,7 @@ if (enabled) {
         },
       },
     ],
-    title:
-      "Click to read Important News",
+    title: "Click to read Important News",
     children: [
       {
         element: "span",

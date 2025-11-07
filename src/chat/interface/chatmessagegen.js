@@ -44,7 +44,7 @@ function generateBrowserThumbnail(videoFile, timeInSeconds = 2) {
 function getBracketCodeJSON(
   inputText = "",
   triggerBracketCodes = {},
-  IMAGE_EMOJI_SIZE = 40
+  IMAGE_EMOJI_SIZE = 40,
 ) {
   var linkfixes = inputText.split(" ");
   var newinputstr = [];
@@ -497,7 +497,7 @@ function getBracketCodeJSON(
                       var a = document.createElement("a");
                       a.href = value.trim();
                       a.download = decodeURIComponent(
-                        value.trim().split("/").pop()
+                        value.trim().split("/").pop(),
                       );
                       a.click();
                       a.remove();

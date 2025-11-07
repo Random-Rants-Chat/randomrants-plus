@@ -15,7 +15,7 @@ function makeUserListDiv(
   username,
   removeFunction,
   selectFunction,
-  addFunction
+  addFunction,
 ) {
   var pfp = accountHelper.getProfilePictureURL(username);
   var ownerNoteThing = {
@@ -407,7 +407,7 @@ class UserListMenu {
     try {
       var json = await fetchUtils.fetchAsJSON(
         accountHelper.getServerURL() + "/account/myuserlist",
-        { method: "GET" }
+        { method: "GET" },
       );
       this.currentUserList = json.users;
       this.loadUserList();
@@ -425,7 +425,7 @@ class UserListMenu {
 
   async removeFromUserList(username) {
     var dialogBG = new LoadingScreen(
-      'Removing "' + username + '" from your known user list...'
+      'Removing "' + username + '" from your known user list...',
     );
     try {
       var r = await fetch(
@@ -435,7 +435,7 @@ class UserListMenu {
           body: JSON.stringify({
             username,
           }),
-        }
+        },
       );
       if (!r.ok) {
         throw new Error("");
@@ -444,7 +444,7 @@ class UserListMenu {
       this.loadUserListMenu();
     } catch (e) {
       dialogs.alert(
-        "Failed to remove user from your known user list, try again later."
+        "Failed to remove user from your known user list, try again later.",
       );
       console.error(e);
     }
@@ -453,12 +453,12 @@ class UserListMenu {
 
   async addUsername(username) {
     var dialogBG = new LoadingScreen(
-      'Adding "' + username + '" to your known user list...'
+      'Adding "' + username + '" to your known user list...',
     );
     try {
       var r = await fetch(
         accountHelper.getServerURL() + "/account/adduserlist",
-        { method: "POST", body: JSON.stringify({ username }) }
+        { method: "POST", body: JSON.stringify({ username }) },
       );
       if (!r.ok) {
         throw new Error("");
@@ -466,7 +466,7 @@ class UserListMenu {
       this.loadUserListMenu();
     } catch (e) {
       dialogs.alert(
-        "Failed to add user to your known user list, try again later."
+        "Failed to add user to your known user list, try again later.",
       );
     }
     dialogBG.remove();
@@ -474,7 +474,7 @@ class UserListMenu {
 
   async addUserButtonClick() {
     var response = await dialogs.prompt(
-      "Add someone! Type their username below:"
+      "Add someone! Type their username below:",
     );
     if (response) {
       await this.addUsername(response.trim());
@@ -491,7 +491,7 @@ class UserListMenu {
         return makeUserListDiv(username, async function () {
           _this.removeFromUserList(username);
         });
-      })
+      }),
     );
     if (listDiv.children.length < 1) {
       elements.setInnerJSON(listDiv, [
@@ -507,7 +507,7 @@ class UserListMenu {
       sws.send(
         JSON.stringify({
           type: "onlineList",
-        })
+        }),
       );
     } catch (e) {}
   }
@@ -733,10 +733,10 @@ class UserListMenu {
                           selectedUsers.push(username);
                         } else {
                           selectedUsers = selectedUsers.filter(
-                            (otherUser) => otherUser !== username
+                            (otherUser) => otherUser !== username,
                           );
                         }
-                      }
+                      },
                     );
                   }),
                 },

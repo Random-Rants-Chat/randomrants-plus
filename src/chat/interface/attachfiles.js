@@ -18,7 +18,7 @@ messageAttachFilesButton.addEventListener("click", async function () {
       "Video",
       "Download button",
       "File download link",
-    ]
+    ],
   );
 
   var acceptTypes = "";

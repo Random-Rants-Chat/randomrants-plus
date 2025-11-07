@@ -117,7 +117,7 @@ class VideoViewerDialog {
                               var a = document.createElement("a");
                               a.href = _this.videoElement.src;
                               a.download = decodeURIComponent(
-                                _this.videoElement.src.split("/").pop()
+                                _this.videoElement.src.split("/").pop(),
                               );
                               a.click();
                               a.remove();

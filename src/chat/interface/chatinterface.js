@@ -26,7 +26,7 @@ var allowUserDivGen = require("./allowuserdiv.js");
 
 if (!isSecure()) {
   console.warn(
-    "It seems your using HTTP, if you're using localhost then you can safely ignore this.\nIf you're using a deploy service, then its better to use HTTPS."
+    "It seems your using HTTP, if you're using localhost then you can safely ignore this.\nIf you're using a deploy service, then its better to use HTTPS.",
   );
 }
 
@@ -63,7 +63,7 @@ var typingNoticeDiv = elements.getGPId("typingNoticeDiv");
 var userOnlineViewBox = elements.getGPId("userOnlineViewBox");
 var toggleMessageAndOnlineView = elements.getGPId("toggleMessageAndOnlineView");
 var toggleMessageAndOnlineViewText = elements.getGPId(
-  "toggleMessageAndOnlineViewText"
+  "toggleMessageAndOnlineViewText",
 );
 var chatDialogsDiv = elements.getGPId("chatDialogsDiv");
 
@@ -118,7 +118,7 @@ updateToggleOnlineViewText();
 
 toggleMessageAndOnlineView.addEventListener(
   "click",
-  toggleMessageAndOnlineViewClicked
+  toggleMessageAndOnlineViewClicked,
 );
 
 reconnectingScreen.hidden = true;
@@ -136,27 +136,14 @@ var KnownUserList = require("./userlist-menu.js");
 
     var externalThings = await fetchUtils.fetchAsJSON("external/other.json");
 
-    rrLoadingStatusText.textContent =
-      "Loading realtime video & audio mayhem...";
-    var webrtcError =
-      "Realtime video & audio logic failed - No goofy cameras, microphones, or screenshares will ever happen.\nTry reloading if you need them, else they probably blocked for you.";
-    try {
-      var rtcScripts = await fetchUtils.fetchAsJSON(
-        "external/webrtc-helper.json"
-      );
-      for (var script of rtcScripts) {
-        await addScript(script);
-      }
-    } catch (e) {
-      dialogs.alert(webrtcError);
-    }
+    //No need to load the webrtc server anymore, since it's built in to this site now.
 
     rrLoadingStatusText.textContent = "Loading in the UI beeps and boops...";
     try {
       await sounds.load();
     } catch (e) {
       dialogs.alert(
-        "UI Sounds gave up. No more clicks, beeps and boops, just plain silence."
+        "UI Sounds gave up. No more clicks, beeps and boops, just plain silence.",
       );
     }
 
@@ -170,7 +157,7 @@ var KnownUserList = require("./userlist-menu.js");
     } catch (e) {
       //dialogs.alert(e);
       dialogs.alert(
-        "Soundboard completley failed to load, no more goofy sounds for you! Blame your schools firewall."
+        "Soundboard completley failed to load, no more goofy sounds for you! Blame your schools firewall.",
       );
     }
 
@@ -181,15 +168,11 @@ var KnownUserList = require("./userlist-menu.js");
     } catch (e) {
       console.error(e);
       dialogs.alert(
-        "Something went wrong while trying to load your known user list."
+        "Something went wrong while trying to load your known user list.",
       );
     }
 
     rrLoadingStatusText.textContent = "Connecting to the rant room...";
-
-    if (!window.screenShareClient) {
-      dialogs.alert(webrtcError);
-    }
 
     setInterval(() => {
       microphones.tick();
@@ -204,7 +187,7 @@ var KnownUserList = require("./userlist-menu.js");
               who: username,
             }),
             method: "POST",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(await response.text());
@@ -217,7 +200,7 @@ var KnownUserList = require("./userlist-menu.js");
               who: username,
             }),
             method: "POST",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(await response.text());
@@ -234,7 +217,7 @@ var KnownUserList = require("./userlist-menu.js");
               username,
             }),
             method: "POST",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(await response.text());
@@ -247,7 +230,7 @@ var KnownUserList = require("./userlist-menu.js");
               username,
             }),
             method: "POST",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(await response.text());
@@ -264,7 +247,7 @@ var KnownUserList = require("./userlist-menu.js");
               username,
             }),
             method: "POST",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(await response.text());
@@ -279,7 +262,7 @@ var KnownUserList = require("./userlist-menu.js");
               username,
             }),
             method: "POST",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(await response.text());
@@ -297,7 +280,7 @@ var KnownUserList = require("./userlist-menu.js");
       isServerMessage,
       userColor,
       userFont,
-      recent = true
+      recent = true,
     ) {
       var willScroll = false;
       if (
@@ -325,7 +308,7 @@ var KnownUserList = require("./userlist-menu.js");
         messageJsonElements,
         isServerMessage,
         userColor,
-        userFont
+        userFont,
       );
       userMessagesContainer.append(messageElement);
 
@@ -338,7 +321,7 @@ var KnownUserList = require("./userlist-menu.js");
           {
             duration: 120,
             easing: "ease-in",
-          }
+          },
         );
       }
 
@@ -377,7 +360,7 @@ var KnownUserList = require("./userlist-menu.js");
       } catch (e) {
         dialogs.alert(
           "❌ Failed to give ownership (admin powers). Please try again later and check your spelling.\n" +
-            e
+            e,
         );
         console.error(e);
       }
@@ -393,7 +376,7 @@ var KnownUserList = require("./userlist-menu.js");
       } catch (e) {
         dialogs.alert(
           "❌ Failed to block/ban user, please try again later and check your spelling.\n" +
-            e
+            e,
         );
         console.error(e);
       }
@@ -409,7 +392,7 @@ var KnownUserList = require("./userlist-menu.js");
       } catch (e) {
         dialogs.alert(
           "❌ Failed to edit the allow list, please try again later and check your spelling.\n" +
-            e
+            e,
         );
         console.error(e);
       }
@@ -445,7 +428,7 @@ var KnownUserList = require("./userlist-menu.js");
               json.code,
               json.displayName,
               json.color,
-              json.font
+              json.font,
             );
           } else {
             cameras.hide(json.id);
@@ -459,7 +442,7 @@ var KnownUserList = require("./userlist-menu.js");
               json.displayName,
               json.color,
               json.font,
-              json.isSelf
+              json.isSelf,
             ); //Add isSelf so the audio will not play for yourself to avoid interference.
           } else {
             microphones.end(json.id);
@@ -511,7 +494,7 @@ var KnownUserList = require("./userlist-menu.js");
               messageData.isServer,
               messageData.color,
               messageData.font,
-              false
+              false,
             );
           }
           if (json.messages.length > 0) {
@@ -530,7 +513,7 @@ var KnownUserList = require("./userlist-menu.js");
             JSON.stringify({
               type: "keepAlive",
               timestamp: Date.now(),
-            })
+            }),
           );
         }
         if (json.type == "newMessage") {
@@ -541,7 +524,7 @@ var KnownUserList = require("./userlist-menu.js");
             true,
             json.isServer,
             json.color,
-            json.font
+            json.font,
           );
           if (clientSettings.getSetting("UI_SOUNDS")) {
             sounds.play("notify", 1);
@@ -550,7 +533,7 @@ var KnownUserList = require("./userlist-menu.js");
             notify.sendIfNotOnScreen(
               "New message",
               `${json.displayName}: ${shtml.bracketCodeRemoval(json.message)}`,
-              "New message"
+              "New message",
             );
           }
         }
@@ -654,7 +637,7 @@ var KnownUserList = require("./userlist-menu.js");
               false,
               async function () {
                 await changeBanUser(true, userInfo.username);
-              }
+              },
             );
             usersOnlineContainer.append(onlineUser);
           });
@@ -674,7 +657,7 @@ var KnownUserList = require("./userlist-menu.js");
                 async function (promoting) {
                   await changeOwnershipUser(promoting, username);
                 },
-                true
+                true,
               );
               ownershipUsersContainer.append(onlineUser);
             });
@@ -746,13 +729,13 @@ var KnownUserList = require("./userlist-menu.js");
             json.username,
             json.displayName,
             json.color,
-            json.font
+            json.font,
           );
         }
       } catch (e) {
         console.error(e);
         dialogs.alert(
-          `Websocket server message decode or handling event error!${"\n"}Please tell the developer to fix, or try reloading page if this error presists. Error message: ${e}`
+          `Websocket server message decode or handling event error!${"\n"}Please tell the developer to fix, or try reloading page if this error presists. Error message: ${e}`,
         );
       }
     }
@@ -768,7 +751,7 @@ var KnownUserList = require("./userlist-menu.js");
           type: "playSoundboard",
           index,
           mult,
-        })
+        }),
       );
     };
 
@@ -781,7 +764,7 @@ var KnownUserList = require("./userlist-menu.js");
       sws.send(
         JSON.stringify({
           type: "stopSoundboard",
-        })
+        }),
       );
     };
 
@@ -810,7 +793,7 @@ var KnownUserList = require("./userlist-menu.js");
           currentRoom,
         onMessage,
         onOpen,
-        onCloseReconnect
+        onCloseReconnect,
       );
     }
     if (!isOffline) {

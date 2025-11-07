@@ -38,7 +38,7 @@ soundManager.load = async function () {
     }
     if (!data) {
       console.warn(
-        `❌ UI sound "${soundName}" failed to load from both primary and backup. (if provided)`
+        `❌ UI sound "${soundName}" failed to load from both primary and backup. (if provided)`,
       );
     }
     sounds[soundName] = data;
