@@ -136,7 +136,7 @@
   --selected-emoji-popup-dialog-border-width: 2px;
   --selected-emoji-popup-dialog-text-color: hsl(134, 100%, 95%);
 
-  --server-notifcation-color: hsl(49deg, 100%, 50%);
+  --server-notifcation-color: hsl(49, 100%, 80%);
 
   --default-font-weight: 0px;
 
@@ -799,13 +799,15 @@ a {
 
 .rrchatMenuBar {
   display: flex;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  background: var(--header-color);
   width: 100%;
-  height: 40px;
-  overflow: hidden;
+  min-height: 40px;
+  background: #b8b8b8;
+  z-index: 10;
+  overflow: auto;
+  transition: 0.2s;
 }
 
 .userMenuBar {
