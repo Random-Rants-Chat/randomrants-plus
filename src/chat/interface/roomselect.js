@@ -5,6 +5,7 @@ var currentRoom = require("./getroom.js");
 var KnownUserList = require("./userlist-menu.js");
 var commandEffects = elements.getGPId("commandEffects");
 var LoadingScreen = require("./mini-loader.js");
+var RobotCheckInterface = require("../../botcheckinterface.js");
 var rs = {};
 
 var validState = accountHelper.getCurrentValidationState();
@@ -197,7 +198,7 @@ async function doRoomSelect() {
             func: async function (e) {
               e.preventDefault();
               var accepted = await dialog.confirm(
-                "Remove this room?\nThis room will NOT be deleted from the site.",
+                "Remove this room?\nThis room will NOT be deleted from the site."
               );
               if (accepted) {
                 try {
@@ -298,7 +299,7 @@ async function doRoomSelect() {
               fontStyle: "italic",
             },
             children: getJSONElementDescription(
-              room.description || "No description was provided",
+              room.description || "No description was provided"
             ),
           },
           { element: "br" },
@@ -367,7 +368,7 @@ async function doRoomSelect() {
                   e.preventDefault();
                   try {
                     var inviteTargets = await KnownUserList.getUsersPrompt(
-                      "Select users to invite",
+                      "Select users to invite"
                     );
                     if (!inviteTargets) {
                       return;
@@ -380,7 +381,7 @@ async function doRoomSelect() {
                     for (var username of inviteTargets) {
                       invited += 1;
                       loader.setText(
-                        `Inviting "${username}"... (${invited}/${inviteTargets.length})`,
+                        `Inviting "${username}"... (${invited}/${inviteTargets.length})`
                       );
                       try {
                         var response = await fetch(
@@ -392,7 +393,7 @@ async function doRoomSelect() {
                               name: room.name,
                               username: username,
                             }),
-                          },
+                          }
                         );
                       } catch (e) {
                         console.error(e);
@@ -400,11 +401,11 @@ async function doRoomSelect() {
                     }
                     loader.remove();
                     dialog.alert(
-                      "All selected users have been invited! These users should see the invite in their notifications.",
+                      "All selected users have been invited! These users should see the invite in their notifications."
                     );
                   } catch (e) {
                     dialog.alert(
-                      `Failed to invite a user to room. Error Message: ${e}`,
+                      `Failed to invite a user to room. Error Message: ${e}`
                     );
                   }
                 },
@@ -428,13 +429,13 @@ async function doRoomSelect() {
                         body: JSON.stringify({
                           id: room.id,
                         }),
-                      },
+                      }
                     );
                     if (!response.ok) {
                       dialog.alert(
                         "Got error " +
                           response.status +
-                          ". Unable to create join code, maybe the room was just deleted?",
+                          ". Unable to create join code, maybe the room was just deleted?"
                       );
                       return;
                     }
@@ -442,7 +443,7 @@ async function doRoomSelect() {
                     doJoinCodeScreen(json.code);
                   } catch (e) {
                     dialog.alert(
-                      "Failed to create join code. Error Message: ${e}",
+                      "Failed to create join code. Error Message: ${e}"
                     );
                   }
                 },
@@ -559,9 +560,21 @@ async function doRoomSelect() {
                     event: "click",
                     func: async function () {
                       try {
+                        var botCheck = new RobotCheckInterface();
+                        await dialog.alertWithElement(
+                          elements.createElementsFromJSON([
+                            botCheck.jsonElement,
+                          ])[0]
+                        );
+
                         var a = await fetch(
                           accountHelper.getServerURL() + "/rooms/create",
-                          { method: "POST" },
+                          {
+                            method: "POST",
+                            body: JSON.stringify({
+                              robot_check_id: botCheck.getCheckID(),
+                            }),
+                          }
                         );
                         if (a.ok) {
                           var json = await a.json();
@@ -570,7 +583,9 @@ async function doRoomSelect() {
                           window.location.reload();
                         } else {
                           dialog.alert(
-                            "Couldn't create the room, maybe sign in or sign up first?",
+                            "Couldn't create the room, maybe sign in or sign up first?" +
+                              "\nGot error: " +
+                              (await a.text())
                           );
                         }
                       } catch (e) {

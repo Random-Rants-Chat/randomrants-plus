@@ -118,6 +118,26 @@ var dialog = {
       });
     });
   },
+  alertWithElement: function (element) {
+    var { dialogBox, background, dialogContainer } = this._createDialogBase();
+
+    dialogBox.focus();
+
+    document.body.append(dialogContainer);
+
+    dialogBox.append(element);
+
+    var acceptButton = this._createButtonBase();
+    acceptButton.textContent = this.texts.ok;
+    dialogBox.append(acceptButton);
+
+    return new Promise((accept) => {
+      acceptButton.onclick = function () {
+        accept();
+        dialogContainer.remove();
+      };
+    });
+  },
   alert: function (message) {
     var { dialogBox, background, dialogContainer } = this._createDialogBase();
 

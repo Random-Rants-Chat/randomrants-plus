@@ -2801,6 +2801,18 @@ const server = http.createServer(async function (req, res) {
     if (urlsplit[2] == "create" && req.method == "POST") {
       (async function () {
         try {
+          var body = await waitForBody(req);
+          var json = JSON.parse(body.toString());
+
+          if (typeof json.robot_check_id !== "string") {
+            res.end("You need to confirm you are not an robot.");
+            return;
+          }
+          if (!botCheck.didPassCheck(json.robot_check_id)) {
+            res.end("Anti-robot check failed");
+            return;
+          }
+
           var roomId = generateRandomStuff();
 
           if (!decryptedUserdata) {
