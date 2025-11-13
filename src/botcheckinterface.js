@@ -5,7 +5,6 @@ class BotCheckDiv {
   constructor() {
     var _this = this;
     this.created = false;
-    this.checkID = null;
     this.jsonElement = {
       element: "div",
       children: [
@@ -270,6 +269,7 @@ class BotCheckDiv {
       },
     ]);
     divElm.className = "botCheckDiv botCheckDivClickable";
+    this.checkID = undefined;
   }
 
   onCreated() {
