@@ -3,7 +3,7 @@ var path = require("path");
 var { generateCode, generateImage } = require("./bot-check.js");
 
 const ROBOT_CHECK_IMAGE_DIR = "./robotcheck";
-const ROBOT_CHECK_TIMEOUT = 1000 * 60 * 0.8; //0.8th of a minute
+const ROBOT_CHECK_TIMEOUT = 1000 * 60 * 3; //3 minutes
 
 try {
   fs.rmSync(ROBOT_CHECK_IMAGE_DIR, { directory: true, recursive: true });

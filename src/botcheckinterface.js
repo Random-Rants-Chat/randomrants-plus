@@ -107,6 +107,18 @@ class BotCheckDiv {
         element: "br",
       },
       {
+        element: "span",
+        style: {
+          fontWeight: "bold",
+          fontSize: "14px",
+          color: "red",
+        },
+        textContent: "Answer quickly! This may fail if you take too long!",
+      },
+      {
+        element: "br",
+      },
+      {
         element: "input",
         type: "text",
         className: "botCheckInputText",
@@ -120,8 +132,8 @@ class BotCheckDiv {
           },
           {
             event: "keydown",
-            func: function (e) {
-              if (e.key == "Enter") {
+            func: function (event) {
+              if (event.key.toLowerCase() == "enter") {
                 buttonElement.click();
               }
             },
@@ -136,6 +148,9 @@ class BotCheckDiv {
         element: "button",
         className: "botCheckButton",
         textContent: "I'm not an robot",
+        GPWhenCreated: function (elm) {
+          buttonElement = elm;
+        },
         eventListeners: [
           {
             event: "click",
