@@ -17,6 +17,7 @@ var bcrypt = require("bcryptjs");
 var crypto = require("crypto");
 var scratchCloudWss = require("./scratch-cloud.js");
 var WebRTCSignaler = require("./rtcsignal/req-handler.js");
+var {generateCaptchaJPG, generateCaptchaCode} = require("./bot-check.js");
 var userMediaDirectory = "./usermedia";
 var usersOnlineSockets = {};
 var wssServerOptions = {
@@ -4807,6 +4808,16 @@ const server = http.createServer(async function (req, res) {
       return;
     }
   }
+
+	if (urlsplit[1] == "botcheck") {
+		(async function () {
+			var code = generateCaptchaCode();
+			var jpg = await generateCaptchaJPG(code);
+
+			res.end(jpg);
+		})();
+		return;
+	}
 
   if (serverAvailable) {
     runStaticStuff(req, res);
