@@ -1,0 +1,165 @@
+name: Build and Deploy (3-Tier with Force Push)
+
+on:
+  push:
+    branches: ["main"]
+
+  schedule:
+    # Weekly: Sunday at 3:00 AM UTC (for Beta)
+    - cron: "0 3 * * 0"
+    # Monthly: 1st of the month at 4:00 AM UTC (for Production)
+    - cron: "0 4 1 * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  #----------------------------------------------------
+  # JOB 1: DEVELOPMENT (Always runs on push)
+  #----------------------------------------------------
+  deploy_dev:
+    name: 🚀 Deploy to 'deploy-dev' (Dev)
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 16.x }
+      - run: |
+          npm install
+          npm run build
+      - name: Commit and Push to 'deploy-dev'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B deploy-dev
+          git add .
+          git add -f public
+          git commit -m "${{ github.sha }} [Dev Deploy]" || echo "No changes to commit"
+          git push -f origin deploy-dev
+
+  #----------------------------------------------------
+  # JOB 2: BETA (Runs weekly OR on "Immediate:" push)
+  #----------------------------------------------------
+  deploy_beta:
+    name: spoilers 📅 Deploy to 'deploy-beta' (Beta)
+    # 1. CHANGED: Now also triggers on 'push' to check the commit message
+    if: (github.event_name == 'schedule' && github.event.schedule == '0 3 * * 0') || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Check Beta deploy logic 🧐
+        id: check_commits
+        run: |
+          echo "needs_build=false" >> $GITHUB_OUTPUT # Default to false
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+
+          # 2. NEW LOGIC: Check for force command first
+          if echo "$COMMIT_MSG" | grep -qi "^Immediate:"; then
+            echo "✅ Force deploy triggered by commit message."
+            echo "needs_build=true" >> $GITHUB_OUTPUT
+
+          # 3. OLD LOGIC: Check for schedule
+          elif [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "Running on schedule, checking for new commits..."
+            MAIN_SHA=$(git rev-parse main)
+            if git rev-parse --verify origin/deploy-beta >/dev/null 2>&1; then
+              DEPLOY_MSG=$(git log origin/deploy-beta -1 --pretty=%B)
+              LAST_DEPLOY_SHA=$(echo "$DEPLOY_MSG" | awk '{print $1}')
+              if [ "$MAIN_SHA" == "$LAST_DEPLOY_SHA" ]; then
+                echo "No new commits for Beta. Skipping."
+              else
+                echo "New commits found for Beta. Building."
+                echo "needs_build=true" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "First Beta build. Proceeding."
+              echo "needs_build=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "Regular push, no force command. Skipping Beta."
+          fi
+        shell: bash
+
+      - uses: actions/setup-node@v4
+        if: steps.check_commits.outputs.needs_build == 'true'
+        with: { node-version: 16.x }
+      - run: |
+          npm install
+          npm run build
+        if: steps.check_commits.outputs.needs_build == 'true'
+      - name: Commit and Push to 'deploy-beta'
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B deploy-beta
+          git add .
+          git add -f public
+          git commit -m "${{ github.sha }} [Weekly Beta Deploy]" || echo "No changes to commit"
+          git push -f origin deploy-beta
+
+  #----------------------------------------------------
+  # JOB 3: PRODUCTION (Runs monthly, on dispatch, OR on "Immediate:" push)
+  #----------------------------------------------------
+  deploy_production:
+    name: 🌍 Deploy to 'deploy-monthly' (Production)
+    # 4. CHANGED: Also triggers on 'push' to check commit message
+    if: (github.event_name == 'schedule' && github.event.schedule == '0 4 1 * *') || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Check Production deploy logic 🧐
+        id: check_commits
+        run: |
+          echo "needs_build=false" >> $GITHUB_OUTPUT # Default to false
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+
+          # 5. NEW LOGIC: Check for force command first
+          if echo "$COMMIT_MSG" | grep -qi "^Immediate:"; then
+            echo "✅ Force deploy triggered by commit message."
+            echo "needs_build=true" >> $GITHUB_OUTPUT
+
+          # 6. OLD LOGIC: Check for schedule or dispatch
+          elif [ "${{ github.event_name }}" == "schedule" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Running on schedule/dispatch, checking for new commits..."
+            MAIN_SHA=$(git rev-parse main)
+            if git rev-parse --verify origin/deploy-monthly >/dev/null 2>&1; then
+              DEPLOY_MSG=$(git log origin/deploy-monthly -1 --pretty=%B)
+              LAST_DEPLOY_SHA=$(echo "$DEPLOY_MSG" | awk '{print $1}')
+              if [ "$MAIN_SHA" == "$LAST_DEPLOY_SHA" ]; then
+                echo "No new commits for Production. Skipping."
+              else
+                echo "New commits found for Production. Building."
+                echo "needs_build=true" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "First Production build. Proceeding."
+              echo "needs_build=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "Regular push, no force command. Skipping Production."
+          fi
+        shell: bash
+
+      - uses: actions/setup-node@v4
+        if: steps.check_commits.outputs.needs_build == 'true'
+        with: { node-version: 16.x }
+      - run: |
+          npm install
+          npm run build
+        if: steps.check_commits.outputs.needs_build == 'true'
+      - name: Commit and Push to 'deploy-monthly'
+        if: steps.check_commits.outputs.needs_build == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B deploy-monthly
+          git add .
+          git add -f public
+          git commit -m "${{ github.sha }} [Monthly Production Deploy]" || echo "No changes to commit"
+          git push -f origin deploy-monthly

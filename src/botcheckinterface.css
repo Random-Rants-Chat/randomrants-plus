@@ -1,0 +1,50 @@
+.botCheckDiv {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px 10px;
+  box-sizing: border-box;
+}
+
+.botCheckDivFailed {
+  background: #ffc7c7;
+}
+.botCheckDivPassed {
+  background: #cdffc7;
+}
+.botCheckDivClickable:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.botCheckHeader {
+  font-weight: bold;
+}
+
+.botCheckInputText {
+  all: unset;
+  background: white;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: gray;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 2px;
+  cursor: text;
+  padding: 1px 1px;
+  text-align: left;
+}
+
+.botCheckButton {
+  all: unset;
+  background: #006eff;
+  border-radius: 4px;
+  padding: 3px 3px;
+  font-weight: bold;
+  color: white;
+  margin: 2px 2px;
+}
+
+.botCheckButton:hover {
+  background: #5ca3ff;
+  cursor: pointer;
+}
