@@ -291,6 +291,12 @@ class BotCheckDiv {
     this.reset();
   }
 
+  click() {
+    if (this.created) {
+      this.divElm.click();
+    }
+  }
+
   getCheckID() {
     return this.checkID;
   }

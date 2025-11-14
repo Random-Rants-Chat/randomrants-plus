@@ -115,6 +115,6 @@ usernameInput.addEventListener("keydown", function (e) {
 
 passwordInput.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    logIn();
+    botCheck.click();
   }
 });
