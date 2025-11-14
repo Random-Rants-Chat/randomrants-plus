@@ -805,7 +805,6 @@ a {
   width: 100%;
   min-height: 40px;
   background: #b8b8b8;
-  z-index: 10;
   overflow: auto;
   transition: 0.2s;
 }
