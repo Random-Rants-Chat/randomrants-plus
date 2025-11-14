@@ -101,7 +101,7 @@ class BotCheckDiv {
           fontWeight: "bold",
         },
         textContent:
-          'Type the large text exactly you see, then click "I\'m not an robot".',
+          'Type the large text exactly you see, then click "I\'m not a robot".',
       },
       {
         element: "br",
@@ -141,13 +141,12 @@ class BotCheckDiv {
         ],
         GPWhenCreated: function (elm) {
           codeInput = elm;
-          elm.focus();
         },
       },
       {
         element: "button",
         className: "botCheckButton",
-        textContent: "I'm not an robot",
+        textContent: "I'm not a robot",
         GPWhenCreated: function (elm) {
           buttonElement = elm;
         },
@@ -214,6 +213,8 @@ class BotCheckDiv {
         ],
       },
     ]);
+
+    codeInput.focus();
   }
 
   async _loadID() {
