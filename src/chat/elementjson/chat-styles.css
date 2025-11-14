@@ -804,7 +804,7 @@ a {
   left: 0;
   width: 100%;
   min-height: 40px;
-  background: #b8b8b8;
+  background: var(--header-color);
   overflow: auto;
   transition: 0.2s;
 }
