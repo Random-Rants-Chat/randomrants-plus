@@ -59,6 +59,7 @@ const REACTION_EMOJIS = [
   "[emoji src=images/crying-cat-thumbs-up.png@rrp]",
   "[emoji src=images/hashbrowncat.png@rrp]",
   "[emoji src=images/sadsponge.png@rrp]",
+  "[emoji src=images/thatface.svg@rrp]",
 ];
 
 var elements = require("../../gp2/elements.js");
