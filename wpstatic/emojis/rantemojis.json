@@ -337,6 +337,12 @@
           "nicklodeon",
           "paramount"
         ]
+      },
+      {
+        "src": "images/thatface.svg",
+        "name": "I Don't know what this face is called but it's funny",
+        "emojiURL": "rrp",
+        "tags": []
       }
     ]
   },
