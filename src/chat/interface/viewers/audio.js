@@ -114,6 +114,7 @@ class AudioViewerDialog {
                               a.download = decodeURIComponent(
                                 _this.audioElement.src.split("/").pop(),
                               );
+                              a.target = "_blank";
                               a.click();
                               a.remove();
                             },

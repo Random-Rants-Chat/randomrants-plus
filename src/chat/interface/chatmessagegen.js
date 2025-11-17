@@ -499,6 +499,7 @@ function getBracketCodeJSON(
                       a.download = decodeURIComponent(
                         value.trim().split("/").pop(),
                       );
+                      a.target = "_blank";
                       a.click();
                       a.remove();
                     },

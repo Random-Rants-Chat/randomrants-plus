@@ -119,6 +119,7 @@ class VideoViewerDialog {
                               a.download = decodeURIComponent(
                                 _this.videoElement.src.split("/").pop(),
                               );
+                              a.target = "_blank";
                               a.click();
                               a.remove();
                             },

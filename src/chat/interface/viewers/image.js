@@ -120,6 +120,7 @@ class ImageViewerDialog {
                               a.download = decodeURIComponent(
                                 _this.imageElement.src.split("/").pop(),
                               );
+                              a.target = "_blank";
                               a.click();
                               a.remove();
                             },

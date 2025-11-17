@@ -34,7 +34,7 @@ class BotCheckDiv {
         style: {
           textAlign: "center",
         },
-        textContent: "Robot check passed!",
+        textContent: "You aren't a robot!",
       },
       {
         element: "div",
@@ -63,7 +63,7 @@ class BotCheckDiv {
         style: {
           textAlign: "center",
         },
-        textContent: "Robot check failed, click to try again.",
+        textContent: "CAPTCHA failed, click to try again.",
       },
     ]);
     divElm.className = "botCheckDiv botCheckDivClickable botCheckDivFailed";
