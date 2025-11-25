@@ -34,6 +34,7 @@ function fakeIoCreate() {
   var io = fakeIO({ noServer: true });
   var connectedCount = 0;
   io.on("connection", (socket) => {
+    clearTimeout(io.destroyTimeout);
     connectedCount += 1;
     const connectedUser = {
       id: socket.id,
@@ -139,6 +140,9 @@ function newHostThing(val) {
     host.close();
     delete hosts[key];
   };
+  host.destroyTimeout = setTimeout(() => {
+    host.endFunction();
+  },1000*30); //half of a minute.
   hosts[key] = host;
   return key;
 }
