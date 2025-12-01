@@ -1,5 +1,6 @@
 document.title = "Random Rants + | Sign in";
 
+require("../mobile-viewport-fix");
 require("../cookiewarning");
 require("./stylesheet.js");
 require("./navigate-loader.js");

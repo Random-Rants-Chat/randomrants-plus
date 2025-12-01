@@ -3,6 +3,9 @@
   --accent-default-saturation: 0%;
 
   --doNotTouchThisEver: 100%; /* but... of what?? */
+  
+  /* Mobile viewport height - iOS uses dynamic viewport, use dvh (dynamic viewport height) when available */
+  --viewport-height: 100dvh;
 
   --bg-color: hsl(
     var(--accent-default-hue),
@@ -1512,7 +1515,7 @@ a {
   line-height: 25px;
   padding: 10px 10px;
   color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
-  display: flex-inline;
+  display: inline-flex;
   font-weight: bold;
   text-align: center;
   white-space: nowrap;

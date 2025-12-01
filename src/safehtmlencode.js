@@ -46,23 +46,63 @@ function isSafeURLOrDomain(urlOrDomain) {
     return false;
   }
 
-  let fullURL = urlOrDomain;
+  const trimmed = urlOrDomain.trim();
 
-  const protocolSeparatorIndex = fullURL.indexOf("://");
+  // Check for dangerous protocols early (case-insensitive)
+  const dangerousProtocols = [
+    "javascript:",
+    "data:",
+    "vbscript:",
+    "file:",
+    "blob:",
+  ];
+  const lowerURL = trimmed.toLowerCase();
+  for (const dangerous of dangerousProtocols) {
+    if (lowerURL.startsWith(dangerous)) {
+      return false;
+    }
+  }
+
+  // Allow relative paths (starting with / or ./)
+  if (trimmed.startsWith("/") || trimmed.startsWith("./") || trimmed.startsWith("../")) {
+    // Reject if contains null bytes or suspicious patterns
+    if (trimmed.includes("\0") || trimmed.includes("\\")) {
+      return false;
+    }
+    return true;
+  }
+
+  // Handle URLs with explicit protocols
+  const protocolSeparatorIndex = trimmed.indexOf("://");
+  let fullURL = trimmed;
   let hasExplicitProtocol = false;
 
   if (protocolSeparatorIndex > 0) {
-    const protocolPart = fullURL
-      .substring(0, protocolSeparatorIndex)
-      .toLowerCase();
+    const protocolPart = trimmed.substring(0, protocolSeparatorIndex).toLowerCase();
 
-    if (protocolPart.indexOf("/") === -1 && protocolPart.indexOf(" ") === -1) {
+    // Verify protocol part doesn't contain invalid characters
+    if (
+      /^[a-z][a-z0-9+.-]*$/.test(protocolPart) &&
+      protocolPart.indexOf("/") === -1 &&
+      protocolPart.indexOf(" ") === -1
+    ) {
       hasExplicitProtocol = true;
     }
   }
 
+  // If no explicit protocol, assume https:// for domain-like URLs
   if (!hasExplicitProtocol) {
-    fullURL = "https://" + fullURL;
+    // Check if it looks like a domain (contains . and no spaces/special chars)
+    if (
+      /^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(
+        trimmed
+      )
+    ) {
+      fullURL = "https://" + trimmed;
+    } else {
+      // Not a valid domain and no protocol - reject
+      return false;
+    }
   }
 
   try {
@@ -71,16 +111,31 @@ function isSafeURLOrDomain(urlOrDomain) {
 
     const safeProtocols = ["http:", "https:", "mailto:"];
 
-    if (safeProtocols.includes(protocol)) {
-      return !!urlObject.hostname;
-    }
-
-    const dangerousProtocols = ["javascript:", "data:", "vbscript:", "file:"];
-    if (dangerousProtocols.includes(protocol)) {
+    if (!safeProtocols.includes(protocol)) {
       return false;
     }
 
-    return false;
+    // For mailto, just ensure it has content after the colon
+    if (protocol === "mailto:") {
+      return urlObject.pathname.length > 0;
+    }
+
+    // For http/https, ensure hostname exists and is valid
+    if (!urlObject.hostname) {
+      return false;
+    }
+
+    // Additional check: reject URLs with suspicious substrings
+    if (
+      fullURL.includes("\0") ||
+      fullURL.includes("\\") ||
+      fullURL.includes("<") ||
+      fullURL.includes(">")
+    ) {
+      return false;
+    }
+
+    return true;
   } catch (e) {
     return false;
   }

@@ -1,5 +1,6 @@
 window.title = "Random Rants +";
 
+require("../mobile-viewport-fix");
 require("../cookiewarning");
 require("./stylesheet.js");
 var menuBar = require("../menu.js");

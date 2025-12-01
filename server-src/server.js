@@ -1123,6 +1123,7 @@ function isGuestAccount(userdata) {
 var roomWebsockets = {};
 var defaultRooms = [];
 var defaultRoomNames = [];
+var roomCreationPromises = {}; // Add promise tracking to prevent race conditions
 
 async function getRoomInfo(id) {
   var defaultRoomIndex = defaultRooms.indexOf(id);
@@ -2064,12 +2065,19 @@ async function startRoomWSS(roomid) {
 
       var roomCheckInterval = setInterval(() => {
         if (roomWebsockets[roomid]) {
-          if (wss._rrRoomHostID !== roomWebsockets[roomid]._rrRoomHostID) {
-            ws.send(JSON.stringify({ type: "roomHostDesync" }));
-            ws.close();
+          var currentRoomWs = roomWebsockets[roomid];
+          // Only check if the room websocket is actually initialized (not "loading" string)
+          if (currentRoomWs && typeof currentRoomWs === 'object' && currentRoomWs._rrRoomHostID) {
+            // If this websocket's room reference has changed, it means a desync occurred
+            if (wss._rrRoomHostID !== currentRoomWs._rrRoomHostID) {
+              console.log(`[RoomDesync] Client was on host ${wss._rrRoomHostID}, but current room is ${currentRoomWs._rrRoomHostID}`);
+              ws.send(JSON.stringify({ type: "roomHostDesync" }));
+              ws.close();
+              clearInterval(roomCheckInterval);
+            }
           }
         }
-      },100);
+      }, 100);
 
       ws.send(JSON.stringify({ type: "ready" }));
       ws.send(
@@ -5005,18 +5013,49 @@ server.on("upgrade", async function upgrade(request, socket, head) {
           wss = roomWs;
         }
       } else {
-        roomWebsockets[id] = roomStillLoadingWss;
-        try {
-          wss = await startRoomWSS(id);
-          if (wss == "NO_ROOM") {
-            wss = noRoomWss;
-            roomWebsockets[id] = undefined;
-          } else {
-            roomWebsockets[id] = wss;
+        // Prevent race condition: if another request is already creating this room, wait for it
+        if (roomCreationPromises[id]) {
+          wss = roomStillLoadingWss;
+          try {
+            await roomCreationPromises[id];
+            // After promise resolves, check again if room was created
+            var createdRoomWs = roomWebsockets[id.toString()];
+            if (createdRoomWs && createdRoomWs !== "loading") {
+              wss = createdRoomWs;
+            }
+          } catch (e) {
+            wss = directCloseWss;
           }
-        } catch (e) {
-          console.log("Room failed to load: ", e);
-          wss = directCloseWss;
+        } else {
+          // Mark room as loading and create a promise to prevent concurrent creation
+          roomWebsockets[id] = "loading";
+          var creationPromise = (async function() {
+            try {
+              var newWss = await startRoomWSS(id);
+              if (newWss == "NO_ROOM") {
+                wss = noRoomWss;
+                roomWebsockets[id] = undefined;
+              } else {
+                roomWebsockets[id] = newWss;
+                wss = newWss;
+              }
+            } catch (e) {
+              console.log("Room failed to load: ", e);
+              wss = directCloseWss;
+              roomWebsockets[id] = undefined;
+              throw e;
+            }
+          })();
+          
+          roomCreationPromises[id] = creationPromise;
+          try {
+            await creationPromise;
+          } catch (e) {
+            // Error already logged in the promise
+          } finally {
+            // Clean up the creation promise after it resolves
+            delete roomCreationPromises[id];
+          }
         }
       }
     } else {
