@@ -56,6 +56,7 @@ var addOwnershipUsernameButton = elements.getGPId("addOwnershipUsernameButton");
 var showSoundboardButton = elements.getGPId("showSoundboardButton");
 var toggleCameraButton = elements.getGPId("toggleCameraButton");
 var roomErrorScreen = elements.getGPId("roomErrorScreen");
+var resyncingConnectionScreen = elements.getGPId("resyncingConnectionScreen");
 var guestErrorScreen = elements.getGPId("guestErrorScreen");
 var banRoomError = elements.getGPId("banRoomError");
 var notAllowedError = elements.getGPId("notAllowedError");
@@ -122,6 +123,7 @@ toggleMessageAndOnlineView.addEventListener(
 );
 
 reconnectingScreen.hidden = true;
+resyncingConnectionScreen.hidden = true;
 
 var emojiReactions = require("./emojireactions.js");
 var clientSettings = require("./clientsettings.js");
@@ -458,6 +460,7 @@ var KnownUserList = require("./userlist-menu.js");
           addBanUserButton.hidden = true;
           addAllowUserButton.hidden = true;
           showRoomSettingsButton2.hidden = true;
+          resyncingConnectionScreen.hidden = true;
         }
         if (json.type == "isOwner") {
           userState.isOwner = json.isOwner;
@@ -544,6 +547,9 @@ var KnownUserList = require("./userlist-menu.js");
         if (json.type == "tooManyConnections") {
           tooManyErrorScreen.hidden = false;
           sws.close();
+        }
+        if (json.type == "roomHostDesync") {
+          resyncingConnectionScreen.hidden = false;
         }
         if (json.type == "doesNotExist") {
           roomErrorScreen.hidden = false;

@@ -1389,6 +1389,7 @@ async function startRoomWSS(roomid) {
   wss._rrRoomPermissions = info.permissions;
   wss._rrRoomMessages = [];
   wss._rrPeopleCount = 0;
+  wss._rrRoomHostID = Date.now()+"_"+Math.round(Math.random()*99999999999); //Used to detect room desyncs.
   function hasPermission(permName, ws) {
     //Not ready, h o p e f u l l y this does not break things when not ready.
     if (!ws._rrIsReady) {
@@ -2060,6 +2061,16 @@ async function startRoomWSS(roomid) {
           console.log(`Websocket message script error: ${e}`);
         }
       });
+
+      var roomCheckInterval = setInterval(() => {
+        if (roomWebsockets[roomid]) {
+          if (wss._rrRoomHostID !== roomWebsockets[roomid]._rrRoomHostID) {
+            ws.send(JSON.stringify({ type: "roomHostDesync" }));
+            ws.close();
+          }
+        }
+      },100);
+
       ws.send(JSON.stringify({ type: "ready" }));
       ws.send(
         JSON.stringify({
@@ -2119,6 +2130,7 @@ async function startRoomWSS(roomid) {
       wss._rrPeopleCount += 1;
       ws.on("close", () => {
         clearTimeout(ws._rrkeepAliveTimeout);
+        clearInterval(roomCheckInterval);
         wss._rrPeopleCount -= 1;
         if (wss._rrPeopleCount < 1) {
           wss._rrPeopleCount = 0;

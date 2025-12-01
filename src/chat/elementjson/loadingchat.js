@@ -24,7 +24,6 @@ module.exports = [
       {
         element: "span",
         gid: "randomFactSpan",
-        hidden: true,
         style: {
           textAlign: "center",
         },

@@ -54,6 +54,7 @@ elements.appendElementsFromJSON(document.body, [
   require("./noguests.js"),
   require("./notallowed.js"),
   require("./toomanyconnections.js"),
+  require("./resyncing.js"),
 
   //High level dialogs, these need to be to front.
   require("./update.js"),
