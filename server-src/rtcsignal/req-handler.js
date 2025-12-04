@@ -142,7 +142,7 @@ function newHostThing(val) {
   };
   host.destroyTimeout = setTimeout(() => {
     host.endFunction();
-  },1000*30); //half of a minute.
+  },3000); //three seconds to connect, strict because this runs in render.com free server.
   hosts[key] = host;
   return key;
 }

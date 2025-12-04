@@ -11,7 +11,7 @@ var URL = require("url");
 var wssHandler = require("./wss-handler.js");
 var contentRange = require("content-range");
 var encryptor = require("../encrypt");
-var gvbbaseStorage = require("./waityourturn-storage.js"); //Supabase storage module.
+var gvbbaseStorage = require("./storage.js"); //Supabase storage module.
 var cons = require("./constants.js");
 var bcrypt = require("bcryptjs");
 var crypto = require("crypto");
@@ -143,11 +143,12 @@ async function getUserProfilePicture(username) {
 }
 async function getUserProfilePictureResponse(username, req, res) {
   try {
+    res.setHeader("content-type", "image/webp");
     await storage.downloadFileResponseProxy(
       `user-${username}-profile`,
       {},
       res,
-      ["content-type"]
+      //["content-type"]
     );
   } catch (e) {
     var pfp = fs.readFileSync("template/default_pfp.png");

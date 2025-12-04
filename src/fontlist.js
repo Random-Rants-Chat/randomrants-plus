@@ -46,7 +46,7 @@ module.exports = [
   },
   {
     name: "Gochi Hand",
-    family: "Gochi Hand",
+    family: "GochiHand",
     file: "GochiHand-Regular.ttf",
   },
   {
