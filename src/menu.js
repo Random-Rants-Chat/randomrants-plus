@@ -11,15 +11,6 @@ var elementJSON = [
       {
         element: "a",
         className: "menuBarItemLogo",
-        children: [
-          {
-            element: "img",
-            src: "images/randomrants-plus.svg",
-            style: {
-              height: "100%",
-            },
-          },
-        ],
         href: "./",
         GPWhenCreated: function (el) {
           el.addEventListener("mouseenter", () => {

@@ -7,7 +7,12 @@ body {
   height: 100dvh;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow: auto;
+}
+
+body[christmas-theme] {
+  background: url('images/slopes.svg') bottom/cover no-repeat;
+  background-color: #c3fbfb;
 }
 
 [hidden] {
@@ -26,6 +31,10 @@ body {
   z-index: 10;
   overflow: auto;
   transition: 0.2s;
+}
+
+body[christmas-theme] > .menuBar {
+  background: unset;
 }
 
 .menuBar:hover {
@@ -60,7 +69,7 @@ body {
 }
 
 .menuBarItemUsername:hover {
-  background: #787878;
+  background: #0000007e;
   border-radius: 5px;
 }
 
@@ -69,7 +78,7 @@ body {
   border-radius: 5px;
 }
 .menuBarItemLogo:hover {
-  background: #787878;
+  background-color: #00000081;
 }
 .menuBarItemLogo.is-bouncing {
   animation: menuBarLogoAnim 0.45s cubic-bezier(0.28, 0.84, 0.42, 1);
@@ -79,6 +88,18 @@ body {
   transition:
     0.2s background,
     transform 0.1s ease-out;
+}
+
+.menuBarItemLogo {
+  background-image: url('images/randomrants-plus.svg');
+  background-size: 100% 100%;
+  width: 99.45px;
+}
+
+body[christmas-theme] > .menuBar > .menuBarItemLogo {
+  background-image: url('images/randomrants-plus-christmas.svg');
+  background-size: 100% 100%;
+  width: 99.45px;
 }
 
 @keyframes menuBarLogoAnim {

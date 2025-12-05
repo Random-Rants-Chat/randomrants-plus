@@ -64,31 +64,33 @@ var elementJSON = [
         },
         children: [
           {
-            element: "span",
-            textContent: "Room code:",
-          },
-          {
-            element: "div",
-            style: {
-              width: "4px",
-            },
-          },
-          {
             element: "input",
             className: "inputText1",
             gid: "joinCodeInput",
+            style: {
+              fontSize: "25px",
+              width: "200px",
+              height: "40px",
+              boxSizing: "border-box"
+            }
           },
           {
             element: "div",
             style: {
-              width: "4px",
+              width: "2px",
             },
           },
           {
             element: "div",
             className: "button2",
-            textContent: "Join this code",
+            textContent: "Join",
             gid: "joinCodeButton",
+            style: {
+              fontSize: "25px",
+              width: "fit-content",
+              height: "40px",
+              boxSizing: "border-box"
+            }
           },
         ],
       },

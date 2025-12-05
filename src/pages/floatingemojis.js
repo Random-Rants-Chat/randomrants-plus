@@ -10,7 +10,7 @@ var audioEngine = require("../audio.js");
 var elements = require("../gp2/elements.js");
 var emojiContainer = elements.getGPId("emojiContainer");
 
-var EMOJIS = [
+var NORMAL_EMOJIS = [
   "😂",
   "🤣",
   "💀",
@@ -25,7 +25,20 @@ var EMOJIS = [
   "🔊",
   "🎙️",
 ];
+var CHRISTMAS_EMOJIS = [
+  "🎅",
+  "🎁",
+  "🎄",
+  "❄",
+  "⛄"
+];
+var month = (new Date()).getMonth();
 var EMOJISound = null;
+
+var EMOJIS = NORMAL_EMOJIS;
+if (month == 11) {
+  EMOJIS = CHRISTMAS_EMOJIS;
+}
 
 (async function () {
   var soundURLS = await fetchAsJSON("external/uisound.json");
