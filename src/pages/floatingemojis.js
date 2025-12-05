@@ -27,10 +27,17 @@ var NORMAL_EMOJIS = [
 ];
 var CHRISTMAS_EMOJIS = [
   "🎅",
+  "🧑‍🎄",
+  "🤶",
   "🎁",
   "🎄",
-  "❄",
-  "⛄"
+  "❄️",
+  "⛄",
+];
+var HALLOWEEN_EMOJIS = [
+  "🎃",
+  "🦇",
+  "👻"
 ];
 var month = (new Date()).getMonth();
 var EMOJISound = null;
@@ -38,6 +45,9 @@ var EMOJISound = null;
 var EMOJIS = NORMAL_EMOJIS;
 if (month == 11) {
   EMOJIS = CHRISTMAS_EMOJIS;
+}
+if (month == 9) {
+  EMOJIS = HALLOWEEN_EMOJIS;
 }
 
 (async function () {

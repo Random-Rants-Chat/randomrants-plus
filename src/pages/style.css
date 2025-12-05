@@ -10,9 +10,21 @@ body {
   overflow: auto;
 }
 
-body[christmas-theme] {
+body[data-theme=christmas] {
+  background: #c3fbfb;
+}
+
+body[data-theme=spooky] {
+  background: #5e5e5e;
+}
+
+.christmasBG {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
   background: url('images/slopes.svg') bottom/cover no-repeat;
-  background-color: #c3fbfb;
 }
 
 [hidden] {
@@ -33,8 +45,13 @@ body[christmas-theme] {
   transition: 0.2s;
 }
 
-body[christmas-theme] > .menuBar {
-  background: unset;
+[data-theme="christmas"] .menuBar {
+  background: #c3fbfb;
+  font-family: Kalam;
+}
+
+[data-theme="spooky"] .menuBar {
+  background: #7a7a7a;
 }
 
 .menuBar:hover {
@@ -68,6 +85,10 @@ body[christmas-theme] > .menuBar {
   text-decoration: underline;
 }
 
+[data-theme="spooky"] .menuBarItem:hover {
+  color: #0000008f;
+}
+
 .menuBarItemUsername:hover {
   background: #0000007e;
   border-radius: 5px;
@@ -96,8 +117,14 @@ body[christmas-theme] > .menuBar {
   width: 99.45px;
 }
 
-body[christmas-theme] > .menuBar > .menuBarItemLogo {
+[data-theme="christmas"] .menuBarItemLogo {
   background-image: url('images/randomrants-plus-christmas.svg');
+  background-size: 100% 100%;
+  width: 99.45px;
+}
+
+[data-theme="spooky"] .menuBarItemLogo {
+  background-image: url('images/randomrants-plus-spooky.svg');
   background-size: 100% 100%;
   width: 99.45px;
 }

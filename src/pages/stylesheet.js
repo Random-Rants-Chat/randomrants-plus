@@ -10,8 +10,4 @@ var pageElements = elements.createElementsFromJSON([
 elements.appendElements(elements.body, pageElements);
 
 require("../fontface.js");
-
-var month = (new Date()).getMonth();
-if (month == 11) {
-  document.body.setAttribute("christmas-theme", "");
-}
+require("./month-themes.js");
