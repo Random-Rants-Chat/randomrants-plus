@@ -316,7 +316,7 @@ var randomRantsAbout = [
   {
     element: "p",
     textContent:
-      "Your profile is private, but it can be seen when you join a room.",
+      "Your profile is unlisted, but it can be seen when you join a room.",
     style: { fontSize: "1em", marginBottom: "0.5em" },
     children: [],
   },
