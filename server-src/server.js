@@ -2535,12 +2535,12 @@ setInterval(() => {
 
 function logRequestSus(req) {
   var ip = getIPFromRequest(req);
-  console.log(`Spamming requests: [${ip.trim()}]: ${req.method} to ${req.url}`);
+  console.log(`[HTTP]: Too many requests: [${ip.trim()}]: ${req.method} to ${req.url}`);
 }
 
 function logRequestNormal(req) {
   var ip = getIPFromRequest(req);
-  console.log(`[${ip.trim()}]: ${req.method} to ${req.url}`);
+  console.log(`[HTTP]: [${ip.trim()}]: ${req.method} to ${req.url}`);
 }
 
 function debounce(func, delay = 60) {
@@ -4992,6 +4992,20 @@ wss.on("connection", (ws, request) => {
   ws.close();
 });
 
+
+function logRequestWsSus(req) {
+  var ip = getIPFromRequest(req);
+  console.log(`[Websocket]: Too many requests: [${ip.trim()}]: ${req.method} to ${req.url}`);
+}
+
+function logRequestWsNormal(req) {
+  var ip = getIPFromRequest(req);
+  console.log(`[Websocket]: [${ip.trim()}]: ${req.method} to ${req.url}`);
+}
+
+var logRequestWsNormalDebounced = debounce(logRequestWsNormal,400);
+var logRequestWsSusDebounced = debounce(logRequestWsSus,300);
+
 server.on("upgrade", async function upgrade(request, socket, head) {
   if (applyRateLimit(request)) {
     const response = [
@@ -5003,8 +5017,12 @@ server.on("upgrade", async function upgrade(request, socket, head) {
     ].join("\r\n");
 
     socket.end(response);
+    logRequestWsSusDebounced(request);
+
     return;
   }
+  logRequestWsNormalDebounced(request);
+
 
   var url = decodeURIComponent(request.url);
   var urlsplit = url.split("/");
