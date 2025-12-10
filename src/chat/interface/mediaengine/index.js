@@ -1003,9 +1003,6 @@ async function doMediaSelect() {
                           var loadingMediaDiv = doLoadingMediaScreen();
 
                           try {
-                            var response = await fetch(
-                              "https://randomrants-minigame-cloud.onrender.com/",
-                            );
                             loadingMediaDiv.remove();
                             var username = "player";
                             if (accountHelper.getCurrentValidationState()) {
@@ -1064,9 +1061,6 @@ async function doMediaSelect() {
                           var loadingMediaDiv = doLoadingMediaScreen();
 
                           try {
-                            var response = await fetch(
-                              "https://randomrants-minigame-cloud.onrender.com/",
-                            );
                             loadingMediaDiv.remove();
                             var username = "player";
                             if (accountHelper.getCurrentValidationState()) {
