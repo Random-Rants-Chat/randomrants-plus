@@ -6,6 +6,14 @@ const VersionUpdatePlugin = require("./versionstampplugin.js");
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const webpack = require('webpack');
 
+var siteDescription = [
+  "Random Rants + is your fun realtime chat zone. ",
+  "Built by students who never do their classwork, ",
+  "and with the funniest meme sounds!"
+].join("");
+
+var siteImage = "https://randomrants-plus.onrender.com/images/site-image.png";
+
 const pages = [
   "index",
   "signin",
@@ -111,6 +119,8 @@ module.exports = {
         new HtmlWebpackPlugin({
           filename: `${page}.html`,
           title: `Random Rants +`,
+          description: siteDescription,
+          image: siteImage,
           template: "./webpackhtml/base.html",
           chunks: [page],
         })

@@ -6,39 +6,40 @@
     <link rel="icon" href="favicon.png?n=1" />
 
     <!-- Google / Search Engine Tags -->
-    <meta itemprop="name" content="Random Rants +" />
+    <meta itemprop="name" content="<%= htmlWebpackPlugin.options.title %>" />
     <meta
       itemprop="description"
-      content="Random Rants + is your chaotic escape from boring school screens. Built for sneaky fun, loud sounds, and pure unfiltered energy."
+      content="<%= htmlWebpackPlugin.options.description %>"
     />
+    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
     <meta
       itemprop="image"
-      content="https://randomrants-plus.onrender.com/images/site-image.png"
+      content="<%= htmlWebpackPlugin.options.image %>"
     />
 
     <!-- Facebook Meta Tags -->
     <meta property="og:url" content="https://randomrants-plus.onrender.com/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Random Rants +" />
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
     <meta
       property="og:description"
-      content="Random Rants + is your chaotic escape from boring school screens. Built for sneaky fun, loud sounds, and pure unfiltered energy."
+      content="<%= htmlWebpackPlugin.options.description %>"
     />
     <meta
       property="og:image"
-      content="https://randomrants-plus.onrender.com/images/site-image.png"
+      content="<%= htmlWebpackPlugin.options.image %>"
     />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Random Rants +" />
+    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.title %>" />
     <meta
       name="twitter:description"
-      content="Random Rants + is your chaotic escape from boring school screens. Built for sneaky fun, loud sounds, and pure unfiltered energy."
+      content="<%= htmlWebpackPlugin.options.description %>"
     />
     <meta
       name="twitter:image"
-      content="https://randomrants-plus.onrender.com/images/site-image.png"
+      content="<%= htmlWebpackPlugin.options.image %>"
     />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
@@ -53,15 +54,28 @@
           left: 0;
           width: 100vw;
           height: 100vh;
-          background: var(--bg-color);
+          background: #b8b8b8;
           color: var(--main-text-color);
+          font-family: arial;
         "
       >
-        <h1>No JavaScript!</h1>
-        <span>
-          Please enable JavaScript to use Random Rants +.<br />
-          Without it, this page is just a boring blank screen.
-        </span>
+        <div style="
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 12px 12px;
+          box-sizing: border-box;
+          background: white;
+          border-radius: 10px;
+        ">
+          <h1 style="text-align: center;">No JavaScript!</h1>
+          <span>
+            Please enable JavaScript to use Random Rants +.<br />
+            Without it, this page is just a boring blank screen.<br />
+            We need this to show you interactive content. <br />
+          </span>
+        </div>
       </div>
     </noscript>
   </body>
