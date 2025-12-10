@@ -2533,14 +2533,37 @@ setInterval(() => {
   }
 }, 10000);
 
+function logRequestSus(req) {
+  var ip = getIPFromRequest(req);
+  console.log(`Spamming requests: [${ip.trim()}]: ${req.method} to ${req.url}`);
+}
+
+function logRequestNormal(req) {
+  var ip = getIPFromRequest(req);
+  console.log(`[${ip.trim()}]: ${req.method} to ${req.url}`);
+}
+
+function debounce(func, delay = 60) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+var logRequestNormalDebounced = debounce(logRequestNormal,400);
+var logRequestSusDebounced = debounce(logRequestSus,300);
+
 const server = http.createServer(async function (req, res) {
   setNoCorsHeaders(res);
 
   if (applyRateLimit(req)) {
     res.writeHead(429, { "Content-Type": "text/html; charset=utf-8" });
     res.end(
-      `<!DOCTYPE HTML><h1>Yikes!</h1><br><span>It seems like you hit our request limit, try again later.</span><script>setTimeout(() => {window.location.reload();},1000);</script>`
+      `Yikes! - You hit our request limit, wait a few minutes then refresh to get things back to normal. Doing this too often may get your IP banned!`
     );
+    logRequestSusDebounced(req);
     return;
   }
   try {
@@ -2550,6 +2573,8 @@ const server = http.createServer(async function (req, res) {
   } catch (e) {
     console.log(e);
   }
+
+  logRequestNormalDebounced(req);
 
   var ip = getIPFromRequest(req);
 
