@@ -73,6 +73,7 @@ var elementJSON = [
         textContent:
           "Join to save rooms, customize how you look, and create your own rooms.",
       },
+      require("./legal-note-elm.js"),
       {
         element: "p",
         style: {

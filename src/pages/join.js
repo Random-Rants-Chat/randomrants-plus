@@ -120,7 +120,17 @@ var joinCodeInput = elements.getGPId("joinCodeInput");
 var joinCodeButton = elements.getGPId("joinCodeButton");
 
 async function joinToRoom() {
-  var joinCodeString = joinCodeInput.value.toUpperCase();
+  var joinCodeString = joinCodeInput.value.toUpperCase().trim();
+
+  if (joinCodeString.length < 1) {
+    return;
+  }
+  if (joinCodeString.length !== 8) {
+    dialog.alert(
+      "This code is too long or short."
+    );
+    return;
+  }
 
   var response = await fetch(
     accountHelper.getServerURL() + "/quickjoin/code/" + joinCodeString,

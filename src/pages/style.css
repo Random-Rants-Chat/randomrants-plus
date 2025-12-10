@@ -7,7 +7,8 @@ body {
   height: 100dvh;
   height: 100vh;
   width: 100vw;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 body[data-theme=christmas] {
@@ -298,14 +299,18 @@ a:hover {
 .aboutDivCenter {
   width: calc(100vw - 400px);
   height: fit-content;
+  max-height: calc(100svh - 40px);
   padding: 10px 10px;
+  box-sizing: border-box;
 
-  position: absolute;
+  position: fixed;
   left: 50%;
+  top: 40px;
   transform: translate(-50%, 0px);
 
   background: white;
   border-radius: 5px;
+  overflow: auto;
 }
 
 .yellowBoxedText {
@@ -529,16 +534,21 @@ a:hover {
 }
 
 .creatorSocialLink {
-  padding: 9px 7px;
+  padding: 10px 10px;
   border-radius: 5px;
   height: 25px;
   margin-right: 5px;
 }
 
-.creatorSocialLink img {
+.creatorSocialLink > img {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
+  transition: 0.15s;
+}
+
+.creatorSocialLink:hover > img {
+  transform: scale(1.1);
 }
 
 .creatorSocialLink:hover {

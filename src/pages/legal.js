@@ -12,14 +12,16 @@ var dialog = require("../dialogs.js");
 var randomRantsLegal = [
   // Title and intro
   require("./sitenews-notice.js"),
+  
+  // --- TL;DR SECTION ---
   {
     element: "div",
     style: {
-      border: "3px dashed var(--main-text-color)", // Dashed border fits the "sketchy/draft" vibe
+      border: "3px dashed var(--main-text-color)",
       padding: "20px",
       borderRadius: "10px",
       marginBottom: "30px",
-      backgroundColor: "rgba(0, 0, 0, 0.05)" // Slightly darker/lighter background
+      backgroundColor: "rgba(0, 0, 0, 0.05)"
     },
     children: [
       {
@@ -48,16 +50,16 @@ var randomRantsLegal = [
           {
             element: "li",
             children: [
-                { element: "strong", textContent: "DON'T KILL THE SERVER." },
-                { element: "span", textContent: " If you post illegal stuff, malware, or pirated movies, our host will delete the entire site. Don't be that guy." }
+                { element: "strong", textContent: "FILES ARE TEMPORARY." },
+                { element: "span", textContent: " We delete old files to save space. Don't use this as permanent cloud storage." }
             ]
           },
           { element: "br" },
           {
             element: "li",
             children: [
-                { element: "strong", textContent: "NO DOXXING." },
-                { element: "span", textContent: " Don't share people's real addresses or private info. That gets you banned instantly." }
+                { element: "strong", textContent: "DON'T KILL THE SERVER." },
+                { element: "span", textContent: " We run on a free tier. If you spam requests or try to crash the site, we will IP BAN you instantly." }
             ]
           },
           { element: "br" },
@@ -65,7 +67,7 @@ var randomRantsLegal = [
             element: "li",
             children: [
                 { element: "strong", textContent: "YOUR DATA." },
-                { element: "span", textContent: " We can see your IP address and username. (if you sign up) We don't sell it, but we have it." }
+                { element: "span", textContent: " We can see your IP address and username. We don't sell it, but we have it." }
             ]
           }
         ]
@@ -73,9 +75,11 @@ var randomRantsLegal = [
     ]
   },
   {
-      element: "hr", // A line to separate the short version from the long version
+      element: "hr",
       style: { margin: "20px 0", border: "1px solid #ccc" }
   },
+  
+  // --- HEADER & DISCLAIMER ---
   {
     element: "h1",
     textContent: "Legal, Safety & Terms",
@@ -87,6 +91,32 @@ var randomRantsLegal = [
     textContent: "The boring stuff we have to say so the site doesn't get taken down.",
     children: [],
   },
+  { element: "br" },
+  { element: "br" },
+  
+  // Developer Note
+  {
+    element: "div",
+    style: {
+        backgroundColor: "rgba(255, 215, 0, 0.15)", // Subtle highlight
+        padding: "10px",
+        borderRadius: "5px",
+        borderLeft: "3px solid orange",
+        fontSize: "0.9em",
+        marginBottom: "15px"
+    },
+    children: [
+        {
+            element: "strong",
+            textContent: "Developer Note: "
+        },
+        {
+            element: "span",
+            textContent: "This site is maintained by a 15-year-old student. Most of this legal page was machine-generated to keep things safe. Please don't kill this site, I sacrificed my homework to build it."
+        }
+    ]
+  },
+  
   {
     element: "p",
     textContent:
@@ -95,7 +125,7 @@ var randomRantsLegal = [
     children: [],
   },
 
-  // Age Restriction (Critical for COPPA)
+  // 1. Age Restriction
   {
     element: "h2",
     textContent: "1. Age Requirement (13+ Only)",
@@ -117,7 +147,7 @@ var randomRantsLegal = [
     children: [],
   },
 
-  // Disclaimer of Liability
+  // 2. Liability
   {
     element: "h2",
     textContent: "2. We aren't responsible for user content",
@@ -139,7 +169,7 @@ var randomRantsLegal = [
     children: [],
   },
 
-  // Forbidden Content (Yellow Box for visibility)
+  // 3. Forbidden Content & Server Safety
   {
     element: "div",
     className: "yellowBoxedText",
@@ -186,19 +216,69 @@ var randomRantsLegal = [
         ],
       },
       {
+        element: "h3", // Sub-header for Server Safety
+        textContent: "Server Safety & IP Bans",
+        style: { fontSize: "1.2em", marginTop: "1em", marginBottom: "0.5em", color: "#b22222" }, // Dark red warning color
+        children: [],
+      },
+      {
         element: "p",
         textContent:
-          "Users with Ownership have the right to ban you if you break these rules. We reserve the right to remove any content that threatens the safety of the site.",
+          "This site runs on a free tier. We have limited resources. If we check the request logs and see you are intentionally trying to crash the server, spamming requests, or attempting to DDoS us, we will permanently ban your IP address.",
+        style: { fontSize: "1em", fontWeight: "bold" },
+        children: [],
+      },
+      {
+        element: "p",
+        textContent:
+          "Users with Ownership also have the right to ban you from rooms if you break these rules.",
         style: { fontSize: "1em", marginTop: "1em" },
         children: [],
       },
     ],
   },
 
-  // Privacy Policy
+  // 4. File Storage
   {
     element: "h2",
-    textContent: "4. Privacy Policy",
+    textContent: "4. How Files & Uploads Work",
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "When you attach a file, it is uploaded to our server to make downloading faster for everyone else in the room. Here is how that works:",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "ul",
+    children: [
+      {
+        element: "li",
+        children: [
+            { element: "strong", textContent: "Renaming: " },
+            { element: "span", textContent: "To prevent errors, we rename your file to a generated ID (like " },
+            { element: "code", textContent: "attachment-x8d9s.file" },
+            { element: "span", textContent: "), but the content inside remains exactly what you uploaded." }
+        ]
+      },
+      { element: "br" },
+      {
+        element: "li",
+        children: [
+            { element: "strong", textContent: "Temporary Storage: " },
+            { element: "span", textContent: "We don't have infinite storage. Files are automatically deleted from the server if they haven't been requested/downloaded for a while. Save your important stuff elsewhere." }
+        ]
+      },
+    ],
+  },
+
+  // 5. Privacy Policy
+  {
+    element: "h2",
+    textContent: "5. Privacy Policy",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
     children: [],
   },
@@ -222,14 +302,7 @@ var randomRantsLegal = [
       {
         element: "li",
         textContent:
-          "Your IP Address (Automatically collected for connection and security purposes).",
-        children: [],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        textContent:
-          "Uploaded Files (Stored temporarily or permanently depending on room settings).",
+          "Your IP Address (Automatically collected for connection, security logs, and banning bad actors).",
         children: [],
       },
     ],
@@ -242,10 +315,10 @@ var randomRantsLegal = [
     children: [],
   },
 
-  // Hosting Provider
+  // 6. Hosting
   {
     element: "h2",
-    textContent: "5. Hosting & Third Parties",
+    textContent: "6. Hosting & Third Parties",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
     children: [],
   },
@@ -265,7 +338,7 @@ var randomRantsLegal = [
         },
         {
             element: "a",
-            href: "https://render.com/acceptable-use-policy",
+            href: "https://render.com/acceptable-use", // UPDATED LINK
             textContent: "here",
             target: "_blank",
             style: { color: "var(--link-color, blue)", textDecoration: "underline" }
@@ -277,10 +350,10 @@ var randomRantsLegal = [
     ],
   },
 
-    // Contact / DMCA
+    // 7. DMCA
     {
         element: "h2",
-        textContent: "6. DMCA & Contact",
+        textContent: "7. DMCA & Contact",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
@@ -298,7 +371,6 @@ var randomRantsLegal = [
         style: { fontSize: "1em", marginBottom: "1em" },
         children: [],
       },
-
 ];
 
 var elementJSON = [

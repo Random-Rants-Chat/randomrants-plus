@@ -68,6 +68,7 @@ var elementJSON = [
         textContent: "Sign into your RR+ Account",
       },
       { element: "br" },
+      require("./legal-note-elm.js"),
       {
         element: "span",
         textContent: "Sign in to unlock all the features of Random Rants +",
