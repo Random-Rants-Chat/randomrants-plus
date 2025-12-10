@@ -2533,14 +2533,29 @@ setInterval(() => {
   }
 }, 10000);
 
+function getTimeString(date = new Date()) {
+  // Helper to ensure 1 digit numbers become 2 digits (e.g., 5 -> "05")
+  const pad = (num) => num.toString().padStart(2, '0');
+
+  const month = pad(date.getMonth() + 1); // getMonth() returns 0-11, so we add 1
+  const day = pad(date.getDate());
+  const year = date.getFullYear();
+  
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+
+  return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
 function logRequestSus(req) {
   var ip = getIPFromRequest(req);
-  console.log(`[HTTP]: Too many requests: [${ip.trim()}]: ${req.method} to ${req.url}`);
+  console.log(`[HTTP]: Too many requests: [${getTimeString()}]: [${ip.trim()}]: ${req.method} to ${req.url}`);
 }
 
 function logRequestNormal(req) {
   var ip = getIPFromRequest(req);
-  console.log(`[HTTP]: [${ip.trim()}]: ${req.method} to ${req.url}`);
+  console.log(`[HTTP]: [${getTimeString()}]: [${ip.trim()}]: ${req.method} to ${req.url}`);
 }
 
 function debounce(func, delay = 60) {
@@ -4995,12 +5010,12 @@ wss.on("connection", (ws, request) => {
 
 function logRequestWsSus(req) {
   var ip = getIPFromRequest(req);
-  console.log(`[Websocket]: Too many requests: [${ip.trim()}]: ${req.method} to ${req.url}`);
+  console.log(`[Websocket]: Too many requests: [${getTimeString()}]: [${ip.trim()}]: ${req.method} to ${req.url}`);
 }
 
 function logRequestWsNormal(req) {
   var ip = getIPFromRequest(req);
-  console.log(`[Websocket]: [${ip.trim()}]: ${req.method} to ${req.url}`);
+  console.log(`[Websocket]: [${getTimeString()}]: [${ip.trim()}]: ${req.method} to ${req.url}`);
 }
 
 var logRequestWsNormalDebounced = debounce(logRequestWsNormal,400);
