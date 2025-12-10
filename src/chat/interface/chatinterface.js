@@ -585,14 +585,14 @@ var KnownUserList = require("./userlist-menu.js");
           roomSettings.changeRoomDescription(json.description);
           userState.roomID = json.id;
           (async function () {
-            await fetch(accountHelper.getServerURL() + "/account/addroom", {
+            /*await fetch(accountHelper.getServerURL() + "/account/addroom", {
               method: "POST",
               body: JSON.stringify({
                 id: json.id,
                 name: json.name,
                 description: json.description,
               }),
-            });
+            });*/
           })();
           document.title = "Random Rants + | Chatroom [" + json.name + "]";
         }

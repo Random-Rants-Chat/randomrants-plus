@@ -63,7 +63,12 @@ function closeUserFromUserSocket(username) {
   }
 }
 function getIPFromRequest(req) {
-  return req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  if (req.headers["x-forwarded-for"]) {
+    var IPString = ""+req.headers["x-forwarded-for"];
+    var IPs = IPString.split(",").map((ip) => ip.trim());
+    return IPs[0];
+  }
+  return req.socket.remoteAddress;
 }
 async function checkServer() {
   try {
@@ -1565,6 +1570,50 @@ async function startRoomWSS(roomid) {
     }
   }
 
+
+  async function addRoomToUser(username = "") {
+    try{
+            var profileFile = `user-${username.trim().toString()}.json`;
+            var profileRaw = await storage.downloadFile(profileFile);
+            var profilejson = JSON.parse(profileRaw.toString());
+            var rooms = [];
+            if (Array.isArray(profilejson.rooms)) {
+              rooms = profilejson.rooms;
+            }
+            if (defaultRooms.indexOf(roomid) < 0) {
+              var roomAlreadyExists = false;
+              for (var room of rooms) {
+                if (room.id == roomid) {
+                  roomAlreadyExists = true;
+                }
+              }
+              if (roomAlreadyExists) {
+                for (var room of rooms) {
+                  if (room.id == roomid) {
+                    room.name = info.name;
+                    room.description = info.description;
+                    room.invited = undefined;
+                  }
+                }
+              } else {
+                rooms.push({
+                  name: info.name,
+                  description: info.description,
+                  id: roomid,
+                });
+              }
+            }
+            profilejson.rooms = rooms;
+            if (profileRaw.toString() !== JSON.stringify(profilejson)) {
+              await storage.uploadFile(
+                profileFile,
+                JSON.stringify(profilejson),
+                "application/json"
+              );
+            }
+          }catch(e){}
+          }
+
   var currentScreenshareCode = null;
   var currentMediaEmbedURL = "";
   var currentScreensharingWebsocket = null;
@@ -1603,6 +1652,7 @@ async function startRoomWSS(roomid) {
         decryptedUserdata.username = (decryptedUserdata.username || "")
           .toLowerCase()
           .trim();
+        decryptedUserdata.password = (decryptedUserdata.password || "");
         var validation = await validateUserCookie(decryptedUserdata);
         for (var cli of wss.clients) {
           if (cli._rrUsername && cli._rrLoggedIn) {
@@ -1653,6 +1703,9 @@ async function startRoomWSS(roomid) {
           } else {
             usersOnlineSockets[ws._rrUsername].push(ws);
           }
+          (async function () {
+            await addRoomToUser(ws._rrUsername);
+          })().catch((e) => {});
         } else {
           ws._rrLoggedIn = false;
           ws._rrDisplayName = displayName;
@@ -2299,6 +2352,11 @@ async function startRoomWSS(roomid) {
           allow: info.allowGuests,
         })
       );
+      if (ws._rrLoggedIn) {
+        (async function () {
+          await addRoomToUser(ws._rrUsername);
+        })().catch((e) => {});
+      }
     });
 
     sendOnlineList();
@@ -4282,6 +4340,11 @@ const server = http.createServer(async function (req, res) {
     }
     if (urlsplit[2] == "addroom" && req.method == "POST") {
       (async function () {
+        if (true) {
+          res.end("Old path, rooms are added automatically when connecting.");
+          return;
+        }
+        //Keeping this here in case i need it later.
         if (decryptedUserdata) {
           try {
             var body = await waitForBody(req);
