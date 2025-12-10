@@ -1,6 +1,7 @@
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const LicensePlugin = require('webpack-license-plugin');
 const VersionUpdatePlugin = require("./versionstampplugin.js");
 const webpack = require('webpack');
 
@@ -15,7 +16,8 @@ const pages = [
   "security",
   "sitenews",
   "history",
-  "legal"
+  "legal",
+  "credits"
 ];
 try {
   require("fs").rmSync("./public", { recursive: true });
@@ -120,5 +122,6 @@ module.exports = {
 	new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
+    new LicensePlugin({ outputFilename: 'licenses.json' })
   ],
 };

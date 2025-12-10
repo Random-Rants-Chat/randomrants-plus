@@ -551,6 +551,22 @@ var randomRantsAbout = [
       },
     ],
   },
+  {
+    element: "p",
+    style: { fontSize: "1em", marginBottom: "1em" },
+    children: [
+      {
+        element: "span",
+        textContent:
+          "Credits can be found ",
+      },
+      {
+        element: "a",
+        href: "./credits",
+        textContent: "here.",
+      },
+    ],
+  },
 ];
 
 var elementJSON = [
