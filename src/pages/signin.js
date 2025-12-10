@@ -80,7 +80,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.body,
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 var loader = require("./loadingscreen.js");
@@ -96,7 +96,7 @@ async function logIn() {
     await accountHelper.loginToAccount(
       usernameInput.value,
       passwordInput.value,
-      botCheck.getCheckID()
+      botCheck.getCheckID(),
     );
     window.location.href = gotoHref;
   } catch (e) {

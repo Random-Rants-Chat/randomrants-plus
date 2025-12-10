@@ -47,7 +47,7 @@ async function generateImage(code) {
   const height = 50;
 
   const backgroundColor = JimpModule.cssColorToHex(
-    BG_COLORS[Math.floor(Math.random() * BG_COLORS.length)]
+    BG_COLORS[Math.floor(Math.random() * BG_COLORS.length)],
   );
   const colorWhite = 0xffffffff;
 
@@ -109,10 +109,10 @@ async function generateImage(code) {
       const y = Math.floor(Math.random() * height);
       image.setPixelColor(
         JimpModule.cssColorToHex(
-          BG_COLORS[Math.floor(Math.random() * BG_COLORS.length)]
+          BG_COLORS[Math.floor(Math.random() * BG_COLORS.length)],
         ),
         x,
-        y
+        y,
       );
     }
 

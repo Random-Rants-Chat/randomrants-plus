@@ -4,5 +4,6 @@
     "repo": "randomrants-new-soundboard",
     "version": "492022e"
   },
+  "commitsURL": "https://api.github.com/repos/random-rants-chat/randomrants-plus/commits",
   "vineboomBracketURL": "https://random-rants-chat.github.io/randomrants-soundboard/vineboom.wav"
 }

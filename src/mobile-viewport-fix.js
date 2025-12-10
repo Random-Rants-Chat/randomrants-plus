@@ -5,10 +5,10 @@
 function fixMobileViewportHeight() {
   // Check if browser supports dvh (dynamic viewport height)
   const supportsDVH = CSS.supports("height", "100dvh");
-  
+
   if (!supportsDVH) {
     // Fallback for older browsers - calculate viewport height in pixels
-    const updateViewportHeight = function() {
+    const updateViewportHeight = function () {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", vh + "px");
     };
@@ -29,7 +29,7 @@ function fixMobileViewportHeight() {
   if (viewportMeta) {
     viewportMeta.setAttribute(
       "content",
-      "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+      "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover",
     );
   }
 }

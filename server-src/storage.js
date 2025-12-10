@@ -61,10 +61,16 @@ class GvbBaseSupabaseStorage {
     const path = `/storage/v1/object/${this.bucket}/${encodeURIComponent(
       filename,
     )}?v=${Date.now()}`;
-    const { buffer } = await this._makeRequest("GET", path, cache ? {} : {
-      "Cache-Control": "max-age=0, must-revalidate",
-      "Age": "0"
-    });
+    const { buffer } = await this._makeRequest(
+      "GET",
+      path,
+      cache
+        ? {}
+        : {
+            "Cache-Control": "max-age=0, must-revalidate",
+            Age: "0",
+          },
+    );
     return buffer;
   }
 

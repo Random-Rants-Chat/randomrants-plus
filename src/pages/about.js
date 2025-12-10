@@ -557,8 +557,7 @@ var randomRantsAbout = [
     children: [
       {
         element: "span",
-        textContent:
-          "Credits can be found ",
+        textContent: "Credits can be found ",
       },
       {
         element: "a",

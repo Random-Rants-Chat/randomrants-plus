@@ -3,7 +3,7 @@
   --accent-default-saturation: 0%;
 
   --doNotTouchThisEver: 100%; /* but... of what?? */
-  
+
   /* Mobile viewport height - iOS uses dynamic viewport, use dvh (dynamic viewport height) when available */
   --viewport-height: 100dvh;
 

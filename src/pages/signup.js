@@ -120,7 +120,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.body,
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 var goButton = elements.getGPId("goButton");
@@ -135,7 +135,7 @@ async function signUp() {
     await accountHelper.signupAccount(
       usernameInput.value,
       passwordInput.value,
-      botCheck.getCheckID()
+      botCheck.getCheckID(),
     );
     window.location.href = gotoHref;
   } catch (e) {

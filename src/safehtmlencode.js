@@ -64,7 +64,11 @@ function isSafeURLOrDomain(urlOrDomain) {
   }
 
   // Allow relative paths (starting with / or ./)
-  if (trimmed.startsWith("/") || trimmed.startsWith("./") || trimmed.startsWith("../")) {
+  if (
+    trimmed.startsWith("/") ||
+    trimmed.startsWith("./") ||
+    trimmed.startsWith("../")
+  ) {
     // Reject if contains null bytes or suspicious patterns
     if (trimmed.includes("\0") || trimmed.includes("\\")) {
       return false;
@@ -78,7 +82,9 @@ function isSafeURLOrDomain(urlOrDomain) {
   let hasExplicitProtocol = false;
 
   if (protocolSeparatorIndex > 0) {
-    const protocolPart = trimmed.substring(0, protocolSeparatorIndex).toLowerCase();
+    const protocolPart = trimmed
+      .substring(0, protocolSeparatorIndex)
+      .toLowerCase();
 
     // Verify protocol part doesn't contain invalid characters
     if (
@@ -95,7 +101,7 @@ function isSafeURLOrDomain(urlOrDomain) {
     // Check if it looks like a domain (contains . and no spaces/special chars)
     if (
       /^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(
-        trimmed
+        trimmed,
       )
     ) {
       fullURL = "https://" + trimmed;

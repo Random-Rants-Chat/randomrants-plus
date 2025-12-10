@@ -26,7 +26,8 @@ const pages = [
   "sitenews",
   "history",
   "legal",
-  "credits"
+  "credits",
+  "updates"
 ];
 const paths = pages.map((page) => {
   return {

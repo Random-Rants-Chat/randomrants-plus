@@ -11,16 +11,19 @@
       itemprop="description"
       content="<%= htmlWebpackPlugin.options.description %>"
     />
-    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
     <meta
-      itemprop="image"
-      content="<%= htmlWebpackPlugin.options.image %>"
+      name="description"
+      content="<%= htmlWebpackPlugin.options.description %>"
     />
+    <meta itemprop="image" content="<%= htmlWebpackPlugin.options.image %>" />
 
     <!-- Facebook Meta Tags -->
     <meta property="og:url" content="https://randomrants-plus.onrender.com/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
+    <meta
+      property="og:title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
     <meta
       property="og:description"
       content="<%= htmlWebpackPlugin.options.description %>"
@@ -32,7 +35,10 @@
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.title %>" />
+    <meta
+      name="twitter:title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
     <meta
       name="twitter:description"
       content="<%= htmlWebpackPlugin.options.description %>"
@@ -42,7 +48,10 @@
       content="<%= htmlWebpackPlugin.options.image %>"
     />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
   </head>
   <body>
     <!--No script error in case JavaScript is disabled-->
@@ -59,17 +68,19 @@
           font-family: arial;
         "
       >
-        <div style="
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          padding: 12px 12px;
-          box-sizing: border-box;
-          background: white;
-          border-radius: 10px;
-        ">
-          <h1 style="text-align: center;">No JavaScript!</h1>
+        <div
+          style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 12px 12px;
+            box-sizing: border-box;
+            background: white;
+            border-radius: 10px;
+          "
+        >
+          <h1 style="text-align: center">No JavaScript!</h1>
           <span>
             Please enable JavaScript to use Random Rants +.<br />
             Without it, this page is just a boring blank screen.<br />

@@ -25,21 +25,9 @@ var NORMAL_EMOJIS = [
   "🔊",
   "🎙️",
 ];
-var CHRISTMAS_EMOJIS = [
-  "🎅",
-  "🧑‍🎄",
-  "🤶",
-  "🎁",
-  "🎄",
-  "❄️",
-  "⛄",
-];
-var HALLOWEEN_EMOJIS = [
-  "🎃",
-  "🦇",
-  "👻"
-];
-var month = (new Date()).getMonth();
+var CHRISTMAS_EMOJIS = ["🎅", "🧑‍🎄", "🤶", "🎁", "🎄", "❄️", "⛄"];
+var HALLOWEEN_EMOJIS = ["🎃", "🦇", "👻"];
+var month = new Date().getMonth();
 var EMOJISound = null;
 
 var EMOJIS = NORMAL_EMOJIS;

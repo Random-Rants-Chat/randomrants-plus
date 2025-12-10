@@ -7,10 +7,7 @@
         "src": "images/randomrants-square-icon.png",
         "name": "Random Rants + square icon",
         "emojiURL": "rrp",
-        "tags": [
-          "square",
-          "icon"
-        ]
+        "tags": ["square", "icon"]
       },
       {
         "src": "images/doge.png",
@@ -289,14 +286,7 @@
         "src": "images/hashbrowncat.png",
         "name": "Hash brown cat",
         "emojiURL": "rrp",
-        "tags": [
-          "hash brown",
-          "meme",
-          "MC Donalds",
-          "chineese",
-          "cat",
-          "food"
-        ]
+        "tags": ["hash brown", "meme", "MC Donalds", "chineese", "cat", "food"]
       },
       {
         "src": "images/mop3000.png",
@@ -316,13 +306,7 @@
         "src": "images/mc-parrot.png",
         "name": "Red Minecraft Parrot",
         "emojiURL": "rrp",
-        "tags": [
-          "red",
-          "parrot",
-          "animal",
-          "bird",
-          "minecraft"
-        ]
+        "tags": ["red", "parrot", "animal", "bird", "minecraft"]
       },
       {
         "src": "images/sadsponge.png",
@@ -443,13 +427,7 @@
         "src": "img/thing.svg",
         "name": "White ugly face",
         "emojiURL": "rr",
-        "tags": [
-          "white",
-          "ugly",
-          "face",
-          "strange",
-          "thing"
-        ]
+        "tags": ["white", "ugly", "face", "strange", "thing"]
       },
       {
         "src": "img/dance.gif",
@@ -468,38 +446,19 @@
         "src": "img/sonk.png",
         "name": "Mini sonic exe",
         "emojiURL": "rr",
-        "tags": [
-          "small",
-          "sonic exe",
-          "exe",
-          "turned head",
-          "mini",
-          "cute"
-        ]
+        "tags": ["small", "sonic exe", "exe", "turned head", "mini", "cute"]
       },
       {
         "src": "img/2.png",
         "name": "Ugly smile look",
         "emojiURL": "rr",
-        "tags": [
-          "peek",
-          "smile",
-          "ugly",
-          "white man",
-          "face"
-        ]
+        "tags": ["peek", "smile", "ugly", "white man", "face"]
       },
       {
         "src": "img/smw-bored.png",
         "name": "Pixel jason bored face",
         "emojiURL": "rr",
-        "tags": [
-          "bored",
-          "low resolution",
-          "pixelated",
-          "tired",
-          "lazy"
-        ]
+        "tags": ["bored", "low resolution", "pixelated", "tired", "lazy"]
       },
       {
         "src": "img/smw-grin.png",
@@ -534,13 +493,7 @@
         "src": "img/smw-smile.png",
         "name": "Pixel jason smile face",
         "emojiURL": "rr",
-        "tags": [
-          "smile",
-          "low resolution",
-          "pixelated",
-          "happy",
-          "good"
-        ]
+        "tags": ["smile", "low resolution", "pixelated", "happy", "good"]
       },
       {
         "src": "img/smw-straightface.png",
@@ -608,111 +561,61 @@
         "src": "img/num0.png",
         "name": "Pixel 0",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "zero"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "zero"]
       },
       {
         "src": "img/num1.png",
         "name": "Pixel 1",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "one"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "one"]
       },
       {
         "src": "img/num2.png",
         "name": "Pixel 2",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "two"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "two"]
       },
       {
         "src": "img/num3.png",
         "name": "Pixel 3",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "three"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "three"]
       },
       {
         "src": "img/num4.png",
         "name": "Pixel 4",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "four"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "four"]
       },
       {
         "src": "img/num5.png",
         "name": "Pixel 5",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "five"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "five"]
       },
       {
         "src": "img/num6.png",
         "name": "Pixel 6",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "six"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "six"]
       },
       {
         "src": "img/num7.png",
         "name": "Pixel 7",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "seven"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "seven"]
       },
       {
         "src": "img/num8.png",
         "name": "Pixel 8",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "eight"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "eight"]
       },
       {
         "src": "img/num9.png",
         "name": "Pixel 9",
         "emojiURL": "rr",
-        "tags": [
-          "number",
-          "low resolution",
-          "pixelated",
-          "nine"
-        ]
+        "tags": ["number", "low resolution", "pixelated", "nine"]
       }
     ]
   },
@@ -906,14 +809,7 @@
         "src": "ARVSM_IDLE.svg",
         "name": "Aibo Recognition Sitting",
         "emojiURL": "gc",
-        "tags": [
-          "ers-210",
-          "game",
-          "aibo",
-          "software",
-          "robot",
-          "sony"
-        ]
+        "tags": ["ers-210", "game", "aibo", "software", "robot", "sony"]
       },
       {
         "src": "ARVSM_XD.png",
@@ -1256,22 +1152,13 @@
         "src": "CHEESEPUFFS.jpg",
         "name": "Cheese puffs",
         "emojiURL": "gc",
-        "tags": [
-          "cheese puffs",
-          "cheetos",
-          "bowl",
-          "snack"
-        ]
+        "tags": ["cheese puffs", "cheetos", "bowl", "snack"]
       },
       {
         "src": "PLUSH.png",
         "name": "Plush",
         "emojiURL": "gc",
-        "tags": [
-          "stitch",
-          "plushy",
-          "stuffed animal"
-        ]
+        "tags": ["stitch", "plushy", "stuffed animal"]
       }
     ]
   }

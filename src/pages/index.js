@@ -83,7 +83,7 @@ var elementJSON = [
           duration: 700,
           iterations: 1,
           easing: "ease-out",
-        }
+        },
       );
       anim.addEventListener("finish", () => {
         elm.animate(
@@ -97,7 +97,7 @@ var elementJSON = [
             duration: 600,
             iterations: Infinity,
             easing: "ease-out",
-          }
+          },
         );
       });
     },
@@ -124,7 +124,7 @@ var elementJSON = [
           duration: 800,
           iterations: 1,
           easing: "ease-out",
-        }
+        },
       );
       anim.addEventListener("finish", () => {
         elm.animate(
@@ -138,7 +138,7 @@ var elementJSON = [
             duration: 800,
             iterations: Infinity,
             easing: "ease-out",
-          }
+          },
         );
       });
     },
@@ -205,7 +205,7 @@ var elementJSON = [
                 {
                   duration: 900,
                   easing: "ease-out",
-                }
+                },
               );
             },
           },
@@ -278,7 +278,7 @@ var elementJSON = [
                       if (!accountHelper.getCurrentValidationState()) {
                         if (
                           await dialogs.confirm(
-                            "Are you sure you want to enter chat without an Random Rants + account?"
+                            "Are you sure you want to enter chat without an Random Rants + account?",
                           )
                         ) {
                           window.location.href = "/chat";
@@ -301,7 +301,7 @@ var elementJSON = [
                       if (!accountHelper.getCurrentValidationState()) {
                         if (
                           await dialogs.confirm(
-                            "Are you sure you want to join someones room without an Random Rants + account?"
+                            "Are you sure you want to join someones room without an Random Rants + account?",
                           )
                         ) {
                           window.location.href = "/join";
@@ -460,7 +460,7 @@ var elementJSON = [
 
 elements.appendElements(
   elements.body,
-  elements.createElementsFromJSON(elementJSON)
+  elements.createElementsFromJSON(elementJSON),
 );
 
 var style = document.createElement("style");
@@ -481,7 +481,7 @@ var p1Animation = person1.animate(
     duration: 700,
     iterations: 1,
     easing: "ease-out",
-  }
+  },
 );
 p1Animation.addEventListener("finish", () => {
   person1.animate(
@@ -495,7 +495,7 @@ p1Animation.addEventListener("finish", () => {
       duration: 700,
       iterations: Infinity,
       easing: "ease-out",
-    }
+    },
   );
 });
 
@@ -511,7 +511,7 @@ var p2Animation = person2.animate(
     duration: 900,
     iterations: 1,
     easing: "ease-out",
-  }
+  },
 );
 
 p2Animation.addEventListener("finish", () => {
@@ -526,7 +526,7 @@ p2Animation.addEventListener("finish", () => {
       duration: 800,
       iterations: Infinity,
       easing: "ease-out",
-    }
+    },
   );
 });
 

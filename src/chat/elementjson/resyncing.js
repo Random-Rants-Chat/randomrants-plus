@@ -37,8 +37,8 @@ module.exports = {
         {
           element: "span",
           textContent:
-            'Please wait while you are connecting to the correct connection point.',
-        }
+            "Please wait while you are connecting to the correct connection point.",
+        },
       ],
     },
   ],

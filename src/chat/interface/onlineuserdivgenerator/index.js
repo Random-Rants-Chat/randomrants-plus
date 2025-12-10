@@ -245,7 +245,11 @@ function generateDiv(
             {
               element: "img",
               className: "profile profilePictureMessage",
-              src: cacheBust(accountHelper.getProfilePictureURL(username ? username : displayName)),
+              src: cacheBust(
+                accountHelper.getProfilePictureURL(
+                  username ? username : displayName,
+                ),
+              ),
             },
             {
               element: "div",

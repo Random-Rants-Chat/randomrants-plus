@@ -12,7 +12,7 @@ var dialog = require("../dialogs.js");
 var randomRantsLegal = [
   // Title and intro
   require("./sitenews-notice.js"),
-  
+
   // --- TL;DR SECTION ---
   {
     element: "div",
@@ -21,20 +21,21 @@ var randomRantsLegal = [
       padding: "20px",
       borderRadius: "10px",
       marginBottom: "30px",
-      backgroundColor: "rgba(0, 0, 0, 0.05)"
+      backgroundColor: "rgba(0, 0, 0, 0.05)",
     },
     children: [
       {
         element: "h2",
         textContent: "TL;DR (The Short Version)",
         style: { marginTop: "0", fontSize: "1.8em" },
-        children: []
+        children: [],
       },
       {
         element: "p",
-        textContent: "Don't want to read the scary legal text below? Here is the simple version:",
+        textContent:
+          "Don't want to read the scary legal text below? Here is the simple version:",
         style: { fontStyle: "italic", marginBottom: "10px" },
-        children: []
+        children: [],
       },
       {
         element: "ul",
@@ -42,43 +43,59 @@ var randomRantsLegal = [
           {
             element: "li",
             children: [
-                { element: "strong", textContent: "YOU MUST BE 13+." },
-                { element: "span", textContent: " If you are under 13, you legally cannot be here. Please close the tab." }
-            ]
+              { element: "strong", textContent: "YOU MUST BE 13+." },
+              {
+                element: "span",
+                textContent:
+                  " If you are under 13, you legally cannot be here. Please close the tab.",
+              },
+            ],
           },
           { element: "br" },
           {
             element: "li",
             children: [
-                { element: "strong", textContent: "FILES ARE TEMPORARY." },
-                { element: "span", textContent: " We delete old files to save space. Don't use this as permanent cloud storage." }
-            ]
+              { element: "strong", textContent: "FILES ARE TEMPORARY." },
+              {
+                element: "span",
+                textContent:
+                  " We delete old files to save space. Don't use this as permanent cloud storage.",
+              },
+            ],
           },
           { element: "br" },
           {
             element: "li",
             children: [
-                { element: "strong", textContent: "DON'T KILL THE SERVER." },
-                { element: "span", textContent: " We run on a free tier. If you spam requests or try to crash the site, we will IP BAN you instantly." }
-            ]
+              { element: "strong", textContent: "DON'T KILL THE SERVER." },
+              {
+                element: "span",
+                textContent:
+                  " We run on a free tier. If you spam requests or try to crash the site, we will IP BAN you instantly.",
+              },
+            ],
           },
           { element: "br" },
           {
             element: "li",
             children: [
-                { element: "strong", textContent: "YOUR DATA." },
-                { element: "span", textContent: " We can see your IP address and username. We don't sell it, but we have it." }
-            ]
-          }
-        ]
-      }
-    ]
+              { element: "strong", textContent: "YOUR DATA." },
+              {
+                element: "span",
+                textContent:
+                  " We can see your IP address and username. We don't sell it, but we have it.",
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
-      element: "hr",
-      style: { margin: "20px 0", border: "1px solid #ccc" }
+    element: "hr",
+    style: { margin: "20px 0", border: "1px solid #ccc" },
   },
-  
+
   // --- HEADER & DISCLAIMER ---
   {
     element: "h1",
@@ -88,35 +105,37 @@ var randomRantsLegal = [
   },
   {
     element: "span",
-    textContent: "The boring stuff we have to say so the site doesn't get taken down.",
+    textContent:
+      "The boring stuff we have to say so the site doesn't get taken down.",
     children: [],
   },
   { element: "br" },
   { element: "br" },
-  
+
   // Developer Note
   {
     element: "div",
     style: {
-        backgroundColor: "rgba(255, 215, 0, 0.15)", // Subtle highlight
-        padding: "10px",
-        borderRadius: "5px",
-        borderLeft: "3px solid orange",
-        fontSize: "0.9em",
-        marginBottom: "15px"
+      backgroundColor: "rgba(255, 215, 0, 0.15)", // Subtle highlight
+      padding: "10px",
+      borderRadius: "5px",
+      borderLeft: "3px solid orange",
+      fontSize: "0.9em",
+      marginBottom: "15px",
     },
     children: [
-        {
-            element: "strong",
-            textContent: "Developer Note: "
-        },
-        {
-            element: "span",
-            textContent: "This site is maintained by a 15-year-old student. Most of this legal page was machine-generated to keep things safe. Please don't kill this site, I sacrificed my homework to build it."
-        }
-    ]
+      {
+        element: "strong",
+        textContent: "Developer Note: ",
+      },
+      {
+        element: "span",
+        textContent:
+          "This site is maintained by a 15-year-old student. Most of this legal page was machine-generated to keep things safe. Please don't kill this site, I sacrificed my homework to build it.",
+      },
+    ],
   },
-  
+
   {
     element: "p",
     textContent:
@@ -198,7 +217,8 @@ var randomRantsLegal = [
           { element: "br" },
           {
             element: "li",
-            textContent: "Copyright infringement (Don't upload pirated movies).",
+            textContent:
+              "Copyright infringement (Don't upload pirated movies).",
             children: [],
           },
           { element: "br" },
@@ -210,7 +230,8 @@ var randomRantsLegal = [
           { element: "br" },
           {
             element: "li",
-            textContent: "Doxxing (Sharing other people's real-life private info).",
+            textContent:
+              "Doxxing (Sharing other people's real-life private info).",
             children: [],
           },
         ],
@@ -218,7 +239,12 @@ var randomRantsLegal = [
       {
         element: "h3", // Sub-header for Server Safety
         textContent: "Server Safety & IP Bans",
-        style: { fontSize: "1.2em", marginTop: "1em", marginBottom: "0.5em", color: "#b22222" }, // Dark red warning color
+        style: {
+          fontSize: "1.2em",
+          marginTop: "1em",
+          marginBottom: "0.5em",
+          color: "#b22222",
+        }, // Dark red warning color
         children: [],
       },
       {
@@ -258,19 +284,31 @@ var randomRantsLegal = [
       {
         element: "li",
         children: [
-            { element: "strong", textContent: "Renaming: " },
-            { element: "span", textContent: "To prevent errors, we rename your file to a generated ID (like " },
-            { element: "code", textContent: "attachment-x8d9s.file" },
-            { element: "span", textContent: "), but the content inside remains exactly what you uploaded." }
-        ]
+          { element: "strong", textContent: "Renaming: " },
+          {
+            element: "span",
+            textContent:
+              "To prevent errors, we rename your file to a generated ID (like ",
+          },
+          { element: "code", textContent: "attachment-x8d9s.file" },
+          {
+            element: "span",
+            textContent:
+              "), but the content inside remains exactly what you uploaded.",
+          },
+        ],
       },
       { element: "br" },
       {
         element: "li",
         children: [
-            { element: "strong", textContent: "Temporary Storage: " },
-            { element: "span", textContent: "We don't have infinite storage. Files are automatically deleted from the server if they haven't been requested/downloaded for a while. Save your important stuff elsewhere." }
-        ]
+          { element: "strong", textContent: "Temporary Storage: " },
+          {
+            element: "span",
+            textContent:
+              "We don't have infinite storage. Files are automatically deleted from the server if they haven't been requested/downloaded for a while. Save your important stuff elsewhere.",
+          },
+        ],
       },
     ],
   },
@@ -294,8 +332,7 @@ var randomRantsLegal = [
     children: [
       {
         element: "li",
-        textContent:
-          "Your Username & Display Name (To show who you are).",
+        textContent: "Your Username & Display Name (To show who you are).",
         children: [],
       },
       { element: "br" },
@@ -309,8 +346,7 @@ var randomRantsLegal = [
   },
   {
     element: "p",
-    textContent:
-      "We do not sell your personal data to third parties.",
+    textContent: "We do not sell your personal data to third parties.",
     style: { fontSize: "1em", marginBottom: "0.5em" },
     children: [],
   },
@@ -332,45 +368,48 @@ var randomRantsLegal = [
   {
     element: "p",
     children: [
-        {
-            element: "span",
-            textContent: "You can read their policy "
+      {
+        element: "span",
+        textContent: "You can read their policy ",
+      },
+      {
+        element: "a",
+        href: "https://render.com/acceptable-use", // UPDATED LINK
+        textContent: "here",
+        target: "_blank",
+        style: {
+          color: "var(--link-color, blue)",
+          textDecoration: "underline",
         },
-        {
-            element: "a",
-            href: "https://render.com/acceptable-use", // UPDATED LINK
-            textContent: "here",
-            target: "_blank",
-            style: { color: "var(--link-color, blue)", textDecoration: "underline" }
-        },
-        {
-            element: "span",
-            textContent: "."
-        }
+      },
+      {
+        element: "span",
+        textContent: ".",
+      },
     ],
   },
 
-    // 7. DMCA
-    {
-        element: "h2",
-        textContent: "7. DMCA & Contact",
-        style: { fontSize: "1.5em", marginTop: "1.2em" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "If you see a file that belongs to you (Copyright Infringement), or see something illegal, please contact the site owners immediately so we can remove it.",
-        style: { fontSize: "1em", marginBottom: "0.5em" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "You can reach out to Gvbvdxx via GitHub or the contact methods on the About page.",
-        style: { fontSize: "1em", marginBottom: "1em" },
-        children: [],
-      },
+  // 7. DMCA
+  {
+    element: "h2",
+    textContent: "7. DMCA & Contact",
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "If you see a file that belongs to you (Copyright Infringement), or see something illegal, please contact the site owners immediately so we can remove it.",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "You can reach out to Gvbvdxx via GitHub or the contact methods on the About page.",
+    style: { fontSize: "1em", marginBottom: "1em" },
+    children: [],
+  },
 ];
 
 var elementJSON = [

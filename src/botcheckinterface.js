@@ -192,7 +192,7 @@ class BotCheckDiv {
                     body: JSON.stringify({
                       code: codeInput.value.toUpperCase(),
                     }),
-                  }
+                  },
                 );
                 if (response.ok) {
                   var json = await response.json();
@@ -250,7 +250,7 @@ class BotCheckDiv {
     try {
       var response = await fetch(
         accountHelper.getServerURL() + "/botcheck/create",
-        { method: "POST" }
+        { method: "POST" },
       );
       if (response.ok) {
         var json = await response.json();

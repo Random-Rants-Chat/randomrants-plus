@@ -71,8 +71,8 @@ var elementJSON = [
               fontSize: "25px",
               width: "200px",
               height: "40px",
-              boxSizing: "border-box"
-            }
+              boxSizing: "border-box",
+            },
           },
           {
             element: "div",
@@ -89,8 +89,8 @@ var elementJSON = [
               fontSize: "25px",
               width: "fit-content",
               height: "40px",
-              boxSizing: "border-box"
-            }
+              boxSizing: "border-box",
+            },
           },
         ],
       },
@@ -126,9 +126,7 @@ async function joinToRoom() {
     return;
   }
   if (joinCodeString.length !== 8) {
-    dialog.alert(
-      "This code is too long or short."
-    );
+    dialog.alert("This code is too long or short.");
     return;
   }
 
