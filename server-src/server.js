@@ -42,6 +42,7 @@ var wss = wssHandler.wss;
 var messageChatNumber = 0;
 var commandHandler = require("./commands.js");
 var usernameSafeChars = cons.USERNAME_CHAR_SET;
+var serverIPBans = {};
 function closeUserFromUserSocket(username) {
   //Since the site has auto reconnect, this is basically a reload function.
   try {
@@ -70,10 +71,50 @@ function getIPFromRequest(req) {
   }
   return req.socket.remoteAddress;
 }
+
+var ipBanReasons = {
+  legal: "Violating the Legal, Safety & Terms, or abusing a non-paid server.",
+  test: "Testing the network ban feature."
+};
+
+async function checkIpBans() {
+  try{
+    var ipBansText = await storage.downloadFile(cons.IP_BANS_FILE, false);
+  }catch(e){
+    return;
+  }
+  try{
+    var ipBans = JSON.parse("" + ipBansText);
+  }catch(e){
+    console.log(`Unable to parse IP bans JSON: ${e}`);
+    return;
+  }
+  serverIPBans = {};
+  for (var ban of ipBans) {
+    serverIPBans[("" + ban.ip).trim().toLowerCase()] = {
+      reason: ban.reason ? (ipBanReasons[ban.reason] ? ipBanReasons[ban.reason] : ipBanReasons.legal) : ipBanReasons.legal
+    };
+  }
+}
+
+function isIPBanned(req) {
+  var ip = getIPFromRequest(req);
+  ip += "";
+  ip = ip.trim();
+  ip = ip.toLowerCase();
+  var ban = serverIPBans[ip];
+  if (ban) {
+    return ban.reason;
+  } else {
+    return false;
+  }
+}
+
 async function checkServer() {
   try {
     try {
       await storage.downloadFile("server_check.txt");
+      await checkIpBans();
       return true;
     } catch (e) {
       await storage.uploadFile(
@@ -2637,6 +2678,12 @@ const server = http.createServer(async function (req, res) {
       `Yikes! - You hit our request limit, wait a few minutes then refresh to get things back to normal. Doing this too often may get your IP banned!`
     );
     logRequestSusDebounced(req);
+    return;
+  }
+  if (isIPBanned(req)) {
+    var reason = isIPBanned(req);
+    res.statusCode = 400;
+    res.end("Your network is blocked from accessing Random Rants +. Contact Gvbvdxx in any way if this was a mistake. Reason: "+reason);
     return;
   }
   try {
@@ -5221,6 +5268,7 @@ if (process.env.serverPort) {
 if (process.env.PORT) {
   serverPort = Number(process.env.PORT);
 }
+
 (async function () {
   await checkServerLoop(); //when it loops back, it accepts the promise.
   server.listen(serverPort, () => {
