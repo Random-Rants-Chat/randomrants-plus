@@ -2165,14 +2165,13 @@ async function startRoomWSS(roomid) {
           if (currentRoomWs && typeof currentRoomWs === 'object' && currentRoomWs._rrRoomHostID) {
             // If this websocket's room reference has changed, it means a desync occurred
             if (wss._rrRoomHostID !== currentRoomWs._rrRoomHostID) {
-              console.log(`[RoomDesync] Client was on host ${wss._rrRoomHostID}, but current room is ${currentRoomWs._rrRoomHostID}`);
               ws.send(JSON.stringify({ type: "roomHostDesync" }));
               ws.close();
               clearInterval(roomCheckInterval);
             }
           }
         }
-      }, 100);
+      }, 500);
 
       ws.send(JSON.stringify({ type: "ready" }));
       ws.send(

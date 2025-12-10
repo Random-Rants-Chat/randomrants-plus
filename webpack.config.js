@@ -3,6 +3,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const LicensePlugin = require('webpack-license-plugin');
 const VersionUpdatePlugin = require("./versionstampplugin.js");
+const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const webpack = require('webpack');
 
 const pages = [
@@ -19,6 +20,11 @@ const pages = [
   "legal",
   "credits"
 ];
+const paths = pages.map((page) => {
+  return {
+    path: '/'+page,
+  };
+});
 try {
   require("fs").rmSync("./public", { recursive: true });
 } catch (e) {}
@@ -119,9 +125,19 @@ module.exports = {
       ],
     }),
     new VersionUpdatePlugin(),
-	new webpack.ProvidePlugin({
+	  new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
-    new LicensePlugin({ outputFilename: 'licenses.json' })
+    new LicensePlugin({ outputFilename: 'licenses.json' }),
+    new SitemapPlugin({
+      base: 'https://randomrants-plus.onrender.com',
+      paths,
+      options: {
+        filename: 'sitemap.xml',
+        lastmod: false,
+        changefreq: 'monthly',
+        priority: 0.9
+      }
+    })
   ],
 };
