@@ -51,7 +51,12 @@ var coolEmojiStuff = {
   thumbsup: "👍",
   thumbsdown: "👎",
   game: "🎮",
-  moai: "🗿"
+  moai: "🗿",
+  cap: "🧢",
+  rolling: "🙄",
+  grin: "😀",
+  cat: "😺",
+  lol: "🤣"
 };
 
 function getBracketCodeJSON(

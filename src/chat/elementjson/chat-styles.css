@@ -1126,9 +1126,9 @@ a {
 .screenshareVideo {
   display: block;
   width: 100%;
-  height: calc(100% - 30px);
+  height: calc(calc(100% - 30px) - 70px);
   position: absolute;
-  top: 0px;
+  top: 30px;
   left: 0px;
 }
 
@@ -1137,7 +1137,7 @@ a {
   width: 100%;
   height: calc(100% - 30px);
   position: absolute;
-  top: 0px;
+  top: 30px;
   left: 0px;
   border: none;
   background: hsl(
@@ -1151,9 +1151,14 @@ a {
   width: 100%;
   height: 30px;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  background: var(--header-color);
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    85%
+  );
+  border-radius: 3px;
   display: flex;
 }
 
@@ -1227,11 +1232,6 @@ a {
   100% {
     opacity: 0.5;
   }
-}
-
-[hidden] {
-  /*Elements using the hidden tag would still be read by screen readers, this is a slight fix by using display:none; on hidden elements.*/
-  display: none;
 }
 
 .soundboardDialog {
@@ -1726,4 +1726,26 @@ a {
 .reactionButtonAnimation:active > .reactionButtonImage {
   transform: scale(1.07);
   transition: 0.05s;
+}
+
+.reactionButtonsDiv {
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  max-width: 100%;
+  width: fit-content;
+  min-width: 10px;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  transform: translate(-50%, 0px);
+  padding-bottom: 4px;
+  box-sizing: border-box;
+}
+.reactionButtonsDiv[hidden] {
+  display: unset;
+  opacity: 0;
+  pointer-events: none;
 }

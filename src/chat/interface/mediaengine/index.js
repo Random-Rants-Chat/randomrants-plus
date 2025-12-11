@@ -54,6 +54,8 @@ async function fetchAsText(url, otherStuff) {
 
 var chooseMediaButton = elements.getGPId("chooseMediaButton");
 var mediaContentDiv = elements.getGPId("mediaContentDiv");
+var emojiReactionButtons = elements.getGPId("emojiReactionButtons");
+var emojiReactions = elements.getGPId("emojiReactions");
 var screenshareClientObject = null;
 var screenshareCode = null;
 var screenshareStream = null;
@@ -91,8 +93,12 @@ function hideMediaContent() {
     c.remove();
   }
   mediaContentDiv.hidden = true;
+  emojiReactionButtons.hidden = false;
+  emojiReactions.hidden = false;
 }
 function removeMediaDivContent() {
+  emojiReactionButtons.hidden = false;
+  emojiReactions.hidden = false;
   var a = [];
   for (var c of mediaContentDiv.children) {
     a.push(c);
@@ -101,7 +107,6 @@ function removeMediaDivContent() {
     c.remove();
   }
 }
-
 function getMediaPlayingMenuBar() {
   return {
     element: "div",
@@ -228,6 +233,9 @@ function createMediaScreenshareVideo(code) {
   elements.appendElements(div, dom);
 
   mediaContentDiv.append(div);
+
+  emojiReactionButtons.hidden = false;
+  emojiReactions.hidden = false;
 }
 
 var embedMediaElement = null;
@@ -408,6 +416,8 @@ function messageHandler(json) {
     hideMediaContent();
     mediaContentDiv.hidden = false;
     createEmbedURLMedia(json.url);
+    emojiReactionButtons.hidden = true;
+    emojiReactions.hidden = true;
   }
   if (json.command == "reset") {
     hideMediaContent();

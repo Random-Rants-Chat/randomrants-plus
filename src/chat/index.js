@@ -1,11 +1,11 @@
 var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's element module.
 
-var elementJSON = [
+var elementJSON = require("./elementjson/main.js").concat([
   {
-    element: "div",
-    children: require("./elementjson/main.js"),
+    element: "style", //Patch so i could use element.hidden = true; to hide things.
+    textContent: "[hidden] { display: none !important; opacity: 0; pointer-events: none; }"
   },
-];
+]);
 
 var elementObjects = elements.createElementsFromJSON(elementJSON);
 elements.appendElements(elements.body, elementObjects);

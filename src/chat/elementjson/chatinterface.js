@@ -53,20 +53,6 @@ var leftSide = {
               children: [
                 {
                   element: "div",
-                  gid: "emojiReactions",
-                  style: {
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    overflow: "hidden",
-                    background:
-                      "radial-gradient(hsl(var(--accent-default-hue), var(--accent-default-saturation), 75%), transparent 80%)",
-                  },
-                },
-                {
-                  element: "div",
                   className: "middleChatDiv",
                   children: [
                     {
@@ -88,28 +74,30 @@ var leftSide = {
                 },
                 {
                   element: "div",
-                  gid: "emojiReactionButtons",
+                  gid: "mediaContentDiv",
+                  hidden: true,
+                  className: "mediaContentDiv",
+                },
+                {
+                  element: "div",
+                  gid: "emojiReactions",
                   style: {
                     position: "absolute",
-                    left: "50%",
-                    bottom: "0px",
-                    maxWidth: "100%",
-                    width: "fit-content",
-                    minWidth: "10px",
-                    height: "fit-content",
-                    display: "flex",
-                    flexDirection: "row",
-                    overflowX: "auto",
-                    overflowY: "hidden",
-                    transform: "translate(-50%, 0px)",
-                    paddingBottom: "4px",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    overflow: "hidden",
+                    pointerEvents: "none"
                   },
                 },
                 {
                   element: "div",
-                  gid: "mediaContentDiv",
-                  hidden: true,
-                  className: "mediaContentDiv",
+                  gid: "emojiReactionButtons",
+                  className: "reactionButtonsDiv",
+                  style: {
+                    display: "unset"
+                  }
                 },
               ],
             },
