@@ -124,9 +124,14 @@ var randomRantsAbout = [
   {
     element: "p",
     textContent:
-      "Random Rants + is the goofy site that lets you hang out with your friends online. Its made for both for school escape, and online chatting.",
-    style: { fontSize: "1.1em", marginBottom: "1em" },
+      "Random Rants + is the goofy site that lets you hang out with your friends online.",
+    style: { fontSize: "1.1em" },
     children: [],
+  },
+  {
+    element: "p",
+    textContent: "Whenever you feel bored, just rant here with your friends!",
+    style: { fontSize: "1.1em", lineHeight: "0px", marginBottom: "1em" },
   },
 
   //Created by:
@@ -175,9 +180,9 @@ var randomRantsAbout = [
           },
         ],
         [
-          "Thats me! The one that used to be on Scratch.",
+          "Thats me! The one that used to be on the Scratch community, sadly banned from it after creating a lot of chat sites.",
           "Obsessed with code, computers, and programming! Sacrificed education, homework, and classwork to make this site.",
-          "Started out making scratch projects, learned javascript, then I created a bunch of websites, this is one of them.",
+          "Started out making Scratch projects, learned javascript, then I created a bunch of websites, this is one of them.",
           "Responsible for almost everything here, ChatGPT & Google Gemini helped with some programming, but I did most of the programming work.",
           "Banned from Scratch, dealing with life struggles (Grounded and stuff).",
         ],
@@ -187,7 +192,7 @@ var randomRantsAbout = [
         ["0deg", "50%"],
         "images/creators/mop3000.png",
         "MOP 3000",
-        "Im_CatmanYT",
+        "Im_CatmanYT", //MOP3000 doesn't prefer using real name so use scratch name.
         [
           {
             src: "images/social/scratch.svg",
@@ -357,6 +362,13 @@ var randomRantsAbout = [
         element: "li",
         textContent:
           "Profile picture - Put a picture that identifies you, it doesn't need to be your face. Change any time you want.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Profile font - Make your display name pop! Choose from a selection of display names. Change it whenever you feel like it.",
         children: [],
       },
       { element: "br" },
