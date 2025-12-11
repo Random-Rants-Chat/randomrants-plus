@@ -168,6 +168,6 @@ setInterval(() => {
         y: window.innerHeight + 30 + Math.random() * 70,
       });
     }
-    x += 120;
+    x += 160;
   }
-}, 400);
+}, 600);

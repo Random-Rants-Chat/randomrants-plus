@@ -119,8 +119,11 @@ async function showCommits(containerDiv) {
                 ],
               },
               {
-                    element: "span",
+                    element: "a",
                     textContent: commitData.commit.message,
+                    target: "_blank",
+                    href: commitData.html_url,
+                    className: "commitLink"
                 },
             ],
           },
@@ -145,7 +148,7 @@ var randomRantsUpdates = [
   {
     element: "p",
     textContent:
-      "Get update information directly from GitHub, probably very confusing. Sorted by latest at top and earliest at bottom.",
+      "Get update information directly from GitHub, the update messages are probably very confusing. Sorted by latest at top and earliest at bottom.",
   },
   {
     element: "div",

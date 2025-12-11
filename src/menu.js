@@ -67,6 +67,13 @@ var elementJSON = [
         textContent: "Site News",
         href: "./sitenews",
       },
+      //Updates button.
+      {
+        element: "a",
+        className: "menuBarItem",
+        textContent: "Updates",
+        href: "./updates",
+      },
       //Documentary button.
       {
         element: "a",
