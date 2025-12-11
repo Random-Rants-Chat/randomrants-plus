@@ -368,7 +368,7 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Profile font - Make your display name pop! Choose from a selection of display names. Change it whenever you feel like it.",
+          "Profile font - Make your display name pop! Choose from a selection of display name fonts. Change it whenever you feel like it.",
         children: [],
       },
       { element: "br" },
