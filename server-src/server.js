@@ -1491,7 +1491,6 @@ async function startRoomWSS(roomid) {
       ws._rrCloseAndTerminate();
       return true;
     }
-    return false;
 
     var allowed = true;
     if (info.allowList.indexOf(ws._rrUsername) < 0) {
@@ -1513,6 +1512,8 @@ async function startRoomWSS(roomid) {
       ws._rrCloseAndTerminate();
       return true;
     }
+
+    return false;
   }
   var _currentOnlineListMessage = "";
   var _currentOnlineListMessageOwner = "";

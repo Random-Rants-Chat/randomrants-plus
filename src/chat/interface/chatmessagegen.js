@@ -47,7 +47,11 @@ var coolEmojiStuff = {
   cry: "😭",
   fire: "🔥",
   santa: "🎅",
-  lantern: "🎃"
+  lantern: "🎃",
+  thumbsup: "👍",
+  thumbsdown: "👎",
+  game: "🎮",
+  moai: "🗿"
 };
 
 function getBracketCodeJSON(

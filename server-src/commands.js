@@ -80,7 +80,7 @@ class CommandHandler {
             "[color css=orange][bold]To unlock all commands, get ownership (admin) powers![/bold][/color][br]";
         }
         text += "Command list: ";
-        var excluded = ["commands", "align"];
+        var excluded = ["commands", "align", "67"];
         for (var c of Object.keys(_this.commands)) {
           var isNotExcluded = excluded.indexOf(c) < 0;
           if (isNotExcluded && commandIsAllowed(senderClient, c)) {
@@ -684,6 +684,18 @@ class CommandHandler {
       },
       "<Username>[br]Unmutes a user.",
       true, // true = owner only!
+    );
+
+    //;67 - don't do it
+    addCommand(
+      "67",
+      function (args, userInfo, senderClient) {
+        sendClientCommand(senderClient, "kick");
+        sendFeedbackGlobal(`${userInfo.displayName} had six sevened the way out of the room`);
+        senderClient.close();
+      },
+      "Six seven",
+      false
     );
 
     ////////////////////////////////////////////////////
