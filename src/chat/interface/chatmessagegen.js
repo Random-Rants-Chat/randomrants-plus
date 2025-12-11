@@ -41,6 +41,15 @@ function generateBrowserThumbnail(videoFile, timeInSeconds = 2) {
   });
 }
 
+var coolEmojiStuff = {
+  skull: "💀",
+  skullbones: "☠️",
+  cry: "😭",
+  fire: "🔥",
+  santa: "🎅",
+  lantern: "🎃"
+};
+
 function getBracketCodeJSON(
   inputText = "",
   triggerBracketCodes = {},
@@ -124,6 +133,14 @@ function getBracketCodeJSON(
         }
 
         var exists = false;
+
+        if (coolEmojiStuff[name]) {
+          exists = true;
+          elm.children.push({
+            element: "span",
+            textContent: coolEmojiStuff[name],
+          });
+        }
 
         if (name == "bold" && !exists) {
           exists = true;
