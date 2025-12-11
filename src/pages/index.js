@@ -8,7 +8,7 @@ var elements = require("../gp2/elements.js");
 var shtml = require("../safehtmlencode.js");
 var accountHelper = require("../accounthelper/index.js");
 var dialogs = require("../dialogs.js");
-var { rainbowHexes } = require("../colorutil.js");
+var { getRainbowHexes } = require("../colorutil.js");
 require("./navigate-loader.js");
 
 var randomDialogText = require("../randomquotes.txt");
@@ -225,13 +225,12 @@ var elementJSON = [
             className: "fadeIn delay-3",
             style: {
               fontSize: "40px",
-              color: returnRandomValueFromArray(rainbowHexes),
+              color: returnRandomValueFromArray(getRainbowHexes(2,100,70)),
               fontFamily: "Fredoka",
               overflowWrap: "break-word",
               //display: "inline",
             },
-
-            textContent: returnRandomValueFromArray(randomQuotes).trim(),
+            textContent: '“'+returnRandomValueFromArray(randomQuotes).trim()+'”',
           },
           {
             element: "br",
@@ -408,7 +407,7 @@ var elementJSON = [
             className: "fadeIn delay-1",
             gid: "description1",
             textContent:
-              "Random Rants +, made both for maximum goofiness and your digital escape from school.",
+              "Random Rants +, made both for maximum goofiness and your digital escape from school when you're bored.",
           },
           { element: "br" },
           {

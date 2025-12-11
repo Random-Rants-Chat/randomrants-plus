@@ -808,7 +808,8 @@ a {
   width: 100%;
   min-height: 40px;
   background: var(--header-color);
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   transition: 0.2s;
 }
 
@@ -821,6 +822,7 @@ a {
 .menuBarItemLogo {
   all: unset;
   color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
+  min-height: 40px;
   height: 40px;
   display: flex;
   align-items: center;
@@ -831,6 +833,7 @@ a {
   transition:
     background-color 0.05s,
     color 0.05s;
+  flex-shrink: 0;
 }
 
 .menuBarItem:hover {

@@ -42,7 +42,8 @@ body[data-theme="spooky"] {
   min-height: 40px;
   background: #b8b8b8;
   z-index: 10;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   transition: 0.2s;
 }
 
@@ -68,7 +69,8 @@ body[data-theme="spooky"] {
 .menuBarItemLogo {
   all: unset;
   color: #000;
-  height: 40px;
+  min-height: 40px;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,12 +80,17 @@ body[data-theme="spooky"] {
   transition:
     background-color 0.05s,
     color 0.05s;
+  flex-shrink: 0;
 }
 
 .menuBarItem:hover {
   color: #ebebeb;
   filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
   text-decoration: underline;
+}
+
+[data-theme="christmas"] .menuBarItem:hover {
+  color: hsla(0, 0%, 0%, 0.6);
 }
 
 [data-theme="spooky"] .menuBarItem:hover {
@@ -116,6 +123,7 @@ body[data-theme="spooky"] {
   background-image: url("images/randomrants-plus.svg");
   background-size: 100% 100%;
   width: 99.45px;
+  flex-shrink: 0;
 }
 
 [data-theme="christmas"] .menuBarItemLogo {
@@ -297,12 +305,13 @@ a:hover {
 }
 
 .aboutDivCenter {
+  min-width: 600px;
   width: calc(100vw - 400px);
   height: calc(100svh - 40px);
   padding: 10px 10px;
   box-sizing: border-box;
 
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 40px;
   transform: translate(-50%, 0px);
