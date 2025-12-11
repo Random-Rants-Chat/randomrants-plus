@@ -10,6 +10,11 @@ module.exports = [
   },
   {
     element: "p",
+    style: {fontSize: "10px", textAlign: "center"},
+    textContent: "Whoops! This wasn't added in the list so thought I add it back."
+  },
+  {
+    element: "p",
     textContent:
       "You may have noticed that the website is acting weird, or breaking a lot. This is normal for our new updates.",
     style: {

@@ -12,6 +12,38 @@ var dialog = require("../dialogs.js");
 var siteNews = [
   {
     element: "p",
+    textContent: "Written December 11th, 2025",
+    style: {
+      fontSize: "19px",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+  },
+  {
+    element: "div",
+    children: require("./news/2025/dec11th.js"),
+  },
+  {
+    element: "hr",
+  },
+  {
+    element: "p",
+    textContent: "Written October 21st, 2025",
+    style: {
+      fontSize: "19px",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+  },
+  {
+    element: "div",
+    children: require("./news/2025/oct21st.js"),
+  },
+  {
+    element: "hr",
+  },
+  {
+    element: "p",
     textContent: "Written September 16th, 2025",
     style: {
       fontSize: "19px",
