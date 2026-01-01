@@ -1,0 +1,17 @@
+{
+  "background_color": "#333333",
+  "description": "Random Rants +: Where you can chat with people from different classes, or just invite strangers!",
+  "display": "standalone",
+  "icons": [
+    {
+      "sizes": "256x256",
+      "src": "app-icon.png",
+      "type": "image/png"
+    }
+  ],
+  "name": "Random Rants +",
+  "short_name": "Random Rants +",
+  "start_url": "/",
+  "theme_color": "#b8b8b8",
+  "version": "3"
+}
