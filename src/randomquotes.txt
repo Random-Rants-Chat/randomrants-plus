@@ -11,3 +11,12 @@ This project is 10% coding skill and 90% ignored homework.
 We invested our entire GPA into making this site work.
 Education was the price we paid to get this running.
 We procrastinated our entire education, to make this.
+We keep coming back, no matter how many times we get locked out.
+This project survived multiple device confiscations.
+We swapped listening to lectures for debugging server code in the back row.
+Built during the hours that were definitely assigned for Algebra class.
+We ignored the curriculum to give you a place to ignore it too.
+We treat all out classes like coding classes.
+Every feature here cost us a letter grade and a missed assignment.
+Turning mandatory study hall into voluntary full-stack dev time.
+Updates are random because life keeps getting in the way.
