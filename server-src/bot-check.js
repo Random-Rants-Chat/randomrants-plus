@@ -18,6 +18,7 @@ const NOISE_WORDS = [
   "tree",
   "rant",
   "robot",
+"cool"
 ];
 
 const ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -104,7 +105,7 @@ async function generateImage(code) {
 
     //image.rotate((Math.random() - 0.5) * 10);
 
-    for (let i = 0; i < 600; i++) {
+    for (let i = 0; i < 1000; i++) {
       const x = Math.floor(Math.random() * width);
       const y = Math.floor(Math.random() * height);
       image.setPixelColor(
