@@ -1,33 +1,86 @@
 [![Random Rants +](./wpstatic/images/randomrants-plus.svg)](https://randomrants-plus.onrender.com)
 
-## What is Random Rants +?
+# Random Rants +
 
-Random Rants + is the next generation of Random Rants,
-aimed towards having new functions and is more like an actual social media site.
-Random Rants + also aims for the fun of the original Random Rants, so you don't get
-as bored easily.
+> **The page nobody reads, but you should.**
 
-**_Glitch.com is no longer hosting projects (and that means our Random Rants + doesn't work on glitch anymore), because of that we switched to render.com to run Random Rants +._**
+**Random Rants +** is the next generation of Random Rants—a goofy, chaotic site that lets you hang out with your friends online. Aimed at students needing a break or anyone who enjoys small bursts of chaos, this is the place to escape reality and enter the internet.
 
-## Preparing Supabase enviroment variables
+It features video chat, soundboards, and interactive media, all designed so you don't get bored easily.
 
-Create a Supabase project and provide the following enviroment vairales:
+> **⚠️ HOSTING UPDATE:**
+> **Glitch.com is no longer hosting projects.** This means our old instances don't work there anymore. We have switched to **Render.com** to run Random Rants +.
 
-- sbBucket: Your Supabase storage bucket
-- sbAPIKey: Your Supabase secret key or api key (I recommend secret key)
-- sbURL: Your Supabase project url (Needs to be like `https://projectid.supabase.co`)
+---
 
-## Installation and building
+## 🌟 Features
 
-**_Make sure you don't skip the Supabase project stuff, as it is required to run the server._**
+* **Video & Voice Chat:** Powered by WebRTC (P2P). No sus servers watching your face.
+* **Screen Sharing:** One share per room. Expect battles for dominance.
+* **Chat + Commands:** Use `;help` to see owner commands.
+* **Soundboard:** Synced memes and goofy noises. (RIP headphone users).
+* **Interactive Media:** A virtual TV that handles embedded sites, shared painting canvases, and Scratch cloud mini-games (via modified TurboWarp).
+* **File Uploads:** Drop memes, cursed content, or files directly into the chat.
+* **Custom Profiles:** Change your display name, color, pfp, and fonts anytime.
 
-I recommend using Node.JS 16.x, then either `git clone https://github.com/Random-Rants-Chat/randomrants-plus.git` onto your computer or download by zip.
+---
 
-In the directory of package.json, run `npm install`. After that, use `npm run build` to build the website, and use `npm run start` to start up the server.
+## 🛠️ Installation & Building
 
-For auto reload: Then instead of `npm run start`, use `npm run development`. Note this works for both building and server code.
+Want to run your own instance? Follow these steps.
 
-Go to `http://localhost:3000/` to see the functional Random Rants + site in action.
+### 1. Prerequisites: Supabase
+**Do not skip this.** You must create a Supabase project to run the server.
+Create a project at [supabase.com](https://supabase.com) and gather the following environment variables:
+
+* `sbBucket`: Your Supabase storage bucket name.
+* `sbAPIKey`: Your Supabase Secret Key (recommended) or API Key.
+* `sbURL`: Your Supabase project URL (e.g., `https://projectid.supabase.co`).
+
+### 2. Local Setup
+I recommend using **Node.js 16.x**.
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Random-Rants-Chat/randomrants-plus.git](https://github.com/Random-Rants-Chat/randomrants-plus.git)
+    cd randomrants-plus
+    ```
+    *(Or download the ZIP file and extract it).*
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Build the website:**
+    ```bash
+    npm run build
+    ```
+
+### 3. Running the Server
+
+* **Production Start:**
+    ```bash
+    npm run start
+    ```
+* **Development (Auto-reload):**
+    ```bash
+    npm run development
+    ```
+    *Note: The development command works for both building and server code.*
+
+Once running, go to `http://localhost:3000/` to see the functional Random Rants + site in action.
+
+---
+
+## 👥 Credits
+
+* **Gvbvdxx:** Creator. Obsessed with code. Sacrificed education and homework to make this site. Banned from Scratch for making chat sites. Responsible for almost all the programming (with some help from ChatGPT & Gemini).
+* **MOP 3000 (aka Im_CatmanYT):** The Idea Guy. Came up with the concept of Random Rants. A 2D animator obsessed with animation.
+
+---
+
+## 📛 The Badge Wall
 
 [![forthebadge](https://forthebadge.com/images/featured/featured-uses-html.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/featured/featured-uses-badges.svg)](https://forthebadge.com)
