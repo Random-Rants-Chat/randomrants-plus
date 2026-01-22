@@ -333,6 +333,12 @@
         "name": "Guy coding on laptop",
         "emojiURL": "rrp",
         "tags": ["code", "obsessed", "laptop", "typing"]
+      },
+	  {
+        "src": "images/srb2.png",
+        "name": "Sonic Robo Blast 2 Icon",
+        "emojiURL": "rrp",
+        "tags": ["srb2", "icon", "game", "sonic", "fangame", "favicon"]
       }
     ]
   },
