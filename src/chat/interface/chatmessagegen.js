@@ -56,7 +56,8 @@ var coolEmojiStuff = {
   rolling: "🙄",
   grin: "😀",
   cat: "😺",
-  lol: "🤣"
+  lol: "🤣",
+  code: "🧑‍💻",
 };
 
 function getBracketCodeJSON(

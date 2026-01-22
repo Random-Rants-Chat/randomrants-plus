@@ -236,6 +236,21 @@ var rightSide = {
             },
           ],
         },
+		{
+          element: "button",
+          className: "roundborder chatInterfaceButton",
+          gid: "inviteUsersToCurRoomButton",
+          children: [
+            {
+              element: "img",
+              src: "images/adduserlist.svg",
+            },
+            {
+              element: "span",
+              textContent: "Invite users to this room",
+            },
+          ],
+        },
       ],
     },
     {
