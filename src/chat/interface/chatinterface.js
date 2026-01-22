@@ -587,6 +587,7 @@ require("./darktheme.js");
           roomSettings.changeRoomName(json.name);
           roomSettings.changeRoomDescription(json.description);
           userState.roomID = json.id;
+			userState.roomName = json.name;
           (async function () {
             /*await fetch(accountHelper.getServerURL() + "/account/addroom", {
               method: "POST",
@@ -835,6 +836,8 @@ require("./darktheme.js");
 
     require("./chatappinterface.js");
     require("./accountnotice.js");
+
+	  require("./inviteusers.js");
   } catch (e) {
     handleErrors(e);
   }

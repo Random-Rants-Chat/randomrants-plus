@@ -2,6 +2,7 @@ class RRUserState {
   constructor() {
     this.isOwner = false;
     this.roomID = null;
+	  this.roomName = "Room";
     this.noPermissionDialog =
       "Sorry man, but this feature is blocked!\nPlease try asking someone to enable the permission for this action.";
     this.permissions = {
