@@ -1771,13 +1771,25 @@ a {
 .notificationImage {
   width: 40px;
   height: 40px;
-  transition: 0.05s;
+  transition: 0.1s;
   filter: brightness(1);
   position: absolute;
+  border-radius: 30%;
+  background-color: hsla(
+    var(--accent-default-hue),
+	var(--accent-default-saturation),
+	100%,
+	0.1);
+
 }
 .notificationImage:hover {
-  filter: brightness(100);
+	background-color: hsla(
+		var(--accent-default-hue),
+		var(--accent-default-saturation),
+		100%,
+		0.65);
 }
+
 
 .notificationsDiv {
   display: flex;
