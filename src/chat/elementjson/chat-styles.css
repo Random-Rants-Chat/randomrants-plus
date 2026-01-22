@@ -187,6 +187,7 @@
   --soundboard-stop-button-bgcolor: hsl(0, 100%, 43%);
   --soundboard-stop-button-border-color: hsl(0, 100%, 23%);
   --soundboard-stop-button-hover-bgcolor: hsl(0, 100%, 50%);
+	--soundboard-stop-button-text-color:  hsl(0, 100%, 0%);
 
   --menu-bar-hover-color: hsl(
     var(--accent-default-hue),
@@ -287,6 +288,70 @@
   );
   /*windowDialogHeader*/
   --popup-dialog-message-size: 16px;
+}
+
+body[data-theme="dark"] {
+	--bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    30%
+  );	
+	--header-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    30%
+  );	
+	--main-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    80%
+  );
+	--input-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    80%
+  );
+
+	--button-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    35%
+  );
+  --button-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    86%
+  );
+  --button-hover-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    40%
+  );
+  --button-disabled-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    20%
+  );
+	--popup-dialog-background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    25%
+  );
+  --popup-dialog-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    90%
+  );
+	--popup-box-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    25%
+  );
+	--popup-box-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    80%
+  );
 }
 
 ::-webkit-scrollbar {
@@ -461,11 +526,8 @@ body {
   height: fit-content;
 }
 .whiteBox {
-  background: hsl(
-    var(--accent-default-hue),
-    var(--accent-default-saturation),
-    100%
-  );
+  background: var(--popup-box-bg-color);
+  color: var(--popup-box-text-color);
   padding: 10px;
   box-shadow: 0 0px 30px black;
   border-radius: 5px;
@@ -652,6 +714,7 @@ body {
     var(--button-sat),
     75%
   );
+	--soundboard-button-text-color:  hsl(0, 100%, 0%);
 
   min-width: 150px;
   width: fit-content;
@@ -670,6 +733,7 @@ body {
   height: 90px;
   border-radius: 10px;
   overflow: hidden;
+	color: var(--soundboard-button-text-color);
 }
 .soundboardButton:hover {
   background: var(--soundboard-button-hover-bgcolor);
@@ -710,6 +774,7 @@ body {
   height: 90px;
   border-radius: 10px;
   overflow: hidden;
+	color: var(--soundboard-stop-button-text-color);
 }
 .soundboardButtonStop:hover {
   background: var(--soundboard-stop-button-hover-bgcolor);

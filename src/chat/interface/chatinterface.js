@@ -129,6 +129,8 @@ var emojiReactions = require("./emojireactions.js");
 var clientSettings = require("./clientsettings.js");
 var KnownUserList = require("./userlist-menu.js");
 
+require("./darktheme.js");
+
 (async function () {
   try {
     updateManager.addUpdateListener("interface", () => {

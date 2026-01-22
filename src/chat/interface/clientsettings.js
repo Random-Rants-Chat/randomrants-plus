@@ -10,8 +10,10 @@ class ClientSettingsMenu {
       JOKE_COMMANDS: true,
       BRACKET_CODE_SOUNDS: true,
       BELL_NOTIFICATIONS: true,
+		DARK_THEME: false,
     };
     this.settings = {};
+	  this.settingFuncs = {};
     this.settingsList = [
       {
         name: "Chat notifcations",
@@ -38,15 +40,31 @@ class ClientSettingsMenu {
         id: "BRACKET_CODE_SOUNDS",
         type: "on-off",
       },
+		{
+        name: "Dark theme (Experimental): ",
+        id: "DARK_THEME",
+        type: "on-off",
+      },
     ];
     this.init();
   }
+
+	addSettingChangeFunction(id, func) {
+		this.settingFuncs[id] = func;
+	}
+
+	removeSettingChangeFunction(id) {
+		delete this.settingFuncs[id];
+	}
 
   getSetting(id) {
     return this.settings[id];
   }
   setSetting(id, value) {
     this.settings[id] = value;
+	  if (this.settingFuncs[id]) {
+		  this.settingFuncs[id](value);
+	  }
   }
 
   addClientSettingSwitchButton(id) {
