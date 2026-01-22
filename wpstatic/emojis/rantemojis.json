@@ -339,6 +339,18 @@
         "name": "Sonic Robo Blast 2 Icon",
         "emojiURL": "rrp",
         "tags": ["srb2", "icon", "game", "sonic", "fangame", "favicon"]
+      },
+	  {
+        "src": "images/failed-paper.svg",
+        "name": "Failed assignment",
+        "emojiURL": "rrp",
+        "tags": ["F-", "F", "assignment", "failed", "0%", "0", "terrible"]
+      },
+	  {
+        "src": "images/passed-paper.svg",
+        "name": "Passed assignment",
+        "emojiURL": "rrp",
+        "tags": ["A+", "A", "assignment", "passed", "100%", "100", "great"]
       }
     ]
   },
@@ -417,7 +429,7 @@
           "face",
           "thats cool",
           "thats insane",
-          "that's insane",
+          "that's cool",
           "that's insane"
         ]
       },
