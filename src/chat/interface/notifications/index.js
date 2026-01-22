@@ -64,17 +64,7 @@ class RealTimeNotifications {
 
               {
                 element: "div",
-                style: {
-                  margin: "8px 0",
-                  padding: "8px",
-                  backgroundColor: "#fffae6",
-                  border: "1px solid #f0e68c",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#665500",
-                  width: "fit-content",
-                  height: "fit-content",
-                },
+                className: "tipsTextBox",
                 children: [
                   {
                     element: "b",

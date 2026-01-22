@@ -290,6 +290,17 @@
   --popup-dialog-message-size: 16px;
 }
 
+[data-theme="dark"] input[type="text"] {
+	background: hsl(
+		var(--accent-default-hue),
+	    var(--accent-default-saturation),
+		20%);
+	color: hsl(
+		var(--accent-default-hue),
+	    var(--accent-default-saturation),
+		80%);
+}
+
 body[data-theme="dark"] {
 	--bg-color: hsl(
     var(--accent-default-hue),
@@ -309,7 +320,7 @@ body[data-theme="dark"] {
 	--input-border-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
-    80%
+    50%
   );
 
 	--button-bg-color: hsl(
@@ -348,6 +359,32 @@ body[data-theme="dark"] {
     25%
   );
 	--popup-box-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    80%
+  );
+	--storage-group-background-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    30%
+  );
+  --storage-group-border-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    40%
+  );
+  --storage-group-text-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    80%
+  );
+
+	--messages-bg-color: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    45%
+  );
+  --messages-text-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     80%
@@ -901,10 +938,18 @@ a {
   flex-shrink: 0;
 }
 
+[data-theme="dark"] .menuBarItem {
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 70%);
+}
+
 .menuBarItem:hover {
   color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 92%);
   filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
   text-decoration: underline;
+}
+
+[data-theme="dark"] .menuBarItem:hover {
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
 }
 
 .menuBarItemUsername:hover {
@@ -1227,6 +1272,14 @@ a {
   display: flex;
 }
 
+[data-theme="dark"] .mediaContentMenuBar {
+	background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    40%
+  );
+}
+
 .mediaContentItem {
   height: 30px;
   align-content: center;
@@ -1533,6 +1586,14 @@ a {
   flex-direction: column;
   transform-origin: bottom;
 }
+[data-theme="dark"] .emojiDialogBox {
+	background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    20%
+  );
+}
+
 .emojiDialogCategoryContainer {
   display: flex;
   height: fit-content;
@@ -1588,12 +1649,28 @@ a {
   text-align: center;
   white-space: nowrap;
 }
+[data-theme="dark"] .emojiDialogCategoryButton {
+	background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    20%
+  );
+	  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
+
+}
 .emojiDialogCategoryButton:hover {
   cursor: pointer;
   background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     95%
+  );
+}
+[data-theme="dark"] .emojiDialogCategoryButton:hover {
+	background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    35%
   );
 }
 .emojiDialogCategoryButton[selected] {
@@ -1604,6 +1681,14 @@ a {
   );
   color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
   cursor: default;
+}
+[data-theme="dark"] .emojiDialogCategoryButton[selected] {
+	background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    40%
+  );
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 100%);
 }
 
 .emojiDialogTextInput {
@@ -1622,6 +1707,14 @@ a {
   color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 0%);
   text-align: left;
   padding: 1px 3px;
+}
+[data-theme="dark"] .emojiDialogTextInput {
+	background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    20%
+  );
+    color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
 }
 
 .emojiDialogTextInput:focus {
@@ -1813,4 +1906,22 @@ a {
   display: unset;
   opacity: 0;
   pointer-events: none;
+}
+
+.tipsTextBox {
+	margin: 8px 0;
+    padding: 8px;
+    background-color: hsl(48deg, 100%, 95%);
+    border: 1px solid hsl(54deg, 77%, 75%);
+    border-radius: 6px;
+    font-size: 14px;
+    color: hsl(50deg, 100%, 20%);
+    width: fit-content;
+    height: fit-content;
+}
+
+[data-theme="dark"] .tipsTextBox {
+	background-color: hsl(48deg, 100%, 20%);
+	border: 1px solid hsl(54deg, 77%, 5%);
+    color: hsl(50deg, 100%, 80%);
 }

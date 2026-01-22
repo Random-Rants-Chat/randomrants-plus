@@ -327,6 +327,12 @@
         "name": "I Don't know what this face is called but it's funny",
         "emojiURL": "rrp",
         "tags": []
+      },
+	  {
+        "src": "images/code.svg",
+        "name": "Guy coding on laptop",
+        "emojiURL": "rrp",
+        "tags": ["code", "obsessed", "laptop", "typing"]
       }
     ]
   },

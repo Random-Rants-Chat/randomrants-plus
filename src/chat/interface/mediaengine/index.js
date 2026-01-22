@@ -573,16 +573,7 @@ async function doMediaSelect() {
           },
           {
             element: "div",
-            style: {
-              margin: "8px 0",
-              padding: "10px",
-              backgroundColor: "#fff8d1",
-              border: "1px solid #ffd700",
-              borderRadius: "6px",
-              fontSize: "14px",
-              color: "#444",
-              lineHeight: "1.4",
-            },
+			  className: "tipsTextBox",
             textContent:
               "Tip: This area can only play one thing at a time.\n" +
               "Choose a app or method that best fits what you want to share.",
