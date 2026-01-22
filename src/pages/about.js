@@ -178,6 +178,15 @@ var randomRantsAbout = [
               a.click();
             },
           },
+          {
+            src: "images/social/discord.svg",
+            func: function () {
+              var a = document.createElement("a");
+              a.href = "http://discord.com/users/1160668172228247623";
+              a.target = "_blank";
+              a.click();
+            },
+          }
         ],
         [
           "Thats me! The one that used to be on the Scratch community, sadly banned from it after creating a lot of chat sites.",
