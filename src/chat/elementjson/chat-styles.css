@@ -1298,7 +1298,7 @@ a {
 .mediaContentItemClickable:hover {
   color: var(--menu-bar-hover-color);
   cursor: pointer;
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .noSoundMessage {
