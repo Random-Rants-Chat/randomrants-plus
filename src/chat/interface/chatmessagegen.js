@@ -58,6 +58,7 @@ var coolEmojiStuff = {
   cat: "😺",
   lol: "🤣",
   code: "🧑‍💻",
+  australian: "", //this is for a command, make it empty.
 };
 
 function getBracketCodeJSON(
@@ -144,7 +145,7 @@ function getBracketCodeJSON(
 
         var exists = false;
 
-        if (coolEmojiStuff[name]) {
+        if (typeof coolEmojiStuff[name] !== "undefined") {
           exists = true;
           elm.children.push({
             element: "span",

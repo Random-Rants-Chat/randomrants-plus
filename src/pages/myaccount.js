@@ -581,13 +581,6 @@ function compressImage(oldsrc) {
       changePasswordButton.onclick = async function () {
         changePasswordButton.disabled = true;
         if (await dialog.confirm(confirmPasswordMessage)) {
-          var oldPassword = await dialog.passwordPrompt(
-            "Type your old password, just to confirm its you.",
-          );
-          if (!oldPassword) {
-            dialog.alert("Password change canceled, nothing has been changed.");
-            return;
-          }
           var newPassword = await dialog.passwordPrompt(
             "Make a new password, make sure its unique to other sites you use.",
           );
@@ -602,7 +595,6 @@ function compressImage(oldsrc) {
               method: "POST",
               body: JSON.stringify({
                 newPassword,
-                oldPassword,
               }),
             },
           );

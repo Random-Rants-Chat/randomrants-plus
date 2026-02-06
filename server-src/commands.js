@@ -404,10 +404,10 @@ class CommandHandler {
         var foundClients = searchUsersByKey(args[0], senderClient);
         foundClients.forEach((otherClient) => {
           sendClientCommand(otherClient, "slowrotateEnd");
-          removeUserMessageFilter(otherClient, "");
+          removeUserMessageFilter(otherClient, "australian_filter");
         });
       },
-      "<Username>[br]Aligns the specified users screen back to its default position from the mildly infuriating command, this command won’t show in the ;help list",
+      "<Username>[br]Aligns the specified users screen back to its default position from the mildly infuriating command, also clears the effect of the ;Australian command.",
       true,
     );
     addCommand(
@@ -711,9 +711,10 @@ class CommandHandler {
           addUserMessageFilter(client, "australian_filter", function (originalMessage) {
             var message = "" + originalMessage; //Make sure its string.
             
-            function safeFindAndReplace(str, find, replace) { //For compatibility
-              var splitStr = str.split(find);
-              return splitStr.join(replace);
+            function safeFindAndReplace(str, find, replace) {
+              var escapedFind = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              var regex = new RegExp(escapedFind, 'gi');
+              return str.replace(regex, replace);
             }
 
             var bro_replace = "mate";
@@ -729,7 +730,7 @@ class CommandHandler {
               message = safeFindAndReplace(message, targetWord, hello_replace);
             }
 
-            return message;
+            return "[australian]" + message; //australian bracket applies the upside down username effect to users
           });
         });
         

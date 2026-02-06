@@ -844,14 +844,9 @@ async function destroyAccount(username) {
   } catch (e) {}
 }
 
-async function updateUserPassword(username, newPassword, oldPassword) {
+async function updateUserPassword(username, newPassword) {
   var data = await storage.downloadFile(`user-${username}.json`);
   var json = JSON.parse(data);
-
-  var valid = await bcrypt.compare(oldPassword, json.password);
-  if (!valid) {
-    return;
-  }
 
   json.password = await bcrypt.hash(newPassword, cons.BCRYPT_SALT_ROUNDS);
 
@@ -2111,6 +2106,14 @@ async function startRoomWSS(roomid) {
             }
           }
           if (json.type == "postMessage") {
+            if (typeof json.message !== "string") {
+              return;
+            }
+            var outputMessage = json.message;
+            for (var id of Object.keys(ws._rrUserFilters)) {
+              var func = ws._rrUserFilters[id];
+              outputMessage = func(outputMessage,ws);
+            }
             var commandResult = null;
             if (hasPermission("commands", ws)) {
               commandResult = wss._rrCommandHandler.handleMessage(
@@ -2132,11 +2135,6 @@ async function startRoomWSS(roomid) {
                   );
                   return;
                 }
-                var outputMessage = json.message;
-                for (var id of Object.keys(ws._rrUserFilters)) {
-                  var func = ws._rrUserFilters[id];
-                  outputMessage = func(outputMessage,ws);
-                }
                 wss.clients.forEach((cli) => {
                   if (!cli._rrIsReady) {
                     return;
@@ -2153,7 +2151,7 @@ async function startRoomWSS(roomid) {
                   );
                 });
 
-                if (!json.message.trim().startsWith(";")) {
+                if (!outputMessage.trim().startsWith(";")) {
                   //Filter out command messages in history.
                   messageChatNumber += 1;
                   wss._rrRoomMessages.push({
@@ -4991,17 +4989,6 @@ const server = http.createServer(async function (req, res) {
           }
 
           var json = JSON.parse(body.toString());
-          if (typeof json.oldPassword !== "string") {
-            res.statusCode = 400;
-            res.end(
-              JSON.stringify({
-                success: false,
-                error: true,
-                message: "oldPassword must be string.",
-              }),
-            );
-            return;
-          }
           if (typeof json.newPassword !== "string") {
             res.statusCode = 400;
             res.end(
@@ -5016,20 +5003,8 @@ const server = http.createServer(async function (req, res) {
 
           var session = await updateUserPassword(
             decryptedUserdata.username.trim(),
-            json.newPassword,
-            json.oldPassword,
+            json.newPassword
           );
-          if (!session) {
-            res.statusCode = 400;
-            res.end(
-              JSON.stringify({
-                success: false,
-                error: true,
-                message: "Old password isn't correct.",
-              }),
-            );
-            return;
-          }
 
           var value = encryptor.encrypt({
             username: decryptedUserdata.username.trim().toLowerCase(),

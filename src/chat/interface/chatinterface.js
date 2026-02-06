@@ -314,6 +314,7 @@ require("./darktheme.js");
         isServerMessage,
         userColor,
         userFont,
+        message
       );
       userMessagesContainer.append(messageElement);
 

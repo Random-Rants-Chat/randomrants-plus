@@ -1108,6 +1108,65 @@ async function doMediaSelect() {
                   },
 
                   {
+                    element: "div",
+                    className: "divButton roundborder",
+                    eventListeners: [
+                      {
+                        event: "click",
+                        func: async function (e) {
+                          e.preventDefault();
+                          div.remove();
+                          div = null;
+
+                          var loadingMediaDiv = doLoadingMediaScreen();
+
+                          try {
+                            loadingMediaDiv.remove();
+                            var username = "player";
+                            if (accountHelper.getCurrentValidationState()) {
+                              username =
+                                accountHelper.getCurrentValidationState()
+                                  .username;
+                            }
+                            const embedURL = `https://random-rants-chat.github.io/taco-shoot-minigame/?n=${Math.round(Date.now())}&cloud_host=${getScratchCloudURI()}&username=${encodeURIComponent(username)}&id=${Math.round(Date.now())}&project=${encodeURIComponent("tetrisonline")}`;
+
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaResetRequest",
+                              }),
+                            );
+                            sws.send(
+                              JSON.stringify({
+                                type: "media",
+                                command: "mediaEmbedRunning",
+                                url: embedURL,
+                              }),
+                            );
+                          } catch (err) {
+                            loadingMediaDiv.remove();
+                            dialog.alert("Error creating game room:\n" + err);
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      surroundFlexboxDiv([
+                        {
+                          element: "img",
+                          src: "images/tetrisonline.png",
+                          style: { height: "25px" },
+                        },
+                        {
+                          element: "span",
+                          textContent:
+                            "Tetris online",
+                        },
+                      ]),
+                    ],
+                  },
+
+                  {
                     element: "br",
                   },
                   {

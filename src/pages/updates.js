@@ -1,13 +1,25 @@
 async function getCommitURL() {
-  var response = await fetch("/external/other.json");
-  var data = await response.json();
-  return data.commitsURL;
+  try{
+    var response = await fetch("/external/other.json");
+    var data = await response.json();
+    return data.commitsURL;
+  }catch(e){
+    window.alert("Unable to parse or load external/other.json: "+e);
+    console.error(e);
+    return "";
+  }
 }
 
 async function getCommits() {
+  try{
   var response = await fetch(await getCommitURL());
   var data = await response.json();
   return data;
+    }catch(e){
+    window.alert("Unable to parse or load commits url: "+e);
+    console.error(e);
+    return [];
+  }
 }
 
 function formatSystemTime(dateInput) {
@@ -38,6 +50,7 @@ var dialog = require("../dialogs.js");
 require("./navigate-loader.js");
 
 async function showCommits(containerDiv) {
+  try{
   elements.setInnerJSON(containerDiv, [
     {
       element: "div",
@@ -48,6 +61,9 @@ async function showCommits(containerDiv) {
   elements.setInnerJSON(
     containerDiv,
     commits.map((commitData) => {
+      if (!commitData.author) {
+        return {element:"div"};
+      }
       return {
         element: "div",
         children: [
@@ -131,6 +147,10 @@ async function showCommits(containerDiv) {
       };
     }),
   );
+}catch(e){
+  dialog.alert("Unable to load updates: "+e);
+  console.error(e);
+}
 }
 
 var randomRantsUpdates = [
