@@ -24,7 +24,7 @@ if (!currentRoom) {
   };
   require("./accountnotice.js");
   require("./updatecheck.js");
-	require("./darktheme.js");
+  require("./darktheme.js");
 } else {
   require("./chatinterface.js");
 }

@@ -225,12 +225,13 @@ var elementJSON = [
             className: "fadeIn delay-3",
             style: {
               fontSize: "40px",
-              color: returnRandomValueFromArray(getRainbowHexes(2,100,70)),
+              color: returnRandomValueFromArray(getRainbowHexes(2, 100, 70)),
               fontFamily: "Fredoka",
               overflowWrap: "break-word",
               //display: "inline",
             },
-            textContent: '“'+returnRandomValueFromArray(randomQuotes).trim()+'”',
+            textContent:
+              "“" + returnRandomValueFromArray(randomQuotes).trim() + "”",
           },
           {
             element: "br",

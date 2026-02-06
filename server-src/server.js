@@ -2063,7 +2063,7 @@ async function startRoomWSS(roomid) {
               var outputMessage = json.message;
               for (var id of Object.keys(ws._rrUserFilters)) {
                 var func = ws._rrUserFilters[id];
-                outputMessage = func(outputMessage,ws);
+                outputMessage = func(outputMessage, ws);
               }
               var messageJson = JSON.stringify({
                 type: "newMessage",
@@ -2112,7 +2112,7 @@ async function startRoomWSS(roomid) {
             var outputMessage = json.message;
             for (var id of Object.keys(ws._rrUserFilters)) {
               var func = ws._rrUserFilters[id];
-              outputMessage = func(outputMessage,ws);
+              outputMessage = func(outputMessage, ws);
             }
             var commandResult = null;
             if (hasPermission("commands", ws)) {
@@ -5003,7 +5003,7 @@ const server = http.createServer(async function (req, res) {
 
           var session = await updateUserPassword(
             decryptedUserdata.username.trim(),
-            json.newPassword
+            json.newPassword,
           );
 
           var value = encryptor.encrypt({

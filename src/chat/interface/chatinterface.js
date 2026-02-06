@@ -131,7 +131,6 @@ var KnownUserList = require("./userlist-menu.js");
 
 require("./darktheme.js");
 
-
 (async function () {
   try {
     updateManager.addUpdateListener("interface", () => {
@@ -314,7 +313,7 @@ require("./darktheme.js");
         isServerMessage,
         userColor,
         userFont,
-        message
+        message,
       );
       userMessagesContainer.append(messageElement);
 
@@ -588,7 +587,7 @@ require("./darktheme.js");
           roomSettings.changeRoomName(json.name);
           roomSettings.changeRoomDescription(json.description);
           userState.roomID = json.id;
-			userState.roomName = json.name;
+          userState.roomName = json.name;
           (async function () {
             /*await fetch(accountHelper.getServerURL() + "/account/addroom", {
               method: "POST",
@@ -838,7 +837,7 @@ require("./darktheme.js");
     require("./chatappinterface.js");
     require("./accountnotice.js");
 
-	  require("./inviteusers.js");
+    require("./inviteusers.js");
   } catch (e) {
     handleErrors(e);
   }

@@ -6,5 +6,5 @@ var roomSelect = require("./roomselect.js");
 var inviteUsersToCurRoomButton = elements.getGPId("inviteUsersToCurRoomButton");
 
 inviteUsersToCurRoomButton.addEventListener("click", () => {
-	roomSelect.inviteUsersPrompt(currentRoom,userState.roomName);
+  roomSelect.inviteUsersPrompt(currentRoom, userState.roomName);
 });

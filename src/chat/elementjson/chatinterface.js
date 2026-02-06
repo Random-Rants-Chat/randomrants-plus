@@ -88,7 +88,7 @@ var leftSide = {
                     width: "100%",
                     height: "100%",
                     overflow: "hidden",
-                    pointerEvents: "none"
+                    pointerEvents: "none",
                   },
                 },
                 {
@@ -96,8 +96,8 @@ var leftSide = {
                   gid: "emojiReactionButtons",
                   className: "reactionButtonsDiv",
                   style: {
-                    display: "unset"
-                  }
+                    display: "unset",
+                  },
                 },
               ],
             },
@@ -236,7 +236,7 @@ var rightSide = {
             },
           ],
         },
-		{
+        {
           element: "button",
           className: "roundborder chatInterfaceButton",
           gid: "inviteUsersToCurRoomButton",

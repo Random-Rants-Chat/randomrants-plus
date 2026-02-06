@@ -10,8 +10,9 @@ module.exports = [
   },
   {
     element: "p",
-    style: {fontSize: "10px", textAlign: "center"},
-    textContent: "Whoops! This wasn't added in the list so thought I add it back."
+    style: { fontSize: "10px", textAlign: "center" },
+    textContent:
+      "Whoops! This wasn't added in the list so thought I add it back.",
   },
   {
     element: "p",

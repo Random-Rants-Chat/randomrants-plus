@@ -187,7 +187,7 @@
   --soundboard-stop-button-bgcolor: hsl(0, 100%, 43%);
   --soundboard-stop-button-border-color: hsl(0, 100%, 23%);
   --soundboard-stop-button-hover-bgcolor: hsl(0, 100%, 50%);
-	--soundboard-stop-button-text-color:  hsl(0, 100%, 0%);
+  --soundboard-stop-button-text-color: hsl(0, 100%, 0%);
 
   --menu-bar-hover-color: hsl(
     var(--accent-default-hue),
@@ -291,39 +291,37 @@
 }
 
 [data-theme="dark"] input[type="text"] {
-	background: hsl(
-		var(--accent-default-hue),
-	    var(--accent-default-saturation),
-		20%);
-	color: hsl(
-		var(--accent-default-hue),
-	    var(--accent-default-saturation),
-		80%);
+  background: hsl(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    20%
+  );
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
 }
 
 body[data-theme="dark"] {
-	--bg-color: hsl(
+  --bg-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     30%
-  );	
-	--header-color: hsl(
+  );
+  --header-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     30%
-  );	
-	--main-text-color: hsl(
+  );
+  --main-text-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     80%
   );
-	--input-border-color: hsl(
+  --input-border-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     50%
   );
 
-	--button-bg-color: hsl(
+  --button-bg-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     35%
@@ -343,7 +341,7 @@ body[data-theme="dark"] {
     var(--accent-default-saturation),
     20%
   );
-	--popup-dialog-background: hsl(
+  --popup-dialog-background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     25%
@@ -353,17 +351,17 @@ body[data-theme="dark"] {
     var(--accent-default-saturation),
     90%
   );
-	--popup-box-bg-color: hsl(
+  --popup-box-bg-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     25%
   );
-	--popup-box-text-color: hsl(
+  --popup-box-text-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     80%
   );
-	--storage-group-background-color: hsl(
+  --storage-group-background-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     30%
@@ -379,7 +377,7 @@ body[data-theme="dark"] {
     80%
   );
 
-	--messages-bg-color: hsl(
+  --messages-bg-color: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     45%
@@ -751,7 +749,7 @@ body {
     var(--button-sat),
     75%
   );
-	--soundboard-button-text-color:  hsl(0, 100%, 0%);
+  --soundboard-button-text-color: hsl(0, 100%, 0%);
 
   min-width: 150px;
   width: fit-content;
@@ -770,7 +768,7 @@ body {
   height: 90px;
   border-radius: 10px;
   overflow: hidden;
-	color: var(--soundboard-button-text-color);
+  color: var(--soundboard-button-text-color);
 }
 .soundboardButton:hover {
   background: var(--soundboard-button-hover-bgcolor);
@@ -811,7 +809,7 @@ body {
   height: 90px;
   border-radius: 10px;
   overflow: hidden;
-	color: var(--soundboard-stop-button-text-color);
+  color: var(--soundboard-stop-button-text-color);
 }
 .soundboardButtonStop:hover {
   background: var(--soundboard-stop-button-hover-bgcolor);
@@ -1273,7 +1271,7 @@ a {
 }
 
 [data-theme="dark"] .mediaContentMenuBar {
-	background: hsl(
+  background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     40%
@@ -1588,7 +1586,7 @@ a {
   transform-origin: bottom;
 }
 [data-theme="dark"] .emojiDialogBox {
-	background: hsl(
+  background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     20%
@@ -1651,13 +1649,12 @@ a {
   white-space: nowrap;
 }
 [data-theme="dark"] .emojiDialogCategoryButton {
-	background: hsl(
+  background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     20%
   );
-	  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
-
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
 }
 .emojiDialogCategoryButton:hover {
   cursor: pointer;
@@ -1668,7 +1665,7 @@ a {
   );
 }
 [data-theme="dark"] .emojiDialogCategoryButton:hover {
-	background: hsl(
+  background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     35%
@@ -1684,7 +1681,7 @@ a {
   cursor: default;
 }
 [data-theme="dark"] .emojiDialogCategoryButton[selected] {
-	background: hsl(
+  background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     40%
@@ -1710,12 +1707,12 @@ a {
   padding: 1px 3px;
 }
 [data-theme="dark"] .emojiDialogTextInput {
-	background: hsl(
+  background: hsl(
     var(--accent-default-hue),
     var(--accent-default-saturation),
     20%
   );
-    color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
+  color: hsl(var(--accent-default-hue), var(--accent-default-saturation), 80%);
 }
 
 .emojiDialogTextInput:focus {
@@ -1777,19 +1774,19 @@ a {
   border-radius: 30%;
   background-color: hsla(
     var(--accent-default-hue),
-	var(--accent-default-saturation),
-	100%,
-	0.1);
-
+    var(--accent-default-saturation),
+    100%,
+    0.1
+  );
 }
 .notificationImage:hover {
-	background-color: hsla(
-		var(--accent-default-hue),
-		var(--accent-default-saturation),
-		100%,
-		0.65);
+  background-color: hsla(
+    var(--accent-default-hue),
+    var(--accent-default-saturation),
+    100%,
+    0.65
+  );
 }
-
 
 .notificationsDiv {
   display: flex;
@@ -1922,19 +1919,19 @@ a {
 }
 
 .tipsTextBox {
-	margin: 8px 0;
-    padding: 8px;
-    background-color: hsl(48deg, 100%, 95%);
-    border: 1px solid hsl(54deg, 77%, 75%);
-    border-radius: 6px;
-    font-size: 14px;
-    color: hsl(50deg, 100%, 20%);
-    width: fit-content;
-    height: fit-content;
+  margin: 8px 0;
+  padding: 8px;
+  background-color: hsl(48deg, 100%, 95%);
+  border: 1px solid hsl(54deg, 77%, 75%);
+  border-radius: 6px;
+  font-size: 14px;
+  color: hsl(50deg, 100%, 20%);
+  width: fit-content;
+  height: fit-content;
 }
 
 [data-theme="dark"] .tipsTextBox {
-	background-color: hsl(48deg, 100%, 20%);
-	border: 1px solid hsl(54deg, 77%, 5%);
-    color: hsl(50deg, 100%, 80%);
+  background-color: hsl(48deg, 100%, 20%);
+  border: 1px solid hsl(54deg, 77%, 5%);
+  color: hsl(50deg, 100%, 80%);
 }

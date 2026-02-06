@@ -694,51 +694,69 @@ class CommandHandler {
       "67",
       function (args, userInfo, senderClient) {
         sendClientCommand(senderClient, "kick");
-        sendFeedbackGlobal(`${userInfo.displayName} had six sevened the way out of the room`);
+        sendFeedbackGlobal(
+          `${userInfo.displayName} had six sevened the way out of the room`,
+        );
         senderClient.close();
       },
       "Six seven",
-      false
+      false,
     );
 
     addCommand(
       "Australian",
-      function (args,userInfo,senderClient) {
+      function (args, userInfo, senderClient) {
         var nameToSearch = args[0];
         var foundClients = searchUsersByKey(nameToSearch, senderClient);
 
         foundClients.forEach((client) => {
-          addUserMessageFilter(client, "australian_filter", function (originalMessage) {
-            var message = "" + originalMessage; //Make sure its string.
-            
-            function safeFindAndReplace(str, find, replace) {
-              var escapedFind = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-              var regex = new RegExp(escapedFind, 'gi');
-              return str.replace(regex, replace);
-            }
+          addUserMessageFilter(
+            client,
+            "australian_filter",
+            function (originalMessage) {
+              var message = "" + originalMessage; //Make sure its string.
 
-            var bro_replace = "mate";
-            var bro_words = ["bro", "friend", "dude", "bruh", "bru", "brother", "man"];
-            var hello_replace = "Oi";
-            var hello_words = ["hi", "hello", "hey"];
+              function safeFindAndReplace(str, find, replace) {
+                var escapedFind = find.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                var regex = new RegExp(escapedFind, "gi");
+                return str.replace(regex, replace);
+              }
 
-            for (var targetWord of bro_words) {
-              message = safeFindAndReplace(message, targetWord, bro_replace);
-            }
+              var bro_replace = "mate";
+              var bro_words = [
+                "bro",
+                "friend",
+                "dude",
+                "bruh",
+                "bru",
+                "brother",
+                "man",
+              ];
+              var hello_replace = "Oi";
+              var hello_words = ["hi", "hello", "hey"];
 
-            for (var targetWord of hello_words) {
-              message = safeFindAndReplace(message, targetWord, hello_replace);
-            }
+              for (var targetWord of bro_words) {
+                message = safeFindAndReplace(message, targetWord, bro_replace);
+              }
 
-            return "[australian]" + message; //australian bracket applies the upside down username effect to users
-          });
+              for (var targetWord of hello_words) {
+                message = safeFindAndReplace(
+                  message,
+                  targetWord,
+                  hello_replace,
+                );
+              }
+
+              return "[australian]" + message; //australian bracket applies the upside down username effect to users
+            },
+          );
         });
-        
+
         return CommandHandler.HIDE_MESSAGE;
       },
       "",
-      true
-    )
+      true,
+    );
 
     ////////////////////////////////////////////////////
   }
@@ -972,12 +990,12 @@ class CommandHandler {
     }
   }
 
-  addUserMessageFilter(client,id,func) {
-    client._rrUserFilters["commands_"+id] = func;
+  addUserMessageFilter(client, id, func) {
+    client._rrUserFilters["commands_" + id] = func;
   }
 
-  removeUserMessageFilter(client,id,func) {
-    delete client._rrUserFilters["commands_"+id];
+  removeUserMessageFilter(client, id, func) {
+    delete client._rrUserFilters["commands_" + id];
   }
 }
 

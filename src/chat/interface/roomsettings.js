@@ -55,7 +55,6 @@ async function updateThemeSetting(index) {
   }
 }
 
-
 async function updateAllowGuests(allow) {
   try {
     var response = await fetch(
@@ -587,23 +586,23 @@ var dom = elements.createElementsFromJSON([
               },
             ],
           },
-			{
-				element: "br"
-			},
-			{
-				element: "span",
-				style: {
-					color: "#cc0606",
-					fontWeight: "bold"
-				},
-				gid: "guestUsersWarning",
-				children: [
-					"Guest users have the ability to bypass the allow list no matter what, turn guest users off if you don't want them in here.",
-					{
-			            element: "br",
-			        },
-				]
-			},
+          {
+            element: "br",
+          },
+          {
+            element: "span",
+            style: {
+              color: "#cc0606",
+              fontWeight: "bold",
+            },
+            gid: "guestUsersWarning",
+            children: [
+              "Guest users have the ability to bypass the allow list no matter what, turn guest users off if you don't want them in here.",
+              {
+                element: "br",
+              },
+            ],
+          },
           {
             element: "div",
             style: {
@@ -803,7 +802,7 @@ var guestUsersWarning = elements.getGPId("guestUsersWarning");
 
 rs.updateAllowGuests = function (value) {
   roomSettingAllowGuests.checked = value;
-	guestUsersWarning.hidden = !value;
+  guestUsersWarning.hidden = !value;
 };
 
 var roomSettingTheme = elements.getGPId("roomSettings_theme");

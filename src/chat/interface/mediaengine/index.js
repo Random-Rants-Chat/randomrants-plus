@@ -573,7 +573,7 @@ async function doMediaSelect() {
           },
           {
             element: "div",
-			  className: "tipsTextBox",
+            className: "tipsTextBox",
             textContent:
               "Tip: This area can only play one thing at a time.\n" +
               "Choose a app or method that best fits what you want to share.",
@@ -1159,8 +1159,7 @@ async function doMediaSelect() {
                         },
                         {
                           element: "span",
-                          textContent:
-                            "Tetris online",
+                          textContent: "Tetris online",
                         },
                       ]),
                     ],

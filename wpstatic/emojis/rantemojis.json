@@ -328,25 +328,25 @@
         "emojiURL": "rrp",
         "tags": []
       },
-	  {
+      {
         "src": "images/code.svg",
         "name": "Guy coding on laptop",
         "emojiURL": "rrp",
         "tags": ["code", "obsessed", "laptop", "typing"]
       },
-	  {
+      {
         "src": "images/srb2.png",
         "name": "Sonic Robo Blast 2 Icon",
         "emojiURL": "rrp",
         "tags": ["srb2", "icon", "game", "sonic", "fangame", "favicon"]
       },
-	  {
+      {
         "src": "images/failed-paper.svg",
         "name": "Failed assignment",
         "emojiURL": "rrp",
         "tags": ["F-", "F", "assignment", "failed", "0%", "0", "terrible"]
       },
-	  {
+      {
         "src": "images/passed-paper.svg",
         "name": "Passed assignment",
         "emojiURL": "rrp",

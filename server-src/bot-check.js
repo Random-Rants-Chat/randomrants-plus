@@ -18,7 +18,7 @@ const NOISE_WORDS = [
   "tree",
   "rant",
   "robot",
-"cool"
+  "cool",
 ];
 
 const ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

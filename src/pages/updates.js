@@ -1,22 +1,22 @@
 async function getCommitURL() {
-  try{
+  try {
     var response = await fetch("/external/other.json");
     var data = await response.json();
     return data.commitsURL;
-  }catch(e){
-    window.alert("Unable to parse or load external/other.json: "+e);
+  } catch (e) {
+    window.alert("Unable to parse or load external/other.json: " + e);
     console.error(e);
     return "";
   }
 }
 
 async function getCommits() {
-  try{
-  var response = await fetch(await getCommitURL());
-  var data = await response.json();
-  return data;
-    }catch(e){
-    window.alert("Unable to parse or load commits url: "+e);
+  try {
+    var response = await fetch(await getCommitURL());
+    var data = await response.json();
+    return data;
+  } catch (e) {
+    window.alert("Unable to parse or load commits url: " + e);
     console.error(e);
     return [];
   }
@@ -28,15 +28,15 @@ function formatSystemTime(dateInput) {
 
   // Formatting options
   const options = {
-    weekday: 'long', // "Wed"
-    month: 'long',   // "Dec"
-    day: 'numeric',   // "10"
-    hour: 'numeric',  // "2" or "14" (based on system)
-    minute: '2-digit' // "39"
+    weekday: "long", // "Wed"
+    month: "long", // "Dec"
+    day: "numeric", // "10"
+    hour: "numeric", // "2" or "14" (based on system)
+    minute: "2-digit", // "39"
     // hour12 is intentionally omitted to use system preference
   };
 
-  return date.toLocaleString('default', options);
+  return date.toLocaleString("default", options);
 }
 
 document.title = "Random Rants + | Updates";
@@ -50,107 +50,111 @@ var dialog = require("../dialogs.js");
 require("./navigate-loader.js");
 
 async function showCommits(containerDiv) {
-  try{
-  elements.setInnerJSON(containerDiv, [
-    {
-      element: "div",
-      textContent: "Loading...",
-    },
-  ]);
-  var commits = await getCommits();
-  elements.setInnerJSON(
-    containerDiv,
-    commits.map((commitData) => {
-      if (!commitData.author) {
-        return {element:"div"};
-      }
-      return {
+  try {
+    elements.setInnerJSON(containerDiv, [
+      {
         element: "div",
-        children: [
-          {
-            element: "div",
-            style: {
-              padding: "10px 10px",
-              background: "rgba(0,0,0,0.5)",
-              color: "rgba(255,255,255,1)",
-              margin: "5px",
-              borderRadius: "10px",
-            },
-            children: [
-              {
-                element: "div",
-                style: {
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px"
-                },
-                children: [
-                  {
-                    element: "a",
-                    target: "_blank",
-                    href: commitData.author.html_url,
-                    className: "commitLink",
-                    style: {
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      width: "fit-content",
-                      height: "fit-content",
-                      padding: "5px 5px",
-                    },
-                    children: [
-                      {
-                        element: "img",
-                        style: {
+        textContent: "Loading...",
+      },
+    ]);
+    var commits = await getCommits();
+    elements.setInnerJSON(
+      containerDiv,
+      commits.map((commitData) => {
+        if (!commitData.author) {
+          return { element: "div" };
+        }
+        return {
+          element: "div",
+          children: [
+            {
+              element: "div",
+              style: {
+                padding: "10px 10px",
+                background: "rgba(0,0,0,0.5)",
+                color: "rgba(255,255,255,1)",
+                margin: "5px",
+                borderRadius: "10px",
+              },
+              children: [
+                {
+                  element: "div",
+                  style: {
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  },
+                  children: [
+                    {
+                      element: "a",
+                      target: "_blank",
+                      href: commitData.author.html_url,
+                      className: "commitLink",
+                      style: {
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        width: "fit-content",
+                        height: "fit-content",
+                        padding: "5px 5px",
+                      },
+                      children: [
+                        {
+                          element: "img",
+                          style: {
                             objectFit: "contain",
                             width: "30px",
                             height: "30px",
-                            borderRadius: "50%"
+                            borderRadius: "50%",
+                          },
+                          src: commitData.committer.avatar_url,
                         },
-                        src: commitData.committer.avatar_url,
-                      },
-                      {
+                        {
                           element: "span",
                           textContent: commitData.commit.committer.name,
                           style: {
                             fontWeight: "bold",
-                            fontSize: "20px"
-                          }
+                            fontSize: "20px",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      element: "div",
+                      style: {
+                        marginRight: "auto",
                       },
-                    ]
-                  },
-                  {
-                    element: "div",
-                    style: {
-                      marginRight: "auto"
-                    }
-                  },
-                  {
-                          element: "span",
-                          textContent: "Commited on: "+formatSystemTime(new Date(commitData.commit.committer.date)),
-                          style: {
-                            fontSize: "10px"
-                          }
+                    },
+                    {
+                      element: "span",
+                      textContent:
+                        "Commited on: " +
+                        formatSystemTime(
+                          new Date(commitData.commit.committer.date),
+                        ),
+                      style: {
+                        fontSize: "10px",
                       },
-                ],
-              },
-              {
-                    element: "a",
-                    textContent: commitData.commit.message,
-                    target: "_blank",
-                    href: commitData.html_url,
-                    className: "commitLink"
+                    },
+                  ],
                 },
-            ],
-          },
-        ],
-      };
-    }),
-  );
-}catch(e){
-  dialog.alert("Unable to load updates: "+e);
-  console.error(e);
-}
+                {
+                  element: "a",
+                  textContent: commitData.commit.message,
+                  target: "_blank",
+                  href: commitData.html_url,
+                  className: "commitLink",
+                },
+              ],
+            },
+          ],
+        };
+      }),
+    );
+  } catch (e) {
+    dialog.alert("Unable to load updates: " + e);
+    console.error(e);
+  }
 }
 
 var randomRantsUpdates = [

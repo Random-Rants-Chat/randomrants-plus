@@ -3,7 +3,8 @@ var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's elemen
 var elementJSON = require("./elementjson/main.js").concat([
   {
     element: "style", //Patch so i could use element.hidden = true; to hide things.
-    textContent: "[hidden] { display: none !important; opacity: 0; pointer-events: none; }"
+    textContent:
+      "[hidden] { display: none !important; opacity: 0; pointer-events: none; }",
   },
 ]);
 

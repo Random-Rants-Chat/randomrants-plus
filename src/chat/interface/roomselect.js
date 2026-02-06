@@ -50,49 +50,47 @@ async function getRooms() {
   return rooms;
 }
 
-async function inviteUsersPrompt(roomid,roomname) {
-	try {
-                    var inviteTargets = await KnownUserList.getUsersPrompt(
-                      "Select users to invite",
-                    );
-                    if (!inviteTargets) {
-                      return;
-                    }
-                    if (inviteTargets.length == 0) {
-                      return;
-                    }
-                    var loader = new LoadingScreen();
-                    var invited = 0;
-                    for (var username of inviteTargets) {
-                      invited += 1;
-                      loader.setText(
-                        `Inviting "${username}"... (${invited}/${inviteTargets.length})`,
-                      );
-                      try {
-                        var response = await fetch(
-                          accountHelper.getServerURL() + "/account/inviteroom",
-                          {
-                            method: "POST",
-                            body: JSON.stringify({
-                              id: roomid,
-                              name: roomname,
-                              username: username,
-                            }),
-                          },
-                        );
-                      } catch (e) {
-                        console.error(e);
-                      }
-                    }
-                    loader.remove();
-                    dialog.alert(
-                      "All selected users have been invited! These users should see the invite in their notifications.",
-                    );
-                  } catch (e) {
-                    dialog.alert(
-                      `Failed to invite a user to room. Error Message: ${e}`,
-                    );
-                  }
+async function inviteUsersPrompt(roomid, roomname) {
+  try {
+    var inviteTargets = await KnownUserList.getUsersPrompt(
+      "Select users to invite",
+    );
+    if (!inviteTargets) {
+      return;
+    }
+    if (inviteTargets.length == 0) {
+      return;
+    }
+    var loader = new LoadingScreen();
+    var invited = 0;
+    for (var username of inviteTargets) {
+      invited += 1;
+      loader.setText(
+        `Inviting "${username}"... (${invited}/${inviteTargets.length})`,
+      );
+      try {
+        var response = await fetch(
+          accountHelper.getServerURL() + "/account/inviteroom",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              id: roomid,
+              name: roomname,
+              username: username,
+            }),
+          },
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    loader.remove();
+    dialog.alert(
+      "All selected users have been invited! These users should see the invite in their notifications.",
+    );
+  } catch (e) {
+    dialog.alert(`Failed to invite a user to room. Error Message: ${e}`);
+  }
 }
 
 function doJoinCodeScreen(code) {
@@ -411,7 +409,7 @@ async function doRoomSelect() {
                 event: "click",
                 func: async function (e) {
                   e.preventDefault();
-                  inviteUsersPrompt(room.id,room.name);
+                  inviteUsersPrompt(room.id, room.name);
                 },
               },
             ],

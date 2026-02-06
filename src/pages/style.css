@@ -571,6 +571,6 @@ a:hover {
   cursor: pointer;
   text-decoration: underline;
   color: unset;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 3px;
 }

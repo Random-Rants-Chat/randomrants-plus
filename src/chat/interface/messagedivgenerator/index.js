@@ -10,13 +10,14 @@ function generateMessageDiv(
   isServerMessage,
   userColor,
   userFont,
-  originalMessageText = ""
+  originalMessageText = "",
 ) {
   var mySession = accountHelper.getCurrentValidationState();
   var myDisplayName = mySession ? mySession.displayName : "";
 
-  var isMe = (displayName == myDisplayName);
-  var isAustralian = !isMe && (""+originalMessageText).indexOf("[australian]") > -1;
+  var isMe = displayName == myDisplayName;
+  var isAustralian =
+    !isMe && ("" + originalMessageText).indexOf("[australian]") > -1;
 
   var pfp = accountHelper.getProfilePictureURL(username);
   if (!displayName) {
@@ -50,9 +51,11 @@ function generateMessageDiv(
                   element: "img",
                   className: "profile profilePictureMessage",
                   src: cacheBust(pfp),
-                  style: isAustralian ? {
-                    transform: "scale(1, -1)"
-                  } : {}
+                  style: isAustralian
+                    ? {
+                        transform: "scale(1, -1)",
+                      }
+                    : {},
                 },
               ],
             },
@@ -71,7 +74,7 @@ function generateMessageDiv(
                   style: {
                     color: color,
                     fontFamily: userFont || "Arial",
-                    transform: isAustralian ? "scale(1, -1)" : ""
+                    transform: isAustralian ? "scale(1, -1)" : "",
                   },
                   eventListeners: [
                     {
