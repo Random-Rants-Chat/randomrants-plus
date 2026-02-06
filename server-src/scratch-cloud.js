@@ -7,8 +7,8 @@ var wssServerOptions = {
   maxPayload: 1024 * 1024,
 };
 
-const MAX_CLOUD_VALUE_SIZE = 3000;
-const MAX_CLOUD_NAME_SIZE = 250;
+const MAX_CLOUD_VALUE_SIZE = 40000;
+const MAX_CLOUD_NAME_SIZE = 300;
 const DESTROY_TIMEOUT = 1000 * 60 * 10; //Ten minutes before destroy.
 
 const DEBUG_LOGS = false; //Enable to get debug logs.
@@ -123,7 +123,7 @@ wss.on("connection", (client, request) => {
     if (!AllowMethods[method]) {
       client.close(
         ConnectionError.Error,
-        "Method isn't allowed or doesn't exist.",
+        "Method isn't allowed or doesn't exist."
       );
       return;
     }
@@ -132,7 +132,7 @@ wss.on("connection", (client, request) => {
       if (currentCloudRoom) {
         client.close(
           ConnectionError.Error,
-          "Can't use the handshake method twice.",
+          "Can't use the handshake method twice."
         );
         return;
       }
@@ -143,7 +143,7 @@ wss.on("connection", (client, request) => {
       if (DEBUG_LOGS) {
         console.log(
           labelRequest(request) +
-            `Handshake for ID: ${projectID} Username: ${user}`,
+            `Handshake for ID: ${projectID} Username: ${user}`
         );
       }
 
@@ -175,7 +175,7 @@ wss.on("connection", (client, request) => {
             method: "set",
             name,
             value: room.variables.get(name),
-          }),
+          })
         );
       }
 
@@ -208,7 +208,7 @@ wss.on("connection", (client, request) => {
               method: "set",
               name,
               value,
-            }),
+            })
           );
         }
       }
@@ -231,7 +231,7 @@ wss.on("connection", (client, request) => {
               method: "set",
               name,
               value: "",
-            }),
+            })
           );
         }
       }
@@ -250,7 +250,7 @@ wss.on("connection", (client, request) => {
       if (new_name.length > MAX_CLOUD_NAME_SIZE) {
         client.close(
           ConnectionError.Overloaded,
-          "New variable name is too large",
+          "New variable name is too large"
         );
         return;
       }
@@ -263,7 +263,7 @@ wss.on("connection", (client, request) => {
             JSON.stringify({
               method: "delete",
               name,
-            }),
+            })
           );
         }
       }
@@ -275,7 +275,7 @@ wss.on("connection", (client, request) => {
               method: "set",
               name: new_name,
               value,
-            }),
+            })
           );
         }
       }
@@ -297,7 +297,7 @@ wss.on("connection", (client, request) => {
             JSON.stringify({
               method: "delete",
               name,
-            }),
+            })
           );
         }
       }
@@ -329,7 +329,7 @@ wss.on("connection", (client, request) => {
     if (DEBUG_LOGS) {
       console.log(
         labelRequest(request) +
-          `Connection closed. Code: ${code} Reason: ${reason || "(None)"}`,
+          `Connection closed. Code: ${code} Reason: ${reason || "(None)"}`
       );
     }
 
@@ -337,7 +337,7 @@ wss.on("connection", (client, request) => {
     clearTimeout(handshake_timeout);
     if (currentCloudRoom) {
       currentCloudRoom.clients = currentCloudRoom.clients.filter(
-        (cli) => cli._connectionid !== client._connectionid,
+        (cli) => cli._connectionid !== client._connectionid
       );
       if (currentCloudRoom.clients.length == 0) {
         currentCloudRoom.startDestroyTimeout();
