@@ -1681,6 +1681,7 @@ async function startRoomWSS(roomid) {
     ws._rrLastMessageTime = Date.now();
     connectionIDCount += 1;
     (async function () {
+      ws._rrUserFilters = {};
       ws.server = wss;
       ws._rrWsID = generateWebsocketID();
       ws._rrIsOwner = false;
@@ -2064,13 +2065,18 @@ async function startRoomWSS(roomid) {
                 );
                 return;
               }
+              var outputMessage = json.message;
+              for (var id of Object.keys(ws._rrUserFilters)) {
+                var func = ws._rrUserFilters[id];
+                outputMessage = func(outputMessage,ws);
+              }
               var messageJson = JSON.stringify({
                 type: "newMessage",
                 message:
                   "[color css=yellow]For [bold]@" +
                   targetUser +
                   "[/bold]: [/color]" +
-                  json.message,
+                  outputMessage,
                 username: ws._rrUsername,
                 displayName: displayName,
                 color: ws._rrUserColor,
@@ -2126,6 +2132,11 @@ async function startRoomWSS(roomid) {
                   );
                   return;
                 }
+                var outputMessage = json.message;
+                for (var id of Object.keys(ws._rrUserFilters)) {
+                  var func = ws._rrUserFilters[id];
+                  outputMessage = func(outputMessage,ws);
+                }
                 wss.clients.forEach((cli) => {
                   if (!cli._rrIsReady) {
                     return;
@@ -2133,7 +2144,7 @@ async function startRoomWSS(roomid) {
                   cli.send(
                     JSON.stringify({
                       type: "newMessage",
-                      message: json.message,
+                      message: outputMessage,
                       username: ws._rrUsername,
                       displayName: displayName,
                       color: ws._rrUserColor,
@@ -2148,11 +2159,11 @@ async function startRoomWSS(roomid) {
                   wss._rrRoomMessages.push({
                     displayName: displayName,
                     username: ws._rrUsername,
-                    message: json.message,
+                    message: outputMessage,
                     color: ws._rrUserColor,
                     font: ws._rrUserFont,
                   });
-                  ws._rrLastMessagePosted = json.message;
+                  ws._rrLastMessagePosted = outputMessage;
                   wss._rrRoomMessages = wss._rrRoomMessages.slice(-50);
                 }
               }

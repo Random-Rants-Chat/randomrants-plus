@@ -18,6 +18,8 @@ class CommandHandler {
     var sendClientCommand = this.sendClientCommand.bind(this); //Send a browser based command to the user.
     var getActiveClients = this.getActiveClients.bind(this); //Gets everyone's conection socket in the room.
     var commandIsAllowed = this.commandIsAllowed.bind(this); //Checks if the command for that client is allowed.
+    var addUserMessageFilter = this.addUserMessageFilter.bind(this); //Add a message filter to a client, editing their messages sent.
+    var removeUserMessageFilter = this.removeUserMessageFilter.bind(this); //Remove a message filter from a client.
     var _this = this;
 
     ////////////////////////////////////////////////////
@@ -402,6 +404,7 @@ class CommandHandler {
         var foundClients = searchUsersByKey(args[0], senderClient);
         foundClients.forEach((otherClient) => {
           sendClientCommand(otherClient, "slowrotateEnd");
+          removeUserMessageFilter(otherClient, "");
         });
       },
       "<Username>[br]Aligns the specified users screen back to its default position from the mildly infuriating command, this command won’t show in the ;help list",
@@ -698,6 +701,44 @@ class CommandHandler {
       false
     );
 
+    addCommand(
+      "Australian",
+      function (args,userInfo,senderClient) {
+        var nameToSearch = args[0];
+        var foundClients = searchUsersByKey(nameToSearch, senderClient);
+
+        foundClients.forEach((client) => {
+          addUserMessageFilter(client, "australian_filter", function (originalMessage) {
+            var message = "" + originalMessage; //Make sure its string.
+            
+            function safeFindAndReplace(str, find, replace) { //For compatibility
+              var splitStr = str.split(find);
+              return splitStr.join(replace);
+            }
+
+            var bro_replace = "mate";
+            var bro_words = ["bro", "friend", "dude", "bruh", "bru", "brother", "man"];
+            var hello_replace = "Oi";
+            var hello_words = ["hi", "hello", "hey"];
+
+            for (var targetWord of bro_words) {
+              message = safeFindAndReplace(message, targetWord, bro_replace);
+            }
+
+            for (var targetWord of hello_words) {
+              message = safeFindAndReplace(message, targetWord, hello_replace);
+            }
+
+            return message;
+          });
+        });
+        
+        return CommandHandler.HIDE_MESSAGE;
+      },
+      "",
+      true
+    )
+
     ////////////////////////////////////////////////////
   }
 
@@ -928,6 +969,14 @@ class CommandHandler {
         );
       }
     }
+  }
+
+  addUserMessageFilter(client,id,func) {
+    client._rrUserFilters["commands_"+id] = func;
+  }
+
+  removeUserMessageFilter(client,id,func) {
+    delete client._rrUserFilters["commands_"+id];
   }
 }
 
