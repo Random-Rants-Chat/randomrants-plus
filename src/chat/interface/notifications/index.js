@@ -226,30 +226,6 @@ class RealTimeNotifications {
         if (clientSettings.getSetting("UI_SOUNDS")) {
           sounds.play("notificationBell", 1);
         }
-        if (
-          notification.type == "test" &&
-          clientSettings.getSetting("BELL_NOTIFCATIONS")
-        ) {
-          notify.sendIfNotOnScreen(
-            "Testing",
-            "Test notification",
-            "New notification received",
-          );
-        }
-        if (
-          notification.type == "invite" &&
-          clientSettings.getSetting("BELL_NOTIFCATIONS")
-        ) {
-          notify.sendIfNotOnScreen(
-            "Chatroom Invitation",
-            "@" +
-              notification.from +
-              ' has invited you to the chat room "' +
-              notification.roomName +
-              '"',
-            "Invited to " + notification.roomName,
-          );
-        }
       }
     } catch (e) {
       dialogs.alert(e);

@@ -3,6 +3,7 @@ window.title = "Random Rants + | My account";
 require("../mobile-viewport-fix");
 require("../cookiewarning");
 require("./stylesheet.js");
+require("../sw.js");
 var menuBar = require("../menu.js"); //Menu bar.
 var elements = require("../gp2/elements.js"); //Based on gvbvdxx-pack-2's element module.
 var accountHelper = require("../accounthelper/index.js");

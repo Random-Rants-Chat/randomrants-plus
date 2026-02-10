@@ -1,6 +1,7 @@
 require("../cookiewarning");
 require("./stylesheet.js");
 require("./navigate-loader.js");
+require("../sw.js");
 
 document.title = "Random Rants + | Legal";
 

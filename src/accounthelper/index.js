@@ -1,4 +1,5 @@
 var lastValidationState = null;
+var pushNotificationHelper = require("./pushhelper.js");
 var cookieManager = {
   getAccountCookie() {
     return this.getCookie("account");
@@ -146,6 +147,33 @@ function getCurrentValidationState() {
   return lastValidationState;
 }
 
+async function getPublicKey() {
+  var response = await fetch(getServerURL() + "/webpush/key");
+  var key = await response.text();
+  return key.trim();
+}
+
+async function uploadPushSubscription(subscription) {
+  var response = await fetch(getServerURL() + '/webpush/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!response.ok) {
+        throw new Error("Issue when sending subscription. Error: " +  await response.text());
+      }
+}
+
+pushNotificationHelper.subscribe = async function (retry = false) {
+  var subscription = await pushNotificationHelper.getSubscription();
+  if (subscription && !retry) {
+    return; //Already subscribed
+  }
+  var publicKey = await getPublicKey();
+  subscription = await pushNotificationHelper.__subscribe(publicKey);
+  await uploadPushSubscription(subscription);
+};
+
 module.exports = {
   cookieManager,
   getServerURL,
@@ -160,4 +188,6 @@ module.exports = {
   getCurrentValidationState,
   getJoinedRooms,
   removeJoinedRoom,
+  getPublicKey,
+  pushNotificationHelper
 };

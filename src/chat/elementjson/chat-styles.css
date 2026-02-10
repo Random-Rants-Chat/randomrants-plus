@@ -581,6 +581,7 @@ body {
 
 .windowDialogContainer {
   font-family: var(--popup-dialog-font);
+  z-index: 999999999999;
 }
 .windowDialogBackground {
   background: hsl(

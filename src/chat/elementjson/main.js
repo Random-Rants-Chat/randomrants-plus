@@ -45,6 +45,7 @@ elements.appendElementsFromJSON(document.body, [
   //Low level dialogs, not really important.
   require("./accountnotice.js"),
   require("./installappdialog.js"),
+  require("./pushnotifications.js"),
 
   //Medium level dialogs, important notices.
   require("./reconnecting.js"),

@@ -9,7 +9,8 @@
     "development": "concurrently -k \"npm:watch\" \"npm:development:server\"",
     "start": "webpack && node server-src/server-runner.js",
     "format": "prettier --write \"server-src/**/*.js\" \"src/**/*.js\" \"src/**/*.css\" \"wpstatic/**/*.json\" \"wpstatic/**/*.html\" \"webpackhtml/**/*\" \"errors/**/*\"",
-    "server-install": "npm install bcryptjs busboy content-range jszip http ws dotenv jimp"
+    "server-install": "npm install bcryptjs busboy content-range jszip http ws dotenv jimp",
+    "webpush": "npx web-push generate-vapid-keys"
   },
   "devDependencies": {
     "bcryptjs": "^3.0.3",
@@ -44,6 +45,7 @@
     "jimp": "^1.6.0",
     "prettier": "^3.7.4",
     "simple-peer": "^9.11.1",
-    "sitemap-webpack-plugin": "^1.1.1"
+    "sitemap-webpack-plugin": "^1.1.1",
+    "web-push": "^3.6.7"
   }
 }

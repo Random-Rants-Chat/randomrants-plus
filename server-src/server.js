@@ -15,6 +15,7 @@ var gvbbaseStorage = require("./storage.js"); //Supabase storage module.
 var cons = require("./constants.js");
 var bcrypt = require("bcryptjs");
 var crypto = require("crypto");
+var webpush = require('web-push');
 var scratchCloudWss = require("./scratch-cloud.js");
 var WebRTCSignaler = require("./rtcsignal/req-handler.js");
 var botCheck = require("./bot-check-manager.js");
@@ -43,6 +44,22 @@ var messageChatNumber = 0;
 var commandHandler = require("./commands.js");
 var usernameSafeChars = cons.USERNAME_CHAR_SET;
 var serverIPBans = {};
+var WEBPUSH_ENABLED = true;
+var WEBPUSH_PUBLIC_KEY = process.env.publicPushKey;
+var WEBPUSH_PRIVATE_KEY = process.env.privatePushKey;
+if (!WEBPUSH_PUBLIC_KEY || !WEBPUSH_PRIVATE_KEY) {
+  console.warn("[WebPush]: No web-push keys or missing one, invite notifications won't work anymore.");
+  WEBPUSH_ENABLED = false;
+}
+
+if (WEBPUSH_ENABLED) {
+  webpush.setVapidDetails(
+    process.env.website || cons.DEFAULT_WEBSITE,
+    WEBPUSH_PUBLIC_KEY,
+    WEBPUSH_PRIVATE_KEY
+  );
+}
+
 function closeUserFromUserSocket(username) {
   //Since the site has auto reconnect, this is basically a reload function.
   try {
@@ -1412,6 +1429,7 @@ function sendNotify(username, notifyjson = {}) {
   notificationsForUsers[username] = notificationsForUsers[username].slice(
     -cons.MAX_NOTIFICATIONS,
   );
+  sendPushMessage(username, notifyContent);
   for (var client of notifyWSS.clients) {
     if (client._rrUsername == username.trim()) {
       client.send(
@@ -2630,6 +2648,87 @@ function applyRateLimit(req) {
   return false;
 }
 
+async function registerPushNotifications(username, newSubscription) {
+  var filename = `push_sub_${username.trim().toLowerCase()}.json`;
+  var subscriptions = [];
+
+  try {
+    // 1. Try to download existing subs
+    const buffer = await storage.downloadFile(filename, false);
+    subscriptions = JSON.parse(buffer.toString());
+    
+    // 2. Prevent duplicates (check if endpoint already exists)
+    const exists = subscriptions.find(s => s.endpoint === newSubscription.endpoint);
+    if (!exists) {
+        subscriptions.push(newSubscription);
+    }
+    subscriptions = subscriptions.slice(-cons.MAX_PUSH_SUBSCRIPTIONS);
+  } catch (err) {
+    // File doesn't exist yet, start a new list
+    subscriptions = [newSubscription];
+  }
+
+  // 3. Upload the updated list
+  await storage.uploadFile(filename, JSON.stringify(subscriptions), "application/json");
+}
+
+async function removeSubscriptionFromFile(username, endpointToRemove) {
+  const filename = `push_sub_${username.toLowerCase()}.json`;
+
+  try {
+    // 1. Download the current list of devices
+    const buffer = await storage.downloadFile(filename, false);
+    let subscriptions = JSON.parse(buffer.toString());
+
+    // 2. Filter out the specific endpoint
+    const updatedSubscriptions = subscriptions.filter(
+      (sub) => sub.endpoint !== endpointToRemove
+    );
+
+    // 3. If no subscriptions are left, delete the file; otherwise, update it
+    if (updatedSubscriptions.length === 0) {
+      await storage.deleteFile(filename);
+    } else {
+      await storage.uploadFile(
+        filename, 
+        JSON.stringify(updatedSubscriptions), 
+        "application/json"
+      );
+    }
+  } catch (err) {
+    console.error("Error removing subscription:", err);
+  }
+}
+
+async function getSubscriptions(username) {
+  try{
+    const filename = `push_sub_${username.toLowerCase()}.json`;
+    const buffer = await storage.downloadFile(filename, false);
+    let subscriptions = JSON.parse(buffer.toString());
+
+    return subscriptions;
+  }catch(e){
+    return;
+  }
+}
+
+async function sendPushMessage(username, payload) {
+  const subs = await getSubscriptions(username);
+  if (!subs) return;
+
+  for (const sub of subs) {
+    try {
+      await webpush.sendNotification(sub, JSON.stringify(payload));
+    } catch (err) {
+      // 404: Not Found, 410: Gone (Unsubscribed)
+      if (err.statusCode === 404 || err.statusCode === 410) {
+        console.log(`Cleaning up dead subscription for ${username}`);
+        await removeSubscriptionFromFile(username, sub.endpoint);
+      }
+    }
+  }
+}
+
 setInterval(() => {
   const now = Date.now();
   for (const id of Object.keys(rateLimitUsers)) {
@@ -2754,6 +2853,92 @@ const server = http.createServer(async function (req, res) {
         `account=; Path=/; HttpOnly; Secure; Max-Age=999999999; SameSite=None`,
       );
       decryptedUserdata = null;
+    }
+  }
+
+  if (urlsplit[1] == "webpush" && WEBPUSH_ENABLED) {
+    if (urlsplit[2] == "key" && req.method == "GET") {
+      res.end(WEBPUSH_PUBLIC_KEY);
+      return;
+    }
+
+    if (urlsplit[2] == "subscribe" && req.method == "POST") {
+
+      if (!decryptedUserdata) {
+        res.statusCode = 401;
+        res.end("No user cookie.");
+        return;
+      }
+
+      var stuff = await validateUserCookie(decryptedUserdata);
+      if (!stuff.valid) {
+        res.statusCode = 401;
+        res.end("User cookie is broken/expired.");
+        return;
+      }
+      try{
+        var jsonText = await waitForBody(req);
+      }catch(e){return;}
+      try{
+        var json = JSON.parse(jsonText.toString());
+      }catch(e){
+        res.statusCode = 401;
+        res.end("JSON content is invalid.");
+        return;
+      }
+      
+      try{
+        await registerPushNotifications(decryptedUserdata.username, json);
+        res.end("");
+        return;
+      }catch(e){
+        res.statusCode = 401;
+        res.end("Unable to register.");
+        return;
+      }
+    }
+
+    if (urlsplit[2] == "unsubscribe" && req.method == "POST") {
+
+      if (!decryptedUserdata) {
+        res.statusCode = 401;
+        res.end("No user cookie.");
+        return;
+      }
+
+      var stuff = await validateUserCookie(decryptedUserdata);
+      if (!stuff.valid) {
+        res.statusCode = 401;
+        res.end("User cookie is broken/expired.");
+        return;
+      }
+      try{
+        var jsonText = await waitForBody(req);
+      }catch(e){return;}
+      try{
+        var json = JSON.parse(jsonText.toString());
+      }catch(e){
+        res.statusCode = 401;
+        res.end("JSON content is invalid.");
+        return;
+      }
+
+      if (typeof json.endpoint == "string") {
+        res.statusCode = 401;
+        res.end("Endpoint is invalid type.");
+        return;
+      }
+
+      try{
+        await removeSubscriptionFromFile(decryptedUserdata.username, json.endpoint);
+        res.end("");
+        return;
+      }catch(e){
+        res.statusCode = 401;
+        res.end("Unable to deregister.");
+        return;
+      }
+
     }
   }
 

@@ -29,5 +29,7 @@ e.MAX_USERLIST_SIZE = 150; //Max usernames in user list.
 e.MAX_ROOM_NAME_SIZE = 230; //230 Characters max of room name.
 e.MAX_ROOM_DESCRIPTION_SIZE = 450; //450 Characters max of room discription.
 e.IP_BANS_FILE = "ip-bans.json";
+e.DEFAULT_WEBSITE = "https://randomrants-plus.onrender.com"; //Website used for web push if not specified by env
+e.MAX_PUSH_SUBSCRIPTIONS = 15; //Maximum subscriptions for push notifications.
 
 module.exports = e;

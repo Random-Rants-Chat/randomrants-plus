@@ -45,10 +45,13 @@ module.exports = {
     allowCollectingMemory: true,
   },
   devtool: false,
-  entry: pages.reduce((acc, page) => {
-    acc[page] = `./src/pages/${page}.js`;
-    return acc;
-  }, {}),
+  entry: {
+      sw: "./src/serviceworker/index.js",
+      ...pages.reduce((acc, page) => {
+      acc[page] = `./src/pages/${page}.js`;
+      return acc;
+    }, {})
+  },
   optimization: {
     splitChunks: {
       chunks: "all",

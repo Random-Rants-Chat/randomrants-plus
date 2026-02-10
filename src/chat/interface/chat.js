@@ -28,3 +28,6 @@ if (!currentRoom) {
 } else {
   require("./chatinterface.js");
 }
+
+
+require("./sw.js");

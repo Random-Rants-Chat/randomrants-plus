@@ -2,6 +2,8 @@ document.title = "Random Rants + | History";
 
 require("../cookiewarning");
 require("./stylesheet.js");
+require("../sw.js");
+
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 var accountHelper = require("../accounthelper/index.js");

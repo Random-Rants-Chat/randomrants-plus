@@ -631,9 +631,9 @@ class UserListMenu {
   getUsersPrompt(infoText = "Choose users") {
     var _this = this;
     return new Promise(async (accept, reject) => {
-      var usernameInput = null;
       await _this.loadUserListMenu();
       var selectedUsers = [];
+      var usernamesInput = null;
       var dialogElement = elements.appendElementsFromJSON(document.body, [
         {
           element: "div",
@@ -673,8 +673,15 @@ class UserListMenu {
                     {
                       event: "click",
                       func: function () {
+                        
+                        var val = ""+usernamesInput.value;
+                        var additionalNames = val.split(",");
+                        additionalNames = additionalNames.map((v) => v.trim());
+                        additionalNames = additionalNames.map((v) => v.toLowerCase());
+                        additionalNames = additionalNames.filter((v) => !!v);
+
                         dialogElement.remove();
-                        accept(selectedUsers);
+                        accept(selectedUsers.concat(additionalNames));
                       },
                     },
                   ],
@@ -730,6 +737,25 @@ class UserListMenu {
                     );
                   }),
                 },
+
+                {
+                  element: "span",
+                  textContent: "Additional names: ",
+                },
+                {
+                  element: "input",
+                  type: "text",
+                  GPWhenCreated: function (elm) {
+                    usernamesInput = elm;
+                  },
+                },
+                {
+                  element: "br"
+                },
+                {
+                  element: "span",
+                  textContent: "Enter usernames separated by commas. example: \"MOP3000,gvbvdxx\"."
+                }
               ],
             },
           ],

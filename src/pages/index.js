@@ -3,6 +3,7 @@ window.title = "Random Rants +";
 require("../mobile-viewport-fix");
 require("../cookiewarning");
 require("./stylesheet.js");
+require("../sw.js");
 var menuBar = require("../menu.js");
 var elements = require("../gp2/elements.js");
 var shtml = require("../safehtmlencode.js");
