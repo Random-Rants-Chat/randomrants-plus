@@ -208,6 +208,13 @@ class RealTimeNotifications {
         "/notifications",
       this.onMessage.bind(this),
     );
+
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'HEARTBEAT',
+        username: accountHelper.getCurrentValidationState()
+      });
+    }
   }
   onMessage(e) {
     var data = e.data;

@@ -18,28 +18,7 @@ async function sendPushNotification({title = APP_NAME, body = "", icon = "/image
   });
 }
 
-async function handlePush(event) {
-  const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true });
-
-  const isInsideChat = clientList.some(client => {
-    const url = new URL(client.url);
-    return url.pathname.startsWith('/chat') && client.visibilityState === 'visible';
-  });
-
-  var origin = ""+self.location.origin;
-  origin = origin.trim();
-  if (origin.endsWith("/")) {
-    origin = origin.slice(0,origin.length-1); //remove the ending slash.
-  }
-
-  // Parse the data sent from your Node.js server
-  var json = null;
-  if (event.data) {
-    json = event.data.json();
-  } else {
-    return;
-  }
-
+async function handleNotification(json) {
   if (json.type == "test") {
     sendPushNotification({
         body: "This is test notification"
@@ -63,6 +42,37 @@ async function handlePush(event) {
 
     return;
   }
+}
+
+async function handlePush(event) {
+  const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+
+  const isInsideChat = clientList.some(client => {
+    const url = new URL(client.url);
+    return url.pathname.startsWith('/chat') && client.visibilityState === 'visible';
+  });
+
+  var origin = ""+self.location.origin;
+  origin = origin.trim();
+  if (origin.endsWith("/")) {
+    origin = origin.slice(0,origin.length-1); //remove the ending slash.
+  }
+
+  // Parse the data sent from your Node.js server
+  var json = null;
+  if (event.data) {
+    json = event.data.json();
+  } else {
+    return;
+  }
+
+  await handleNotification(json);
+}
+
+function buildWsNotifyURL() {
+  var protocol = self.location.protocol === "https:" ? "wss://" : "ws://";
+  var wsUrl = `${protocol}${self.location.host}/notifications`;
+  return wsUrl;
 }
 
 // 2. Handle Notification Clicks
@@ -98,4 +108,71 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(clients.claim());
+});
+
+async function sendInitialNotifcations() {
+  var ws = new WebSocket(wsUrl);
+
+  setTimeout(() => {
+    try{
+      
+    }catch(e){
+      ws.close();
+    }
+  },2000);
+
+  ws.onmessage = async function (event) {
+    var json = JSON.parse(event.data);
+
+    if (json.type == "current") {
+      for (const notif of json.notifications) {
+        await handleNotification(notif);
+      }
+    }
+  };
+}
+
+self.addEventListener('message', async (event) => {
+  if (event.data && event.data.type === 'HEARTBEAT') {
+    var cache = await caches.open('rr-meta');
+    // Save the current timestamp
+    await cache.put('last-seen-online', new Response(Date.now().toString()));
+  }
+});
+
+async function checkReEngagement() {
+  var THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
+  var now = Date.now();
+  
+  var cache = await caches.open('rr-meta');
+  var lastSeenResponse = await cache.match('last-seen-online');
+  
+  if (lastSeenResponse) {
+    var lastSeen = parseInt(await lastSeenResponse.text());
+    
+    // If it's been more than 3 days since the last HEARTBEAT
+    if (now - lastSeen > THREE_DAYS) {
+      await sendPushNotification({
+        title: "Missing the chaos?",
+        body: "Your friends haven't seen you in a while! Jump back into the rants.",
+        tag: "re-engage",
+        data: { targetURL: "/chat" }
+      });
+      
+      // Update timestamp so we don't nag them again for another 3 days
+      await cache.put('last-seen-online', new Response(now.toString()));
+    }
+  }
+}
+
+var hasRunStartupCheck = false;
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    if (hasRunStartupCheck) return; // Skip if already done this session
+    hasRunStartupCheck = true;
+
+    await sendInitialNotifcations();
+    await checkReEngagement();
+  }));
 });

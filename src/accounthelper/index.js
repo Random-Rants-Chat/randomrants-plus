@@ -164,6 +164,17 @@ async function uploadPushSubscription(subscription) {
       }
 }
 
+async function uploadRemovePushSubscription(subscription) {
+  var response = await fetch(getServerURL() + '/webpush/unsubscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!response.ok) {
+        throw new Error("Issue when sending to remove subscription. Error: " +  await response.text());
+      }
+}
+
 pushNotificationHelper.subscribe = async function (retry = false) {
   var subscription = await pushNotificationHelper.getSubscription();
   if (subscription && !retry) {
@@ -172,6 +183,15 @@ pushNotificationHelper.subscribe = async function (retry = false) {
   var publicKey = await getPublicKey();
   subscription = await pushNotificationHelper.__subscribe(publicKey);
   await uploadPushSubscription(subscription);
+};
+
+pushNotificationHelper.unsubscribe = async function () {
+  var subscription = await pushNotificationHelper.getSubscription();
+  if (!subscription) {
+    return; //No subscription
+  }
+  await pushNotificationHelper.__unsubscribe();
+  await uploadRemovePushSubscription(subscription);
 };
 
 module.exports = {

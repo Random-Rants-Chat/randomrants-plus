@@ -1,3 +1,5 @@
+//This file goes along with accounthelper.js
+//Use accounthelper to get the full functions.
 var pushNotificationHelper = {};
 var _registerResolves = [];
 var _registerRejects = [];
@@ -67,5 +69,18 @@ pushNotificationHelper.__subscribe = async function (publicKey) {
 };
 
 pushNotificationHelper.subscribe = async () => {window.alert("pushNotificationHelper.subscribe needs to be overriden by accounthelper.");};
+
+pushNotificationHelper.__unsubscribe = async function () {
+    var registration = pushNotificationHelper.registration;
+    if (!registration) {
+        return;
+    }
+    var successful = await subscription.unsubscribe();
+    if (!successful) {
+        throw new Error("Unsubscribe was unsuccessful");
+    }
+};
+
+pushNotificationHelper.unsubscribe = async () => {window.alert("pushNotificationHelper.unsubscribe needs to be overriden by accounthelper.");};
 
 module.exports = pushNotificationHelper;
