@@ -34,6 +34,7 @@ var pushPromptCloseButtonNoShow = elements.getGPId("pushPromptCloseButtonNoShow"
           activatePushButton.textContent = "Now click the *real* allow button!";
           try{
             await notify.requestPermission();
+            activatePushButton.textContent = "Subscribing to push notifications...";
             await accountHelper.pushNotificationHelper.subscribe(true);
             activatePushDialog.hidden = true;
             dialogs.alert("Registered push notification subscription successfully!");
