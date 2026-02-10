@@ -169,7 +169,9 @@ async function uploadPushSubscription(subscription) {
 async function uploadRemovePushSubscription(subscription) {
   var response = await fetch(getServerURL() + "/webpush/unsubscribe", {
     method: "POST",
-    body: JSON.stringify(subscription),
+    body: JSON.stringify({
+      endpoint: subscription.endpoint
+    }),
     headers: { "Content-Type": "application/json" },
   });
   if (!response.ok) {
@@ -195,8 +197,8 @@ pushNotificationHelper.unsubscribe = async function () {
   if (!subscription) {
     return; //No subscription
   }
-  await pushNotificationHelper.__unsubscribe();
   await uploadRemovePushSubscription(subscription);
+  await pushNotificationHelper.__unsubscribe();
 };
 
 module.exports = {

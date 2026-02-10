@@ -2933,7 +2933,7 @@ const server = http.createServer(async function (req, res) {
         return;
       }
 
-      if (typeof json.endpoint == "string") {
+      if (typeof json.endpoint !== "string") {
         res.statusCode = 401;
         res.end("Endpoint is invalid type.");
         return;

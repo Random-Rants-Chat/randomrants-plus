@@ -214,6 +214,7 @@ class RealTimeNotifications {
           event: "click",
           func: function () {
             _this.dialogElement.hidden = false;
+            _this.loadNotifications();
           },
         },
       ],
