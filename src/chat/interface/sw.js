@@ -2,6 +2,7 @@
 var elements = require("../../gp2/elements.js");
 var accountHelper = require("../../accounthelper/index.js");
 var dialogs = require("../../dialogs.js");
+var notify = require("./notify.js");
 var session = accountHelper.getCurrentValidationState();
 var ASK_STORAGE_ID = "pushNotificationsDialogNoShow";
 
@@ -32,6 +33,7 @@ var pushPromptCloseButtonNoShow = elements.getGPId("pushPromptCloseButtonNoShow"
           subscribing = true;
           activatePushButton.textContent = "Now click the *real* allow button!";
           try{
+            await notify.requestPermission();
             await accountHelper.pushNotificationHelper.subscribe(true);
             activatePushDialog.hidden = true;
             dialogs.alert("Registered push notification subscription successfully!");
@@ -56,6 +58,7 @@ var pushPromptCloseButtonNoShow = elements.getGPId("pushPromptCloseButtonNoShow"
       }
     } else {
       localStorage.removeItem(ASK_STORAGE_ID);
+      await notify.requestPermission();
     }
 
   }

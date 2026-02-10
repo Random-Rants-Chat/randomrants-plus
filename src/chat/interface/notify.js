@@ -1,10 +1,12 @@
 var notify = {};
 
-(async function () {
-  notify.permission = await Notification.requestPermission();
-})();
-
 var lastNotifcation = null;
+
+notify.requestPermission = async function () {
+  try{
+    notify.permission = await Notification.requestPermission();
+  }catch(e){}
+};
 
 notify.sendIfNotOnScreen = function (tag, message, title = "Random Rants +") {
   if (document.visibilityState !== "visible") {
