@@ -42,7 +42,7 @@ I recommend using **Node.js 16.x**.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/Random-Rants-Chat/randomrants-plus.git](https://github.com/Random-Rants-Chat/randomrants-plus.git)
+    git clone https://github.com/Random-Rants-Chat/randomrants-plus.git
     cd randomrants-plus
     ```
     *(Or download the ZIP file and extract it).*
@@ -75,7 +75,7 @@ Once running, go to `http://localhost:3000/` to see the functional Random Rants 
 
 ## 👥 Credits
 
-* **Gvbvdxx:** Creator. Obsessed with code. Sacrificed education and homework to make this site. Banned from Scratch for making chat sites. Responsible for almost all the programming (with some help from ChatGPT & Gemini).
+* **Gvbvdxx:** Creator. Obsessed with code. Sacrificed education and homework to make this site. Banned from [Scratch](https://scratch.mit.edu) for making chat sites. Responsible for almost all the programming (with some help from ChatGPT & Gemini).
 * **MOP 3000 (aka Im_CatmanYT):** The Idea Guy. Came up with the concept of Random Rants. A 2D animator obsessed with animation.
 
 ---
