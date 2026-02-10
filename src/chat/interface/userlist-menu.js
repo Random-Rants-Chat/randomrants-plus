@@ -673,11 +673,12 @@ class UserListMenu {
                     {
                       event: "click",
                       func: function () {
-                        
-                        var val = ""+usernamesInput.value;
+                        var val = "" + usernamesInput.value;
                         var additionalNames = val.split(",");
                         additionalNames = additionalNames.map((v) => v.trim());
-                        additionalNames = additionalNames.map((v) => v.toLowerCase());
+                        additionalNames = additionalNames.map((v) =>
+                          v.toLowerCase(),
+                        );
                         additionalNames = additionalNames.filter((v) => !!v);
 
                         dialogElement.remove();
@@ -750,12 +751,13 @@ class UserListMenu {
                   },
                 },
                 {
-                  element: "br"
+                  element: "br",
                 },
                 {
                   element: "span",
-                  textContent: "Enter usernames separated by commas. example: \"MOP3000,gvbvdxx\"."
-                }
+                  textContent:
+                    'Enter usernames separated by commas. example: "MOP3000,gvbvdxx".',
+                },
               ],
             },
           ],

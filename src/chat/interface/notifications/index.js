@@ -10,11 +10,13 @@ var sws = require("./sws.js");
 var isSecure = require("../is-secure.js");
 var roomSelect = require("../roomselect.js");
 var LoadingScreen = require("../mini-loader.js");
+const dialog = require("../../../dialogs.js");
 
 class RealTimeNotifications {
   constructor() {
     this.menuElement = null;
     this.notificationDiv = null;
+    this.removeSWPButton = null;
     var _this = this;
 
     this.dialogElement = elements.appendElementsFromJSON(document.body, [
@@ -119,6 +121,24 @@ class RealTimeNotifications {
 
               {
                 element: "div",
+                className: "divButton roundborder",
+                textContent: "Disable push notifications",
+                GPWhenCreated: function (elm) {
+                  _this.removeSWPButton = elm;
+                },
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: this.requestDisablePush.bind(this),
+                  },
+                ],
+              },
+              {
+                element: "br",
+              },
+
+              {
+                element: "div",
                 className: "notificationsDiv",
                 GPWhenCreated: function (elm) {
                   _this.notificationDiv = elm;
@@ -209,11 +229,14 @@ class RealTimeNotifications {
       this.onMessage.bind(this),
     );
 
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'HEARTBEAT',
-        username: accountHelper.getCurrentValidationState()
-      });
+    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+      try {
+        var stuff = accountHelper.getCurrentValidationState();
+        navigator.serviceWorker.controller.postMessage({
+          type: "HEARTBEAT",
+          ...stuff,
+        });
+      } catch (e) {}
     }
   }
   onMessage(e) {
@@ -278,13 +301,17 @@ class RealTimeNotifications {
   }
 
   loadNotifications() {
+    var _this = this;
+    (async function () {
+      _this.removeSWPButton.hidden = !(await accountHelper.pushNotificationHelper.getSubscription());
+      
+    })();
     this.notificationDot.textContent = this.notifications.length;
     this.notificationDot.hidden = false;
     if (this.notifications.length < 1) {
       this.notificationDot.textContent = "";
       this.notificationDot.hidden = true;
     }
-    var _this = this;
     elements.setInnerJSON(
       this.notificationDiv,
       this.notifications.map((notification) => {
@@ -378,6 +405,24 @@ class RealTimeNotifications {
         return div;
       }),
     );
+  }
+
+  async requestDisablePush() {
+    var output = await dialogs.confirm("Are you sure you want to disable push notifications? If you do that, you'll not recieve any more system notifications from the bell.");
+
+    if (!output) {
+      return;
+    }
+
+    try{
+      await accountHelper.pushNotificationHelper.unsubscribe();
+      dialogs.alert("Push notifications disabled successfully!");
+    }catch(e){
+      dialogs.alert("Unable to disable push notifications: "+e);
+      console.error(e);
+    }
+
+    this.loadNotifications();
   }
 }
 

@@ -9,18 +9,21 @@ var ASK_STORAGE_ID = "pushNotificationsDialogNoShow";
 var activatePushDialog = elements.getGPId("activatePushDialog");
 var activatePushButton = elements.getGPId("activatePushButton");
 var pushPromptCloseButton = elements.getGPId("pushPromptCloseButton");
-var pushPromptCloseButtonNoShow = elements.getGPId("pushPromptCloseButtonNoShow");
+var pushPromptCloseButtonNoShow = elements.getGPId(
+  "pushPromptCloseButtonNoShow",
+);
 
 (async function () {
   if (session) {
-    try{
+    try {
       await accountHelper.pushNotificationHelper.register();
-    }catch(e){}
+    } catch (e) {}
 
     var subscription = null;
-    try{
-      subscription = await accountHelper.pushNotificationHelper.getSubscription();
-    }catch(e){}
+    try {
+      subscription =
+        await accountHelper.pushNotificationHelper.getSubscription();
+    } catch (e) {}
 
     if (!subscription) {
       if (!localStorage.getItem(ASK_STORAGE_ID)) {
@@ -32,14 +35,20 @@ var pushPromptCloseButtonNoShow = elements.getGPId("pushPromptCloseButtonNoShow"
           }
           subscribing = true;
           activatePushButton.textContent = "Now click the *real* allow button!";
-          try{
+          try {
             await notify.requestPermission();
-            activatePushButton.textContent = "Subscribing to push notifications...";
+            activatePushButton.textContent =
+              "Subscribing to push notifications...";
             await accountHelper.pushNotificationHelper.subscribe(true);
             activatePushDialog.hidden = true;
-            dialogs.alert("Registered push notification subscription successfully!");
-          }catch(e){
-            dialogs.alert("Couldn't subscribe to push notifications, click to try again. Error message: "+e);
+            dialogs.alert(
+              "Registered push notification subscription successfully!",
+            );
+          } catch (e) {
+            dialogs.alert(
+              "Couldn't subscribe to push notifications, click to try again. Error message: " +
+                e,
+            );
             console.error(e);
           }
           activatePushButton.textContent = "Click to try subscribing again";
@@ -59,8 +68,6 @@ var pushPromptCloseButtonNoShow = elements.getGPId("pushPromptCloseButtonNoShow"
       }
     } else {
       localStorage.removeItem(ASK_STORAGE_ID);
-      await notify.requestPermission();
     }
-
   }
 })();

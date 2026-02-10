@@ -2,26 +2,43 @@ const CHAT_PATH = "/chat";
 const APP_NAME = "Random Rants +";
 const DEFAULT_TAG = "randomrants-plus";
 
-self.addEventListener('push', async (event) => {
+var origin = "" + self.location.origin;
+origin = origin.trim();
+if (origin.endsWith("/")) {
+  origin = origin.slice(0, origin.length - 1); //remove the ending slash.
+}
+
+async function isUserSubscribed() {
+  const subscription = await self.registration.pushManager.getSubscription();
+  return !!subscription; // returns true if subscription exists, false otherwise
+}
+
+self.addEventListener("push", async (event) => {
   event.waitUntil(handlePush(event));
 });
 
-async function sendPushNotification({title = APP_NAME, body = "", icon = "/images/push-notify-icon.png", tag = DEFAULT_TAG, data = {}}) {
-    await self.registration.showNotification(title, {
+async function sendPushNotification({
+  title = APP_NAME,
+  body = "",
+  icon = "/images/push-notify-icon.png",
+  tag = DEFAULT_TAG,
+  data = {},
+}) {
+  await self.registration.showNotification(title, {
     body: body,
     icon: icon,
     badge: icon,
-    tag: tag,         // Replaces old invites in the tray
-    renotify: true,           // Always popup/sound even if tag matches
+    tag: tag, // Replaces old invites in the tray
+    renotify: true, // Always popup/sound even if tag matches
     requireInteraction: true, // Force it to stay visible on Chromebooks
-    data: data
+    data: data,
   });
 }
 
 async function handleNotification(json) {
   if (json.type == "test") {
     sendPushNotification({
-        body: "This is test notification"
+      body: "This is test notification",
     });
     return;
   }
@@ -36,8 +53,8 @@ async function handleNotification(json) {
       title: "Random Rants + | New Invite!",
       body: `@${from} has invited you to room "${roomName}"! Click to join!`,
       data: {
-        targetURL
-      }
+        targetURL,
+      },
     });
 
     return;
@@ -45,18 +62,17 @@ async function handleNotification(json) {
 }
 
 async function handlePush(event) {
-  const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true });
-
-  const isInsideChat = clientList.some(client => {
-    const url = new URL(client.url);
-    return url.pathname.startsWith('/chat') && client.visibilityState === 'visible';
+  const clientList = await clients.matchAll({
+    type: "window",
+    includeUncontrolled: true,
   });
 
-  var origin = ""+self.location.origin;
-  origin = origin.trim();
-  if (origin.endsWith("/")) {
-    origin = origin.slice(0,origin.length-1); //remove the ending slash.
-  }
+  const isInsideChat = clientList.some((client) => {
+    const url = new URL(client.url);
+    return (
+      url.pathname.startsWith("/chat") && client.visibilityState === "visible"
+    );
+  });
 
   // Parse the data sent from your Node.js server
   var json = null;
@@ -76,7 +92,7 @@ function buildWsNotifyURL() {
 }
 
 // 2. Handle Notification Clicks
-self.addEventListener('notificationclick', (event) => {
+self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   event.waitUntil(handleNotificationClick(event));
 });
@@ -86,11 +102,14 @@ async function handleNotificationClick(event) {
   if (!targetURL) {
     return;
   }
-  const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+  const clientList = await clients.matchAll({
+    type: "window",
+    includeUncontrolled: true,
+  });
 
   // If the room is already open in a tab, just focus it
   for (const client of clientList) {
-    if (client.url === targetURL && 'focus' in client) {
+    if (client.url === targetURL && "focus" in client) {
       return client.focus();
     }
   }
@@ -102,11 +121,11 @@ async function handleNotificationClick(event) {
 }
 
 // 3. Lifecycle Management
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(clients.claim());
 });
 
@@ -114,12 +133,11 @@ async function sendInitialNotifcations() {
   var ws = new WebSocket(wsUrl);
 
   setTimeout(() => {
-    try{
-      
-    }catch(e){
+    try {
+    } catch (e) {
       ws.close();
     }
-  },2000);
+  }, 2000);
 
   ws.onmessage = async function (event) {
     var json = JSON.parse(event.data);
@@ -132,47 +150,53 @@ async function sendInitialNotifcations() {
   };
 }
 
-self.addEventListener('message', async (event) => {
-  if (event.data && event.data.type === 'HEARTBEAT') {
-    var cache = await caches.open('rr-meta');
+self.addEventListener("message", async (event) => {
+  if (event.data && event.data.type === "HEARTBEAT") {
+    var cache = await caches.open("rr-meta");
     // Save the current timestamp
-    await cache.put('last-seen-online', new Response(Date.now().toString()));
+    await cache.put("last-seen-online", new Response(Date.now().toString()));
   }
 });
 
 async function checkReEngagement() {
   var THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
   var now = Date.now();
-  
-  var cache = await caches.open('rr-meta');
-  var lastSeenResponse = await cache.match('last-seen-online');
-  
+
+  var cache = await caches.open("rr-meta");
+  var lastSeenResponse = await cache.match("last-seen-online");
+
   if (lastSeenResponse) {
     var lastSeen = parseInt(await lastSeenResponse.text());
-    
+
     // If it's been more than 3 days since the last HEARTBEAT
     if (now - lastSeen > THREE_DAYS) {
       await sendPushNotification({
         title: "Missing the chaos?",
         body: "Your friends haven't seen you in a while! Jump back into the rants.",
         tag: "re-engage",
-        data: { targetURL: "/chat" }
+        data: { targetURL: "/chat" },
       });
-      
+
       // Update timestamp so we don't nag them again for another 3 days
-      await cache.put('last-seen-online', new Response(now.toString()));
+      await cache.put("last-seen-online", new Response(now.toString()));
     }
   }
 }
 
 var hasRunStartupCheck = false;
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil((async () => {
+self.addEventListener("activate", (event) => {
+  event.waitUntil(async () => {
+    await clients.claim();
+
+    if (!(await isUserSubscribed())) {
+      return;
+    }
+
     if (hasRunStartupCheck) return; // Skip if already done this session
     hasRunStartupCheck = true;
 
     await sendInitialNotifcations();
     await checkReEngagement();
-  }));
+  });
 });

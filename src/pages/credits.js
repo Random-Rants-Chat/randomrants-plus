@@ -3,7 +3,6 @@ require("./stylesheet.js");
 require("./navigate-loader.js");
 require("../sw.js");
 
-
 document.title = "Random Rants + | Credits";
 
 var menuBar = require("../menu.js");

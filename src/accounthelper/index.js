@@ -154,25 +154,30 @@ async function getPublicKey() {
 }
 
 async function uploadPushSubscription(subscription) {
-  var response = await fetch(getServerURL() + '/webpush/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (!response.ok) {
-        throw new Error("Issue when sending subscription. Error: " +  await response.text());
-      }
+  var response = await fetch(getServerURL() + "/webpush/subscribe", {
+    method: "POST",
+    body: JSON.stringify(subscription),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error(
+      "Issue when sending subscription. Error: " + (await response.text()),
+    );
+  }
 }
 
 async function uploadRemovePushSubscription(subscription) {
-  var response = await fetch(getServerURL() + '/webpush/unsubscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (!response.ok) {
-        throw new Error("Issue when sending to remove subscription. Error: " +  await response.text());
-      }
+  var response = await fetch(getServerURL() + "/webpush/unsubscribe", {
+    method: "POST",
+    body: JSON.stringify(subscription),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error(
+      "Issue when sending to remove subscription. Error: " +
+        (await response.text()),
+    );
+  }
 }
 
 pushNotificationHelper.subscribe = async function (retry = false) {
@@ -209,5 +214,5 @@ module.exports = {
   getJoinedRooms,
   removeJoinedRoom,
   getPublicKey,
-  pushNotificationHelper
+  pushNotificationHelper,
 };

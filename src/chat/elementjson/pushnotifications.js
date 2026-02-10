@@ -24,8 +24,7 @@ module.exports = {
             fontWeight: "bold",
             fontSize: "30px",
           },
-          textContent:
-            "Activate push notifcations? "
+          textContent: "Activate push notifcations? ",
         },
         {
           element: "div",

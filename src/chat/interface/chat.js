@@ -29,5 +29,4 @@ if (!currentRoom) {
   require("./chatinterface.js");
 }
 
-
 require("./sw.js");
