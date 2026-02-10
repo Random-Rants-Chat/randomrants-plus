@@ -754,7 +754,7 @@ class CommandHandler {
 
         return CommandHandler.HIDE_MESSAGE;
       },
-      "",
+      "<Username>[br] Applies a Australian joke filter to users specified, and the users with the filter also get their display names and profile pictures upside down appearing to other users. This can be cleared with a hidden command",
       true,
     );
 
