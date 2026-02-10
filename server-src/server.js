@@ -861,6 +861,9 @@ async function destroyAccount(username) {
   try {
     await storage.deleteFile(`userlist-${username}.json`);
   } catch (e) {}
+  try {
+    await storage.deleteFile(`push_sub_${username}.json`);
+  } catch (e) {}
 }
 
 async function updateUserPassword(username, newPassword) {

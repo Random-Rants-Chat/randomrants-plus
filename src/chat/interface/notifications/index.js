@@ -17,6 +17,7 @@ class RealTimeNotifications {
     this.menuElement = null;
     this.notificationDiv = null;
     this.removeSWPButton = null;
+    this.addSWPButton = null;
     var _this = this;
 
     this.dialogElement = elements.appendElementsFromJSON(document.body, [
@@ -130,6 +131,20 @@ class RealTimeNotifications {
                   {
                     event: "click",
                     func: this.requestDisablePush.bind(this),
+                  },
+                ],
+              },
+              {
+                element: "div",
+                className: "divButton roundborder",
+                textContent: "Enable push notifications",
+                GPWhenCreated: function (elm) {
+                  _this.addSWPButton = elm;
+                },
+                eventListeners: [
+                  {
+                    event: "click",
+                    func: this.requestEnablePush.bind(this),
                   },
                 ],
               },
@@ -304,8 +319,9 @@ class RealTimeNotifications {
   loadNotifications() {
     var _this = this;
     (async function () {
-      _this.removeSWPButton.hidden = !(await accountHelper.pushNotificationHelper.getSubscription());
-      
+      var sub = await accountHelper.pushNotificationHelper.getSubscription();
+      _this.removeSWPButton.hidden = !sub;
+      _this.addSWPButton.hidden = !!sub;
     })();
     this.notificationDot.textContent = this.notifications.length;
     this.notificationDot.hidden = false;
@@ -409,6 +425,11 @@ class RealTimeNotifications {
   }
 
   async requestDisablePush() {
+    if (this._disablingSWP) {
+      return;
+    }
+    this._disablingSWP = true;
+
     var output = await dialogs.confirm("Are you sure you want to disable push notifications? If you do that, you'll not recieve any more system notifications from the bell.");
 
     if (!output) {
@@ -424,6 +445,27 @@ class RealTimeNotifications {
     }
 
     this.loadNotifications();
+    this._disablingSWP = false;
+  }
+
+  async requestEnablePush() {
+    if (this._enablingSWP) {
+      return;
+    }
+    this._enablingSWP = true;
+    var prevText = this.addSWPButton.textContent;
+    try{
+      this.addSWPButton.textContent = "Click allow if it appears anywhere";
+      await notify.requestPermission();
+      this.addSWPButton.textContent = "Subscribing to push notifications...";
+      await accountHelper.pushNotificationHelper.subscribe();
+    }catch(e){
+      dialog.alert("Unable to enable push notifications: "+e);
+      console.error(e);
+    }
+    this.loadNotifications();
+    this._enablingSWP = false;
+    this.addSWPButton.textContent = prevText;
   }
 }
 
