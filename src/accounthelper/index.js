@@ -43,9 +43,19 @@ async function checkSessionCookie() {
       return json;
     }
     lastValidationState = null;
+    (async function () {
+      try{
+        await pushNotificationHelper.__unsubscribe()
+      }catch(e){}
+    })();
     return false;
   } catch (e) {
     lastValidationState = null;
+    (async function () {
+      try{
+        await pushNotificationHelper.__unsubscribe()
+      }catch(e){}
+    })();
     return false;
   }
 }
@@ -83,9 +93,19 @@ async function signupAccount(username, password, robot_check_id) {
 }
 
 async function logoutOfAccount() {
+  (async function () {
+      try{
+        await pushNotificationHelper.unsubscribe()
+      }catch(e){}
+    })();
   var request = await fetch(getServerURL() + "/account/logout", {
     method: "POST",
   });
+  (async function () {
+      try{
+        await pushNotificationHelper.__unsubscribe()
+      }catch(e){}
+    })();
 }
 
 function getProfilePictureURL(username) {
