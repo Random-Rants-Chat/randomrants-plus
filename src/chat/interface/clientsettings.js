@@ -157,7 +157,7 @@ class ClientSettingsMenu {
                   {
                     element: "p",
                     textContent:
-                      "For notifcations to work, make sure your current notifcations are cleared on your device and not blocked, and make sure the site is allowed to send notifications",
+                      "For notifcations to work, make sure your current notifcations are cleared on your device and not blocked, and make sure the site is allowed to send notifications, also make sure push notifications are enabled by going to the bell icon (only works if you're signed in).",
                   },
                 ],
               },
