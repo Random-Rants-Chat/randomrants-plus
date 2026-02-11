@@ -1,85 +1,48 @@
-We stopped paying attention to the board so we could pay attention to the code.
-Built during the hours that were definitely assigned for Algebra.
-We took "independent study" a little too literally.
-This site's updates is the result of ignoring the teacher for seven hours straight.
-The curriculum said History; our screens said JavaScript.
-Every line of code here represents a lecture we didn't listen to.
-We tuned out the classroom noise to tune in the features.
-Our report cards suffered so this platform could thrive.
-We traded our honor roll spots for server uptime.
-This project is 10% coding skill and 90% ignored homework.
-We invested our entire GPA into making this site work.
-Education was the price we paid to get this running.
-We procrastinated our entire education, to make this.
-We keep coming back, no matter how many times we get locked out.
-This project survived multiple device confiscations.
-We swapped listening to lectures for debugging server code in the back row.
-Built during the hours that were definitely assigned for Algebra class.
-We ignored the curriculum to give you a place to ignore it too.
-We treat all our classes like coding classes.
-Every feature here cost us a letter grade and a missed assignment.
-Turning mandatory study hall into voluntary full-stack dev time.
-Updates are random because life keeps getting in the way.
-Late-night debugging: fueled by cold pizza and stubborn hope.
-Feature shipped after one Stack Overflow answer and several tears.
-Press F to pay respects to the missing semicolon.
-Made possible by duct tape, caffeine, and a mysterious rubber duck.
-Push, commit, pray, repeat.
-Shipping features at 2 AM because that's when magic happens.
-Rewrote the CSS five times to achieve "acceptable".
-Our CI passes intermittently, like a mood swing.
-One commit to rule them all (and five revert commits).
-Design is "good enough" until the user complains.
-Known issue: users will find the bug you promised never existed.
-Server is online if you ignore the logs.
-The soundboard was added because it felt personal.
-UI decisions made by rock-paper-scissors.
-Every deploy includes a whispered apology to the database.
-The history page exists to remind us we once had clean code.
-Bug fixes are just feature previews for the next sprint.
-Permissions are suggestions, not rules.
-This site runs on optimism and donated bandwidth.
-Updates are backlogged until inspiration or panic arrives.
-About page: written by people who prefer keyboards to small talk.
-Credits: assembled from late commits and lots of gratitude.
-Our roadmap is a sticky note on someone's monitor.
-Privacy: we try, unless it's hilariously public already.
-Security: locks are suggestions when you know the admin.
-Owner privileges: can restart your room and your dignity.
-Room owners reserve the right to mute bad karaoke.
-Admins fix things by restarting the server and blaming the timezone.
-If your message disappears, blame the ;restart command.
-We have a history page because someone cares about past regrets.
-The about page contains at least one awkward sentence about us.
-This site's features were debated over snacks and memes.
-We added the soundboard because silence is overrated.
-Confetti exists to celebrate small victories and terrible jokes.
-One brave contributor once learned regex for this feature.
-The UI was approved by an internal committee of two people.
-Our bug tracker is a to-do list taped to the wall.
-Every admin command was tested on an unsuspecting friend.
-If the owner says "trust me", proceed with caution and a screenshot.
-The nickname feature is for creativity and occasional chaos.
-We deploy things on Fridays and call it "spontaneous testing".
-This project runs on shared snacks and mutual stubbornness.
-We apologize for any downtime caused by caffeine shortages.
-Moderation tools exist to maintain order or enact dramatic flair.
-The mute button: democracy for the room owner.
-Redirects are used for gentle encouragement or subtle pranks.
-Broadcasts are how we get everyone's attention quickly and loudly.
-Popup messages are perfect for surprise announcements and emotes.
-RunAs is a powerful tool; don't impersonate unless it's comedic.
-The 'Australian' joke filter is a tribute to harmless chaos.
-We keep a secret stash of meme images for emergencies.
-This chat remembers your weirdest moments so you don't have to.
-The history page is sometimes a time capsule of questionable taste.
-Our help command is a map through the labyrinth of fun features.
-Room restarts clear messages and make room for new mistakes.
-Owners sometimes hold the power to make the UI dance.
-We built the site to talk, laugh, and occasionally fix things.
-If you see a hidden command, try it only if you accept consequences.
-Documentation exists where caffeine and patience align.
-Some features were named during a sleep-deprived brainstorm.
-The soundboard was tuned by people with very specific humor.
-Every feature has at least one triumphant and one regretful commit.
-We value creativity, curiosity, and the occasional well-placed meme.
+We paid for this site using Education.
+Our parents are dissapointed for every minute spent working on this site.
+Your perfect replacement for your phone in school.
+We replaced every second of class time with code time.
+This site was built on coffee and questionable life choices.
+Our GPA sacrificed so you could chat.
+Homework? We don't know her.
+If grades were server uptime, we'd be bankrupt.
+Built by students, for students who should be studying.
+Our college acceptance odds: unknown.
+Coding > Calculus (according to us).
+If our parents could see the git history...
+This is what happens when you give students free time.
+We turned "go to class" into "go to code".
+Our school: where education goes to die.
+Deadlines? We prefer "guidelines".
+This runs better than our scholarship applications.
+Peer reviewed by students who should be peer tutoring.
+Made with the tears of failed tests.
+Powered by spite and caffeine.
+Our guidance counselors hate us.
+This site has better uptime than our attendance.
+We regret nothing (our parents regret everything).
+Built during school hours we paid for.
+Our teachers are so proud (they're not).
+If it's stupid but it works, it's still stupid but it works.
+We'd apologize but we're too busy coding.
+This is what happens when you trust students with servers.
+Our focus: inversely proportional to our grades.
+Built by procrastinators, for procrastinators.
+Deadlines are more of a suggestion.
+We chose chaos, got a website.
+Our parents' disappointment fuels the servers.
+Should be doing homework. Are running servers instead.
+Academic responsibility: 0%.
+Our motivation chart: empty.
+If laziness was a feature, we'd patent it.
+This site: proof that skipping class has a purpose.
+Our time management: oxymoronic.
+We break things daily, fix them nightly.
+Inspired by the teachers we're ignoring.
+Built with the energy of expired coffee.
+Our commitment to learning: flexible.
+Turning failing grades into firewall rules.
+If coding was homework, we'd have perfect marks.
+Our parents' therapy bills: funded by this site.
+This is what unfinished assignments look like.
+Built on broken promises and broken sleep cycles.
