@@ -40,21 +40,36 @@ async function checkSessionCookie() {
     var json = await request.json();
     if (json.valid) {
       lastValidationState = json;
+      try {
+        var subscription = await pushNotificationHelper.getSubscription();
+      } catch (e) {
+        return json;
+      }
+      if (!subscription) {
+        return json;
+      }
+      if (json.endpoint !== subscription.endpoint) {
+        try {
+          await uploadPushSubscription(subscription);
+        } catch (e) {
+          console.log("Error updating push subscription:", e);
+        }
+      }
       return json;
     }
     lastValidationState = null;
     (async function () {
-      try{
-        await pushNotificationHelper.__unsubscribe()
-      }catch(e){}
+      try {
+        await pushNotificationHelper.__unsubscribe();
+      } catch (e) {}
     })();
     return false;
   } catch (e) {
     lastValidationState = null;
     (async function () {
-      try{
-        await pushNotificationHelper.__unsubscribe()
-      }catch(e){}
+      try {
+        await pushNotificationHelper.__unsubscribe();
+      } catch (e) {}
     })();
     return false;
   }
@@ -94,18 +109,18 @@ async function signupAccount(username, password, robot_check_id) {
 
 async function logoutOfAccount() {
   (async function () {
-      try{
-        await pushNotificationHelper.unsubscribe()
-      }catch(e){}
-    })();
+    try {
+      await pushNotificationHelper.unsubscribe();
+    } catch (e) {}
+  })();
   var request = await fetch(getServerURL() + "/account/logout", {
     method: "POST",
   });
   (async function () {
-      try{
-        await pushNotificationHelper.__unsubscribe()
-      }catch(e){}
-    })();
+    try {
+      await pushNotificationHelper.__unsubscribe();
+    } catch (e) {}
+  })();
 }
 
 function getProfilePictureURL(username) {
@@ -190,16 +205,16 @@ async function uploadRemovePushSubscription(subscription) {
   var response = await fetch(getServerURL() + "/webpush/unsubscribe", {
     method: "POST",
     body: JSON.stringify({
-      endpoint: subscription.endpoint
+      endpoint: subscription.endpoint,
     }),
     headers: { "Content-Type": "application/json" },
   });
-  if (!response.ok) {
+  /*if (!response.ok) {
     throw new Error(
       "Issue when sending to remove subscription. Error: " +
         (await response.text()),
     );
-  }
+  }*/
 }
 
 pushNotificationHelper.subscribe = async function (retry = false) {

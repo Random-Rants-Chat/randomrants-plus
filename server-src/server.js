@@ -395,16 +395,19 @@ async function validateUserCookie(decryptedUserdata) {
       json.sessions = [];
     }
     const currentSessionToken = decryptedUserdata.session;
-    const isValidSession = json.sessions.some(
-      (session) => session.id === currentSessionToken,
+    const curSession = json.sessions.find(
+      (session) => session.id == currentSessionToken,
     );
-    if (isValidSession) {
+    if (curSession) {
+      var pushSubscription = curSession.pushSubscription;
       return {
         color,
         font,
         displayName,
         success: true,
         valid: true,
+        sessionCreated: curSession.created,
+        pushEndpoint: pushSubscription ? pushSubscription.endpoint : undefined,
       };
     } else {
       return {
@@ -2653,73 +2656,73 @@ function applyRateLimit(req) {
   return false;
 }
 
-async function registerPushNotifications(username, newSubscription) {
-  var filename = `push_sub_${username.trim().toLowerCase()}.json`;
-  var subscriptions = [];
+async function registerPushNotifications(decryptedUserdata, newSubscription) {
+  var userFile = `user-${decryptedUserdata.username}.json`;
+  var data = await storage.downloadFile(userFile);
+  var json = JSON.parse(data);
 
-  try {
-    // 1. Try to download existing subs
-    const buffer = await storage.downloadFile(filename, false);
-    subscriptions = JSON.parse(buffer.toString());
-
-    // 2. Prevent duplicates (check if endpoint already exists)
-    const exists = subscriptions.find(
-      (s) => s.endpoint === newSubscription.endpoint,
-    );
-    if (!exists) {
-      subscriptions.push(newSubscription);
-    }
-    subscriptions = subscriptions.slice(-cons.MAX_PUSH_SUBSCRIPTIONS);
-  } catch (err) {
-    // File doesn't exist yet, start a new list
-    subscriptions = [newSubscription];
+  var sessionID = decryptedUserdata.session;
+  if (!json.sessions) {
+    throw new Error("User data is missing sessions array");
+  }
+  var currentSession = json.sessions.find((s) => s.id == sessionID);
+  if (!currentSession) {
+    throw new Error("Current session not found in user data");
   }
 
-  // 3. Upload the updated list
-  await storage.uploadFile(
-    filename,
-    JSON.stringify(subscriptions),
-    "application/json",
-  );
+  currentSession.pushSubscription = newSubscription;
+
+  await storage.uploadFile(userFile, JSON.stringify(json), "application/json");
 }
 
 async function removeSubscriptionFromFile(username, endpointToRemove) {
-  const filename = `push_sub_${username.toLowerCase()}.json`;
+  var userFile = `user-${username}.json`;
+  var data = await storage.downloadFile(userFile);
+  var json = JSON.parse(data);
 
-  try {
-    // 1. Download the current list of devices
-    const buffer = await storage.downloadFile(filename, false);
-    let subscriptions = JSON.parse(buffer.toString());
-
-    // 2. Filter out the specific endpoint
-    const updatedSubscriptions = subscriptions.filter(
-      (sub) => sub.endpoint !== endpointToRemove,
-    );
-
-    // 3. If no subscriptions are left, delete the file; otherwise, update it
-    if (updatedSubscriptions.length === 0) {
-      await storage.deleteFile(filename);
-    } else {
-      await storage.uploadFile(
-        filename,
-        JSON.stringify(updatedSubscriptions),
-        "application/json",
-      );
+  if (json.sessions) {
+    for (const session of json.sessions) {
+      if (
+        session.pushSubscription &&
+        session.pushSubscription.endpoint == endpointToRemove
+      ) {
+        session.pushSubscription = null;
+        break;
+      }
     }
-  } catch (err) {
-    console.error("Error removing subscription:", err);
   }
+
+  await storage.uploadFile(userFile, JSON.stringify(json), "application/json");
 }
 
 async function getSubscriptions(username) {
   try {
-    const filename = `push_sub_${username.toLowerCase()}.json`;
-    const buffer = await storage.downloadFile(filename, false);
-    let subscriptions = JSON.parse(buffer.toString());
+    var userFile = `user-${username}.json`;
+    var data = await storage.downloadFile(userFile);
+    var json = JSON.parse(data);
 
-    return subscriptions;
+    if (json.sessions) {
+      var subscriptions = [];
+      for (const session of json.sessions) {
+        if (session.pushSubscription) {
+          subscriptions.push(session.pushSubscription);
+        }
+      }
+      return subscriptions;
+    } else {
+      return null;
+    }
   } catch (e) {
     return;
+  }
+}
+
+async function hasSubscription(username, subscription) {
+  const subs = await getSubscriptions(username);
+  if (subs) {
+    return subs.some((sub) => sub.endpoint == subscription.endpoint);
+  } else {
+    return false;
   }
 }
 
@@ -2733,7 +2736,6 @@ async function sendPushMessage(username, payload) {
     } catch (err) {
       // 404: Not Found, 410: Gone (Unsubscribed)
       if (err.statusCode === 404 || err.statusCode === 410) {
-        console.log(`Cleaning up dead subscription for ${username}`);
         await removeSubscriptionFromFile(username, sub.endpoint);
       }
     }
@@ -2900,7 +2902,7 @@ const server = http.createServer(async function (req, res) {
       }
 
       try {
-        await registerPushNotifications(decryptedUserdata.username, json);
+        await registerPushNotifications(decryptedUserdata, json);
         res.end("");
         return;
       } catch (e) {

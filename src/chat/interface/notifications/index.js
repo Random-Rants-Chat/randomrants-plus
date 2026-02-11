@@ -430,17 +430,19 @@ class RealTimeNotifications {
     }
     this._disablingSWP = true;
 
-    var output = await dialogs.confirm("Are you sure you want to disable push notifications? If you do that, you'll not recieve any more system notifications from the bell.");
+    var output = await dialogs.confirm(
+      "Are you sure you want to disable push notifications? If you do that, you'll not recieve any more system notifications from the bell.",
+    );
 
     if (!output) {
       return;
     }
 
-    try{
+    try {
       await accountHelper.pushNotificationHelper.unsubscribe();
       dialogs.alert("Push notifications disabled successfully!");
-    }catch(e){
-      dialogs.alert("Unable to disable push notifications: "+e);
+    } catch (e) {
+      dialogs.alert("Unable to disable push notifications: " + e);
       console.error(e);
     }
 
@@ -454,13 +456,13 @@ class RealTimeNotifications {
     }
     this._enablingSWP = true;
     var prevText = this.addSWPButton.textContent;
-    try{
+    try {
       this.addSWPButton.textContent = "Click allow if it appears anywhere";
       await notify.requestPermission();
       this.addSWPButton.textContent = "Subscribing to push notifications...";
       await accountHelper.pushNotificationHelper.subscribe();
-    }catch(e){
-      dialog.alert("Unable to enable push notifications: "+e);
+    } catch (e) {
+      dialog.alert("Unable to enable push notifications: " + e);
       console.error(e);
     }
     this.loadNotifications();
