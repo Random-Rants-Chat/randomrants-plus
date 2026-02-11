@@ -7,7 +7,7 @@ This is the custom rendering engine for Random Rants +. It allows us to build th
 
 ## 🚀 Basic Usage
 To create an element, pass an array of objects to elements.createElementsFromJSON().
-
+```javascript
 const elements = require('./gp2/elements.js');
 
 const myUI = elements.createElementsFromJSON([
@@ -29,6 +29,7 @@ const myUI = elements.createElementsFromJSON([
 ]);
 
 document.body.append(...myUI);
+```
 
 ---
 
@@ -48,6 +49,7 @@ document.body.append(...myUI);
 ## 🛠 Advanced Example: Interactive Component
 Use GPWhenCreated and eventListeners to make things interactive.
 
+```javascript
 const chatInput = elements.createElementsFromJSON([
   {
     element: "input",
@@ -65,6 +67,7 @@ const chatInput = elements.createElementsFromJSON([
     }
   }
 ]);
+```
 
 ---
 
