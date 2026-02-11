@@ -116,9 +116,6 @@ class RealTimeNotifications {
                   },
                 ],
               },
-              {
-                element: "br",
-              },
 
               {
                 element: "div",
