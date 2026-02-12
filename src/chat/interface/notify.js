@@ -10,21 +10,31 @@ notify.requestPermission = async function () {
   } catch (e) {}
 };
 
-notify.sendIfNotOnScreen = function (tag, message, title = "Random Rants +") {
-  if (!asked) {
-    return;
-  }
+notify.sendIfNotOnScreen = function (tag, body, title = "Random Rants +") {
   if (document.visibilityState !== "visible") {
     if (lastNotifcation) {
       try {
         lastNotifcation.close();
       } catch (e) {}
     }
-    lastNotifcation = new Notification(title, {
-      icon: "favicon.png",
-      tag: tag,
-      body: message,
-    });
+    try {
+      if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: "NOTIFY",
+          payload: {
+            title,
+            body,
+            tag,
+          },
+        });
+      } else {
+        lastNotifcation = new Notification(title, {
+          icon: "favicon.png",
+          tag: tag,
+          body: message,
+        });
+      }
+    } catch (e) {}
   }
 };
 

@@ -155,6 +155,8 @@ self.addEventListener("message", async (event) => {
     var cache = await caches.open("rr-meta");
     // Save the current timestamp
     await cache.put("last-seen-online", new Response(Date.now().toString()));
+  } else if (event.data && event.data.type === "NOTIFY") {
+    await sendPushNotification(event.data.payload);
   }
 });
 

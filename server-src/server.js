@@ -2275,6 +2275,21 @@ async function startRoomWSS(roomid) {
       }
       wss._rrPeopleCount += 1;
       ws.on("close", () => {
+        wss.clients.forEach((cli) => {
+            if (!cli._rrIsReady) {
+              return;
+            }
+            cli.send(
+              JSON.stringify({
+                type: "userLeft",
+                username: ws._rrUsername,
+                displayName: displayName,
+                color: ws._rrUserColor,
+                font: ws._rrUserFont,
+                id: ws._rrConnectionID,
+              }),
+            );
+          });
         clearTimeout(ws._rrkeepAliveTimeout);
         clearInterval(roomCheckInterval);
         wss._rrPeopleCount -= 1;

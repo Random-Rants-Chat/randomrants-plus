@@ -453,6 +453,10 @@ require("./darktheme.js");
             microphones.end(json.id);
           }
         }
+        if (json.type == "userLeft") {
+          microphones.end(json.id);
+          cameras.hide(json.id);
+        }
         if (json.type == "ready") {
           loadingScreen.hidden = true;
           mainScreen.hidden = false;

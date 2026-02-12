@@ -96,14 +96,7 @@ microphones.end = function (id) {
     //Dispose of the userMicrophone.
     userMicrophones[id] = undefined;
 
-    //Just to make sure its actually disposed, filter out any empty values in userMicrophones.
-    var newObjects = {};
-    for (var id of Object.keys(userMicrophones)) {
-      if (userMicrophones[id]) {
-        newObjects[id] = userMicrophones[id];
-      }
-    }
-    userMicrophones = newObjects;
+    delete userMicrophones[id];
   }
 };
 
