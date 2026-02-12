@@ -175,6 +175,7 @@ var elements = {
   },
   disposeGPId: function (id) {
     __GP_elements[id] = undefined;
+    delete __GP_elements[id];
   },
   getGPId: function (id) {
     if (__GP_elements[id]) {
