@@ -31,11 +31,43 @@ Want to run your own instance? Follow these steps.
 
 ### 1. Prerequisites: Supabase
 **Do not skip this.** You must create a Supabase project to run the server.
+
+_(Create a .env file if you don't want to add enviroment variables to your machine)_
+
 Create a project at [supabase.com](https://supabase.com) and gather the following environment variables:
 
 * `sbBucket`: Your Supabase storage bucket name.
 * `sbAPIKey`: Your Supabase Secret Key (recommended) or API Key.
 * `sbURL`: Your Supabase project URL (e.g., `https://projectid.supabase.co`).
+
+**DO NOT SHARE SUPABASE STORAGE API KEYS AND URLS**, these must remain private so that people don't sneak in and change the account data.
+
+#### 1.2 Enviroment variables for Push Notifications.
+
+This step is optional but highly recommended now. If skipped, push notificiations will not work:
+
+Run the terminal command (tested only in github codespaces) to generate the keys: `npm run webpush` or `yarn webpush`.
+
+Example output:
+```
+=======================================
+
+Public Key:
+<YOUR PUSH NOTIFICATIONS PUBLIC KEY>
+
+Private Key:
+<YOUR PUSH NOTIFICATIONS PRIVATE KEY>
+
+=======================================
+```
+
+Add these enviroment variables:
+
+* `pushWebsite`: The website the server is accesible on. (OPTIONAL, defaults to the random rants + website)
+
+* `publicPushKey`: The public push notifcations key that was in the output of the command above.
+
+* `privatePushKey`: The private push notifcations key that was in the output of the command above. (DO NOT SHARE THE KEY)
 
 ### 2. Local Setup
 I recommend using **Node.js 16.x**.

@@ -1,6 +1,6 @@
 const CHAT_PATH = "/chat";
 const APP_NAME = "Random Rants +";
-const DEFAULT_TAG = "randomrants-plus";
+const DEFAULT_TAG_PREFIX = "randomrants-plus";
 
 var origin = "" + self.location.origin;
 origin = origin.trim();
@@ -21,9 +21,12 @@ async function sendPushNotification({
   title = APP_NAME,
   body = "",
   icon = "/images/push-notify-icon.png",
-  tag = DEFAULT_TAG,
+  tag = DEFAULT_TAG_PREFIX,
   data = {},
 }) {
+  if (tag == DEFAULT_TAG_PREFIX) {
+    tag += "-" + Date.now();
+  }
   await self.registration.showNotification(title, {
     body: body,
     icon: icon,
@@ -156,7 +159,9 @@ self.addEventListener("message", async (event) => {
     // Save the current timestamp
     await cache.put("last-seen-online", new Response(Date.now().toString()));
   } else if (event.data && event.data.type === "NOTIFY") {
-    await sendPushNotification(event.data.payload);
+    if (await isUserSubscribed()) {
+      await sendPushNotification(event.data.payload);
+    }
   }
 });
 
@@ -190,6 +195,23 @@ var hasRunStartupCheck = false;
 self.addEventListener("activate", (event) => {
   event.waitUntil(async () => {
     await clients.claim();
+
+    // Check for "Ghost" registrations
+    const registrations = (await self.registration.navigationPreload.getState())
+      ? [] // Preload check
+      : await self.registration.scope;
+
+    const allRegs = (await self.registration.getRegistrations)
+      ? await self.registration.getRegistrations()
+      : [];
+
+    for (let reg of allRegs) {
+      // If there is another worker with a different scope, kill it
+      if (reg.scope !== self.registration.scope) {
+        console.warn("Killing duplicate worker at scope:", reg.scope);
+        await reg.unregister();
+      }
+    }
 
     if (!(await isUserSubscribed())) {
       return;

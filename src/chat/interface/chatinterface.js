@@ -541,9 +541,11 @@ require("./darktheme.js");
           }
           if (clientSettings.getSetting("CHAT_NOTIFY")) {
             notify.sendIfNotOnScreen(
-              "New message",
+              `new-message-${json.username || "unknown"}`,
               `${json.displayName}: ${shtml.bracketCodeRemoval(json.message)}`,
-              "New message",
+              json.username
+                ? "New message from @" + json.username
+                : "New message",
             );
           }
         }

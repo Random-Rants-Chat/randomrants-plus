@@ -2276,20 +2276,20 @@ async function startRoomWSS(roomid) {
       wss._rrPeopleCount += 1;
       ws.on("close", () => {
         wss.clients.forEach((cli) => {
-            if (!cli._rrIsReady) {
-              return;
-            }
-            cli.send(
-              JSON.stringify({
-                type: "userLeft",
-                username: ws._rrUsername,
-                displayName: displayName,
-                color: ws._rrUserColor,
-                font: ws._rrUserFont,
-                id: ws._rrConnectionID,
-              }),
-            );
-          });
+          if (!cli._rrIsReady) {
+            return;
+          }
+          cli.send(
+            JSON.stringify({
+              type: "userLeft",
+              username: ws._rrUsername,
+              displayName: displayName,
+              color: ws._rrUserColor,
+              font: ws._rrUserFont,
+              id: ws._rrConnectionID,
+            }),
+          );
+        });
         clearTimeout(ws._rrkeepAliveTimeout);
         clearInterval(roomCheckInterval);
         wss._rrPeopleCount -= 1;
@@ -5472,14 +5472,15 @@ setInterval(() => {
   debugLogOnlineSockets();
 }, 2000);*/
 
-/*setInterval(() => {
-  for (var username of Object.keys(notificationsForUsers)) {
-    sendNotify(username, {
+/*
+setInterval(() => {
+  var username = "gvbvdxx";
+  sendNotify(username, {
       type: "test",
     });
     console.log("Send to: " + username);
-  }
-}, 5000);*/
+}, 5000);
+*/
 
 var serverPort = 3000;
 if (process.env.serverPort) {

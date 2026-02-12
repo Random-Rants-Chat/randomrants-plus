@@ -25,6 +25,9 @@ notify.sendIfNotOnScreen = function (tag, body, title = "Random Rants +") {
             title,
             body,
             tag,
+            data: {
+              targetURL: window.location.href,
+            },
           },
         });
       } else {

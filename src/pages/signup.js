@@ -157,6 +157,6 @@ usernameInput.addEventListener("keydown", function (e) {
 
 passwordInput.addEventListener("keydown", function (e) {
   if (e.key == "Enter") {
-    botCheck.click();
+    botCheck.handleTabTo();
   }
 });

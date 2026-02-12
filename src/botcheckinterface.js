@@ -5,6 +5,8 @@ class BotCheckDiv {
   constructor() {
     var _this = this;
     this.created = false;
+    this.verified = false;
+    this.onVerifyScreen = false;
     this.jsonElement = {
       element: "div",
       children: [
@@ -25,6 +27,8 @@ class BotCheckDiv {
   }
 
   _botVerificationPassedScreen() {
+    this.verified = true;
+    this.onVerifyScreen = false;
     var divElm = this.divElm;
     var _this = this;
 
@@ -54,6 +58,7 @@ class BotCheckDiv {
   }
 
   _botVerificationFailedScreen() {
+    this.onVerifyScreen = false;
     var divElm = this.divElm;
     var _this = this;
 
@@ -76,9 +81,11 @@ class BotCheckDiv {
   }
 
   _botVerificationScreen() {
+    this.onVerifyScreen = true;
     var divElm = this.divElm;
     var _this = this;
     var checkID = this.checkID;
+    this.verified = false;
 
     var codeInput = null;
     var buttonElement = null;
@@ -218,7 +225,10 @@ class BotCheckDiv {
   }
 
   async _loadID() {
+    this.onVerifyScreen = false;
     var divElm = this.divElm;
+    divElm.onclick = function () {};
+    divElm.className = "botCheckDiv";
     elements.setInnerJSON(divElm, [
       {
         element: "div",
@@ -265,14 +275,20 @@ class BotCheckDiv {
     }
   }
 
+  handleTabTo() {
+    if (!this.onVerifyScreen && !this.verified) {
+      this.divElm.focus();
+      this._loadID();
+    }
+  }
+
   reset() {
+    this.onVerifyScreen = false;
+    this.verified = false;
     var divElm = this.divElm;
     var _this = this;
 
     divElm.onclick = async function () {
-      divElm.onclick = function () {};
-      divElm.className = "botCheckDiv";
-
       await _this._loadID();
     };
     elements.setInnerJSON(divElm, [
@@ -290,12 +306,6 @@ class BotCheckDiv {
 
   onCreated() {
     this.reset();
-  }
-
-  click() {
-    if (this.created) {
-      this.divElm.click();
-    }
   }
 
   getCheckID() {
