@@ -2749,10 +2749,7 @@ async function sendPushMessage(username, payload) {
     try {
       await webpush.sendNotification(sub, JSON.stringify(payload));
     } catch (err) {
-      // 404: Not Found, 410: Gone (Unsubscribed)
-      if (err.statusCode === 404 || err.statusCode === 410) {
-        await removeSubscriptionFromFile(username, sub.endpoint);
-      }
+      //Don't do anything, since this would manually expire whenever the user makes a new one in their session.
     }
   }
 }
