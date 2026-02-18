@@ -19,6 +19,7 @@ var webpush = require("web-push");
 var scratchCloudWss = require("./scratch-cloud.js");
 var WebRTCSignaler = require("./rtcsignal/req-handler.js");
 var botCheck = require("./bot-check-manager.js");
+var pinggy = require("./pinggy.js");
 var userMediaDirectory = "./usermedia";
 var usersOnlineSockets = {};
 var wssServerOptions = {
@@ -2880,6 +2881,11 @@ const server = http.createServer(async function (req, res) {
       decryptedUserdata = null;
     }
   }
+
+	if (urlsplit[1] == "tunnels.json") {
+		res.end(JSON.stringify(pinggy.getActiveAltLinks(), null, "  "));
+		return;
+	}
 
   if (urlsplit[1] == "webpush" && WEBPUSH_ENABLED) {
     if (urlsplit[2] == "key" && req.method == "GET") {

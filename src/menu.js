@@ -74,14 +74,29 @@ var elementJSON = [
         textContent: "Updates",
         href: "./updates",
       },
-      //Documentary button.
+	  //Alternative links button.
       {
+        element: "a",
+        className: "menuBarItem",
+        textContent: "Alt links",
+        href: "./alts",
+      },
+	  //Uptime button.
+      {
+        element: "a",
+        className: "menuBarItem",
+        textContent: "Uptime",
+        href: "https://stats.uptimerobot.com/a0xrFFxOH1",
+        target: "_blank",
+      },
+      //Documentary button.
+      /*{
         element: "a",
         className: "menuBarItem",
         textContent: "Site Documentary",
         href: "https://randomrants-docs.onrender.com",
         target: "_blank",
-      },
+      },*/
     ],
   },
   {
