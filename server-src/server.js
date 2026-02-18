@@ -2883,7 +2883,12 @@ const server = http.createServer(async function (req, res) {
   }
 
 	if (urlsplit[1] == "tunnels.json") {
+		res.setHeader("content-type", "application/json");
 		res.end(JSON.stringify(pinggy.getActiveAltLinks(), null, "  "));
+		return;
+	}
+	if (urlsplit[1] == "sendtmp") {
+		res.end("Y");
 		return;
 	}
 

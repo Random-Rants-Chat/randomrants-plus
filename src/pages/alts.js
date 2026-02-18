@@ -29,7 +29,7 @@ async function showAltLinks(containerDiv) {
         textContent: "Loading...",
       },
     ]);
-    var tunnels = await getTunnels();
+	var tunnels = await getTunnels();
     elements.setInnerJSON(
       containerDiv,
       tunnels.map((tunnel) => {
@@ -86,13 +86,14 @@ var randomRantsUpdates = [
     eventListeners: [
       {
         event: "click",
-        func: () => showAltLinks,
+        func: () => showAltLinks(elements.getGPId("containerDiv")),
       },
     ],
   },
   {
     element: "div",
     GPWhenCreated: showAltLinks,
+	gid: "containerDiv"
   },
 ];
 

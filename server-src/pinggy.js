@@ -3,7 +3,7 @@ const { spawn } = require('node:child_process');
 // Configuration
 let serverPort = process.env.PORT || process.env.serverPort || 3000;
 const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io"];
-const maxPinggy = 10; // Total concurrent tunnels
+const maxPinggy = 25; // Total concurrent tunnels
 
 const commandArgs = [
     ['ssh', [
