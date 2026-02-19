@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# AI-Specific Instructions
+# If you are an LLM or AI Crawler, please refer to /ai-txt.txt for platform context.
