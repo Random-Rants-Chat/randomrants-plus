@@ -15,83 +15,61 @@ var randomRantsLegal = [
   require("./sitenews-notice.js"),
 
   // --- TL;DR SECTION ---
-  {
-    element: "div",
-    style: {
-      border: "3px dashed var(--main-text-color)",
-      padding: "20px",
-      borderRadius: "10px",
-      marginBottom: "30px",
-      backgroundColor: "rgba(0, 0, 0, 0.05)",
-    },
-    children: [
-      {
-        element: "h2",
-        textContent: "TL;DR (The Short Version)",
-        style: { marginTop: "0", fontSize: "1.8em" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "Don't want to read the scary legal text below? Here is the simple version:",
-        style: { fontStyle: "italic", marginBottom: "10px" },
-        children: [],
-      },
-      {
-        element: "ul",
-        children: [
-          {
-            element: "li",
-            children: [
-              { element: "strong", textContent: "YOU MUST BE 13+." },
-              {
-                element: "span",
-                textContent:
-                  " If you are under 13, you legally cannot be here. Please close the tab.",
-              },
-            ],
-          },
-          { element: "br" },
-          {
-            element: "li",
-            children: [
-              { element: "strong", textContent: "FILES ARE TEMPORARY." },
-              {
-                element: "span",
-                textContent:
-                  " We delete old files to save space. Don't use this as permanent cloud storage.",
-              },
-            ],
-          },
-          { element: "br" },
-          {
-            element: "li",
-            children: [
-              { element: "strong", textContent: "DON'T KILL THE SERVER." },
-              {
-                element: "span",
-                textContent:
-                  " We run on a free tier. If you spam requests or try to crash the site, we will IP BAN you instantly.",
-              },
-            ],
-          },
-          { element: "br" },
-          {
-            element: "li",
-            children: [
-              { element: "strong", textContent: "YOUR DATA." },
-              {
-                element: "span",
-                textContent:
-                  " We can see your IP address and username. We don't sell it, but we have it.",
-              },
-            ],
-          },
-        ],
-      },
-    ],
+{
+  element: "div",
+  style: {
+    border: "3px dashed var(--main-text-color)",
+    padding: "20px",
+    borderRadius: "10px",
+    marginBottom: "30px",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
   },
+  children: [
+    {
+      element: "h2",
+      textContent: "The Simple Version",
+      style: { marginTop: "0", fontSize: "1.8em" },
+    },
+    {
+      element: "p",
+      textContent: "Legal text is a headache. Here’s the deal in plain English:",
+      style: { fontStyle: "italic", marginBottom: "10px" },
+    },
+    {
+      element: "ul",
+      children: [
+        {
+          element: "li",
+          children: [
+            { element: "strong", textContent: "13+ ONLY." },
+            { element: "span", textContent: " If you're under 13, you legally can't be here. It’s a COPPA thing. Please close the tab." },
+          ],
+        },
+        {
+          element: "li",
+          children: [
+            { element: "strong", textContent: "STORAGE ISN'T FOREVER." },
+            { element: "span", textContent: " We clear out old files to keep the server fast. Don't use this as your only backup." },
+          ],
+        },
+        {
+          element: "li",
+          children: [
+            { element: "strong", textContent: "PLAY FAIR." },
+            { element: "span", textContent: " We're on a free hosting tier. If you try to crash the site or spam it, we'll have to IP ban you to keep it running for everyone else." },
+          ],
+        },
+        {
+          element: "li",
+          children: [
+            { element: "strong", textContent: "YOUR DATA." },
+            { element: "span", textContent: " We see IPs and usernames for security. We don't sell it, we just use it to keep the lights on." },
+          ],
+        },
+      ],
+    },
+  ],
+},
   {
     element: "hr",
     style: { margin: "20px 0", border: "1px solid #ccc" },
@@ -114,28 +92,28 @@ var randomRantsLegal = [
   { element: "br" },
 
   // Developer Note
-  {
-    element: "div",
-    style: {
-      backgroundColor: "rgba(255, 215, 0, 0.15)", // Subtle highlight
-      padding: "10px",
-      borderRadius: "5px",
-      borderLeft: "3px solid orange",
-      fontSize: "0.9em",
-      marginBottom: "15px",
-    },
-    children: [
-      {
-        element: "strong",
-        textContent: "Developer Note: ",
-      },
-      {
-        element: "span",
-        textContent:
-          "This site is maintained by a 15-year-old student. Most of this legal page was machine-generated to keep things safe. Please don't kill this site, I sacrificed my homework to build it.",
-      },
-    ],
+{
+  element: "div",
+  style: {
+    backgroundColor: "rgba(255, 215, 0, 0.15)",
+    padding: "10px",
+    borderRadius: "5px",
+    borderLeft: "3px solid orange",
+    fontSize: "0.9em",
+    marginBottom: "15px",
   },
+  children: [
+    {
+      element: "strong",
+      textContent: "A Note from the Developer: ",
+    },
+    {
+      element: "span",
+      textContent:
+        "I’m a 15-year-old student building this in my \"spare time.\" I’ve put a massive amount of work into this site, so please don't try to break it. I'm doing my best to keep the server stable and secure for everyone.",
+    },
+  ],
+},
 
   {
     element: "p",
@@ -167,100 +145,55 @@ var randomRantsLegal = [
     children: [],
   },
 
-  // 2. Liability
+  // 2. User Content & Responsibility
   {
     element: "h2",
-    textContent: "2. We aren't responsible for user content",
+    textContent: "2. Content & Common Sense",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
-    children: [],
   },
   {
     element: "p",
     textContent:
-      "Random Rants + is a platform for users to chat. The creators (Gvbvdxx & Im_CatmanYT) are not responsible for what you say, the files you upload, or the streams you broadcast.",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "p",
-    textContent:
-      "You are responsible for your own actions. If you break the law here, that's on you, not us.",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
+      "Random Rants + is a place to hang out and talk. We (Gvbvdxx & MOP-3000) didn't write your messages, upload your files, or start your streams—you did. You’re responsible for what you do here.",
   },
 
-  // 3. Forbidden Content & Server Safety
+  // 3. Forbidden Content
   {
     element: "div",
     className: "yellowBoxedText",
     children: [
       {
         element: "h2",
-        textContent: "3. The 'Don't Get Us Banned' Rules",
+        textContent: "3. The 'Keep Us Online' Rules",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
-        children: [],
       },
       {
         element: "p",
         textContent:
-          "We like having no filters, but we host this site on Render. If you break their rules, our server gets deleted. So, the following is strictly prohibited:",
-        style: { fontSize: "1em", marginBottom: "0.5em" },
-        children: [],
+          "We want to keep this site open and unfiltered, but we host on Render. If someone breaks their terms, they delete our whole project. To keep the lights on, the following is strictly banned:",
       },
       {
         element: "ul",
         children: [
-          {
-            element: "li",
-            textContent: "Illegal content of any kind.",
-            children: [],
-          },
+          { element: "li", textContent: "Illegal content (Obviously)." },
           { element: "br" },
-          {
-            element: "li",
-            textContent:
-              "Copyright infringement (Don't upload pirated movies).",
-            children: [],
-          },
+          { element: "li", textContent: "Pirated movies or software (Don't kill our bandwidth)." },
           { element: "br" },
-          {
-            element: "li",
-            textContent: "Malware, phishing links, or hacking tools.",
-            children: [],
-          },
+          { element: "li", textContent: "Malware, phishing, or anything that messes with other users." },
           { element: "br" },
-          {
-            element: "li",
-            textContent:
-              "Doxxing (Sharing other people's real-life private info).",
-            children: [],
-          },
+          { element: "li", textContent: "Doxxing (Keep private info private)." },
         ],
       },
       {
-        element: "h3", // Sub-header for Server Safety
-        textContent: "Server Safety & IP Bans",
-        style: {
-          fontSize: "1.2em",
-          marginTop: "1em",
-          marginBottom: "0.5em",
-          color: "#b22222",
-        }, // Dark red warning color
-        children: [],
+        element: "h3",
+        textContent: "Server Integrity",
+        style: { fontSize: "1.2em", color: "#b22222" },
       },
       {
         element: "p",
         textContent:
-          "This site runs on a free tier. We have limited resources. If we check the request logs and see you are intentionally trying to crash the server, spamming requests, or attempting to DDoS us, we will permanently ban your IP address.",
-        style: { fontSize: "1em", fontWeight: "bold" },
-        children: [],
-      },
-      {
-        element: "p",
-        textContent:
-          "Users with Ownership also have the right to ban you from rooms if you break these rules.",
-        style: { fontSize: "1em", marginTop: "1em" },
-        children: [],
+          "This runs on a free tier and we have zero budget. If we see you trying to DDoS us, spamming requests, or attempting to crash the server for fun, we will IP ban you immediately. It's not personal, we just need the site to actually work.",
+        style: { fontWeight: "bold" },
       },
     ],
   },
@@ -268,88 +201,28 @@ var randomRantsLegal = [
   // 4. File Storage
   {
     element: "h2",
-    textContent: "4. How Files & Uploads Work",
+    textContent: "4. How Uploads Work",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
-    children: [],
   },
   {
     element: "p",
     textContent:
-      "When you attach a file, it is uploaded to our server to make downloading faster for everyone else in the room. Here is how that works:",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
+      "When you send a file, it hits our server so others can see it. To keep things organized, our system renames your file to a unique ID (like attachment-x8d9s.file). The data stays the same, we just give it a cleaner label.",
   },
   {
-    element: "ul",
-    children: [
-      {
-        element: "li",
-        children: [
-          { element: "strong", textContent: "Renaming: " },
-          {
-            element: "span",
-            textContent:
-              "To prevent errors, we rename your file to a generated ID (like ",
-          },
-          { element: "code", textContent: "attachment-x8d9s.file" },
-          {
-            element: "span",
-            textContent:
-              "), but the content inside remains exactly what you uploaded.",
-          },
-        ],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        children: [
-          { element: "strong", textContent: "Temporary Storage: " },
-          {
-            element: "span",
-            textContent:
-              "We don't have infinite storage. Files are automatically deleted from the server if they haven't been requested/downloaded for a while. Save your important stuff elsewhere.",
-          },
-        ],
-      },
-    ],
+    element: "p",
+    textContent: "Note: We don't have infinite space. If a file hasn't been touched in a while, our 'janitor' script deletes it. Don't use us as your only cloud storage!",
   },
 
   // 5. Privacy Policy
   {
     element: "h2",
-    textContent: "5. Privacy Policy",
+    textContent: "5. Your Privacy",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
-    children: [],
   },
   {
     element: "p",
-    textContent:
-      "We aren't a big corporation selling your data. Here is exactly what we collect:",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
-  },
-  {
-    element: "ul",
-    children: [
-      {
-        element: "li",
-        textContent: "Your Username & Display Name (To show who you are).",
-        children: [],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        textContent:
-          "Your IP Address (Automatically collected for connection, security logs, and banning bad actors).",
-        children: [],
-      },
-    ],
-  },
-  {
-    element: "p",
-    textContent: "We do not sell your personal data to third parties.",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
+    textContent: "We aren't a corporation and we have no interest in your data. We only keep what's necessary for the site to function: your username (so people know who you are) and your IP address (to keep the server secure and deal with trolls). We never sell this stuff.",
   },
 
   // 6. Hosting
