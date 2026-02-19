@@ -1,7 +1,7 @@
 module.exports = [
   {
     element: "h1",
-    textContent: "Version History Integration",
+    textContent: "Live Update Feed Added",
     style: {
       fontSize: "2em",
       marginBottom: "0.5em",
@@ -13,12 +13,12 @@ module.exports = [
     children: [
       {
         element: "span",
-        textContent: "New System Feature: ",
+        textContent: "New Feature: ",
       },
       {
         element: "a",
         href: "/updates",
-        textContent: "Real-time deployment logs.",
+        textContent: "Check out the live dev logs here.",
       },
     ],
     style: {
@@ -30,21 +30,21 @@ module.exports = [
   {
     element: "p",
     textContent:
-      "This integration allows users to monitor development progress directly through the UI, removing the need to audit the raw source code repository.",
+      "I've added a way for you to see exactly what’s changing on the site in real-time. This feed pulls directly from my work, so you don't have to go digging through GitHub to see what's new.",
   },
   {
     element: "p",
     textContent:
-      "Please note that some automated commit messages may appear brief (e.g., 'Update' or 'Patch') due to our high-frequency iteration cycle and rapid prototyping phase.",
+      "Keep in mind that some of these messages might be pretty short (like 'Update' or 'Patch'). I'm usually pushing code pretty fast, so I don't always stop to write a full paragraph for every small tweak.",
   },
   {
     element: "p",
     children: [
       {
         element: "b",
-        textContent: "Technical Note:",
+        textContent: "Quick Note:",
       },
-      ' These logs reflect the staging environment. Standard updates are pushed on a monthly cycle, while critical patches marked "Immediate:" are deployed to the production server instantly.',
+      ' These logs show what I\'m working on right now. Most updates roll out monthly, but if you see a message starting with "Immediate:", that means the fix is live on the site right this second.',
     ],
   },
 ];
