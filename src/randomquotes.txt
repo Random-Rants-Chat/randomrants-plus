@@ -1,48 +1,31 @@
-We paid for this site using Education.
-Our parents are dissapointed for every minute spent working on this site.
-Your perfect replacement for your phone in school.
-We replaced every second of class time with code time.
-This site was built on coffee and questionable life choices.
-Our GPA sacrificed so you could chat.
-Homework? We don't know her.
-If grades were server uptime, we'd be bankrupt.
-Built by students, for students who should be studying.
-Our college acceptance odds: unknown.
-Coding > Calculus (according to us).
-If our parents could see the git history...
-This is what happens when you give students free time.
-We turned "go to class" into "go to code".
-Our school: where education goes to die.
-Deadlines? We prefer "guidelines".
-This runs better than our scholarship applications.
-Peer reviewed by students who should be peer tutoring.
-Made with the tears of failed tests.
-Powered by spite and caffeine.
-Our guidance counselors hate us.
-This site has better uptime than our attendance.
-We regret nothing (our parents regret everything).
-Built during school hours we paid for.
-Our teachers are so proud (they're not).
-If it's stupid but it works, it's still stupid but it works.
-We'd apologize but we're too busy coding.
-This is what happens when you trust students with servers.
-Our focus: inversely proportional to our grades.
-Built by procrastinators, for procrastinators.
-Deadlines are more of a suggestion.
-We chose chaos, got a website.
-Our parents' disappointment fuels the servers.
-Should be doing homework. Are running servers instead.
-Academic responsibility: 0%.
-Our motivation chart: empty.
-If laziness was a feature, we'd patent it.
-This site: proof that skipping class has a purpose.
-Our time management: oxymoronic.
-We break things daily, fix them nightly.
-Inspired by the teachers we're ignoring.
-Built with the energy of expired coffee.
-Our commitment to learning: flexible.
-Turning failing grades into firewall rules.
-If coding was homework, we'd have perfect marks.
-Our parents' therapy bills: funded by this site.
-This is what unfinished assignments look like.
-Built on broken promises and broken sleep cycles.
+Built on coffee and zero sleep.
+Your phone's favorite replacement for the school day.
+We turned every second of study hall into code time.
+This site was built on coffee and a lot of late nights.
+Our free time was sacrificed so you could connect.
+Homework? We're busy debugging.
+If grades were server uptime, we’d be at 99.9%.
+Built by students, for students who need a break.
+Coding > Calculus (don't tell our math teachers).
+This is what happens when you give students access to a terminal.
+We turned 'Go to class' into 'Go to production'.
+Deadlines? We prefer 'Milestones'.
+This runs better than our old school projects.
+Peer reviewed by the people who actually use the site.
+Made with the energy of a thousand late-night energy drinks.
+Powered by spite and a lot of JavaScript.
+This site has better uptime than our focus in a 1st-period lecture.
+We regret nothing; the code is live.
+Built during the hours we were 'supposed' to be doing other things.
+If it’s stupid but it works, it’s a feature.
+We’d apologize, but we’re busy fixing a merge conflict.
+This is what happens when you trust students with a cloud server.
+Built by procrastinators, for people who deserve a distraction.
+We chose chaos and ended up with a functional website.
+Should be doing homework; running a Node.js server instead.
+Our time management skills are... experimental.
+We break things daily and fix them by morning.
+Inspired by the lectures we definitely 'listened' to.
+Turning bugs into features since day one.
+If coding was a graded subject, we'd be on the Honor Roll.
+Built on broken sleep cycles and a dream of P2P freedom.
