@@ -130,7 +130,7 @@ var contentArray = [
               { element: "strong", textContent: "Webpack: " },
               {
                 element: "span",
-                textContent: "Bundling our chaotic code for the UI.",
+                textContent: "Bundling and optimizing our UI components."
               },
             ],
           },
