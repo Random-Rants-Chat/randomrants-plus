@@ -71,7 +71,7 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Students that need a break, or wanting to escape school and enter the world of internet",
+          "Students that need a break, or those wanting to escape school and enter the world of internet",
       },
       { element: "br" },
       {
@@ -254,14 +254,14 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "No filters, and barely no moderation.",
+        textContent: "User-moderated rooms, users get to run rooms however they want.",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "We dont censor any user content, pretty much simple as that.",
+          "We support open expression for all users, provided the content remains within our community safety guidelines.",
         style: { fontSize: "1em" },
         children: [],
       },
@@ -282,49 +282,49 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "Start media button",
+        textContent: "Start Media Function",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "This is pretty much a interactive virtual television. You can plug in your screen or start some other content.",
+          "The 'Start Media' button acts as an interactive virtual display. Use it to share your screen or broadcast digital content to the room.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Anyone can put anything in there. If an user with ownership doesn't want anyone doing anything, they can remove the function completley, or lock it to ownership only.",
+          "This tool is built for collaborative use. Room owners can manage permissions, lock the function to ownership only, or disable it entirely.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "You can start embeded sites, but those only open the url you typed, everything else is different for other users.",
+          "The 'Embed Sites' feature allows you to view specific URLs within your session; please note that these views are private to your browser.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "There is also other cool modes, like scratch cloud mini-games (we use modified TurboWarp) for your room, and also a shared painting canvas.",
+          "Explore various interactive modes, including shared creative canvases and integrated TurboWarp cloud mini-games.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Video streams (cameras, microphones, screenshares, etc) go straight to WebRTC, no sus servers watching your face or screen.",
+          "Video and audio streams (cameras, microphones, and screenshares) utilize direct P2P WebRTC connections to ensure user privacy.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Beware: The soundboard and this media function allow sudden loud sounds, turn down your volume before someone plays something loud, unless you like blowing your eardrums.",
+          "Volume Notice: The soundboard and media functions allow for sudden audio changes; please monitor your volume settings for the best experience.",
         style: {
           fontSize: "1em",
           fontWeight: "bold",
