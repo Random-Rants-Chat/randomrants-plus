@@ -30,13 +30,13 @@ var randomRantsAbout = [
   {
     element: "p",
     textContent:
-      "Random Rants + is the goofy site that lets you hang out with your friends online.",
+      "Random Rants + is a community-driven project for hanging out with your friends online.",
     style: { fontSize: "1.1em" },
     children: [],
   },
   {
     element: "p",
-    textContent: "Whenever you feel bored, just rant here with your friends!",
+    textContent: "Whenever you've got something on your mind, just share it here with the crew!",
     style: { fontSize: "1.1em", lineHeight: "0px", marginBottom: "1em" },
   },
 
@@ -65,18 +65,18 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Anyone looking for ways to talk online or enjoy online hangouts",
+          "Anyone looking for a creative space to talk and hang out online.",
       },
       { element: "br" },
       {
         element: "li",
         textContent:
-          "Students that need a break, or those wanting to escape school and enter the world of internet",
+          "Students that need a break, or those wanting to explore the potential of the open web.",
       },
       { element: "br" },
       {
         element: "li",
-        textContent: "People that enjoy small bursts of chaos.",
+        textContent: "People who enjoy high-energy, spontaneous digital spaces.",
       },
     ],
   },
@@ -94,14 +94,14 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Video & Voice chat - Scream loud, and make goofy faces. Just like your adverage online chats.",
+          "File Uploads — Share your favorite media, memes, or creative assets directly in the chat.",
         children: [],
       },
       { element: "br" },
       {
         element: "li",
         textContent:
-          "Screen Sharing — Only one screenshare per room, so expect battles between screensharing content.",
+          "Screen Sharing — Share your window with the room. One stream at a time ensures everyone is tuned into the same content.",
         children: [],
       },
       { element: "br" },
@@ -115,7 +115,7 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Soundboard — Meme sounds, and goofy noises. All synced to everyone in the chatroom. Its all you need for laughter, unless the owner shuts it down.",
+          "Soundboard — Use meme sounds and goofy audio reactions. Elements are synced for the whole room, though owners can manage audio permissions.",
         children: [],
       },
       { element: "br" },
@@ -129,7 +129,7 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "File Uploads — Drop anything you want, memes or cursed content. Whatever it is, its up to you.",
+          "Video & Voice Chat — Express yourself and hang out in real-time. It’s all the fun of a standard social chat with a goofy twist."",
         children: [],
       },
     ],
@@ -150,73 +150,84 @@ var randomRantsAbout = [
     children: [],
   },
 
-  {
-    element: "p",
-    textContent:
-      "Your profile is unlisted, but it can be seen when you join a room.",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
-  },
-
-  {
-    element: "p",
-    textContent: "You can customize your profile in these ways: ",
-    style: { fontSize: "1em", marginBottom: "0.5em" },
-    children: [],
-  },
-
-  {
-    element: "ul",
-    children: [
-      {
-        element: "li",
-        textContent:
-          "Username - You're locked to the one you have once you sign up. Pretty much how Random Rants + identifies you.",
-        children: [],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        textContent:
-          "Display Name - This is basically a nickname for your account, change it any time. It allows almost any character. (Including spaces)",
-        children: [],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        textContent:
-          "User Color - This will appear as your color when you join a room, change it any time you want.",
-        children: [],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        textContent:
-          "Profile picture - Put a picture that identifies you, it doesn't need to be your face. Change any time you want.",
-        children: [],
-      },
-      { element: "br" },
-      {
-        element: "li",
-        textContent:
-          "Profile font - Make your display name pop! Choose from a selection of display name fonts. Change it whenever you feel like it.",
-        children: [],
-      },
-      { element: "br" },
-    ],
-  },
-
-  // Privacy & Ownership
+  // Profiles section
   {
     element: "h2",
-    textContent: "Rooms/Chatrooms",
+    textContent: "Profiles",
     style: { fontSize: "1.5em", marginTop: "1.2em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Every room is unlisted, and stuck to it. share it through the URL, Quick Join codes, or inviting through the username.",
+      "Everyone that has signed up for Random Rants + has a profile. It's how you stand out in the crowd.",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "To keep things chill and private, your profile is unlisted—it only shows up when you actually join a room.",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent: "Customize your identity so people know it's you:", 
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "ul",
+    children: [
+      {
+        element: "li",
+        textContent:
+          "Username — Your permanent ID. Choose wisely, because Random Rants + uses this to track your legacy.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Display Name — Your nickname. Change it whenever! We allow almost any character, so go wild with the symbols.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "User Color — Pick a color that pops when you enter a room.",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Profile Picture — Put a picture that identifies you (doesn't have to be your face, obviously).",
+        children: [],
+      },
+      { element: "br" },
+      {
+        element: "li",
+        textContent:
+          "Profile Font — Make your name stand out with custom display fonts. Change it whenever the vibe shifts.",
+        children: [],
+      },
+    ],
+  },
+
+  // Privacy & Ownership
+  {
+    element: "h2",
+    textContent: "Rooms & Spaces", // "Spaces" sounds a bit more modern/professional
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "Every room is private by default. You won't find a public list here—instead, you share your space through the URL, Quick Join codes, or by inviting people by their username.",
     style: { fontSize: "1em", marginBottom: "0.5em" },
     children: [],
   },
@@ -226,21 +237,21 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "Ownership & Owner Control",
+        textContent: "Ownership & Control",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "You have ownership when you make your own rooms, and you can hand it out to anyone you want.",
+          "When you create a room, you're the boss. You have full ownership, and you can grant permissions to anyone you trust.",
         style: { fontSize: "1em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Users with ownership can remove others with ownership, but the room creator can't be removed.",
+          "Admins can manage other admins, but the original room creator is permanent. It's your space, your rules.",
         style: { fontSize: "1em" },
         children: [],
       },
@@ -343,35 +354,35 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "Teen jokes & Teen goofyness",
+        textContent: "Community & Culture", // A bit cleaner for scanners
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "This place started as a place made by Middle Schoolers - for Middle Schoolers to escape school and hop into the world of internet.",
+          "This project started as a space built by students, for students—giving people a place to hang out and explore the open internet on their own terms.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "The website doesn't have much of this content itself, but the user content may differ for everyone.",
+          "The platform provides the tools, but the vibe is set by the community. Every room has its own personality.",
         style: { fontSize: "1em", marginBottom: "0.5em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "If something feels too sus or crosses a line, you can hop out the room and remove it from you list.",
+          "If a room isn't your style or feels 'sus,' you can just hop out and remove it from your list. You're in control of your experience.",
         style: { fontSize: "1em" },
         children: [],
       },
       {
         element: "p",
         textContent:
-          "Humor is different for everyone, laugh at what you think is funny, and keep rolling your eyes at the cringe stuff.",
+          "Humor is subjective. Laugh at what's funny, ignore the cringe, and keep it moving.",
         style: { fontSize: "1em", marginBottom: "1em" },
         children: [],
       },
@@ -385,12 +396,12 @@ var randomRantsAbout = [
       {
         element: "span",
         textContent:
-          "Also, Random Rants + also has a big history of how it was created - ",
+          "Random Rants + has a pretty unique story behind how it was built—",
       },
       {
         element: "a",
         href: "./history",
-        textContent: "click here to read it.",
+        textContent: "check out the project timeline here.",
       },
     ],
   },
@@ -400,12 +411,12 @@ var randomRantsAbout = [
     children: [
       {
         element: "span",
-        textContent: "Credits can be found ",
+        textContent: "Shoutouts to everyone who helped are ",
       },
       {
         element: "a",
         href: "./credits",
-        textContent: "here.",
+        textContent: "listed here.",
       },
     ],
   },
