@@ -7,11 +7,11 @@ const USERNAME = "Gvbvdxx";
 const ALT_NAME = "Jason Glen Evans";
 
 const DESCRIPTION = [
-  "Thats me! The one that used to be on the Scratch community, sadly banned from it after creating a lot of chat sites.",
-  "Obsessed with code, computers, and programming! Sacrificed education, homework, and classwork to make this site.",
-  "Started out making Scratch projects, learned javascript, then I created a bunch of websites, this is one of them.",
-  "Responsible for almost everything here, ChatGPT & Google Gemini helped with some programming, but I did most of the programming work.",
-  "Sadly grounded (until I decide to actually do work), so I use a school Chromebook to develop sites with online devboxes and IDEs.",
+  "That’s me! Formerly a creator in the Scratch community, I eventually transitioned to independent web development to build more advanced, unconstrained platforms.",
+  "I'm a self-taught programmer with a deep passion for computer science and full-stack engineering. This project is the result of countless hours of research and development.",
+  "I started with block-based coding and moved into JavaScript and Node.js. Now, I focus on building real-time applications and exploring network protocols.",
+  "I’m the lead developer for Random Rants +. While I use AI tools like Gemini to help optimize certain functions, the core architecture and logic are entirely my own work.",
+  "Currently developing under hardware constraints—I use cloud-based IDEs and school Chromebooks to keep the project moving while I'm away from my main dev environment.",
 ];
 
 const SOCIAL_LINKS = [
