@@ -1,8 +1,7 @@
 module.exports = [
   {
     element: "h1",
-    textContent:
-      "The loss of ChatGPT in my school - site peronalization now is going to be different.",
+    textContent: "Shifting Development Tools & Site Tone",
     style: {
       fontSize: "2em",
       marginBottom: "0.5em",
@@ -11,7 +10,7 @@ module.exports = [
   },
   {
     element: "p",
-    textContent: "Note from September 18th, 2025:",
+    textContent: "Update - Sept 18th, 2025:",
     style: {
       fontSize: "19px",
       fontWeight: "bold",
@@ -20,19 +19,15 @@ module.exports = [
   },
   {
     element: "p",
-    style: {
-      textAlign: "center",
-    },
-    textContent:
-      "Google Gemini works fine, so I've been using that, but some of this stuff still applies.",
+    style: { textAlign: "center" },
+    textContent: "Switched over to Google Gemini for some of the heavy lifting. It’s working well, so development is back on track.",
   },
   {
     element: "br",
   },
   {
     element: "p",
-    textContent:
-      "The site will now mostly be personalized in tone, with only Me (Gvbvdxx). (And also MOP3000, if he ever gets on the google doc again)",
+    textContent: "The site’s tone is going to feel more personal now, coming straight from me (Gvbvdxx) and MOP3000.",
     style: {
       fontWeight: "bold",
       fontSize: "1.05em",
@@ -41,42 +36,22 @@ module.exports = [
   },
   {
     element: "p",
-    textContent:
-      "This won't effect the site too much or break anything, but I wanted to note that the site may go under big changes in personallity and tone.",
+    textContent: "This doesn't change how the site works, but you'll notice a shift in how I write these updates and the UI text.",
   },
   {
     element: "p",
-    textContent:
-      "The site is still made for our users - The students that want to dodge that homework and schoolwork, and the people that want to online chat.",
+    textContent: "Random Rants + is still built for our community—students who need a break and a solid place to connect with friends.",
   },
   {
     element: "p",
-    textContent:
-      "This means if you see something that feels like Gen-Z style, its probally rewritten with ChatGPT to make it fit what we have created.",
+    textContent: "If some parts feel a bit more 'polished,' it's usually because I used AI tools to help refine the phrasing to match the vibe of the site.",
   },
   {
     element: "p",
-    textContent:
-      "This also effects how well the code works, bugs are more likely to happen to new features, and new features aren't going to be suggested by ChatGPT commonly.",
+    textContent: "This shift might mean more 'raw' code since I'm relying less on AI for logic suggestions. Expect more experimental features—and probably a few more bugs to squash!",
   },
   {
     element: "p",
-    textContent:
-      "If this was a mistake blocking it by my school district, it may change later on.",
-  },
-  {
-    element: "p",
-    textContent:
-      "What you're currently reading is completley written by human on a keyboard. So yeah, of course it feels different.",
-  },
-  {
-    element: "p",
-    textContent:
-      "Not trying to scare anyone by the fact that I've been using it for a while.",
-  },
-  {
-    element: "p",
-    textContent:
-      "Think of ChatGPT as a helping friend - not to do all the work, just making things better, for your best user experience.",
+    textContent: "I'm writing this myself to keep things transparent. AI is a great 'helping friend' for the user experience, but the heart of the project is still human-made.",
   },
 ];
