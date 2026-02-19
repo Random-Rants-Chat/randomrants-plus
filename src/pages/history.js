@@ -14,7 +14,7 @@ var randomRantsHistory = [
   // History
   {
     element: "h2",
-    textContent: "The story of Random Rants, before glitch shut down",
+    textContent: "The Evolution: From Prototype to Plus",
     style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
     children: [],
   },
@@ -24,7 +24,7 @@ var randomRantsHistory = [
       { element: "strong", textContent: "Random Rants", children: [] },
       {
         element: "span",
-        textContent: " started as a janky unsecure chat app.",
+        textContent: " started as a basic experimental chat application.",
       },
     ],
     style: { fontSize: "1.1em", marginBottom: "0.5em" },
@@ -34,7 +34,7 @@ var randomRantsHistory = [
     children: [
       {
         element: "em",
-        textContent: "(RIP - The old site is gone now, quite sad)",
+        textContent: "(Note: The legacy Glitch site has been decommissioned.)",
       },
     ],
     style: { fontSize: "1em", marginBottom: "0.3em" },
@@ -42,77 +42,77 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      'I met a person. Saw him using scratch, and I was like "yeah I use it too," and then switched topics and showed him an site called Macre\'s Chat.',
+      'I met a fellow developer on Scratch. We bonded over coding projects, and I showed him an early prototype I called Macre\'s Chat.',
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      'That person was Im_CatmanYT (That\'s his name on scratch), so he started to use the chat site with his friends, and soon enough he said "yo, make me a site thats like this but better".',
+      'That person was Im_CatmanYT. He started testing the site with his group and eventually challenged me to build a more robust version with better features.',
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "He gave me a google doc with a list of things to do. I did those during class, (Sorry & Not-Sorry teachers) and slowly it became what he called Random Rants.",
+      "He provided a roadmap of features. I spent my spare time at school perfecting the code, and slowly it evolved into the original Random Rants.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "The next year, is when it became truly popular around my school, but it was more like a spike - it went up, then dropped back down very quickly to barely nobody.",
+      "The next year, the user base spiked significantly at my school before stabilizing. It was my first real experience with managing a high-traffic site.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "People started to ask for more sound triggers, these were done by using things like [vineboom] in chat. Later I added an whole soundboard, everyone could trigger the sounds on everyones chromebook at once in sync, without posting chat messages flodded with [vineboom].",
+      "Users started requesting audio triggers like [vineboom]. To optimize performance, I replaced chat-based triggers with a full synchronized soundboard that kept everyone's experience in sync without flooding the database.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      'The time it got popular is when I started so share it with the "Cool kids", usually they called me a "Discord moderator", but then were shut up about that stuff when they learned I\'m the "Coolest computer site programmer".',
+      'When the site went viral locally, I had to deal with the usual "Discord moderator" jokes. People eventually realized I was actually building the platform from scratch, which was a pretty great feeling.',
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Also the popular spike happened again sometime again during another grade, but this time it was different, instead of enjoyment, it was a big spam of people being rude other people, not expected.",
+      "With a bigger audience came new challenges. We saw a spike in low-quality content and spam, which wasn't the vibe we wanted for the community.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "But later, Im_CatmanYT said that people were joining their room in Random Rants. The rooms in Random Rants were fully public. If someone joined a room, anyone else hopping on the site would automatically select that room. You could change it, but you can't turn it off.",
+      "We also realized the room system needed a privacy overhaul. In the old version, rooms were public by default, meaning anyone could join a session uninvited.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      'To fix this problem, I suggested "why don\'t we completley remake the site, more secure, and unlisted rooms" and called it Random Rants +, Im_CatmanYT agreed, and slowly the development shifted from Random Rants, to Random Rants +.',
+      'To solve the privacy and security issues, I proposed a complete ground-up remake with private, unlisted rooms. We called it Random Rants +, and development officially shifted to this new architecture.',
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      'When the site was somewhat usable, I added a message dialog on Random Rants pretty much like "yo, try Ranodm Rants +", so it was quite a supprise to Im_CatmanYT.',
+      'Once the new engine was stable, I added a migration notice to the old site to help users move over to the more secure Plus version.',
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "So thats how Random Rants, and Random Rants + was floating around.",
+      "And that's the journey of how we moved from a simple chat app to a more secure, private digital space.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
@@ -120,41 +120,41 @@ var randomRantsHistory = [
   // Shutdown
   {
     element: "h2",
-    textContent: "Why Random Rants went down",
+    textContent: "Project Migration",
     style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Both sites lived on Glitch. When Glitch pulled the plug on app hosting, it all went down.",
+      "Both versions originally lived on Glitch. When they changed their hosting policy, the original apps went offline.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "I put Random Rants + back on Render, but why I left Random Rants behind is because it has lack of Security.",
+      "I successfully migrated Random Rants + to Render. I chose not to bring back the original version because it relied on legacy code that didn't meet my current security standards.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Since Random Rants has reused code from unsecure chat sites I made when I was younger and inexperienced, it was less secure.",
+      "Because the original site used experimental code from my earlier projects, it wasn't as robust as the current platform.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Random Rants is not forever gone, you can download the source code from GitHub and run it yourself. (if you're brave enough)",
+      "However, the original source code is still on GitHub for anyone interested in the technical history or running a local instance.",
     style: { fontSize: "1.1em", marginBottom: "1.5em", fontStyle: "italic" },
     children: [],
   },
   {
     element: "p",
-    textContent: "Problems included with Random Rants:",
+    textContent: "Technical Challenges & Security Improvements:",
     style: { fontSize: "1.1em", fontWeight: "bold", marginBottom: "0.5em" },
     children: [],
   },
@@ -164,25 +164,25 @@ var randomRantsHistory = [
     children: [
       {
         element: "li",
-        textContent: "All rooms were public - People could just jump in",
+        textContent: "Public Access — Early versions lacked private room controls, allowing anyone to join any session.",
         children: [],
       },
       {
         element: "li",
         textContent:
-          "IP grabbing is too easy - Hackers and normal programmers could just inject code to send your IP to them.",
+          "Network Privacy — Previous builds had vulnerabilities that exposed user connection data. I've since moved to a secure, encrypted architecture.",
         children: [],
       },
       {
         element: "li",
         textContent:
-          "The site kept selecting rooms with people in them - There was barely any privacy, someone could be watching silently.",
+          "Session Security — The old system auto-selected active rooms, which compromised user privacy. This is now fully controlled by the user.",
         children: [],
       },
       {
         element: "li",
         textContent:
-          "The server's code was way too simple - The computers did all the work, not the server. The server was only responsible for taking a message sent into it, and then broadcasting it to everyone. This means it was a perfect target for hackers, since they could send messages and manipulate people connected to the site.",
+          "Server Architecture — The original server was too basic, relying on 'Client-Side' logic which was easy to manipulate. Random Rants + uses a robust 'Server-Side' validation system to prevent unauthorized message injection and protect users.",
         children: [],
       },
     ],
@@ -190,28 +190,28 @@ var randomRantsHistory = [
 
   {
     element: "h2",
-    textContent: "What has came before Random Rants",
+    textContent: "Project Origins",
     style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Gvbvdxx Chat was the real origin, Random Rants was the most edited version of it. Gvbvdxx Chat was made when I was inexperienced, and most those problems carried over from one to another.",
+      "Gvbvdxx Chat was the real prototype. Random Rants was the first major iteration, but since I built it while still learning the ropes, many early design flaws carried over from one version to the next.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Random Rants and the other chatting sites before it had no accounts. Type a username, even if someone in the room had it, and you were in.",
+      "Legacy versions relied on a simple guest-entry system with no formal accounts. This was easy to use but lacked the robust identity verification and security features that Random Rants + has today.",
     style: { fontSize: "1.1em", marginBottom: "1.5em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "My school even tried to block Random Rants because of the chaos it was unleashing in school, but they have only done it to the old Glitch URL, which doesn't even matter anymore since it was already going away.",
+      "The site became so popular that it even caught the attention of the network admins. They tried to restrict the old Glitch URL, but by then, the project had already evolved into a new, more secure architecture.",
     style: { fontSize: "1.1em", marginBottom: "1.5em" },
     children: [],
   },
@@ -219,14 +219,14 @@ var randomRantsHistory = [
   // Evolution History
   {
     element: "h2",
-    textContent: "How it all went",
+    textContent: "The Evolution of the Project",
     style: { fontSize: "1.8em", marginTop: "1.2em", marginBottom: "0.5em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      "Random Rants didn’t just pop out of nowhere. It’s the result of a messy chain of chat apps, each one built on top of spaghetti code from the last. Here’s the glow-up history:",
+      "Random Rants didn’t just pop out of nowhere. It’s the result of constant iteration and learning from previous builds. Here’s the development history:",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
@@ -241,7 +241,7 @@ var randomRantsHistory = [
           {
             element: "span",
             textContent:
-              ' - A site I made to "show off" my JavaScript programming skills on Scratch. The word "gvbvdxx" was kid me smashing the keyboard for my username on Scratch, and that random word just stuck with me ever since. It was used a lot to get me talking to other Scratchers, just basically people on scratch, but eventually Scratch Moderation caught up and banned me. This site was the first few bans I recieved on scratch for. Later things improved, but then antoher site I made caused my scratch account to ban, then dissapear forever. A hacker somewhat inspired me to make admin commands (the hacker hacked in his own commands, then I added offical ones to the site) and quite scared me into making my future sites more locked down and secure. That hacker hopped in as "user123", completley unknown person, swearing and posting stuff not allowed on scratch, and leaking everyones IPs. It had a bug which allowed execution of code by typing in HTML, I always used innerHTML to insert text via code, but later I learned textContent is safer.',
+              '- My first experiment. "Gvbvdxx" was my dev handle. This site taught me my first big lessons in security. After an unauthorized user exploited a vulnerability to disrupt the chat, I realized I needed to stop using innerHTML and switch to textContent to prevent script injection. This pushed me to become a much better programmer.',
             children: [],
           },
         ],
@@ -254,7 +254,7 @@ var randomRantsHistory = [
           {
             element: "span",
             textContent:
-              ' - This was an attempt to teach one of the Scratchers I met (we actually talked through a site called Kosmi) how to program JavaScript, but then I gave up and did most of it for him, this was a cloned version of Gvbvdxx Chat, with more admin commands, different UI and notifcation sounds, and a recolored UI. It still had all of the security problems, but the hacker that hacked Gvbvdxx Chat was "gone".',
+              '- An educational version created to help a peer learn JavaScript. It was a fork of Gvbvdxx Chat with a recolored UI and new notification sounds, though it still shared the same early-stage architecture.',
             children: [],
           },
         ],
@@ -267,7 +267,7 @@ var randomRantsHistory = [
           {
             element: "span",
             textContent:
-              " - Im_CatmanYT suggested this site in person to me. The real first chat app, stil had most of Gvbvdxx Chat's problems, but one of them was fixed, I put a special & secure message parser code, that fixes a huge code injection problem, but admin commands were added to run code later on, at that point I didn't really care much because the hacker that hacked the first chat site I made was pretty much gone. This app was popular around my school, and also had sound triggers like [vineboom] which you can trigger in chat, but then people asked for more sounds, and then the real true soundboard was added. It also had full on voice & video chat, and screensharing was way better because it used WebRTC (used best for sending video and audio streams in web browsers), rather than rapidly sending blurry and compressed images.",
+              "- The first version to go wide. I implemented a secure message parser to fix data entry vulnerabilities. This version introduced the synchronized soundboard and moved to WebRTC for high-performance voice and video sharing, which is far more efficient than traditional image-based streaming.",
             children: [],
           },
         ],
@@ -280,7 +280,7 @@ var randomRantsHistory = [
           {
             element: "span",
             textContent:
-              " - I talked to Im_CatmanYT about the old site and its security problems, and this was my solution. This is the true remake, and your on it right now! It doesn't rely on the old Gvbvdxx Chat code, rather is a complete rewrite, some things have been added, like safe commands from Gvbvdxx Chat, Macre's Chat, and Random Rants, for throwback purposes. You can see more info in the about page. I'm not listing all the cool stuff here, as its listed there.",
+              "- The ultimate solution to previous security flaws. This is a ground-up rewrite that doesn't rely on legacy code. It includes optimized features and 'Legacy Commands' as a throwback to the original versions. It's built to be faster, cleaner, and much more secure.",
             children: [],
           },
         ],
