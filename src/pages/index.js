@@ -409,7 +409,7 @@ var elementJSON = [
             className: "fadeIn delay-1",
             gid: "description1",
             textContent:
-              "Random Rants +, made both for maximum goofiness and your digital escape from school when you're bored.",
+              "Random Rants +: A creative digital hub built for maximum goofiness and staying connected while you work.",
           },
           { element: "br" },
           {
@@ -417,7 +417,7 @@ var elementJSON = [
             className: "fadeIn delay-2",
             gid: "description2",
             textContent:
-              "Talk loud as possible, play a meme sound, or type the craziest rants, it's all here.",
+              "Sync up with your team, share audio elements, and post your most legendary rants—it's all here.",
           },
           { element: "br" },
           {
@@ -441,14 +441,14 @@ var elementJSON = [
                     textContent: "Sign up",
                     href: "/signup",
                   },
-                  ", jump into a room, and rant like there is no end.",
-                  " Whether its behind a Teachers back, or during research time, Random Rants + is ",
+                  ", join a room, and start the discussion.",
+                  "Whether you're collaborating on a project or sharing ideas, Random Rants + is",
                   {
                     element: "span",
                     style: { fontWeight: "bold" },
                     textContent: "your",
                   },
-                  " digital space.",
+                  " personal digital space.",
                 ],
               },
             ],
