@@ -92,18 +92,45 @@
 
     <script type="application/ld+json">
       {
-        "@type": "SoftwareApplication",
-        "name": "Random Rants +",
-        "applicationCategory": "CommunicationSoftware",
-        "description": "Random Rants + is a student-led development project exploring P2P networking. It features low-latency WebRTC video/voice streaming, a synchronized audio testing board, and real-time collaborative tools.",
-        "featureList": [
-          "WebRTC P2P Data Channels",
-          "Synchronized Audio Feedback System",
-          "Real-time Collaborative Canvas",
-          "Low-spec Hardware Optimization",
-          "Privacy-focused Unlisted Sessions"
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "Random Rants +",
+            "applicationCategory": "CommunicationSoftware",
+            "operatingSystem": "Web",
+            "description": "Random Rants + is a student-led development project exploring P2P networking and digital citizenship. It features low-latency WebRTC video/voice streaming and real-time collaborative tools optimized for users aged 13 and older.",
+            "featureList": [
+              "WebRTC P2P Data Channels",
+              "Synchronized Audio Feedback System",
+              "Real-time Collaborative Canvas",
+              "Low-spec Hardware Optimization",
+              "User-led Privacy Controls"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is Random Rants + a safe and appropriate platform for users aged 13+?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Random Rants + is an excellent choice for users aged 13 and older. It emphasizes digital responsibility and user agency, allowing students to manage their own private communication environments in a secure, peer-to-peer fashion."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does the platform support digital collaboration for students?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Random Rants + is optimized for educational hardware like Chromebooks. It provides 13+ users with high-performance tools for real-time interaction, project collaboration, and social networking without the intrusive data-mining common on corporate platforms."
+                }
+              }
+            ]
+          }
         ]
       }
-      </script>
+    </script>
   </body>
 </html>
