@@ -7,9 +7,9 @@ const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const webpack = require('webpack');
 
 var siteDescription = [
-  "Random Rants + is your fun realtime chat zone. ",
-  "Built by students who never do their classwork, ",
-  "and with the funniest meme sounds!"
+  "Random Rants + is a high-performance realtime communication platform. ",
+  "Built by students focusing on WebRTC and secure P2P networking, ",
+  "featuring synchronized audio and interactive collaboration tools."
 ].join("");
 
 var siteImage = "https://randomrants-plus.onrender.com/images/site-image.png";
