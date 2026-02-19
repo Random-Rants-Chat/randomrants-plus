@@ -1,7 +1,7 @@
 module.exports = [
   {
     element: "h1",
-    textContent: "Site updates list added",
+    textContent: "Version History Integration",
     style: {
       fontSize: "2em",
       marginBottom: "0.5em",
@@ -13,12 +13,12 @@ module.exports = [
     children: [
       {
         element: "span",
-        textContent: "We just added a big feature: ",
+        textContent: "New System Feature: ",
       },
       {
         element: "a",
         href: "/updates",
-        textContent: "See the site realtime update history.",
+        textContent: "Real-time deployment logs.",
       },
     ],
     style: {
@@ -30,21 +30,21 @@ module.exports = [
   {
     element: "p",
     textContent:
-      "This feature just lets you see update messages without having to go to the official source code.",
+      "This integration allows users to monitor development progress directly through the UI, removing the need to audit the raw source code repository.",
   },
   {
     element: "p",
     textContent:
-      'Sometimes the messages are just "Commit" or "Updates", cause im always adding stuff and I don\'t really want to spend time figuring out a short message for these commits.',
+      "Please note that some automated commit messages may appear brief (e.g., 'Update' or 'Patch') due to our high-frequency iteration cycle and rapid prototyping phase.",
   },
   {
     element: "p",
     children: [
       {
         element: "b",
-        textContent: "Spoiler alert:",
+        textContent: "Technical Note:",
       },
-      ' This can give some big spoilers - since updates roll out monthly unless the commit has "Immediate:" at the beginning of it.',
+      ' These logs reflect the staging environment. Standard updates are pushed on a monthly cycle, while critical patches marked "Immediate:" are deployed to the production server instantly.',
     ],
   },
 ];
