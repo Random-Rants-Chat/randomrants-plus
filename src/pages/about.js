@@ -129,7 +129,7 @@ var randomRantsAbout = [
       {
         element: "li",
         textContent:
-          "Video & Voice Chat — Express yourself and hang out in real-time. It’s all the fun of a standard social chat with a goofy twist."",
+          "Video & Voice Chat — Express yourself and hang out in real-time. It’s all the fun of a standard social chat with a goofy twist.",
         children: [],
       },
     ],
