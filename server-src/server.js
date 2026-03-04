@@ -88,7 +88,7 @@ function isPrivateIp(ip) {
   if (!ip) return false;
 
   // Clean up Node's IPv6-mapped IPv4 prefix (::ffff:)
-  const cleanIp = ip.replace(/^::ffff:/, '');
+  const cleanIp = ip.replace(/^::ffff:/, '').trim();
 
   if (cleanIp === '::1' || cleanIp === 'localhost') return true;
 
@@ -98,7 +98,7 @@ function isPrivateIp(ip) {
   const first = parseInt(parts[0], 10);
   const second = parseInt(parts[1], 10);
 
-  // Standard Private Ranges
+  // Standard Private Ranges (10.x, 192.168.x, 172.16-31.x, 127.x)
   if (first === 127 || first === 10) return true;
   if (first === 192 && second === 168) return true;
   if (first === 172 && second >= 16 && second <= 31) return true;
@@ -107,87 +107,26 @@ function isPrivateIp(ip) {
 }
 
 function getIPFromRequest(req) {
-  // 1. Always check Cloudflare/Render verified header first
-  if (req.headers['cf-connecting-ip']) {
-    return req.headers['cf-connecting-ip'];
-  }
+  // 1. Priority: The 'cf-connecting-ip' is provided by Render's edge.
+  // This is the "gold standard" and is very hard to spoof.
+  const cfIp = req.headers['cf-connecting-ip'];
+  if (cfIp) return cfIp.trim();
 
-  const ipListHeader = req.headers['x-forwarded-for'];
-  if (ipListHeader) {
-    const IPs = ipListHeader.split(",").map((ip) => ip.trim());
-    
-    // Start from the right (the most recent proxy)
-    for (let i = IPs.length - 1; i >= 0; i--) {
-      const curIp = IPs[i];
-      // If we hit an IP that is NOT private, check if it's the last one left
-      // or if it's a known public proxy (like Render's Azure IPs).
-      if (!isPrivateIp(curIp)) {
-        // If we are at the very first IP (index 0), it's definitely the user.
-        if (i === 0) return curIp;
-        
-        // If this isn't the first IP, it might be Render's public proxy.
-        // We keep looping until we hit index 0.
-        continue; 
-      }
+  // 2. Fallback: Parse the X-Forwarded-For list.
+  const xff = req.headers['x-forwarded-for'];
+  if (xff) {
+    // We split the list into an array of IPs.
+    const IPs = xff.split(',').map(ip => ip.trim());
+
+    // On Render, the user's real IP is ALWAYS the first one (index 0).
+    // The others are Render/Azure/Cloudflare proxies.
+    if (IPs.length > 0) {
+      return IPs[0]; 
     }
-    // If the loop finished or we want the most likely candidate:
-    return IPs[0];
   }
 
-  // Fallback to socket address, cleaning the prefix if it exists
-  return (req.socket.remoteAddress || "").replace(/^::ffff:/, '');
-}function isPrivateIp(ip) {
-  if (!ip) return false;
-
-  // Clean up Node's IPv6-mapped IPv4 prefix (::ffff:)
-  const cleanIp = ip.replace(/^::ffff:/, '');
-
-  if (cleanIp === '::1' || cleanIp === 'localhost') return true;
-
-  const parts = cleanIp.split('.');
-  if (parts.length !== 4) return false;
-
-  const first = parseInt(parts[0], 10);
-  const second = parseInt(parts[1], 10);
-
-  // Standard Private Ranges
-  if (first === 127 || first === 10) return true;
-  if (first === 192 && second === 168) return true;
-  if (first === 172 && second >= 16 && second <= 31) return true;
-
-  return false;
-}
-
-function getIPFromRequest(req) {
-  // 1. Always check Cloudflare/Render verified header first
-  if (req.headers['cf-connecting-ip']) {
-    return req.headers['cf-connecting-ip'];
-  }
-
-  const ipListHeader = req.headers['x-forwarded-for'];
-  if (ipListHeader) {
-    const IPs = ipListHeader.split(",").map((ip) => ip.trim());
-    
-    // Start from the right (the most recent proxy)
-    for (let i = IPs.length - 1; i >= 0; i--) {
-      const curIp = IPs[i];
-      // If we hit an IP that is NOT private, check if it's the last one left
-      // or if it's a known public proxy (like Render's Azure IPs).
-      if (!isPrivateIp(curIp)) {
-        // If we are at the very first IP (index 0), it's definitely the user.
-        if (i === 0) return curIp;
-        
-        // If this isn't the first IP, it might be Render's public proxy.
-        // We keep looping until we hit index 0.
-        continue; 
-      }
-    }
-    // If the loop finished or we want the most likely candidate:
-    return IPs[0];
-  }
-
-  // Fallback to socket address, cleaning the prefix if it exists
-  return (req.socket.remoteAddress || "").replace(/^::ffff:/, '');
+  // 3. Final Fallback: The direct connection IP (usually a proxy IP on Render)
+  return (req.socket.remoteAddress || "").replace(/^::ffff:/, '').trim();
 }
 
 var ipBanReasons = {
