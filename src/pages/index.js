@@ -156,23 +156,7 @@ var elementJSON = [
   },
   {
     element: "div",
-    style: {
-      transform: "translate(-50%, -50%)",
-      position: "fixed",
-      top: "calc(50% + 50px)",
-      left: "50%",
-      backgroundColor: "#ffffff",
-      borderRadius: "5px",
-      boxShadow: "0 0px 30px black",
-      padding: "15px 15px",
-
-      maxWidth: "90vw", // Set a maximum width based on viewport width (e.g., 90% of the viewport)
-      maxHeight: "90vh",
-      minWidth: "325px",
-
-      display: "inline-block",
-      overflowWrap: "break-word",
-    },
+    className: "homeBoxText",
     children: [
       {
         element: "div",
@@ -192,6 +176,7 @@ var elementJSON = [
               transform: "translate(-50%, -100%)",
               transformOrigin: "bottom",
               filter: "drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.2))",
+              height: "100px",
             },
             GPWhenCreated: function (elm) {
               elm.animate(
@@ -212,6 +197,19 @@ var elementJSON = [
           },
         ],
       },
+      {
+        element: "div",
+        className: "homeVideoBox",
+        children: [
+          {
+                element: "video",
+                src: "videos/home-video.webm",
+                muted: true,
+                autoplay: true,
+                loop: true,
+              }
+        ]
+      },
       require("./sitenews-notice.js"),
       {
         element: "div",
@@ -225,7 +223,7 @@ var elementJSON = [
             element: "div",
             className: "fadeIn delay-3",
             style: {
-              fontSize: "40px",
+              fontSize: "38px",
               color: returnRandomValueFromArray(getRainbowHexes(2, 100, 70)),
               fontFamily: "Fredoka",
               overflowWrap: "break-word",
@@ -233,9 +231,6 @@ var elementJSON = [
             },
             textContent:
               "“" + returnRandomValueFromArray(randomQuotes).trim() + "”",
-          },
-          {
-            element: "br",
           },
           {
             element: "div",
@@ -253,11 +248,11 @@ var elementJSON = [
                 style: {
                   maxHeight: "70px",
                   width: "100%",
+                  padding: "0px 0px",
                 },
               },
             ],
           },
-          { element: "br" },
           //For people that always look at the center of the site for stuff, here is some "useful" links that you may need.
 
           {
@@ -442,7 +437,7 @@ var elementJSON = [
                     href: "/signup",
                   },
                   ", join a room, and start the discussion.",
-                  "Whether you're collaborating on a project or sharing ideas, Random Rants + is",
+                  "Whether you're collaborating on a project or sharing ideas, Random Rants + is ",
                   {
                     element: "span",
                     style: { fontWeight: "bold" },

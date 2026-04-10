@@ -111,3 +111,45 @@
     transform: scale3d(1, 1, 1);
   }
 }
+
+.homeBoxText {
+  transform: translate(-50%, -50%);
+      position: fixed;
+      top: calc(50% + 65px);
+      left: calc(50% - calc(calc(400px + 10px) / 2));
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 0px 30px black;
+      padding: 15px 15px;
+
+      max-width: 630px;
+      max-height: 90vh;
+      min-width: 325px;
+
+      display: inline-block;
+      overflow-wrap: break-word;
+}
+
+.homeVideoBox {
+  position: absolute;
+  right: -10px;
+  top: 0px;
+  transform: translate(100%,0%);
+  pointer-events: none;
+
+      border-radius: 5px;
+      padding: 3px 3px;
+      box-sizing: border-box;
+
+      width: 400px;
+      height: 300px;
+}
+
+.homeVideoBox > video {
+  border-radius: 4px;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0 0px 30px black;
+}
