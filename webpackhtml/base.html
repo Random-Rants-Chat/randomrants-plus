@@ -1,99 +1,51 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="favicon.png?n=1" />
 
-    <!-- Google / Search Engine Tags -->
+    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
     <meta itemprop="name" content="<%= htmlWebpackPlugin.options.title %>" />
-    <meta
-      itemprop="description"
-      content="<%= htmlWebpackPlugin.options.description %>"
-    />
-    <meta
-      name="description"
-      content="<%= htmlWebpackPlugin.options.description %>"
-    />
+    <meta itemprop="description" content="<%= htmlWebpackPlugin.options.description %>" />
     <meta itemprop="image" content="<%= htmlWebpackPlugin.options.image %>" />
 
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<%= htmlWebpackPlugin.options.image %>" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="<%= htmlWebpackPlugin.options.title %>"
-    />
-    <meta
-      property="og:description"
-      content="<%= htmlWebpackPlugin.options.description %>"
-    />
-    <meta
-      property="og:image"
-      content="<%= htmlWebpackPlugin.options.image %>"
-    />
-
-    <!-- Twitter Meta Tags -->
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>" />
+    <meta property="og:image" content="<%= htmlWebpackPlugin.options.image %>" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="<%= htmlWebpackPlugin.options.title %>"
-    />
-    <meta
-      name="twitter:description"
-      content="<%= htmlWebpackPlugin.options.description %>"
-    />
-    <meta
-      name="twitter:image"
-      content="<%= htmlWebpackPlugin.options.image %>"
-    />
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
 
     <meta name="DC.title" content="Random Rants +: P2P Communication Research Project" />
     <meta name="DC.creator" content="Jason Glen Evans" />
     <meta name="DC.description" content="A technical exploration of WebRTC protocols and real-time data synchronization in low-resource environments." />
-    <meta name="DC.type" content="Software" />
-    <meta name="DC.format" content="Web Application" />
-    <meta name="DC.audience" content="Educational; Secondary Education" />
   </head>
   <body>
-    <!--No script error in case JavaScript is disabled-->
+
+    <div id="seo-content" style="display: none;" aria-hidden="true">
+      <h1>Random Rants + | Real-time Social Chat Platform</h1>
+      <p>
+        Random Rants + is a <strong>private chat site</strong> and <strong>online hangout space</strong> 
+        where friends can connect through <strong>live messaging, voice chat, and video calls</strong>.
+      </p>
+      
+      <h2>Features of our Chat Platform</h2>
+      <ul>
+          <li><strong>Group Chat Rooms:</strong> Create private spaces for your crew.</li>
+          <li><strong>Multimedia Chat:</strong> Share files, memes, and media instantly.</li>
+          <li><strong>Voice and Video Chat:</strong> High-quality, real-time P2P communication.</li>
+          <li><strong>Interactive Chat Commands:</strong> Goofy admin tools and soundboard reactions.</li>
+      </ul>
+    </div>
+    
     <noscript>
-      <div
-        style="
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: #b8b8b8;
-          color: var(--main-text-color);
-          font-family: arial;
-        "
-      >
-        <div
-          style="
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 12px 12px;
-            box-sizing: border-box;
-            background: white;
-            border-radius: 10px;
-          "
-        >
-          <h1 style="text-align: center">No JavaScript!</h1>
-          <span>
-            Please enable JavaScript to use Random Rants +.<br />
-            Without it, this page is just a boring blank screen.<br />
-            We need this to show you interactive content. <br />
-          </span>
+      <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:white; display:flex; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
+        <div>
+          <h1>JavaScript Required</h1>
+          <p>Please enable JavaScript to use Random Rants +.</p>
         </div>
       </div>
     </noscript>
@@ -101,46 +53,21 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "SoftwareApplication",
-            "typicalAgeRange": "13-18",
-            "contentRating": "Teen",
-            "name": "Random Rants +",
-            "applicationCategory": "CommunicationSoftware",
-            "operatingSystem": "Web",
-            "description": "Random Rants + is a student-led development project exploring P2P networking and digital citizenship. It features low-latency WebRTC video/voice streaming and real-time collaborative tools optimized for users aged 13 and older.",
-            "featureList": [
-              "WebRTC P2P Data Channels",
-              "Synchronized Audio Feedback System",
-              "Real-time Collaborative Canvas",
-              "Low-spec Hardware Optimization",
-              "User-led Privacy Controls"
-            ]
-          },
-          {
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "Is Random Rants + a safe and appropriate platform for users aged 13+?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes. Random Rants + is an excellent choice for users aged 13 and older. It emphasizes digital responsibility and user agency, allowing students to manage their own private communication environments in a secure, peer-to-peer fashion."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How does the platform support digital collaboration for students?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Random Rants + is optimized for educational hardware like Chromebooks. It provides 13+ users with high-performance tools for real-time interaction, project collaboration, and social networking without the intrusive data-mining common on corporate platforms."
-                }
-              }
-            ]
-          }
-        ]
+        "@type": "SoftwareApplication",
+        "name": "Random Rants +",
+        "applicationCategory": "CommunicationSoftware",
+        "operatingSystem": "Web",
+        "description": "Student-led P2P networking project exploring WebRTC and digital citizenship."
       }
     </script>
+
+    <script>
+      (function() {
+        var seoBox = document.getElementById("seo-content");
+        if (seoBox) seoBox.parentNode.removeChild(seoBox);
+      })();
+    </script>
+
+    
   </body>
 </html>
