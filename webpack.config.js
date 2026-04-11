@@ -65,7 +65,7 @@ module.exports = {
     filename: "[name].bundle.js",
   },
   watchOptions: {
-    ignored: [path.resolve(__dirname, "wpstatic/version.json")], //Ignore version file.
+    ignored: ["**/wpstatic/version.json", "**/node_modules"], //Ignore version file.
   },
   performance: {
     hints: "warning",

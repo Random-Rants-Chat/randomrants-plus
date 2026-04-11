@@ -116,7 +116,7 @@
   transform: translate(-50%, -50%);
       position: fixed;
       top: calc(50% + 65px);
-      left: calc(50% - calc(calc(400px + 10px) / 2));
+      left: calc(50% - calc(calc(300px + 10px) / 2));
       background-color: #ffffff;
       border-radius: 5px;
       box-shadow: 0 0px 30px black;
@@ -133,16 +133,17 @@
 .homeVideoBox {
   position: absolute;
   right: -10px;
-  top: 0px;
-  transform: translate(100%,0%);
-  pointer-events: none;
+  top: 50%;
+  transform: translate(100%,-50%);
 
       border-radius: 5px;
       padding: 3px 3px;
       box-sizing: border-box;
 
-      width: 400px;
-      height: 300px;
+      width: calc(100svw - 790px);
+      min-width: 100px;
+      max-width: 300px;
+      height: fit-content;
 }
 
 .homeVideoBox > video {
