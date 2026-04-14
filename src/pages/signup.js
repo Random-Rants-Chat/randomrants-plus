@@ -48,6 +48,21 @@ var signInArea = {
     {
       element: "br",
     },
+    {
+      element: "div",
+      children: [
+        {
+          element: "span",
+          textContent: "I'm 13+ or have parent permission: ",
+        },
+        {
+          element: "input",
+          type: "checkbox",
+          gid: "age_checkbox",
+          style: { marginLeft: "2px" },
+        }
+      ]
+    },
     botCheck.jsonElement,
     {
       element: "div",
@@ -127,9 +142,15 @@ elements.appendElements(
 var goButton = elements.getGPId("goButton");
 var usernameInput = elements.getGPId("username_input");
 var passwordInput = elements.getGPId("password_input");
+var ageCheckbox = elements.getGPId("age_checkbox");
 var loader = require("./loadingscreen.js");
 
 async function signUp() {
+  if (!ageCheckbox.checked) {
+    dialog.alert("Did you forget to check \"I'm 13+ or have parent permission?\"\nYou must agree to what it says.");
+    return;
+  }
+
   var loadingScreen = loader.doLoadingScreen();
   goButton.disabled = true;
   try {
