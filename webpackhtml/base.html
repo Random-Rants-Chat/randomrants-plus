@@ -1,50 +1,100 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="favicon.png?n=1" />
 
     <link rel="preload" href="videos/home-video.webm" />
 
-    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
+    <meta
+      name="description"
+      content="<%= htmlWebpackPlugin.options.description %>"
+    />
     <meta itemprop="name" content="<%= htmlWebpackPlugin.options.title %>" />
-    <meta itemprop="description" content="<%= htmlWebpackPlugin.options.description %>" />
+    <meta
+      itemprop="description"
+      content="<%= htmlWebpackPlugin.options.description %>"
+    />
     <meta itemprop="image" content="<%= htmlWebpackPlugin.options.image %>" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
-    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>" />
-    <meta property="og:image" content="<%= htmlWebpackPlugin.options.image %>" />
+    <meta
+      property="og:title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta
+      property="og:description"
+      content="<%= htmlWebpackPlugin.options.description %>"
+    />
+    <meta
+      property="og:image"
+      content="<%= htmlWebpackPlugin.options.image %>"
+    />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"
+    />
 
-    <meta name="DC.title" content="Random Rants +: P2P Communication Research Project" />
+    <meta
+      name="DC.title"
+      content="Random Rants +: P2P Communication Research Project"
+    />
     <meta name="DC.creator" content="Jason Glen Evans" />
-    <meta name="DC.description" content="A technical exploration of WebRTC protocols and real-time data synchronization in low-resource environments." />
+    <meta
+      name="DC.description"
+      content="A technical exploration of WebRTC protocols and real-time data synchronization in low-resource environments."
+    />
   </head>
   <body>
-
-    <div id="seo-content" style="display: none;" aria-hidden="true">
+    <div id="seo-content" style="display: none" aria-hidden="true">
       <h1>Random Rants + | Real-time Social Chat Platform</h1>
       <p>
-        Random Rants + is a <strong>private chat site</strong> and <strong>online hangout space</strong> 
-        where friends can connect through <strong>live messaging, voice chat, and video calls</strong>.
+        Random Rants + is a <strong>private chat site</strong> and
+        <strong>online hangout space</strong> where friends can connect through
+        <strong>live messaging, voice chat, and video calls</strong>.
       </p>
-      
+
       <h2>Features of our Chat Platform</h2>
       <ul>
-          <li><strong>Group Chat Rooms:</strong> Create private spaces for your crew.</li>
-          <li><strong>Multimedia Chat:</strong> Share files, memes, and media instantly.</li>
-          <li><strong>Voice and Video Chat:</strong> High-quality, real-time P2P communication.</li>
-          <li><strong>Interactive Chat Commands:</strong> Goofy admin tools and soundboard reactions.</li>
+        <li>
+          <strong>Group Chat Rooms:</strong> Create private spaces for your
+          crew.
+        </li>
+        <li>
+          <strong>Multimedia Chat:</strong> Share files, memes, and media
+          instantly.
+        </li>
+        <li>
+          <strong>Voice and Video Chat:</strong> High-quality, real-time P2P
+          communication.
+        </li>
+        <li>
+          <strong>Interactive Chat Commands:</strong> Goofy admin tools and
+          soundboard reactions.
+        </li>
       </ul>
     </div>
-    
+
     <noscript>
-      <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:white; display:flex; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
+      <div
+        style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          font-family: sans-serif;
+        "
+      >
         <div>
           <h1>JavaScript Required</h1>
           <p>Please enable JavaScript to use Random Rants +.</p>
@@ -64,12 +114,10 @@
     </script>
 
     <script>
-      (function() {
+      (function () {
         var seoBox = document.getElementById("seo-content");
         if (seoBox) seoBox.parentNode.removeChild(seoBox);
       })();
     </script>
-
-    
   </body>
 </html>

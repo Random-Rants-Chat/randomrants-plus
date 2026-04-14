@@ -42,14 +42,14 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      'I met a fellow developer on Scratch. We bonded over coding projects, and I showed him an early prototype I called Macre\'s Chat.',
+      "I met a fellow developer on Scratch. We bonded over coding projects, and I showed him an early prototype I called Macre's Chat.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      'That person was Im_CatmanYT. He started testing the site with his group and eventually challenged me to build a more robust version with better features.',
+      "That person was Im_CatmanYT. He started testing the site with his group and eventually challenged me to build a more robust version with better features.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
@@ -98,14 +98,14 @@ var randomRantsHistory = [
   {
     element: "p",
     textContent:
-      'To solve the privacy and security issues, I proposed a complete ground-up remake with private, unlisted rooms. We called it Random Rants +, and development officially shifted to this new architecture.',
+      "To solve the privacy and security issues, I proposed a complete ground-up remake with private, unlisted rooms. We called it Random Rants +, and development officially shifted to this new architecture.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
   {
     element: "p",
     textContent:
-      'Once the new engine was stable, I added a migration notice to the old site to help users move over to the more secure Plus version.',
+      "Once the new engine was stable, I added a migration notice to the old site to help users move over to the more secure Plus version.",
     style: { fontSize: "1.1em", marginBottom: "1em" },
     children: [],
   },
@@ -164,7 +164,8 @@ var randomRantsHistory = [
     children: [
       {
         element: "li",
-        textContent: "Public Access — Early versions lacked private room controls, allowing anyone to join any session.",
+        textContent:
+          "Public Access — Early versions lacked private room controls, allowing anyone to join any session.",
         children: [],
       },
       {
@@ -254,7 +255,7 @@ var randomRantsHistory = [
           {
             element: "span",
             textContent:
-              '- An educational version created to help a peer learn JavaScript. It was a fork of Gvbvdxx Chat with a recolored UI and new notification sounds, though it still shared the same early-stage architecture.',
+              "- An educational version created to help a peer learn JavaScript. It was a fork of Gvbvdxx Chat with a recolored UI and new notification sounds, though it still shared the same early-stage architecture.",
             children: [],
           },
         ],

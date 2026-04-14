@@ -74,14 +74,14 @@ var elementJSON = [
         textContent: "Updates",
         href: "./updates",
       },
-	  //Alternative links button.
+      //Alternative links button.
       {
         element: "a",
         className: "menuBarItem",
         textContent: "Alt links",
         href: "./alts",
       },
-	  //Uptime button.
+      //Uptime button.
       {
         element: "a",
         className: "menuBarItem",

@@ -7,7 +7,7 @@
         "src": "images/randomrants-square-icon.png",
         "name": "Random Rants + square icon",
         "emojiURL": "rrp",
-        "tags": ["square", "icon"]
+        "tags": ["square", "icon", "logo", "brand", "rrp", "random rants plus"]
       },
       {
         "src": "images/doge.png",
@@ -17,7 +17,10 @@
           "dog",
           "meme",
           "shiba inu",
+          "doge",
+          "kabosu",
           "wow",
+          "much wow",
           "much",
           "so",
           "confused",
@@ -32,6 +35,7 @@
         "emojiURL": "rrp",
         "tags": [
           "surprised",
+          "surprised pikachu face",
           "shocked",
           "pikachu",
           "pokemon",
@@ -49,6 +53,7 @@
         "emojiURL": "rrp",
         "tags": [
           "fine",
+          "everything is fine",
           "dog",
           "meme",
           "fire",
@@ -69,6 +74,8 @@
           "pop",
           "cat",
           "meme",
+          "popcat",
+          "pop cat",
           "animated",
           "goofy",
           "pog",
@@ -86,8 +93,10 @@
         "emojiURL": "rrp",
         "tags": [
           "sus",
+          "sus meme",
           "suspicious",
           "among us",
+          "among us meme",
           "meme",
           "impostor",
           "white",
@@ -106,7 +115,9 @@
           "head",
           "white",
           "stonks",
+          "stonks meme",
           "stocks",
+          "stock market",
           "profit",
           "success",
           "business",
@@ -124,6 +135,7 @@
         "tags": [
           "approve",
           "drake",
+          "drake meme",
           "hotline",
           "bling",
           "meme",
@@ -142,6 +154,7 @@
         "tags": [
           "disapprove",
           "drake",
+          "drake meme",
           "hotline",
           "bling",
           "meme",
@@ -163,6 +176,7 @@
           "animated",
           "cat",
           "jam",
+          "cat jam",
           "bopping",
           "vibe",
           "music",
@@ -184,6 +198,7 @@
           "bopping",
           "rainbow",
           "party",
+          "party parrot",
           "vibe",
           "rave",
           "celebrate",
@@ -199,6 +214,7 @@
         "tags": [
           "grumpy",
           "cat",
+          "grumpy cat meme",
           "mad",
           "angry",
           "sad",
@@ -215,6 +231,7 @@
         "tags": [
           "cat",
           "crying",
+          "sad cat",
           "sad",
           "cry",
           "sob",
@@ -230,6 +247,7 @@
         "emojiURL": "rrp",
         "tags": [
           "uno reverse",
+          "uno reverse card meme",
           "reverse",
           "no you",
           "no u",
@@ -251,6 +269,7 @@
           "crying",
           "cat",
           "approve",
+          "coping meme",
           "sad",
           "ok",
           "okay",
@@ -269,6 +288,7 @@
           "elmo",
           "rise",
           "fire",
+          "elmo fire meme",
           "evil",
           "chaos",
           "yes",
@@ -286,7 +306,16 @@
         "src": "images/hashbrowncat.png",
         "name": "Hash brown cat",
         "emojiURL": "rrp",
-        "tags": ["hash brown", "meme", "MC Donalds", "chineese", "cat", "food"]
+        "tags": [
+          "hash brown",
+          "meme",
+          "mcdonalds",
+          "mc donalds",
+          "chinese",
+          "cat",
+          "food",
+          "hashbrown"
+        ]
       },
       {
         "src": "images/mop3000.png",
@@ -299,6 +328,8 @@
           "character",
           "pixels",
           "pixelated",
+          "avatar",
+          "pixel art",
           "guy"
         ]
       },
@@ -306,7 +337,15 @@
         "src": "images/mc-parrot.png",
         "name": "Red Minecraft Parrot",
         "emojiURL": "rrp",
-        "tags": ["red", "parrot", "animal", "bird", "minecraft"]
+        "tags": [
+          "red",
+          "parrot",
+          "animal",
+          "bird",
+          "minecraft",
+          "minecraft parrot",
+          "party bird"
+        ]
       },
       {
         "src": "images/sadsponge.png",
@@ -315,6 +354,7 @@
         "tags": [
           "sad",
           "spongebob",
+          "sad spongebob",
           "sponge",
           "boowomp",
           "nick",
@@ -326,31 +366,67 @@
         "src": "images/thatface.svg",
         "name": "I Don't know what this face is called but it's funny",
         "emojiURL": "rrp",
-        "tags": []
+        "tags": ["meme face", "weird face", "confused", "funny face"]
       },
       {
         "src": "images/code.svg",
         "name": "Guy coding on laptop",
         "emojiURL": "rrp",
-        "tags": ["code", "obsessed", "laptop", "typing"]
+        "tags": [
+          "code",
+          "obsessed",
+          "laptop",
+          "typing",
+          "programmer",
+          "developer",
+          "coding"
+        ]
       },
       {
         "src": "images/srb2.png",
         "name": "Sonic Robo Blast 2 Icon",
         "emojiURL": "rrp",
-        "tags": ["srb2", "icon", "game", "sonic", "fangame", "favicon"]
+        "tags": [
+          "srb2",
+          "icon",
+          "game",
+          "sonic",
+          "fangame",
+          "favicon",
+          "sonic robo blast 2"
+        ]
       },
       {
         "src": "images/failed-paper.svg",
         "name": "Failed assignment",
         "emojiURL": "rrp",
-        "tags": ["F-", "F", "assignment", "failed", "0%", "0", "terrible"]
+        "tags": [
+          "F-",
+          "F",
+          "assignment",
+          "failed",
+          "0%",
+          "0",
+          "terrible",
+          "failing grade",
+          "school"
+        ]
       },
       {
         "src": "images/passed-paper.svg",
         "name": "Passed assignment",
         "emojiURL": "rrp",
-        "tags": ["A+", "A", "assignment", "passed", "100%", "100", "great"]
+        "tags": [
+          "A+",
+          "A",
+          "assignment",
+          "passed",
+          "100%",
+          "100",
+          "great",
+          "passing grade",
+          "school"
+        ]
       }
     ]
   },
@@ -658,6 +734,8 @@
           "sonic",
           "sonic the hedgehog",
           "evil",
+          "eggman",
+          "dr robotnik",
           "robotnick",
           "eggman"
         ]
@@ -833,7 +911,17 @@
         "src": "ARVSM_IDLE.svg",
         "name": "Aibo Recognition Sitting",
         "emojiURL": "gc",
-        "tags": ["ers-210", "game", "aibo", "software", "robot", "sony"]
+        "tags": [
+          "ers-210",
+          "game",
+          "aibo",
+          "software",
+          "robot",
+          "sony",
+          "idle",
+          "sitting",
+          "avatar"
+        ]
       },
       {
         "src": "ARVSM_XD.png",
@@ -847,6 +935,8 @@
           "robot",
           "sony",
           "xd face",
+          "xd",
+          "laugh",
           "laughing face"
         ]
       },
@@ -862,6 +952,8 @@
           "robot",
           "sony",
           "hurt",
+          "dead",
+          "loss",
           "crossed out eyes",
           "x-eyes"
         ]
@@ -878,6 +970,8 @@
           "robot",
           "sony",
           "annoying",
+          "annoyed",
+          "face",
           "repetative"
         ]
       },
@@ -893,6 +987,8 @@
           "robot",
           "sony",
           "closed eye",
+          "wink",
+          "winking",
           "good luck"
         ]
       },
@@ -908,6 +1004,7 @@
           "robot",
           "sony",
           "upset",
+          "angry face",
           "mad"
         ]
       },
@@ -923,6 +1020,8 @@
           "robot",
           "sony",
           "shocked",
+          "surprised",
+          "reaction",
           "suprised"
         ]
       },
@@ -940,6 +1039,7 @@
           "tears of joy",
           "joy",
           "laugh",
+          "lol",
           "funny"
         ]
       },
@@ -968,7 +1068,9 @@
           "scratch",
           "character",
           "vector",
-          "profile picture"
+          "profile picture",
+          "pfp",
+          "avatar"
         ]
       },
       {
@@ -988,6 +1090,8 @@
           "mini scratch gamer",
           "youtube",
           "banned",
+          "scratch logo",
+          "windows xp logo",
           "classic"
         ]
       },
@@ -1003,6 +1107,7 @@
           "mini scratch gamer",
           "youtube",
           "banned",
+          "pfp",
           "classic"
         ]
       },
@@ -1019,6 +1124,7 @@
           "youtube",
           "banned",
           "classic",
+          "sad face",
           "frown"
         ]
       },
@@ -1037,8 +1143,8 @@
           "classic",
           "yay",
           "happy",
-          "good",
           "smile",
+          "good",
           "alright",
           "all good"
         ]
@@ -1059,6 +1165,7 @@
           "sunglasses",
           "yeah",
           "im cool",
+          "cool face",
           "great"
         ]
       },
@@ -1077,6 +1184,7 @@
           "classic",
           "tears of joy",
           "happy",
+          "laughing",
           "funny",
           "too funny"
         ]
@@ -1134,6 +1242,7 @@
           "sad",
           "really sad",
           "tears",
+          "upset",
           "not good"
         ]
       },
@@ -1169,6 +1278,8 @@
           "pc",
           "exe",
           "dream",
+          "catto",
+          "cat boy",
           "wake up"
         ]
       },
@@ -1176,13 +1287,20 @@
         "src": "CHEESEPUFFS.jpg",
         "name": "Cheese puffs",
         "emojiURL": "gc",
-        "tags": ["cheese puffs", "cheetos", "bowl", "snack"]
+        "tags": [
+          "cheese puffs",
+          "cheetos",
+          "bowl",
+          "snack",
+          "snack food",
+          "puffs"
+        ]
       },
       {
         "src": "PLUSH.png",
         "name": "Plush",
         "emojiURL": "gc",
-        "tags": ["stitch", "plushy", "stuffed animal"]
+        "tags": ["stitch", "plushy", "stuffed animal", "plushie", "toy"]
       }
     ]
   }

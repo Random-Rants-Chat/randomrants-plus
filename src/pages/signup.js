@@ -60,8 +60,8 @@ var signInArea = {
           type: "checkbox",
           gid: "age_checkbox",
           style: { marginLeft: "2px" },
-        }
-      ]
+        },
+      ],
     },
     botCheck.jsonElement,
     {
@@ -147,7 +147,9 @@ var loader = require("./loadingscreen.js");
 
 async function signUp() {
   if (!ageCheckbox.checked) {
-    dialog.alert("Did you forget to check \"I'm 13+ or have parent permission?\"\nYou must agree to what it says.");
+    dialog.alert(
+      'Did you forget to check "I\'m 13+ or have parent permission?"\nYou must agree to what it says.',
+    );
     return;
   }
 

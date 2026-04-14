@@ -36,7 +36,8 @@ var randomRantsAbout = [
   },
   {
     element: "p",
-    textContent: "Whenever you've got something on your mind, just share it here with the crew!",
+    textContent:
+      "Whenever you've got something on your mind, just share it here with the crew!",
     style: { fontSize: "1.1em", lineHeight: "0px", marginBottom: "1em" },
   },
 
@@ -76,7 +77,8 @@ var randomRantsAbout = [
       { element: "br" },
       {
         element: "li",
-        textContent: "People who enjoy high-energy, spontaneous digital spaces.",
+        textContent:
+          "People who enjoy high-energy, spontaneous digital spaces.",
       },
     ],
   },
@@ -173,7 +175,7 @@ var randomRantsAbout = [
   },
   {
     element: "p",
-    textContent: "Customize your identity so people know it's you:", 
+    textContent: "Customize your identity so people know it's you:",
     style: { fontSize: "1em", marginBottom: "0.5em" },
     children: [],
   },
@@ -265,7 +267,8 @@ var randomRantsAbout = [
     children: [
       {
         element: "h2",
-        textContent: "User-moderated rooms, users get to run rooms however they want.",
+        textContent:
+          "User-moderated rooms, users get to run rooms however they want.",
         style: { fontSize: "1.5em", marginTop: "1.2em" },
         children: [],
       },

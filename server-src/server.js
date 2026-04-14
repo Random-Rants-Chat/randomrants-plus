@@ -88,11 +88,11 @@ function isPrivateIp(ip) {
   if (!ip) return false;
 
   // Clean up Node's IPv6-mapped IPv4 prefix (::ffff:)
-  const cleanIp = ip.replace(/^::ffff:/, '').trim();
+  const cleanIp = ip.replace(/^::ffff:/, "").trim();
 
-  if (cleanIp === '::1' || cleanIp === 'localhost') return true;
+  if (cleanIp === "::1" || cleanIp === "localhost") return true;
 
-  const parts = cleanIp.split('.');
+  const parts = cleanIp.split(".");
   if (parts.length !== 4) return false;
 
   const first = parseInt(parts[0], 10);
@@ -109,24 +109,24 @@ function isPrivateIp(ip) {
 function getIPFromRequest(req) {
   // 1. Priority: The 'cf-connecting-ip' is provided by Render's edge.
   // This is the "gold standard" and is very hard to spoof.
-  const cfIp = req.headers['cf-connecting-ip'];
+  const cfIp = req.headers["cf-connecting-ip"];
   if (cfIp) return cfIp.trim();
 
   // 2. Fallback: Parse the X-Forwarded-For list.
-  const xff = req.headers['x-forwarded-for'];
+  const xff = req.headers["x-forwarded-for"];
   if (xff) {
     // We split the list into an array of IPs.
-    const IPs = xff.split(',').map(ip => ip.trim());
+    const IPs = xff.split(",").map((ip) => ip.trim());
 
     // On Render, the user's real IP is ALWAYS the first one (index 0).
     // The others are Render/Azure/Cloudflare proxies.
     if (IPs.length > 0) {
-      return IPs[0]; 
+      return IPs[0];
     }
   }
 
   // 3. Final Fallback: The direct connection IP (usually a proxy IP on Render)
-  return (req.socket.remoteAddress || "").replace(/^::ffff:/, '').trim();
+  return (req.socket.remoteAddress || "").replace(/^::ffff:/, "").trim();
 }
 
 var ipBanReasons = {
@@ -2919,15 +2919,15 @@ const server = http.createServer(async function (req, res) {
     }
   }
 
-	if (urlsplit[1] == "tunnels.json") {
-		res.setHeader("content-type", "application/json");
-		res.end(JSON.stringify(pinggy.getActiveAltLinks(), null, "  "));
-		return;
-	}
-	if (urlsplit[1] == "sendtmp") {
-		res.end("Y");
-		return;
-	}
+  if (urlsplit[1] == "tunnels.json") {
+    res.setHeader("content-type", "application/json");
+    res.end(JSON.stringify(pinggy.getActiveAltLinks(), null, "  "));
+    return;
+  }
+  if (urlsplit[1] == "sendtmp") {
+    res.end("Y");
+    return;
+  }
 
   if (urlsplit[1] == "webpush" && WEBPUSH_ENABLED) {
     if (urlsplit[2] == "key" && req.method == "GET") {

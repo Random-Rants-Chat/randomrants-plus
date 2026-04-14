@@ -15,61 +15,78 @@ var randomRantsLegal = [
   require("./sitenews-notice.js"),
 
   // --- TL;DR SECTION ---
-{
-  element: "div",
-  style: {
-    border: "3px dashed var(--main-text-color)",
-    padding: "20px",
-    borderRadius: "10px",
-    marginBottom: "30px",
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+  {
+    element: "div",
+    style: {
+      border: "3px dashed var(--main-text-color)",
+      padding: "20px",
+      borderRadius: "10px",
+      marginBottom: "30px",
+      backgroundColor: "rgba(0, 0, 0, 0.05)",
+    },
+    children: [
+      {
+        element: "h2",
+        textContent: "The Simple Version",
+        style: { marginTop: "0", fontSize: "1.8em" },
+      },
+      {
+        element: "p",
+        textContent:
+          "Legal text is a headache. Here’s the deal in plain English:",
+        style: { fontStyle: "italic", marginBottom: "10px" },
+      },
+      {
+        element: "ul",
+        children: [
+          {
+            element: "li",
+            children: [
+              { element: "strong", textContent: "13+ ONLY." },
+              {
+                element: "span",
+                textContent:
+                  " If you're under 13, you legally can't be here. It’s a COPPA thing. Please close the tab.",
+              },
+            ],
+          },
+          {
+            element: "li",
+            children: [
+              { element: "strong", textContent: "STORAGE ISN'T FOREVER." },
+              {
+                element: "span",
+                textContent:
+                  " We clear out old files to keep the server fast. Don't use this as your only backup.",
+              },
+            ],
+          },
+          {
+            element: "li",
+            children: [
+              { element: "strong", textContent: "PLAY FAIR." },
+              {
+                element: "span",
+                textContent:
+                  " We're on a free hosting tier. If you try to crash the site or spam it, we'll have to IP ban you to keep it running for everyone else.",
+              },
+            ],
+          },
+          {
+            element: "li",
+            children: [
+              { element: "strong", textContent: "YOUR DATA." },
+              {
+                element: "span",
+                textContent:
+                  " We see IPs and usernames for security. We don't sell it, we just use it to keep the lights on.",
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
-  children: [
-    {
-      element: "h2",
-      textContent: "The Simple Version",
-      style: { marginTop: "0", fontSize: "1.8em" },
-    },
-    {
-      element: "p",
-      textContent: "Legal text is a headache. Here’s the deal in plain English:",
-      style: { fontStyle: "italic", marginBottom: "10px" },
-    },
-    {
-      element: "ul",
-      children: [
-        {
-          element: "li",
-          children: [
-            { element: "strong", textContent: "13+ ONLY." },
-            { element: "span", textContent: " If you're under 13, you legally can't be here. It’s a COPPA thing. Please close the tab." },
-          ],
-        },
-        {
-          element: "li",
-          children: [
-            { element: "strong", textContent: "STORAGE ISN'T FOREVER." },
-            { element: "span", textContent: " We clear out old files to keep the server fast. Don't use this as your only backup." },
-          ],
-        },
-        {
-          element: "li",
-          children: [
-            { element: "strong", textContent: "PLAY FAIR." },
-            { element: "span", textContent: " We're on a free hosting tier. If you try to crash the site or spam it, we'll have to IP ban you to keep it running for everyone else." },
-          ],
-        },
-        {
-          element: "li",
-          children: [
-            { element: "strong", textContent: "YOUR DATA." },
-            { element: "span", textContent: " We see IPs and usernames for security. We don't sell it, we just use it to keep the lights on." },
-          ],
-        },
-      ],
-    },
-  ],
-},
   {
     element: "hr",
     style: { margin: "20px 0", border: "1px solid #ccc" },
@@ -92,28 +109,28 @@ var randomRantsLegal = [
   { element: "br" },
 
   // Developer Note
-{
-  element: "div",
-  style: {
-    backgroundColor: "rgba(255, 215, 0, 0.15)",
-    padding: "10px",
-    borderRadius: "5px",
-    borderLeft: "3px solid orange",
-    fontSize: "0.9em",
-    marginBottom: "15px",
+  {
+    element: "div",
+    style: {
+      backgroundColor: "rgba(255, 215, 0, 0.15)",
+      padding: "10px",
+      borderRadius: "5px",
+      borderLeft: "3px solid orange",
+      fontSize: "0.9em",
+      marginBottom: "15px",
+    },
+    children: [
+      {
+        element: "strong",
+        textContent: "A Note from the Developer: ",
+      },
+      {
+        element: "span",
+        textContent:
+          "I’m a 15-year-old student building this in my \"spare time.\" I’ve put a massive amount of work into this site, so please don't try to break it. I'm doing my best to keep the server stable and secure for everyone.",
+      },
+    ],
   },
-  children: [
-    {
-      element: "strong",
-      textContent: "A Note from the Developer: ",
-    },
-    {
-      element: "span",
-      textContent:
-        "I’m a 15-year-old student building this in my \"spare time.\" I’ve put a massive amount of work into this site, so please don't try to break it. I'm doing my best to keep the server stable and secure for everyone.",
-    },
-  ],
-},
 
   {
     element: "p",
@@ -177,11 +194,22 @@ var randomRantsLegal = [
         children: [
           { element: "li", textContent: "Illegal content (Obviously)." },
           { element: "br" },
-          { element: "li", textContent: "Pirated movies or software (Don't kill our bandwidth)." },
+          {
+            element: "li",
+            textContent:
+              "Pirated movies or software (Don't kill our bandwidth).",
+          },
           { element: "br" },
-          { element: "li", textContent: "Malware, phishing, or anything that messes with other users." },
+          {
+            element: "li",
+            textContent:
+              "Malware, phishing, or anything that messes with other users.",
+          },
           { element: "br" },
-          { element: "li", textContent: "Doxxing (Keep private info private)." },
+          {
+            element: "li",
+            textContent: "Doxxing (Keep private info private).",
+          },
         ],
       },
       {
@@ -211,7 +239,8 @@ var randomRantsLegal = [
   },
   {
     element: "p",
-    textContent: "Note: We don't have infinite space. If a file hasn't been touched in a while, our 'janitor' script deletes it. Don't use us as your only cloud storage!",
+    textContent:
+      "Note: We don't have infinite space. If a file hasn't been touched in a while, our 'janitor' script deletes it. Don't use us as your only cloud storage!",
   },
 
   // 5. Privacy Policy
@@ -222,7 +251,8 @@ var randomRantsLegal = [
   },
   {
     element: "p",
-    textContent: "We aren't a corporation and we have no interest in your data. We only keep what's necessary for the site to function: your username (so people know who you are) and your IP address (to keep the server secure and deal with trolls). We never sell this stuff.",
+    textContent:
+      "We aren't a corporation and we have no interest in your data. We only keep what's necessary for the site to function: your username (so people know who you are) and your IP address (to keep the server secure and deal with trolls). We never sell this stuff.",
   },
 
   // 6. Hosting

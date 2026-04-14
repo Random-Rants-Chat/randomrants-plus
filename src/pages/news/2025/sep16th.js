@@ -44,6 +44,7 @@ module.exports = [
   },
   {
     element: "p",
-    textContent: "Thanks for sticking with the project while I make these core upgrades!",
+    textContent:
+      "Thanks for sticking with the project while I make these core upgrades!",
   },
 ];

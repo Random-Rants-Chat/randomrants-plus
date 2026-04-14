@@ -114,36 +114,36 @@
 
 .homeBoxText {
   transform: translate(-50%, -50%);
-      position: fixed;
-      top: calc(50% + 65px);
-      left: calc(50% - calc(calc(300px + 10px) / 2));
-      background-color: #ffffff;
-      border-radius: 5px;
-      box-shadow: 0 0px 30px black;
-      padding: 15px 15px;
+  position: fixed;
+  top: calc(50% + 65px);
+  left: calc(50% - calc(calc(300px + 10px) / 2));
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0px 30px black;
+  padding: 15px 15px;
 
-      max-width: 630px;
-      max-height: 90vh;
-      min-width: 325px;
+  max-width: 630px;
+  max-height: 90vh;
+  min-width: 325px;
 
-      display: inline-block;
-      overflow-wrap: break-word;
+  display: inline-block;
+  overflow-wrap: break-word;
 }
 
 .homeVideoBox {
   position: absolute;
   right: -10px;
   top: 50%;
-  transform: translate(100%,-50%);
+  transform: translate(100%, -50%);
 
-      border-radius: 5px;
-      padding: 3px 3px;
-      box-sizing: border-box;
+  border-radius: 5px;
+  padding: 3px 3px;
+  box-sizing: border-box;
 
-      width: calc(100svw - 790px);
-      min-width: 100px;
-      max-width: 300px;
-      height: fit-content;
+  width: calc(100svw - 790px);
+  min-width: 100px;
+  max-width: 300px;
+  height: fit-content;
 }
 
 .homeVideoBox > video {

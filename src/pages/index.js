@@ -202,13 +202,13 @@ var elementJSON = [
         className: "homeVideoBox",
         children: [
           {
-                element: "video",
-                src: "videos/home-video.webm",
-                muted: true,
-                autoplay: true,
-                loop: true,
-              }
-        ]
+            element: "video",
+            src: "videos/home-video.webm",
+            muted: true,
+            autoplay: true,
+            loop: true,
+          },
+        ],
       },
       require("./sitenews-notice.js"),
       {

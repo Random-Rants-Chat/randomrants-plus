@@ -29,32 +29,32 @@ async function showAltLinks(containerDiv) {
         textContent: "Loading...",
       },
     ]);
-	var tunnels = await getTunnels();
+    var tunnels = await getTunnels();
     elements.setInnerJSON(
       containerDiv,
       tunnels.map((tunnel) => {
-		  return {
-			  element: "div",
-			  children: [
-				  {
-					element: "a",
-					textContent: tunnel.url,
-					href: tunnel.url,
-					target: "_blank",
-					  style: {
-						  fontSize: "20px",
-						  fontWeight: "bold"
-					  }
-				  },
-				  {
-					  element: "br"
-				  },
-				  {
-					  element: "br"
-				  }
-				]
-		  };
-	  })
+        return {
+          element: "div",
+          children: [
+            {
+              element: "a",
+              textContent: tunnel.url,
+              href: tunnel.url,
+              target: "_blank",
+              style: {
+                fontSize: "20px",
+                fontWeight: "bold",
+              },
+            },
+            {
+              element: "br",
+            },
+            {
+              element: "br",
+            },
+          ],
+        };
+      }),
     );
   } catch (e) {
     dialog.alert("Unable to load updates: " + e);
@@ -71,8 +71,7 @@ var randomRantsUpdates = [
   },
   {
     element: "p",
-    textContent:
-      "Alternative links to satisfy your ranting needs",
+    textContent: "Alternative links to satisfy your ranting needs",
   },
   {
     element: "p",
@@ -93,7 +92,7 @@ var randomRantsUpdates = [
   {
     element: "div",
     GPWhenCreated: showAltLinks,
-	gid: "containerDiv"
+    gid: "containerDiv",
   },
 ];
 
