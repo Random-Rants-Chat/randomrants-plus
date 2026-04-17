@@ -72,6 +72,13 @@ function spawnTunnel(index) {
       });
     }
   });
+	
+  child.stdin.on('error', (err) => {
+	  if (err.code === 'EPIPE') {
+	    // Silently ignore or log that the pipe is closed
+	    return;
+	  }
+	});
 
   // Capture errors to help with debugging
   child.stderr.on("data", (data) => {
