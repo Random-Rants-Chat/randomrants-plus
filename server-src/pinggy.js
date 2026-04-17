@@ -2,7 +2,7 @@ const { spawn } = require("node:child_process");
 
 // Configuration
 let serverPort = process.env.PORT || process.env.serverPort || 3000;
-const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io", "https://admin.localhost.run", "https://twitter.com"];
+const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io", "https://admin.localhost.run", "https://twitter.com", "https://localhost.run"];
 const maxPinggy = 25; // Total concurrent tunnels
 
 const commandArgs = [
