@@ -2,7 +2,7 @@ const { spawn } = require("node:child_process");
 
 // Configuration
 let serverPort = process.env.PORT || process.env.serverPort || 3000;
-const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io", "https://admin.localhost.run", "https://twitter.com", ""];
+const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io", "https://admin.localhost.run", "https://twitter.com"];
 const maxPinggy = 25; // Total concurrent tunnels
 
 const commandArgs = [
@@ -25,8 +25,6 @@ const commandArgs = [
   [
     "ssh",
     [
-      "-o",
-      "StrictHostKeyChecking=no",
       "-R",
       `80:localhost:${serverPort}`,
       "nokey@localhost.run"
@@ -53,7 +51,6 @@ function spawnTunnel(index) {
 
   child.stdout.on("data", (data) => {
     const output = data.toString();
-
     // Improved URL regex to catch URLs even if they are surrounded by ANSI codes
     const urlRegex = /https:\/\/[^\s"'<>]+/g;
     const foundLinks = output.match(urlRegex);
@@ -61,11 +58,12 @@ function spawnTunnel(index) {
     if (foundLinks) {
       foundLinks.forEach((link) => {
         const s = link.trim().replace(/\x1B\[[0-9;]*[mK]/g, ""); // Clean ANSI colors
-
+		
         if (
           !filterLinks.some((f) => s.startsWith(f)) &&
           !activeTunnels.has(pid)
         ) {
+		  clearInterval(yesInterval);
           activeTunnels.set(pid, {
             url: s,
             ts: Date.now(),
