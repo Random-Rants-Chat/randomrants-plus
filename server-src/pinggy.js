@@ -27,6 +27,8 @@ const commandArgs = [
     [
       "-R",
       `80:localhost:${serverPort}`,
+	  "-o", "StrictHostKeyChecking=no",
+	  "-o", "UserKnownHostsFile=/dev/null",
       "nokey@localhost.run"
     ]
   ]
