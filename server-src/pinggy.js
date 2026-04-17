@@ -52,28 +52,32 @@ function spawnTunnel(index) {
   },1000);
 
   child.stdout.on("data", (data) => {
-    const output = data.toString();
-    // Improved URL regex to catch URLs even if they are surrounded by ANSI codes
-    const urlRegex = /https:\/\/[^\s"'<>]+/g;
-    const foundLinks = output.match(urlRegex);
-
-    if (foundLinks) {
-      foundLinks.forEach((link) => {
-        const s = link.trim().replace(/\x1B\[[0-9;]*[mK]/g, ""); // Clean ANSI colors
-		
-        if (
-          !filterLinks.some((f) => s.startsWith(f)) &&
-          !activeTunnels.has(pid)
-        ) {
-		  clearInterval(yesInterval);
-          activeTunnels.set(pid, {
-            url: s,
-            ts: Date.now(),
-          });
-        }
-      });
-    }
-  });
+	  const output = data.toString();
+	  const urlRegex = /https:\/\/[^\s"'<>]+/g;
+	  const foundLinks = output.match(urlRegex);
+	
+	  if (foundLinks) {
+	    foundLinks.forEach((link) => {
+	      const s = link.trim().replace(/\x1B\[[0-9;]*[mK]/g, "");
+	
+	      if (!filterLinks.some((f) => s.startsWith(f))) {
+	        // If it's a new URL, update the Map regardless of whether the PID exists
+	        const currentData = activeTunnels.get(pid);
+	        
+	        if (!currentData || currentData.url !== s) {
+	          console.log(`[Update] PID ${pid} is now at ${s}`);
+	          
+	          clearInterval(yesInterval); // Stop the "yes" spam once we have a link
+	          
+	          activeTunnels.set(pid, {
+	            url: s,
+	            ts: Date.now(),
+	          });
+	        }
+	      }
+	    });
+	  }
+	});
 	
   child.stdin.on('error', (err) => {
 	  if (err.code === 'EPIPE') {
