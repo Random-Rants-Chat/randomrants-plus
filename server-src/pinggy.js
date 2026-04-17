@@ -2,7 +2,7 @@ const { spawn } = require("node:child_process");
 
 // Configuration
 let serverPort = process.env.PORT || process.env.serverPort || 3000;
-const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io"];
+const filterLinks = ["https://dashboard.pinggy.io", "https://pinggy.io", "https://admin.localhost.run", "https://twitter.com", ""];
 const maxPinggy = 25; // Total concurrent tunnels
 
 const commandArgs = [
@@ -22,6 +22,16 @@ const commandArgs = [
       "qr@free.pinggy.io",
     ],
   ],
+  [
+    "ssh",
+    [
+      "-o",
+      "StrictHostKeyChecking=no",
+      "-R",
+      `80:localhost:${serverPort}`,
+      "nokey@localhost.run"
+    ]
+  ]
 ];
 
 var activeTunnels = new Map();
@@ -34,6 +44,12 @@ function spawnTunnel(index) {
   const [cmdName, args] = commandArgs[index];
   const child = spawn(cmdName, args);
   const pid = child.pid;
+
+  var yesInterval = setInterval(() => {
+    try{
+      child.stdin.write("yes\n");
+    }catch(e){}
+  },1000);
 
   child.stdout.on("data", (data) => {
     const output = data.toString();
@@ -69,6 +85,8 @@ function spawnTunnel(index) {
   child.on("close", (code) => {
     curPinggy -= 1;
     activeTunnels.delete(pid);
+
+    clearInterval(yesInterval);
 
     // Staggered restart to avoid spamming the CPU
     setTimeout(() => {
