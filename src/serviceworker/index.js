@@ -42,6 +42,7 @@ async function handleNotification(json) {
   if (json.type == "test") {
     sendPushNotification({
       body: "This is test notification",
+      tag: json.id ? json.id : "rrp-invite",
     });
     return;
   }
@@ -55,6 +56,7 @@ async function handleNotification(json) {
     sendPushNotification({
       title: "Random Rants + | New Invite!",
       body: `@${from} has invited you to room "${roomName}"! Click to join!`,
+      tag: json.id ? json.id : "rrp-invite",
       data: {
         targetURL,
       },
