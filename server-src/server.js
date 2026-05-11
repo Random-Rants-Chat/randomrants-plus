@@ -1069,7 +1069,7 @@ function insertPropsToString(txt, props) {
 var serverAvailable = false;
 async function checkServerLoop() {
   serverAvailable = await checkServer();
-  setTimeout(checkServerLoop, 3000);
+  setTimeout(checkServerLoop, 1000*60*2); //every two minutes
 }
 
 function getCookieFromRequest(req) {
