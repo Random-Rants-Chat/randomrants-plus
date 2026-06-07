@@ -5,8 +5,9 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="favicon.png?n=1" />
-
-    <link rel="preload" href="videos/home-video.webm" />
+    
+    <link rel="preload" href="ban-favicon.png?n=1" as="image" />
+    <link rel="preload" href="videos/home-video.webm" as="video" />
 
     <meta
       name="description"
@@ -50,35 +51,6 @@
     />
   </head>
   <body>
-    <div id="seo-content" style="display: none" aria-hidden="true">
-      <h1>Random Rants + | Real-time Social Chat Platform</h1>
-      <p>
-        Random Rants + is a <strong>private chat site</strong> and
-        <strong>online hangout space</strong> where friends can connect through
-        <strong>live messaging, voice chat, and video calls</strong>.
-      </p>
-
-      <h2>Features of our Chat Platform</h2>
-      <ul>
-        <li>
-          <strong>Group Chat Rooms:</strong> Create private spaces for your
-          crew.
-        </li>
-        <li>
-          <strong>Multimedia Chat:</strong> Share files, memes, and media
-          instantly.
-        </li>
-        <li>
-          <strong>Voice and Video Chat:</strong> High-quality, real-time P2P
-          communication.
-        </li>
-        <li>
-          <strong>Interactive Chat Commands:</strong> Goofy admin tools and
-          soundboard reactions.
-        </li>
-      </ul>
-    </div>
-
     <noscript>
       <div
         style="
@@ -111,13 +83,6 @@
         "operatingSystem": "Web",
         "description": "Student-led P2P networking project exploring WebRTC and digital citizenship."
       }
-    </script>
-
-    <script>
-      (function () {
-        var seoBox = document.getElementById("seo-content");
-        if (seoBox) seoBox.parentNode.removeChild(seoBox);
-      })();
     </script>
   </body>
 </html>

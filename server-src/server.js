@@ -1,5 +1,14 @@
 require("dotenv").config({ silent: true, quiet: true });
 require("./initcounters.js");
+
+var gvbbaseStorage = null;
+var USE_DISK = (""+process.env.useDiskStorage).trim().toLowerCase();
+if (USE_DISK == "y" || USE_DISK == "true" || USE_DISK == "1") {
+  gvbbaseStorage = require("./disk-storage.js");
+} else {
+  gvbbaseStorage = require("./storage.js"); //Supabase storage module.
+}
+
 var Busboy = require("busboy");
 var http = require("http");
 var https = require("https");
@@ -11,7 +20,6 @@ var URL = require("url");
 var wssHandler = require("./wss-handler.js");
 var contentRange = require("content-range");
 var encryptor = require("../encrypt");
-var gvbbaseStorage = require("./storage.js"); //Supabase storage module.
 var cons = require("./constants.js");
 var bcrypt = require("bcryptjs");
 var crypto = require("crypto");
@@ -124,15 +132,17 @@ function getIPFromRequest(req) {
       return IPs[0];
     }
   }
+  
+  if (req.socket.remoteAddress == "::1") {
+    return "0.0.0.0"; //The none IP.
+  }
 
   // 3. Final Fallback: The direct connection IP (usually a proxy IP on Render)
   return (req.socket.remoteAddress || "").replace(/^::ffff:/, "").trim();
 }
 
-var ipBanReasons = {
-  legal: "Violating the Legal, Safety & Terms, or abusing a non-paid server.",
-  test: "Testing the network ban feature.",
-};
+var defaultIpBanReason = cons.DEFAULT_IP_BAN_REASON;
+var ipBanReasons = cons.IP_BAN_REASONS;
 
 async function checkIpBans() {
   try {
@@ -148,13 +158,15 @@ async function checkIpBans() {
   }
   serverIPBans = {};
   for (var ban of ipBans) {
-    serverIPBans[("" + ban.ip).trim().toLowerCase()] = {
-      reason: ban.reason
-        ? ipBanReasons[ban.reason]
+    if (!ban.disabled) {
+      serverIPBans[("" + ban.ip).trim().toLowerCase()] = {
+        reason: ban.reason
           ? ipBanReasons[ban.reason]
-          : ipBanReasons.legal
-        : ipBanReasons.legal,
-    };
+            ? ipBanReasons[ban.reason]
+            : ipBanReasons[defaultIpBanReason]
+          : ipBanReasons[defaultIpBanReason],
+      };
+    }
   }
 }
 
@@ -978,13 +990,20 @@ function runStaticStuff(req, res, otheroptions) {
   }
 
   if (!fs.existsSync(file)) {
-    file = "errors/404.html";
+    file = "./errors/404.html";
     res.statusCode = 404;
   }
+  var replace = null;
   if (otheroptions) {
     if (typeof otheroptions.status == "number") {
-      file = "errors/" + otheroptions.status + ".html";
+      file = "./errors/" + otheroptions.status + ".html";
       res.statusCode = otheroptions.status;
+    }
+    if (typeof otheroptions.errorfile == "string") {
+      file = "./errors/" + otheroptions.errorfile + ".html";
+    }
+    if (typeof otheroptions.replace == "object") {
+      replace = otheroptions.replace;
     }
   }
 
@@ -994,12 +1013,54 @@ function runStaticStuff(req, res, otheroptions) {
   if (mime) {
     res.setHeader("content-type", mime);
   }
+  if (replace) {
+    if (extension == "html" || extension == "js") {
+      res.setHeader("Content-Type", mime + "; charset=utf-8");
+    }
+    var final = Buffer.from("");
+    var str = fs.createReadStream(file);
+    str.on("data", (buf) => {
+      final = Buffer.concat([final,buf]);
+    });
+    str.on("error", () => {
+      try{
+        res.statusCode = 500;
+        res.end("Unable to stream file buffer.");
+      }catch(e){}
+    });
+    str.on("end", () => {
+      var string = ""+final;
+      var replaced = string;
+      for (var target of Object.keys(replace)) {
+        var value = replace[target];
+        try{
+          replaced = replaced.replaceAll(target, value);
+        }catch(e){
+          try{
+            replaced = replaced.replace(target, value);
+          }catch(e){}
+        }
+      }
+      try{
+        res.end(replaced);
+      }catch(e){}
+      replaced = null;
+      string = null;
+      final = null;
+    });
+    return;
+  }
   if (extension == "html" || extension == "js") {
     res.setHeader("Content-Type", mime + "; charset=utf-8");
-    res.end(fs.readFileSync(file, { encoding: "utf-8" }));
-  } else {
-    fs.createReadStream(file).pipe(res);
   }
+  var stream = fs.createReadStream(file);
+  stream.pipe(res);
+  stream.on("error", () => {
+    try{
+      res.statusCode = 500;
+      res.end("Unable to stream file buffer.");
+    }catch(e){}
+  });
 }
 function getCookie(name, cookies) {
   try {
@@ -2854,22 +2915,31 @@ var logRequestSusDebounced = debounce(logRequestSus, 300);
 
 const server = http.createServer(async function (req, res) {
   setNoCorsHeaders(res);
-
+  var ipBanReason = isIPBanned(req);
   if (applyRateLimit(req)) {
     res.writeHead(429, { "Content-Type": "text/html; charset=utf-8" });
     res.end(
       `Yikes! - You hit our request limit, wait a few minutes then refresh to get things back to normal. Doing this too often may get your IP banned!`,
     );
-    logRequestSusDebounced(req);
+    if (!ipBanReason) { //Only log on non-IP-banned users.
+      logRequestSusDebounced(req);
+    }
     return;
   }
-  if (isIPBanned(req)) {
-    var reason = isIPBanned(req);
-    res.statusCode = 400;
-    res.end(
-      "Your network is blocked from accessing Random Rants +. Contact Gvbvdxx in any way if this was a mistake. Reason: " +
-        reason,
-    );
+  try{
+    var parsedURL = URL.parse(req.url);
+  }catch(e){
+    res.end("Unable to parse URL.");
+    return;
+  }
+  if (ipBanReason && cons.BANNED_ALLOWED_URLS.indexOf(parsedURL.pathname) == -1) {
+    runStaticStuff(req,res,{
+      status: 403,
+      errorfile: "ban",
+      replace: {
+        "|%%BAN_REASON%%|": ipBanReason
+      }
+    });
     return;
   }
   try {
@@ -5398,8 +5468,9 @@ var logRequestWsNormalDebounced = debounce(logRequestWsNormal, 400);
 var logRequestWsSusDebounced = debounce(logRequestWsSus, 300);
 
 server.on("upgrade", async function upgrade(request, socket, head) {
+  var ipBanReason = isIPBanned(request);
   if (applyRateLimit(request)) {
-    const response = [
+    var response = [
       "HTTP/1.1 429 Too Many Requests", // Status line
       "Content-Type: text/plain", // Header
       "Connection: close", // Tell the client to close the connection
@@ -5408,10 +5479,23 @@ server.on("upgrade", async function upgrade(request, socket, head) {
     ].join("\r\n");
 
     socket.end(response);
-    logRequestWsSusDebounced(request);
+    if (!ipBanReason) { //Only log non-banned users, since they might spam our service, and fill the request logs.
+      logRequestWsSusDebounced(request);
+    }
 
     return;
   }
+  if (ipBanReason) {
+    var response = [
+      "HTTP/1.1 403 Forbidden", // Status line
+      "Content-Type: text/plain", // Header
+      "Connection: close", // Tell the client to close the connection
+      "", // Empty line signifies end of headers
+      "Network Banned: "+ipBanReason, // Body of the response
+    ].join("\r\n");
+    return;
+  }
+  
   logRequestWsNormalDebounced(request);
 
   var url = decodeURIComponent(request.url);

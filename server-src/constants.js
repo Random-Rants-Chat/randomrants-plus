@@ -1,4 +1,5 @@
 var e = {};
+e.DISABLE_ADMIN_SECRET = "";
 e.MAX_BIO_SIZE = 3000; //Unused function, but kept so breaking doesn't happen.
 e.MIN_USERNAME_LENGTH = 3; //Minimal characters.
 e.MAX_USERNAME_LENGTH = 20; //Maximum characters.
@@ -28,8 +29,21 @@ e.MAX_NOTIFICATIONS = 20; //Max real time notifcations per user.
 e.MAX_USERLIST_SIZE = 150; //Max usernames in user list.
 e.MAX_ROOM_NAME_SIZE = 230; //230 Characters max of room name.
 e.MAX_ROOM_DESCRIPTION_SIZE = 450; //450 Characters max of room discription.
-e.IP_BANS_FILE = "ip-bans.json";
 e.DEFAULT_WEBSITE = "https://randomrants-plus.onrender.com"; //Website used for web push if not specified by env
 e.MAX_PUSH_SUBSCRIPTIONS = 15; //Maximum subscriptions for push notifications.
+
+e.IP_BANS_FILE = "ip-bans.json"; //The filename the server scans for IP bans if there is any.
+e.BANNED_ALLOWED_URLS = [
+  //Any allowed paths even if IP banned, only works on HTTP side, not websocket side.
+  "/ban-favicon.png",
+  "/favicon.png",
+];
+e.DEFAULT_IP_BAN_REASON = "legal"; //IP ban reason to default to if not found.
+e.IP_BAN_REASONS = {
+  //Reason name - Reason description
+  legal: "Violating the Legal, Safety & Terms.",
+  testing: "Testing the network ban feature.",
+  bypassbot: "Using automation to bypass CAPTCHAs.",
+};
 
 module.exports = e;

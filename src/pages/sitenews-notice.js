@@ -1,4 +1,4 @@
-var enabled = false;
+var enabled = true;
 
 if (enabled) {
   module.exports = {
@@ -16,7 +16,7 @@ if (enabled) {
     children: [
       {
         element: "span",
-        textContent: "Important News - Click to read",
+        textContent: "I NEED your help! (And additional news)",
       },
     ],
   };

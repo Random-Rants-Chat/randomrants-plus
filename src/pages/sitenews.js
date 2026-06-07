@@ -13,6 +13,22 @@ var dialog = require("../dialogs.js");
 var siteNews = [
   {
     element: "p",
+    textContent: "Written June 6th, 2026",
+    style: {
+      fontSize: "19px",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+  },
+  {
+    element: "div",
+    children: require("./news/2026/jun6th.js"),
+  },
+  {
+    element: "hr",
+  },
+  {
+    element: "p",
     textContent: "Written December 11th, 2025",
     style: {
       fontSize: "19px",

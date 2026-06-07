@@ -83,6 +83,17 @@ var randomRantsLegal = [
               },
             ],
           },
+          {
+            element: "li",
+            children: [
+              { element: "strong", textContent: "BOTS & AUTOMATED TOOLS." },
+              {
+                element: "span",
+                textContent:
+                  " We allow these kind of things, but can't bypass our CAPTCHA, and as long as they are not programmted to get in peoples way, such as (but not limited to), \"cleaning\" (as in removing potentially dangerous people) tools or moderation, 3rd party commands. We won't IP ban you. We actually like people using our APIs.",
+              },
+            ],
+          },
         ],
       },
     ],
@@ -311,6 +322,35 @@ var randomRantsLegal = [
     element: "p",
     textContent:
       "You can reach out to Gvbvdxx via GitHub or the contact methods on the About page.",
+    style: { fontSize: "1em", marginBottom: "1em" },
+    children: [],
+  },
+
+  // 8. Bots & Automation
+  {
+    element: "h2",
+    textContent: "8. Bots & Automation",
+    style: { fontSize: "1.5em", marginTop: "1.2em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "We allow bots & automation, as long as you aren't bypassing CAPTCHA, if you answer these CAPTCHAs too fast you might be IP banned for safety, you must manually enter capcha and dump API from the user cookie. (don't worry! - sessions are persistent)",
+    style: { fontSize: "1em", marginBottom: "0.5em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "Your bots & automation must follow the rules above and this one, your bot must not join rooms randomly and advertise without permission, it also can't leave links to bad content, we allow \"cleaner\" bots & automation (as in removing or banning the potentially dangerous people from rooms) as well.",
+    style: { fontSize: "1em", marginBottom: "1em" },
+    children: [],
+  },
+  {
+    element: "p",
+    textContent:
+      "If you find a security issue, please don't exploit it to annoy others or scare them, please contact Gvbvdxx (or any other programmers of this site) instead.",
     style: { fontSize: "1em", marginBottom: "1em" },
     children: [],
   },

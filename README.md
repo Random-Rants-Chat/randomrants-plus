@@ -29,8 +29,8 @@ It features video chat, soundboards, and interactive media, all designed so you 
 
 Want to run your own instance? Follow these steps.
 
-### 1. Prerequisites: Supabase
-**Do not skip this.** You must create a Supabase project to run the server.
+### 1. Database: Supabase
+**Skipping isn't recommended.** If you skip and use "Disk Mode", you can risk data loss if you use a external hosting service or container, personal devices are fine with this though.
 
 _(Create a .env file if you don't want to add enviroment variables to your machine)_
 
@@ -41,6 +41,19 @@ Create a project at [supabase.com](https://supabase.com) and gather the followin
 * `sbURL`: Your Supabase project URL (e.g., `https://projectid.supabase.co`).
 
 **DO NOT SHARE SUPABASE STORAGE API KEYS AND URLS**, these must remain private so that people don't sneak in and change the account data.
+
+### 1. Database (Disk Mode):
+
+_(Create a .env file if you don't want to add enviroment variables to your machine)_
+
+Set the `useDiskStorage` enviroment variable to `Y`.
+
+Additionally you can set `diskStoragePath` to the path you want it to, but it defaults to `.debugdbstorage`.
+
+If you use `diskStoragePath`, you have to manually create the directories to it if it doesn't exist yet.
+
+Disk Mode may be faster than supabase, but if you use a container that deletes or cleans up the disk,
+it might remove the files, so you may need to run with a supabase project.
 
 #### 1.2 Enviroment variables for Push Notifications.
 

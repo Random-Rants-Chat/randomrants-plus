@@ -12,10 +12,11 @@ var _registerRejects = [];
   pushNotificationHelper.attempting = true;
   try {
     var registration = await navigator.serviceWorker.register("/sw.bundle.js");
-    console.log("ServiceWorker Registered: ", registration);
+    //console.log("ServiceWorker Registered: ", registration);
     pushNotificationHelper.registered = true;
   } catch (e) {
-    window.alert("ServiceWorker Couldn't Register: " + e);
+    console.warn("ServiceWorker Couldn't Register: ", e);
+    //window.alert("ServiceWorker Couldn't Register: " + e);
   }
   if (pushNotificationHelper.registered) {
     pushNotificationHelper.registration = registration;

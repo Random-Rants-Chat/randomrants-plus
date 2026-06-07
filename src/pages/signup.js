@@ -12,6 +12,18 @@ var accountHelper = require("../accounthelper");
 var dialog = require("../dialogs.js");
 var BotCheckDiv = require("./botcheckdiv.js");
 
+var LEGALDAILOG = `
+Please don't lie, we're doing this kind of stuff because of laws, not us.
+If you decide to lie, your risking a data deletion, and also legally getting us in trouble.
+`;
+
+
+var LEGALDAILOG2 = `
+Do you actually agree to following our Terms of Use & Privacy Policy?
+You need to check that (we have a short version at the top for quick reading).
+If you break them, we may IP ban you.
+`;
+
 var params = new URLSearchParams(window.location.search);
 var gotoHref = "/myaccount";
 if (params.get("href")) {
@@ -53,12 +65,53 @@ var signInArea = {
       children: [
         {
           element: "span",
-          textContent: "I'm 13+ or have parent permission: ",
+          textContent: "I'm 13+ ",
+        },
+        {
+          element: "span",
+          textContent: "(required):",
+          style: {
+            color: "rgba(200, 0, 0, 1)",
+            fontWeight: "bold"
+          }
         },
         {
           element: "input",
           type: "checkbox",
           gid: "age_checkbox",
+          style: { marginLeft: "2px" },
+          eventListeners: [
+            {
+              event: "input",
+              func: function () {
+                if (this.value) {
+                  dialog.alert(LEGALDAILOG.trim());
+                }
+              }
+            }
+          ]
+        },
+      ],
+    },
+    {
+      element: "div",
+      children: [
+        {
+          element: "span",
+          textContent: "I agree to the Terms of Use & Privacy Policy ",
+        },
+        {
+          element: "span",
+          textContent: "(required):",
+          style: {
+            color: "rgba(200, 0, 0, 1)",
+            fontWeight: "bold"
+          }
+        },
+        {
+          element: "input",
+          type: "checkbox",
+          gid: "legal_checkbox",
           style: { marginLeft: "2px" },
         },
       ],
@@ -143,13 +196,18 @@ var goButton = elements.getGPId("goButton");
 var usernameInput = elements.getGPId("username_input");
 var passwordInput = elements.getGPId("password_input");
 var ageCheckbox = elements.getGPId("age_checkbox");
+var legalCheckbox = elements.getGPId("legal_checkbox");
 var loader = require("./loadingscreen.js");
 
 async function signUp() {
   if (!ageCheckbox.checked) {
     dialog.alert(
-      'Did you forget to check "I\'m 13+ or have parent permission?"\nYou must agree to what it says.',
+      'Did you forget to check "I\'m 13+?"\nYou must agree to what it says.\nIt\'s a legal thing.',
     );
+    return;
+  }
+  if (!legalCheckbox.checked) {
+    dialog.alert(LEGALDAILOG2.trim());
     return;
   }
 
