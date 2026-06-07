@@ -55,6 +55,7 @@ If you use `diskStoragePath`, you have to manually create the directories to it 
 Disk Mode may be faster than supabase, but if you use a container that deletes or cleans up the disk,
 it might remove the files, so you may need to run with a supabase project.
 
+
 #### 1.2 Enviroment variables for Push Notifications.
 
 This step is optional but highly recommended now. If skipped, push notificiations will not work:
